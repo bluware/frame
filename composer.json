@@ -1,0 +1,14 @@
+{
+    "name"      : "bluware/frame",
+    "license"   : "GPL-3.0",
+    "authors"   : [
+        {
+            "name"      : "Eugen Melnychenko",
+            "email"     : "eugen.melnychenko@gmail.com",
+            "homepage"  : "https://github.com/bluware"
+        }
+    ],
+    "require"   : {
+        "php"   : ">=5.5.0"
+    }
+}
