@@ -32,7 +32,7 @@ abstract class URIAbstract extends \Blu\Essence\ReadableAbstract
          */
         $this->data['query'] = new \Blu\Http\URI\Query(
             parse_str(
-                $this->data('query')
+                $this->get('query')
             )
         );
     }

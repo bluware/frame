@@ -14,6 +14,16 @@ namespace Blu;
 class Http implements HttpInterface
 {
     /**
+     *  @param  string $input
+     *
+     *  @return mixed
+     */
+    public static function uri($url)
+    {
+        return new \Blu\Http\URI($url);
+    }
+    
+    /**
      *  @param  string $data
      *
      *  @return Blu\Http\Client
@@ -54,16 +64,6 @@ class Http implements HttpInterface
             return call_user_func([$request, $input]);
 
         return $request;
-    }
-
-    /**
-     *  @param  string $input
-     *
-     *  @return mixed
-     */
-    public static function uri($url)
-    {
-        return new \Blu\Http\URI($url);
     }
 
     /**

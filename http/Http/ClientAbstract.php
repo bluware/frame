@@ -59,6 +59,100 @@ abstract class ClientAbstract
     }
 
     /**
+     *  @param  mixed $method
+     *
+     *  @return mixed
+     */
+    public function method($method = null)
+    {
+        if ($method === null)
+            return $this->method;
+
+        $this->method = strtoupper($method);
+
+        return $this;
+    }
+
+    /**
+     *  @param  mixed $timeout
+     *
+     *  @return mixed
+     */
+    public function timeout($timeout = null)
+    {
+        if ($timeout === null)
+            return $this->timeout;
+
+        $this->timeout = $timeout;
+
+        return $this;
+    }
+
+    /**
+     *  @param  mixed $body
+     *
+     *  @return mixed
+     */
+    public function query(array $query = null)
+    {
+        if ($query === null)
+            return $this->uri->query;
+
+        $this->uri->query
+            ->replace($query);
+
+        return $this;
+    }
+
+    /**
+     *  @param  mixed $body
+     *
+     *  @return mixed
+     */
+    public function header($header, $val = null)
+    {
+        if ($value === null)
+            return $this->headers
+                ->get($header);
+
+        $this->headers
+            ->set($header, $val);
+
+        return $this;
+    }
+
+    /**
+     *  @param  mixed $body
+     *
+     *  @return mixed
+     */
+    public function headers(array $headers = null)
+    {
+        if ($headers === null)
+            return $this->headers;
+
+        $this->headers
+            ->replace($headers);
+
+        return $this;
+    }
+
+    /**
+     *  @param  mixed $body
+     *
+     *  @return mixed
+     */
+    public function body($body = null)
+    {
+        if ($body === null)
+            return $this->body;
+
+        $this->body = $body;
+
+        return $this;
+    }
+
+    /**
      *  @return void
      */
     public function send()
