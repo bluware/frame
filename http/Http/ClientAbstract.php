@@ -39,6 +39,11 @@ abstract class ClientAbstract
     protected $timeout = 10;
 
     /**
+     *  @var array
+     */
+    protected $curlopt;
+
+    /**
      *  @param string $url
      */
     public function __construct($url)
@@ -56,6 +61,15 @@ abstract class ClientAbstract
              ) && is_subclass_of(
                  $url, URIAbstract::class
              ) ? $url : new URI($url);
+
+        /**
+         *  @var array
+         */
+        $this->curlopt = [
+            CURLOPT_RETURNTRANSFER  => 1,
+            CURLINFO_HEADER_OUT     => 1,
+            CURLOPT_SSL_VERIFYPEER  => true,
+        ];
     }
 
     /**
@@ -153,34 +167,41 @@ abstract class ClientAbstract
     }
 
     /**
+     *  @return mixed
+     */
+    public function curlopt(array $curlopt = null)
+    {
+        if ($curlopt === null)
+            return $this->curlopt;
+
+        $this->curlopt = array_replace(
+            $this->curlopt, $curlopt
+        );
+
+        return $this;
+    }
+
+    /**
      *  @return void
      */
-    public function send()
+    public function make(array $curlopt = null)
     {
         $request = curl_init();
 
-        curl_setopt_array($request, [
-            CURLOPT_CUSTOMREQUEST   => $this->method,
-            CURLOPT_URL             => $this->uri->__toString(),
-            CURLOPT_RETURNTRANSFER  => 1,
-            CURLINFO_HEADER_OUT     => 1,
-            CURLOPT_HTTPHEADER      => $this->headers->__toArray(),
-            CURLOPT_CONNECTTIMEOUT  => $this->timeout,
-            CURLOPT_TIMEOUT         => $this->timeout,
-        ]);
+        curl_setopt_array(
+            $request, array_replace($this->curlopt, [
+                CURLOPT_CUSTOMREQUEST   => $this->method,
+                CURLOPT_CONNECTTIMEOUT  => $this->timeout,
+                CURLOPT_TIMEOUT         => $this->timeout,
+                CURLOPT_URL             => $this->uri->__toString(),
+                CURLOPT_HTTPHEADER      => $this->headers->__toArray(),
+            ])
+        );
 
         if ($this->method !== 'GET')
             curl_setopt_array($request, [
                 CURLOPT_POSTFIELDS => $this->body
             ]);
-
-
-        if ($this->uri->schema === 'https') {
-            curl_setopt_array($request, [
-                CURLOPT_SSL_VERIFYPEER  => true,
-                CURLOPT_SSL_VERIFYHOST  => false,
-            ]);
-        }
 
         $body       = curl_exec($request);
         $code       = curl_getinfo($request, CURLINFO_HTTP_CODE);
@@ -192,7 +213,7 @@ abstract class ClientAbstract
 
         if ($errno > 0)
             throw new \Blu\Http\Exception(
-                "Request failed: " . curl_error($curl), $errno
+                "Request failed: " . $error, $errno
             );
 
         return new \Blu\Http\Client\Response(
