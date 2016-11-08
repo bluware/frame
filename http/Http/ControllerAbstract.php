@@ -50,7 +50,9 @@ abstract class ControllerAbstract
      *  @return mixed
      */
     public function request($input = null) {
-        return \Blu\Http::request($input);
+        return \Blu\Http::request(
+            $input
+        );
     }
 
     /**
@@ -62,7 +64,9 @@ abstract class ControllerAbstract
      */
     public function text($body, $code = 200, array $headers = [])
     {
-        return \Blu\Http\Response::text($body, $code, $headers);
+        return \Blu\Http\Response::text(
+            $body, $code, $headers
+        );
     }
 
     /**
@@ -74,7 +78,9 @@ abstract class ControllerAbstract
      */
     public function html($body, $code = 200, array $headers = [])
     {
-        return \Blu\Http\Response::html($body, $code, $headers);
+        return \Blu\Http\Response::html(
+            $body, $code, $headers
+        );
     }
 
     /**
@@ -86,7 +92,9 @@ abstract class ControllerAbstract
      */
     public function json($body, $code = 200, array $headers = [])
     {
-        return \Blu\Http\Response::json($body, $code, $headers);
+        return \Blu\Http\Response::json(
+            $body, $code, $headers
+        );
     }
 
     /**
@@ -98,7 +106,9 @@ abstract class ControllerAbstract
      */
     public function xml($body, $code = 200, array $headers = [])
     {
-        return \Blu\Http\Response::xml($body, $code, $headers);
+        return \Blu\Http\Response::xml(
+            $body, $code, $headers
+        );
     }
 
     /**
@@ -110,6 +120,8 @@ abstract class ControllerAbstract
      */
     public function redirect($body, $code = 200, array $headers = [])
     {
-        return \Blu\Http\Response::text($body, $code, $headers);
+        return \Blu\Http\Response::text(
+            $body, $code, $headers
+        );
     }
 }

@@ -43,7 +43,9 @@ class Http implements HttpInterface
         static $router = null;
 
         if ($router === null)
-            $router = new \Blu\Http\Router();
+            $router = new \Blu\Http\Router(
+                \Blu\Http::request()
+            );
 
         return $router;
     }

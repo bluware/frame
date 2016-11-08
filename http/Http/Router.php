@@ -2,7 +2,7 @@
 
 /**
  *  Blu | PHP Lite Web & API Framework
- *  
+ *
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
@@ -19,7 +19,7 @@ class Router extends RouterAbstract
      *
      *  @return void
      */
-    public function any($route, $handler)
+    public function any($route, $handler = null)
     {
         return $this->add([
             'GET', 'POST', 'PUT', 'DELETE', 'OPTION'
@@ -32,7 +32,7 @@ class Router extends RouterAbstract
      *
      *  @return void
      */
-    public function get($route, $handler)
+    public function get($route, $handler = null)
     {
         return $this->add([
             'GET'
@@ -45,7 +45,7 @@ class Router extends RouterAbstract
      *
      *  @return void
      */
-    public function post($route, $handler)
+    public function post($route, $handler = null)
     {
         return $this->add([
             'POST'
@@ -58,7 +58,7 @@ class Router extends RouterAbstract
      *
      *  @return void
      */
-    public function put($route, $handler)
+    public function put($route, $handler = null)
     {
         return $this->add([
             'PUT'
@@ -71,7 +71,7 @@ class Router extends RouterAbstract
      *
      *  @return void
      */
-    public function delete($route, $handler)
+    public function delete($route, $handler = null)
     {
         return $this->add([
             'DELETE'
@@ -84,7 +84,7 @@ class Router extends RouterAbstract
      *
      *  @return void
      */
-    public function del($route, $handler)
+    public function del($route, $handler = null)
     {
         return $this->delete(
             $route, $handler
@@ -97,7 +97,7 @@ class Router extends RouterAbstract
      *
      *  @return void
      */
-    public function option($route, $handler)
+    public function option($route, $handler = null)
     {
         return $this->add([
             'OPTION'

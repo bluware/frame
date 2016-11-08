@@ -16,7 +16,7 @@ abstract class RouterAbstract
     /**
      *  @var string
      */
-    protected $separator    = ':';
+    protected $separator    = '@';
 
     /**
      *  @var string
@@ -29,11 +29,41 @@ abstract class RouterAbstract
     protected $routes;
 
     /**
+     *  @var \Blu\Http\Router\Routes
+     */
+    protected $denies;
+
+    /**
+     *  @var \Blu\Http\RequestAbstract
+     */
+    protected $request;
+
+    /**
      *  # comment ...
      */
-    public function __construct()
-    {
+    public function __construct(
+        \Blu\Http\RequestAbstract $request,
+        $separator = '@'
+    ) {
+        /**
+         * @var string
+         */
+        $this->separator = $separator;
+
+        /**
+         *  @var \Blu\Http\Router\Routes
+         */
         $this->routes = new \Blu\Http\Router\Routes();
+
+        /**
+         *  @var \Blu\Http\Router\Routes
+         */
+        $this->denies = new \Blu\Http\Router\Routes();
+
+        /**
+         *  @var \Blu\Http\RequestAbstract
+         */
+        $this->request = $request;
     }
 
     /**
@@ -58,18 +88,48 @@ abstract class RouterAbstract
      *  @param array  $methods
      *  @param scalar $route
      *  @param mixed  $handler
+     *
+     *  @return void
      */
-    public function add(array $methods, $route, $handler)
+    public function add(array $methods, $route, $handler = null)
     {
         if (
-            in_array(
-                $_SERVER['REQUEST_METHOD'], $methods, true
-            ) === true
+            $this->request->method('in', $methods)
         ) {
-            $this->routes->set(
-                uniqid(
-                    rand(100000,999999)
-                ), compact(
+            $routes = is_array($route) ? $route : [
+                $route => $handler
+            ];
+
+            foreach ($routes as $route => $handler) {
+                $this->routes->set(
+                    uniqid(
+                        rand(100000,999999)
+                    ), compact(
+                        'route', 'handler'
+                    )
+                );
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     *  @param array  $methods
+     *  @param scalar $route
+     *  @param mixed  $handler
+     *
+     *  @return void
+     */
+    public function deny($route, $handler = null)
+    {
+        $routes = is_array($route) ? $route : [
+            $route => $handler
+        ];
+
+        foreach ($routes as $route => $handler) {
+            $this->denies->set(
+                $route, compact(
                     'route', 'handler'
                 )
             );
@@ -81,28 +141,24 @@ abstract class RouterAbstract
     /**
      *  @param \Blu\Http\RequestAbstract
      */
-    public function run(\Blu\Http\RequestAbstract $request)
+    public function run()
     {
-        foreach ($this->routes as $block) {
-            extract($block);
+        $matches = $this->iterate(
+            $this->routes
+        );
 
-            if (
-                preg_match(
-                    $this->patternize($route),
-                    $_SERVER['REQUEST_URI'], // url
-                    $params
-                )
-            ) {
-                $this->filtrate($params);
+        if ($matches !== null)
+            return $matches;
 
-                return $this->make(
-                    $handler, $params
-                );
-            }
-        }
+        $matches = $this->iterate(
+            $this->denies, ['*']
+        );
 
-        return new \Blu\Http\Response(
-            "@blu 404", 404
+        if ($matches !== null)
+            return $matches;
+
+        return $this->iterate(
+            $this->denies->get('*')
         );
     }
 
@@ -111,7 +167,55 @@ abstract class RouterAbstract
      *  @param scalar $route
      *  @param mixed  $handler
      */
-    public function make($handler, $params)
+    protected function iterate($iterable, array $ignore = [])
+    {
+        if ($iterable === null)
+            return null;
+
+        if (is_array($iterable) === true) {
+            $iterable = [$iterable];
+        }
+
+        $uri = $this->request->uri();
+
+        foreach ($iterable as $item) {
+            if (
+                !in_array(
+                    $item['route'],
+                    $ignore, true
+                ) && preg_match(
+                    $this->pattern(
+                        $item['route']
+                    ),
+                    $uri, // url
+                    $params
+                )
+            ) {
+                $reponded = $this->make(
+                    $item['handler'],
+                    $this->filter($params),
+                    $control
+                );
+
+                if (
+                    $control === null || !is_subclass_of(
+                        $control, ControllerAbstract::class
+                    ) && !$control->passed()
+                ) {
+                    return $reponded;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *  @param array  $methods
+     *  @param scalar $route
+     *  @param mixed  $handler
+     */
+    protected function make($handler, $params, &$class)
     {
         if (is_callable($handler) === true)
             return call_user_func_array(
@@ -122,8 +226,10 @@ abstract class RouterAbstract
             $this->separator, $handler
         );
 
+        $class = new $class();
+
         return call_user_func_array([
-            new $class(), $method
+            $class, $method
         ], $params);
     }
 
@@ -132,19 +238,21 @@ abstract class RouterAbstract
      *
      *  @return [type]
      */
-    protected function filtrate(&$params)
+    protected function filter(&$params)
     {
         array_shift($params);
 
         foreach ($params as $key => $param)
             if ($param === null && $param === "")
                 unset($params[$key]);
+
+        return $params;
     }
 
     /**
-     *  @param \Blu\Http\RequestAbstract
+     *  @param string
      */
-    protected function patternize($route)
+    protected function pattern($route)
     {
         $xor = str_replace([
             '/',  '[',  ']', '*'
