@@ -22,7 +22,7 @@ class Http implements HttpInterface
     {
         return new \Blu\Http\URI($url);
     }
-    
+
     /**
      *  @param  string $data
      *
@@ -53,17 +53,21 @@ class Http implements HttpInterface
      *
      *  @return mixed
      */
-    public static function request($input = null)
+    public static function request($method = null)
     {
         static $request = null;
 
         if ($request === null)
             $request = new \Blu\Http\Request();
 
-        if ($input !== null)
-            return call_user_func([$request, $input]);
+        if ($method === null)
+            return $request;
 
-        return $request;
+        $params = func_get_args();
+
+        return call_user_func_array([
+            $request, array_shift($params)
+        ], $params);
     }
 
     /**
