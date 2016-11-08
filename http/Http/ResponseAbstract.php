@@ -52,16 +52,74 @@ abstract class ResponseAbstract
     }
 
     /**
-     * [generalize description]
-     * @return [type] [description]
+     *  Get code or set current body content.
+     *
+     *  Usage:
+     *      \Blu\Http\Response\Headers headers()
+     *      string headers($header)
+     *      void   headers($header, $val)
+     *
+     *  @param mixed $code
+     *
+     *  @return mixed
      */
-    protected function accept()
+    public function headers($header = null, $val = null)
     {
-        foreach ($this->headers as $header => $value) {
-            header(
-                sprintf('%s: %s', $header, $value)
+        if ($header === null)
+            return $this->headers;
+
+        if ($val === null)
+            return $this->headers
+                ->get($val);
+
+        $this->headers
+            ->set(
+                $header, $val
             );
-        }
+
+        return $this;
+    }
+
+    /**
+     *  Get code or set current body content.
+     *
+     *  Usage:
+     *      string  code()
+     *      void    code($code)
+     *
+     *  @param mixed $code
+     *
+     *  @return mixed
+     */
+    public function code($code = null)
+    {
+        if ($code === null)
+            return $this->code;
+
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     *  Get body or set current body content.
+     *
+     *  Usage:
+     *      string  body()
+     *      void    body($body)
+     *
+     *  @param mixed $body
+     *
+     *  @return mixed
+     */
+    public function body($body = null)
+    {
+        if ($body === null)
+            return $this->body;
+
+        $this->body = $body;
+
+        return $this;
     }
 
     /**
@@ -71,7 +129,7 @@ abstract class ResponseAbstract
     {
         http_response_code($this->status);
 
-        $this->accept();
+        $this->headers->apply();
 
         return $this->body;
     }
