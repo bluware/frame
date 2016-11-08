@@ -761,6 +761,16 @@ abstract class RequestAbstract extends \Blu\Essence\ReadableAbstract
     }
 
     /**
+     *  Alias for 'base'.
+     *
+     *  @return string
+     */
+    public function root($merge = null)
+    {
+        return $this->base($merge);
+    }
+
+    /**
      *  Exctract client best matches locale.
      *
      *  Usage: string locale() || string locale('en')

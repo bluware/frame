@@ -2,7 +2,7 @@
 
 /**
  *  Blu | PHP Lite Web & API Framework
- *  
+ *
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
@@ -127,6 +127,11 @@ abstract class RouterAbstract
         ], $params);
     }
 
+    /**
+     *  @param  array $params
+     *
+     *  @return [type]
+     */
     protected function filtrate(&$params)
     {
         array_shift($params);
