@@ -38,7 +38,7 @@ class Http implements HttpInterface
      *
      *  @return Blu\Http\Router
      */
-    public static function router()
+    public static function router($method = null)
     {
         static $router = null;
 
@@ -47,7 +47,15 @@ class Http implements HttpInterface
                 \Blu\Http::request()
             );
 
-        return $router;
+        if ($method === null)
+            return $router;
+
+        $params = func_get_args();
+
+        return call_user_func_array([
+            $router,
+            array_shift($params)
+        ], $params);
     }
 
     /**
@@ -68,7 +76,8 @@ class Http implements HttpInterface
         $params = func_get_args();
 
         return call_user_func_array([
-            $request, array_shift($params)
+            $request,
+            array_shift($params)
         ], $params);
     }
 
