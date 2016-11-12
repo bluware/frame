@@ -144,6 +144,23 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
+     *  @package `service` module
+     */
+     "Blu\\Service\\AutoloadAbstract"
+         => __DIR__ . "/service/Service/AutoloadAbstract.php",
+     "Blu\\Service\\Autoload"
+         => __DIR__ . "/service/Service/Autoload.php",
+     "Blu\\Service\\LocatorAbstract"
+         => __DIR__ . "/service/Service/LocatorAbstract.php",
+     "Blu\\Service\\Locator"
+         => __DIR__ . "/service/Service/Locator.php",
+     "Blu\\Service"
+         => __DIR__ . "/service/Service.php",
+     "Blu\\ServiceInterface"
+         => __DIR__ . "/service/ServiceInterface.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
      *  @package `package` module
      */
      "Blu\\Package"
