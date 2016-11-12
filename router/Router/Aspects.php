@@ -24,6 +24,21 @@ class Aspects extends Data
     }
 
     /**
+     *  Pull aspect class controller.
+     *
+     *  @param  string $name [description]
+     *
+     *  @return string
+     */
+    public function aspect($name)
+    {
+        $aspect = $this->get($name, $name);
+
+        return is_object($aspect) ?
+            $aspect : new $aspect();
+    }
+
+    /**
      *  @param mixed $data
      */
     public function prepare(

@@ -14,93 +14,135 @@ namespace Blu;
 class Router extends RouterAbstract
 {
     /**
-     *  @param  string $route
+     *  @param  string $pattern
      *  @param  mixed  $handler
      *
      *  @return void
      */
-    public function any($route, $handler = null)
+    public function any($pattern, $handler = null, $priority = 0)
     {
-        return $this->add([
-            'GET', 'POST', 'PUT', 'DELETE'
-        ], $route, $handler);
-    }
-
-    /**
-     *  @param  string $route
-     *  @param  mixed  $handler
-     *
-     *  @return void
-     */
-    public function get($route, $handler = null)
-    {
-        return $this->add([
-            'GET'
-        ], $route, $handler);
-    }
-
-    /**
-     *  @param  string $route
-     *  @param  mixed  $handler
-     *
-     *  @return void
-     */
-    public function post($route, $handler = null)
-    {
-        return $this->add([
-            'POST'
-        ], $route, $handler);
-    }
-
-    /**
-     *  @param  string $route
-     *  @param  mixed  $handler
-     *
-     *  @return void
-     */
-    public function put($route, $handler = null)
-    {
-        return $this->add([
-            'PUT'
-        ], $route, $handler);
-    }
-
-    /**
-     *  @param  string $route
-     *  @param  mixed  $handler
-     *
-     *  @return void
-     */
-    public function delete($route, $handler = null)
-    {
-        return $this->add([
-            'DELETE'
-        ], $route, $handler);
-    }
-
-    /**
-     *  @param  string $route
-     *  @param  mixed  $handler
-     *
-     *  @return void
-     */
-    public function del($route, $handler = null)
-    {
-        return $this->delete(
-            $route, $handler
+        return $this->add(
+            [
+                'GET', 'POST', 'PUT', 'DELETE'
+            ],
+            $pattern,
+            $handler,
+            $priority
         );
     }
 
     /**
-     *  @param  string $route
+     *  @param  string $pattern
      *  @param  mixed  $handler
      *
      *  @return void
      */
-    public function cli($route, $handler = null)
+    public function get($pattern, $handler = null, $priority = 0)
+    {
+        return $this->add(
+            [
+                'GET'
+            ],
+            $pattern,
+            $handler,
+            $priority
+        );
+    }
+
+    /**
+     *  @param  string $pattern
+     *  @param  mixed  $handler
+     *
+     *  @return void
+     */
+    public function post($pattern, $handler = null, $priority = 0)
+    {
+        return $this->add(
+            [
+                'POST'
+            ],
+            $pattern,
+            $handler
+        );
+    }
+
+    /**
+     *  @param  string $pattern
+     *  @param  mixed  $handler
+     *
+     *  @return void
+     */
+    public function put($pattern, $handler = null, $priority = 0)
+    {
+        return $this->add(
+            [
+                'PUT'
+            ],
+            $pattern,
+            $handler
+        );
+    }
+
+    /**
+     *  @param  string $pattern
+     *  @param  mixed  $handler
+     *
+     *  @return void
+     */
+    public function delete($pattern, $handler = null, $priority = 0)
+    {
+        return $this->add(
+            [
+                'DELETE'
+            ], $pattern,
+            $handler
+        );
+    }
+
+    /**
+     *  @param  string $pattern
+     *  @param  mixed  $handler
+     *
+     *  @return void
+     */
+    public function del($pattern, $handler = null, $priority = 0)
+    {
+        return $this->delete(
+            $pattern,
+            $handler
+        );
+    }
+
+    /**
+     *  @param  string $pattern
+     *  @param  mixed  $handler
+     *
+     *  @return void
+     */
+    public function cli($pattern, $handler = null, $priority = 0)
     {
         return $this->add([
-            'CLI'
-        ], $route, $handler);
+                'CLI'
+            ],
+            $pattern,
+            $handler,
+            $priority
+        );
+    }
+
+    /**
+     *  @param array  $methods
+     *  @param scalar $pattern
+     *  @param mixed  $handler
+     *
+     *  @return void
+     */
+    public function deny($pattern, $handler = null, $priority = 0)
+    {
+        return $this->any(
+            $pattern,
+            $handler,
+            $priority + 49
+        );
     }
 }

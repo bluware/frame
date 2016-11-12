@@ -118,12 +118,14 @@ return [
     /**------------------------------------------------------------------------
      *  @package `router` package
      */
-    "Blu\\Router\\Controllers"
-        => __DIR__ . "/router/Router/Controllers.php",
+    "Blu\\Router\\Routes\\Route"
+        => __DIR__ . "/router/Router/Routes/Route.php",
     "Blu\\Router\\Groups"
         => __DIR__ . "/router/Router/Groups.php",
     "Blu\\Router\\Aspects"
         => __DIR__ . "/router/Router/Aspects.php",
+    "Blu\\Router\\Invokes"
+        => __DIR__ . "/router/Router/Invokes.php",
     "Blu\\Router\\Routes"
         => __DIR__ . "/router/Router/Routes.php",
     "Blu\\RouterAbstract"
@@ -144,8 +146,8 @@ return [
     /**------------------------------------------------------------------------
      *  @package `aspect` package
      */
-     "Blu\\AspectAbstract"
-         => __DIR__ . "/aspect/AspectAbstract.php",
+     "Blu\\Aspect"
+         => __DIR__ . "/aspect/Aspect.php",
      "Blu\\AspectInterface"
          => __DIR__ . "/aspect/AspectInterface.php",
     //-------------------------------------------------------------------------

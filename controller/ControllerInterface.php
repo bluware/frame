@@ -16,24 +16,19 @@ interface ControllerInterface
     /**
      *  @return void
      */
-    protected function pass();
-
-    /**
-     *  @return void
-     */
-    protected function next();
+    public function next();
 
     /**
      *  @return boolean
      */
-    protected function passed();
+    public function prevent();
 
     /**
      *  Fast router implementation.
      *
      *  @return mixed
      */
-    function request($input = null);
+    public function request($input = null);
 
     /**
      *  @param  string $input

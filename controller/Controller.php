@@ -24,9 +24,9 @@ abstract class Controller implements ControllerInterface
     /**
      *  @return void
      */
-    protected function pass()
+    public function prevent()
     {
-        $this->pass = true;
+        $this->pass = false;
 
         return $this;
     }
@@ -34,17 +34,11 @@ abstract class Controller implements ControllerInterface
     /**
      *  @return void
      */
-    protected function next()
+    public function next()
     {
-        return $this->pass();
-    }
+        $this->pass = true;
 
-    /**
-     *  @return boolean
-     */
-    protected function passed()
-    {
-        return $this->pass;
+        return $this;
     }
 
     /**
@@ -91,5 +85,10 @@ abstract class Controller implements ControllerInterface
         return Http::response(
             $body, $code, $headers
         );
+    }
+
+    public function __get($val)
+    {
+        return $this->{$val};
     }
 }

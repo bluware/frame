@@ -151,13 +151,6 @@ abstract class RequestAbstract extends Readable implements RequestInterface
         if ($input === null)
             return $this->query;
 
-        if (is_array($input))
-            return $this->query
-                ->only(
-                    $input,
-                    $alternate
-                );
-
         return $this->query
             ->get(
                 $input,
@@ -182,13 +175,6 @@ abstract class RequestAbstract extends Readable implements RequestInterface
     {
         if ($input === null)
             return $this->body;
-
-        if (is_array($input))
-            return $this->body
-                ->only(
-                    $input,
-                    $alternate
-                );
 
         return $this->body
             ->get(
@@ -292,13 +278,6 @@ abstract class RequestAbstract extends Readable implements RequestInterface
         if ($input === null)
             return $this->files;
 
-        if (is_array($input))
-            return $this->files
-                ->only(
-                    $input,
-                    $alternate
-                );
-
         return $this->files
             ->get(
                 $input,
@@ -324,13 +303,6 @@ abstract class RequestAbstract extends Readable implements RequestInterface
         if ($input === null)
             return $this->cookies;
 
-        if (is_array($input))
-            return $this->cookies
-                ->only(
-                    $input,
-                    $alternate
-                );
-
         return $this->cookies
             ->get(
                 $input,
@@ -355,13 +327,6 @@ abstract class RequestAbstract extends Readable implements RequestInterface
     {
         if ($input === null)
             return $this->server;
-
-        if (is_array($input))
-            return $this->server
-                ->only(
-                    $input,
-                    $alternate
-                );
 
         return $this->server
             ->get(

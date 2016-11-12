@@ -11,7 +11,7 @@ namespace Blu;
 /**
  * @subpackage Aspect
  */
-class Aspect extends AspectAbstract
+abstract class Aspect extends Controller
 {
-    //
+    abstract public function handle();
 }
