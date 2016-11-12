@@ -50,8 +50,7 @@ abstract class RouterAbstract
      *  # comment ...
      */
     public function __construct(
-        RequestInterface $request,
-        $separator = '@'
+        RequestInterface $request, $separator = '@'
     ) {
         /**
          * @var string
@@ -123,13 +122,13 @@ abstract class RouterAbstract
      */
     public function group($group, callable $call)
     {
-        $mind = $this->groups->to('array');
+        $mind = $this->groups->data();
 
-        $this->groups->from('array', $group);
+        $this->groups->change($group);
 
         call_user_func($call, $this);
 
-        $this->groups->from('array', $mind);
+        $this->groups->revert($mind);
 
         return $this;
     }
@@ -208,7 +207,7 @@ abstract class RouterAbstract
         }
 
         $pattern = $request->is('cli') ?
-            join(' ', $argv) : $request->uri();
+            join(' ', $argv) : $request->path();
 
         foreach ($routes as $route) {
             if ($route->match($pattern, $matches) === true) {

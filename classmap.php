@@ -2,14 +2,14 @@
 
 return [
     /**------------------------------------------------------------------------
-     *  @package `json` package
+     *  @package `json` module
      */
      'Blu\\JSON'
          => __DIR__ . "/json/JSON.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `data` package
+     *  @package `data` module
      */
      'Blu\\Data\\ReadableAbstract'
          => __DIR__ . "/data/Data/ReadableAbstract.php",
@@ -23,7 +23,7 @@ return [
 
 
     /**------------------------------------------------------------------------
-     *  @package `secure` package
+     *  @package `secure` module
      */
     "Blu\\Secure\\Keychain"
         => __DIR__ . "/secure/Secure/Keychain.php",
@@ -34,7 +34,7 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `http` package
+     *  @package `http` module
      */
     "Blu\\Http\\Exception"
         => __DIR__ . "/http/Http/Exception.php",
@@ -45,7 +45,7 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `cookie` package
+     *  @package `cookie` module
      */
     "Blu\\CookieInterface"
         => __DIR__ . "/cookie/CookieInterface.php",
@@ -56,7 +56,7 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `uri` package
+     *  @package `uri` module
      */
      "Blu\\Uri\\Query"
          => __DIR__ . "/uri/Uri/Query.php",
@@ -69,7 +69,7 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `client` package
+     *  @package `client` module
      */
     "Blu\\Client\\Headers"
         => __DIR__ . "/client/Client/Headers.php",
@@ -84,7 +84,7 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `request` package
+     *  @package `request` module
      */
     "Blu\\Request\\Query"
         => __DIR__ . "/request/Request/Query.php",
@@ -105,7 +105,7 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `response` package
+     *  @package `response` module
      */
     "Blu\\Response\\Headers"
         => __DIR__ . "/response/Response/Headers.php",
@@ -116,7 +116,7 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `router` package
+     *  @package `router` module
      */
     "Blu\\Router\\Routes\\Route"
         => __DIR__ . "/router/Router/Routes/Route.php",
@@ -135,7 +135,7 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `controller` package
+     *  @package `controller` module
      */
      "Blu\\Controller"
          => __DIR__ . "/controller/Controller.php",
@@ -144,7 +144,16 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `aspect` package
+     *  @package `package` module
+     */
+     "Blu\\Package"
+         => __DIR__ . "/package/Package.php",
+     "Blu\\PackageInterface"
+         => __DIR__ . "/package/PackageInterface.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `aspect` module
      */
      "Blu\\Aspect"
          => __DIR__ . "/aspect/Aspect.php",

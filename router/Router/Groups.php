@@ -7,12 +7,13 @@
  */
 namespace Blu\Router;
 
-use Blu\Data\Writeable as Data;
+use Blu\Data\Writeable;
+use Blu\Data\Readable;
 
 /**
  * @subpackage Router
  */
-class Groups extends Data
+class Groups extends Writeable
 {
     /**
      *  @param mixed $data
@@ -22,34 +23,72 @@ class Groups extends Data
         parent::__construct($data);
     }
 
-    public function from($type, $data)
+    /**
+     *  @param  mixed $data
+     *
+     *  @return void
+     */
+    public function change($data)
     {
-        switch ($type) {
-            case 'array':
-                $this->data = $data;
-                break;
+        /**
+         *  @var array
+         */
+        $data = new Readable(is_array($data) ? $data : [
+            'namespace' => $data
+        ]);
 
-            default:
-                # code...
-                break;
+        /**
+         *  @var array
+         */
+        foreach (['aspect', 'aspects', 'middleware'] as $name) {
+
+            $aspects = $data->get($name);
+
+            if ($aspects !== null) {
+                $current = $this->get('aspects', []);
+
+                $this->set('aspects', array_replace(
+                    $current, is_array($aspects) ?
+                        $aspects : [$aspects]
+                ));
+            }
         }
+
+        $namespace = $data->get('namespace');
+
+        /**
+         *  @var string
+         */
+        if ($namespace !== null) {
+            $this->set('namespace', sprintf(
+                '%s\\%s',
+                $this->get('namespace'),
+                $namespace
+            ));
+        }
+
+        return $this;
     }
 
-    public function to($type)
+    /**
+     *  @param  array  $data
+     *
+     *  @return void
+     */
+    public function revert(array $data)
     {
-        switch ($type) {
-            case 'array':
-                return $this->data;
-                break;
+        $this->data = $data;
 
-            default:
-                # code...
-                break;
-        }
+        return $this;
     }
 
+    /**
+     *  @return void
+     */
     public function clean()
     {
         $this->data = [];
+
+        return $this;
     }
 }

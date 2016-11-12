@@ -11,41 +11,16 @@ namespace Blu;
 /**
  * @subpackage Package
  */
-abstract class Package implements PackageInterface
+abstract class Package
 {
     /**
      *  @return void
      */
     public function __construct()
     {
-        /**
-         *
-         */
-        $this->autoload();
-
-        /**
-         *
-         */
-        $this->service();
-
-        /**
-         *
-         */
-        $this->router();
+        foreach (get_class_methods($this) as $method) {
+            if ($method !== '__construct')
+                $this->{$method}();
+        }
     }
-
-    /**
-     *  @return void
-     */
-    abstract public function autoload();
-
-    /**
-     *  @return void
-     */
-    abstract public function router();
-
-    /**
-     *  @return void
-     */
-    abstract public function service();
 }
