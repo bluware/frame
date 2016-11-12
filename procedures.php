@@ -1,3 +1,3 @@
 <?php
 
-include 'http-core/procedures.php';
+include 'http/procedures.php';
