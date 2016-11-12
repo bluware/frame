@@ -8,12 +8,13 @@
  */
 namespace Blu\Http;
 
-use Blu\Essence\ReadableAbstract as Essence;
+use Blu\JSON;
+use Blu\Essence\Readable;
 
 /**
  * @subpackage Http
  */
-abstract class RequestAbstract extends Essence implements RequestInterface
+abstract class RequestAbstract extends Readable implements RequestInterface
 {
     /**
      *  @var \Blu\Http\Request\Query
@@ -99,13 +100,8 @@ abstract class RequestAbstract extends Essence implements RequestInterface
          *
          *  If request type 'json', than inject body
          */
-        if ($body === null && $this->is('json')) {
-            $buff = file_get_contents('php://input');
-            $json = json_decode($buff, true);
-
-            if (json_last_error() === 0)
-                $body = $json;
-        }
+        if ($body === null && $this->is('json'))
+            $body = JSON::from('php://input');
 
         /**
          *  @param \Blu\Http\Request\Body
@@ -132,7 +128,7 @@ abstract class RequestAbstract extends Essence implements RequestInterface
      */
     public function isolate()
     {
-        return new Essence(
+        return new Readable(
             $this->data()
         );
     }

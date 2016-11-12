@@ -8,6 +8,8 @@
  */
 namespace Blu\Essence;
 
+use Blu\JSON;
+
 /**
  * @subpackage Essence
  */
@@ -140,7 +142,7 @@ abstract class ReadableAbstract implements \Iterator
                 break;
 
             case 'json':
-                return json_encode(
+                return JSON::encode(
                     $this->data
                 );
                 break;

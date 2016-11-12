@@ -8,6 +8,7 @@
  */
 namespace Blu\Secure;
 
+use Blu\JSON;
 use Blu\Essence\Writeable           as Writeable;
 use Blu\Essence\ReadableAbstract    as Readable;
 
@@ -50,15 +51,25 @@ class Keychain extends Writeable
                 "No key found in chain"
             );
 
+        /**
+         *  Convertation Essence to JSON
+         */
         if (is_object($input) === true) {
-            $input = is_subclass_of($input, Readable::class) ?
-                $input->to('json') : $input;
+            $input = is_subclass_of(
+                $input, Readable::class
+            ) ? $input->to('json') : $input;
         }
 
+        /**
+         *  Convertation to Array to JSON
+         */
         if (is_array($input) === true) {
-            $input = json_encode($input);
+            $input = JSON::encode($input);
         }
 
+        /**
+         *  Encryption
+         */
         return @openssl_encrypt(
             $input, static::CHIPER, $secret
         );
@@ -85,10 +96,10 @@ class Keychain extends Writeable
             $input, static::CHIPER, $secret
         );
 
-        $json = json_decode($decrypt, true);
+        $data = JSON::decode($decrypt, $error);
 
-        if (json_last_error() === JSON_ERROR_NONE)
-            return new Writeable($json);
+        if ($data !== null)
+            return new Writeable($data);
 
         return $decrypt === false ?
             null : $decrypt;
