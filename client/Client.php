@@ -6,17 +6,17 @@
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Http;
+namespace Blu;
 
 /**
- * @subpackage Http
+ * @subpackage Client
  */
 class Client extends ClientAbstract
 {
     /**
      *  @param string   $url
      *
-     *  @return \Blu\Http\Client
+     *  @return \Blu\Client
      */
     public static function get($url)
     {
@@ -31,7 +31,7 @@ class Client extends ClientAbstract
      *  @param string   $url
      *  @param string   $body
      *
-     *  @return \Blu\Http\Client
+     *  @return \Blu\Client
      */
     public static function post($url, $body = '')
     {
@@ -48,7 +48,7 @@ class Client extends ClientAbstract
      *  @param string   $url
      *  @param string   $body
      *
-     *  @return \Blu\Http\Client
+     *  @return \Blu\Client
      */
     public static function put($url, $body = '')
     {
@@ -65,7 +65,7 @@ class Client extends ClientAbstract
      *  @param string   $url
      *  @param string   $body
      *
-     *  @return \Blu\Http\Client
+     *  @return \Blu\Client
      */
     public static function delete($url, $body = '')
     {
@@ -84,7 +84,7 @@ class Client extends ClientAbstract
      *  @param string   $url
      *  @param string   $body
      *
-     *  @return \Blu\Http\Client
+     *  @return \Blu\Client
      */
     public static function del($url, $body = '')
     {

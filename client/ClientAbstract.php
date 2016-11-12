@@ -6,10 +6,13 @@
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Http;
+namespace Blu;
+
+use Blu\Uri;
+use Blu\UriAbstract;
 
 /**
- * @subpackage Http
+ * @subpackage Client
  */
 abstract class ClientAbstract
 {
@@ -19,12 +22,12 @@ abstract class ClientAbstract
     protected $method = 'GET';
 
     /**
-     *  @var \Blu\Http\URI
+     *  @var \Blu\Uri
      */
     protected $uri;
 
     /**
-     *  @var \Blu\Http\Client\Headers
+     *  @var \Blu\Client\Headers
      */
     protected $headers;
 
@@ -49,18 +52,18 @@ abstract class ClientAbstract
     public function __construct($url)
     {
         /**
-         *  @var \Blu\Http\Client\Headers
+         *  @var \Blu\Client\Headers
          */
-        $this->headers = new \Blu\Http\Client\Headers();
+        $this->headers = new \Blu\Client\Headers();
 
         /**
-         *  @var \Blu\Http\Client\Headers
+         *  @var \Blu\Client\Headers
          */
         $this->uri = is_object(
                  $url
              ) && is_subclass_of(
-                 $url, URIAbstract::class
-             ) ? $url : new URI($url);
+                 $url, UriAbstract::class
+             ) ? $url : new Uri($url);
 
         /**
          *  @var array
@@ -212,11 +215,11 @@ abstract class ClientAbstract
         curl_close($request);
 
         if ($errno > 0)
-            throw new \Blu\Http\Exception(
+            throw new \Blu\Exception(
                 "Request failed: " . $error, $errno
             );
 
-        return new \Blu\Http\Client\Response(
+        return new \Blu\Client\Response(
             $body, $code, $headers
         );
     }

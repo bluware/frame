@@ -6,7 +6,7 @@
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Http\Client;
+namespace Blu\Client;
 
 /**
  * @subpackage Http
@@ -19,12 +19,12 @@ class Response
     protected $code;
 
      /**
-      *  @var \Blu\Essence\Readable
+      *  @var \Blu\Data\Readable
       */
      protected $headers;
 
      /**
-      *  @var \Blu\Essence\Readable
+      *  @var \Blu\Data\Readable
       */
      protected $body;
 
@@ -39,10 +39,10 @@ class Response
         $this->code = $code;
 
         /**
-         *  @var \Blu\Essence\Readable
+         *  @var \Blu\Data\Readable
          */
 
-        $this->headers = new \Blu\Essence\Readable(
+        $this->headers = new \Blu\Data\Readable(
             is_array($headers) ?
                 $headers : $this->parse_header($headers)
         );

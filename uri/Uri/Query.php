@@ -6,12 +6,12 @@
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Http\URI;
+namespace Blu\Uri;
 
 /**
- * @subpackage Http
+ * @subpackage Uri
  */
-class Query extends \Blu\Essence\WriteableAbstract
+class Query extends \Blu\Data\WriteableAbstract
 {
     /**
      *  @param mixed $data

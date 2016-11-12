@@ -6,12 +6,12 @@
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Http;
+namespace Blu;
 
 /**
- * @subpackage Http
+ * @subpackage Uri
  */
-abstract class URIAbstract extends \Blu\Essence\ReadableAbstract
+abstract class UriAbstract extends \Blu\Data\ReadableAbstract
 {
     /**
      *  @param mixed $data
@@ -28,9 +28,9 @@ abstract class URIAbstract extends \Blu\Essence\ReadableAbstract
         );
 
         /**
-         *  @var \Blu\Http\URI\Query
+         *  @var \Blu\Uri\Query
          */
-        $this->data['query'] = new \Blu\Http\URI\Query(
+        $this->data['query'] = new \Blu\Uri\Query(
             parse_str(
                 $this->get('query')
             )

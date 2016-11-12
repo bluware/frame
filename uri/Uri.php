@@ -6,12 +6,12 @@
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Essence;
+namespace Blu;
 
 /**
- * @subpackage Essence
+ * @subpackage Uri
  */
-class Writeable extends WriteableAbstract
+class Uri extends UriAbstract
 {
     //
 }

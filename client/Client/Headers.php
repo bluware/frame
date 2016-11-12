@@ -6,12 +6,12 @@
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Http\Client;
+namespace Blu\Client;
 
 /**
- * @subpackage Http
+ * @subpackage Client
  */
-class Headers extends \Blu\Essence\WriteableAbstract
+class Headers extends \Blu\Data\Writeable
 {
     /**
      *  @param mixed $data

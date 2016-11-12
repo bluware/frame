@@ -36,14 +36,6 @@ return [
     /**------------------------------------------------------------------------
      *  @package `http` package
      */
-    "Blu\\Http\\URI\\Query"
-        => __DIR__ . "/http/Http/URI/Query.php",
-    "Blu\\Http\\URIInterface"
-        => __DIR__ . "/http/Http/URIInterface.php",
-    "Blu\\Http\\URIAbstract"
-        => __DIR__ . "/http/Http/URIAbstract.php",
-    "Blu\\Http\\URI"
-        => __DIR__ . "/http/Http/URI.php",
     "Blu\\Http\\Exception"
         => __DIR__ . "/http/Http/Exception.php",
     "Blu\\HttpInterface"
@@ -64,18 +56,31 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `http-client` package
+     *  @package `uri` package
      */
-    "Blu\\Http\\Client\\Headers"
-        => __DIR__ . "/http-client/Client/Headers.php",
-    "Blu\\Http\\Client\\Response"
-        => __DIR__ . "/http-client/Client/Response.php",
-    "Blu\\Http\\ClientInterface"
-        => __DIR__ . "/http-client/ClientInterface.php",
-    "Blu\\Http\\ClientAbstract"
-        => __DIR__ . "/http-client/ClientAbstract.php",
-    "Blu\\Http\\Client"
-        => __DIR__ . "/http-client/Client.php",
+     "Blu\\Uri\\Query"
+         => __DIR__ . "/uri/Uri/Query.php",
+     "Blu\\UriInterface"
+         => __DIR__ . "/uri/UriInterface.php",
+     "Blu\\UriAbstract"
+         => __DIR__ . "/uri/UriAbstract.php",
+     "Blu\\Uri"
+         => __DIR__ . "/uri/Uri.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `client` package
+     */
+    "Blu\\Client\\Headers"
+        => __DIR__ . "/client/Client/Headers.php",
+    "Blu\\Client\\Response"
+        => __DIR__ . "/client/Client/Response.php",
+    "Blu\\ClientInterface"
+        => __DIR__ . "/client/ClientInterface.php",
+    "Blu\\ClientAbstract"
+        => __DIR__ . "/client/ClientAbstract.php",
+    "Blu\\Client"
+        => __DIR__ . "/client/Client.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
