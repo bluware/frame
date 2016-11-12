@@ -37,6 +37,9 @@ class JSON
      */
     public static function encode($input)
     {
+        if (is_object($input) === true)
+            return $input->to('json');
+            
         return json_encode($input);
     }
 

@@ -9,20 +9,16 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `essence` package
+     *  @package `data` package
      */
-     'Blu\\Essence\\ReadableAbstract'
-         => __DIR__ . "/essence/Essence/ReadableAbstract.php",
-     'Blu\\Essence\\Readable'
-         => __DIR__ . "/essence/Essence/Readable.php",
-     'Blu\\Essence\\WriteableAbstract'
-         => __DIR__ . "/essence/Essence/WriteableAbstract.php",
-     'Blu\\Essence\\Writeable'
-         => __DIR__ . "/essence/Essence/Writeable.php",
-     'Blu\\EssenceInterface'
-         => __DIR__ . "/essence/EssenceInterface.php",
-     'Blu\\Essence'
-         => __DIR__ . "/essence/Essence.php",
+     'Blu\\Data\\ReadableAbstract'
+         => __DIR__ . "/data/Data/ReadableAbstract.php",
+     'Blu\\Data\\Readable'
+         => __DIR__ . "/data/Data/Readable.php",
+     'Blu\\Data\\WriteableAbstract'
+         => __DIR__ . "/data/Data/WriteableAbstract.php",
+     'Blu\\Data\\Writeable'
+         => __DIR__ . "/data/Data/Writeable.php",
     //-------------------------------------------------------------------------
 
 
@@ -57,16 +53,14 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `http-cookie` package
+     *  @package `cookie` package
      */
-    "Blu\\Http\\Cookie\\Hash"
-        => __DIR__ . "/http-cookie/Cookie/Hash.php",
-    "Blu\\Http\\CookieInterface"
-        => __DIR__ . "/http-cookie/CookieInterface.php",
-    "Blu\\Http\\CookieAbstract"
-        => __DIR__ . "/http-cookie/CookieAbstract.php",
-    "Blu\\Http\\Cookie"
-        => __DIR__ . "/http-cookie/Cookie.php",
+    "Blu\\CookieInterface"
+        => __DIR__ . "/cookie/CookieInterface.php",
+    "Blu\\CookieAbstract"
+        => __DIR__ . "/cookie/CookieAbstract.php",
+    "Blu\\Cookie"
+        => __DIR__ . "/cookie/Cookie.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -85,69 +79,69 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `http-request` package
+     *  @package `request` package
      */
-    "Blu\\Http\\Request\\Query"
-        => __DIR__ . "/http-request/Request/Query.php",
-    "Blu\\Http\\Request\\Body"
-        => __DIR__ . "/http-request/Request/Body.php",
-    "Blu\\Http\\Request\\Files"
-        => __DIR__ . "/http-request/Request/Files.php",
-    "Blu\\Http\\Request\\Cookies"
-        => __DIR__ . "/http-request/Request/Cookies.php",
-    "Blu\\Http\\Request\\Server"
-        => __DIR__ . "/http-request/Request/Server.php",
-    "Blu\\Http\\RequestInterface"
-        => __DIR__ . "/http-request/RequestInterface.php",
-    "Blu\\Http\\RequestAbstract"
-        => __DIR__ . "/http-request/RequestAbstract.php",
-    "Blu\\Http\\Request"
-        => __DIR__ . "/http-request/Request.php",
+    "Blu\\Request\\Query"
+        => __DIR__ . "/request/Request/Query.php",
+    "Blu\\Request\\Body"
+        => __DIR__ . "/request/Request/Body.php",
+    "Blu\\Request\\Files"
+        => __DIR__ . "/request/Request/Files.php",
+    "Blu\\Request\\Cookies"
+        => __DIR__ . "/request/Request/Cookies.php",
+    "Blu\\Request\\Server"
+        => __DIR__ . "/request/Request/Server.php",
+    "Blu\\RequestInterface"
+        => __DIR__ . "/request/RequestInterface.php",
+    "Blu\\RequestAbstract"
+        => __DIR__ . "/request/RequestAbstract.php",
+    "Blu\\Request"
+        => __DIR__ . "/request/Request.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `http-response` package
+     *  @package `response` package
      */
-    "Blu\\Http\\Response\\Headers"
-        => __DIR__ . "/http-response/Response/Headers.php",
-    "Blu\\Http\\ResponseAbstract"
-        => __DIR__ . "/http-response/ResponseAbstract.php",
-    "Blu\\Http\\Response"
-        => __DIR__ . "/http-response/Response.php",
+    "Blu\\Response\\Headers"
+        => __DIR__ . "/response/Response/Headers.php",
+    "Blu\\ResponseAbstract"
+        => __DIR__ . "/response/ResponseAbstract.php",
+    "Blu\\Response"
+        => __DIR__ . "/response/Response.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `http-router` package
+     *  @package `router` package
      */
-    "Blu\\Http\\Router\\Controllers"
-        => __DIR__ . "/http-router/Router/Controllers.php",
-    "Blu\\Http\\Router\\Groups"
-        => __DIR__ . "/http-router/Router/Groups.php",
-    "Blu\\Http\\Router\\Guardians"
-        => __DIR__ . "/http-router/Router/Guardians.php",
-    "Blu\\Http\\Router\\Routes"
-        => __DIR__ . "/http-router/Router/Routes.php",
-    "Blu\\Http\\RouterAbstract"
-        => __DIR__ . "/http-router/RouterAbstract.php",
-    "Blu\\Http\\Router"
-        => __DIR__ . "/http-router/Router.php",
+    "Blu\\Router\\Controllers"
+        => __DIR__ . "/router/Router/Controllers.php",
+    "Blu\\Router\\Groups"
+        => __DIR__ . "/router/Router/Groups.php",
+    "Blu\\Router\\Aspects"
+        => __DIR__ . "/router/Router/Aspects.php",
+    "Blu\\Router\\Routes"
+        => __DIR__ . "/router/Router/Routes.php",
+    "Blu\\RouterAbstract"
+        => __DIR__ . "/router/RouterAbstract.php",
+    "Blu\\Router"
+        => __DIR__ . "/router/Router.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `http-controller` package
+     *  @package `controller` package
      */
-     "Blu\\Http\\ControllerAbstract"
-         => __DIR__ . "/http-controller/ControllerAbstract.php",
-     "Blu\\Http\\Controller"
-         => __DIR__ . "/http-controller/Controller.php",
+     "Blu\\Controller"
+         => __DIR__ . "/controller/Controller.php",
+     "Blu\\ControllerInterface"
+         => __DIR__ . "/controller/ControllerInterface.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `http-aspect` package
+     *  @package `aspect` package
      */
-     "Blu\\Http\\AspectAbstract"
-         => __DIR__ . "/http-aspect/AspectAbstract.php",
-     "Blu\\Http\\Guardian"
-         => __DIR__ . "/http-aspect/Aspect.php",
+     "Blu\\AspectAbstract"
+         => __DIR__ . "/aspect/AspectAbstract.php",
+     "Blu\\AspectInterface"
+         => __DIR__ . "/aspect/AspectInterface.php",
     //-------------------------------------------------------------------------
 ];

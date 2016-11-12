@@ -49,7 +49,7 @@ function http($method)
         ], true)
     ) {
         return forward_static_call_array([
-            'Blu\Http\Response',
+            'Blu\Response',
             array_unshift($params),
         ], $params);
     }
@@ -77,12 +77,12 @@ function client($method)
         )
     ) {
         return call_user_func_array([
-            'Blu\Http\Client',
+            'Blu\Client',
             array_shift($params)
         ], $params);
     }
 
-    return new \Blu\Http\Client(
+    return new \Blu\Client(
         $method
     );
 }
@@ -109,12 +109,12 @@ function rest($method)
         )
     ) {
         return call_user_func_array([
-            'Blu\Http\Client',
+            'Blu\Client',
             array_shift($params)
         ], $params);
     }
 
-    return new \Blu\Http\Client(
+    return new \Blu\Client(
         $method
     );
 }
@@ -174,13 +174,13 @@ function response($method)
         ], true)
     ) {
         return forward_static_call_array([
-            'Blu\Http\Response',
+            'Blu\Response',
             array_unshift($params),
         ], $params);
     }
 
     return call_user_func_array([
-        'Blu\Http\Response',
+        'Blu\Response',
         '__construct'
     ], $params);
 }

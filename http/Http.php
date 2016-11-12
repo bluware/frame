@@ -43,7 +43,7 @@ class Http implements HttpInterface
         static $router = null;
 
         if ($router === null)
-            $router = new \Blu\Http\Router(
+            $router = new \Blu\Router(
                 \Blu\Http::request()
             );
 
@@ -68,7 +68,7 @@ class Http implements HttpInterface
         static $request = null;
 
         if ($request === null)
-            $request = new \Blu\Http\Request();
+            $request = new \Blu\Request();
 
         if ($method === null)
             return $request;
@@ -89,6 +89,6 @@ class Http implements HttpInterface
     public static function response(
         $body, $status = 200, array $headers = []
     ) {
-        return new \Blu\Http\Response($body, $status, $headers);
+        return new \Blu\Response($body, $status, $headers);
     }
 }

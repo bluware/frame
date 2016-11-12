@@ -9,8 +9,8 @@
 namespace Blu\Secure;
 
 use Blu\JSON;
-use Blu\Essence\Writeable           as Writeable;
-use Blu\Essence\ReadableAbstract    as Readable;
+use Blu\Data\Writeable           as Writeable;
+use Blu\Data\ReadableAbstract    as Readable;
 
 /**
  * @subpackage Secure
