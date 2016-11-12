@@ -133,13 +133,21 @@ return [
         => __DIR__ . "/http-router/Router.php",
     //-------------------------------------------------------------------------
 
+    /**------------------------------------------------------------------------
+     *  @package `http-controller` package
+     */
+     "Blu\\Http\\ControllerAbstract"
+         => __DIR__ . "/http-controller/ControllerAbstract.php",
+     "Blu\\Http\\Controller"
+         => __DIR__ . "/http-controller/Controller.php",
+    //-------------------------------------------------------------------------
 
-    "Blu\\Http\\ControllerAbstract"
-        => __DIR__ . "/http-controller/ControllerAbstract.php",
-    "Blu\\Http\\Controller"
-        => __DIR__ . "/http-controller/Controller.php",
-    "Blu\\Http\\GuardianAbstract"
-        => __DIR__ . "/http-controller/GuardianAbstract.php",
-    "Blu\\Http\\Guardian"
-        => __DIR__ . "/http-controller/Guardian.php",
+    /**------------------------------------------------------------------------
+     *  @package `http-aspect` package
+     */
+     "Blu\\Http\\AspectAbstract"
+         => __DIR__ . "/http-aspect/AspectAbstract.php",
+     "Blu\\Http\\Guardian"
+         => __DIR__ . "/http-aspect/Aspect.php",
+    //-------------------------------------------------------------------------
 ];

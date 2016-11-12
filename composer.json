@@ -1,6 +1,6 @@
 {
     "name"      : "bluware/frame",
-    "license"   : "GPL-3.0",
+    "license"   : "MIT",
     "authors"   : [
         {
             "name"      : "Eugen Melnychenko",

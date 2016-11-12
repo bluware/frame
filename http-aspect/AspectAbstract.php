@@ -9,9 +9,9 @@
 namespace Blu\Http;
 
 /**
- * @subpackage Http
+ * @subpackage Http\Aspect
  */
-class Guardian extends GuardianAbstract
+abstract class AspectAbstract extends ControllerAbstract
 {
     //
 }

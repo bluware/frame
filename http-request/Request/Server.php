@@ -34,7 +34,9 @@ class Server extends \Blu\Essence\ReadableAbstract
             );
 
         return parent::get(
-            strtoupper($input), $alternate
+            str_replace(
+                '-', '_', strtoupper($input)
+            ), $alternate
         );
     }
 }
