@@ -8,6 +8,8 @@
  */
 namespace Blu\Http;
 
+use Blu\Http\Router as Router;
+
 /**
  * @subpackage Http
  */
@@ -24,19 +26,29 @@ abstract class RouterAbstract
     protected $capture      = '[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)]+';
 
     /**
-     *  @var \Blu\Http\Router\Routes
+     *  @var \Blu\Http\RequestAbstract
+     */
+    protected $request;
+
+    /**
+     *  @var  Router\Guardians
+     */
+    protected $guardians;
+
+    /**
+     *  @var Router\Controllers
+     */
+    protected $controllers;
+
+    /**
+     *  @var Router\Routes
      */
     protected $routes;
 
     /**
-     *  @var \Blu\Http\Router\Routes
+     *  @var Router\Routes
      */
     protected $denies;
-
-    /**
-     *  @var \Blu\Http\RequestAbstract
-     */
-    protected $request;
 
     /**
      *  # comment ...
@@ -48,22 +60,37 @@ abstract class RouterAbstract
         /**
          * @var string
          */
-        $this->separator = $separator;
+        $this->separator    = $separator;
 
         /**
-         *  @var \Blu\Http\Router\Routes
+         *  @var Router\Routes
          */
-        $this->routes = new \Blu\Http\Router\Routes();
+        $this->routes       = new Router\Routes();
 
         /**
-         *  @var \Blu\Http\Router\Routes
+         *  @var Router\Routes
          */
-        $this->denies = new \Blu\Http\Router\Routes();
+        $this->denies       = new Router\Routes();
 
         /**
          *  @var \Blu\Http\RequestAbstract
          */
-        $this->request = $request;
+        $this->request      = $request;
+
+        /**
+         *  @var Router\Guardians
+         */
+        $this->guardians    = new Router\Guardians();
+
+        /**
+         *  @var Router\Controllers
+         */
+        $this->controllers  = new Router\Controllers();
+
+        /**
+         *  @var Router\Guardians
+         */
+        $this->groups       = new Router\Groups();
     }
 
     /**
@@ -78,6 +105,28 @@ abstract class RouterAbstract
     {
         if ($input === null)
             return $this->routes;
+
+        return $this->routes->get(
+            $input, $alternate
+        );
+    }
+
+    /**
+     *  Hot method for access to property.
+     *
+     *  @param  scalar $input
+     *  @param  mixed  $alternate
+     *
+     *  @return mixed
+     */
+    public function guardian($guardians)
+    {
+        if ($instance === null)
+            return null;
+
+        $guardians = is_array($guardians) ? $guardians : [
+            $guardians
+        ];
 
         return $this->routes->get(
             $input, $alternate

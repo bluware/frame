@@ -7,12 +7,12 @@
  */
 namespace Blu\Http\Router;
 
-use Blu\Http\Controller\Core;
+use Blu\Essence\Writeable as Essence;
 
 /**
  * @subpackage Http
  */
-class Routes extends \Blu\Essence\WriteableAbstract
+class Routes extends Essence
 {
     /**
      *  @param mixed $data

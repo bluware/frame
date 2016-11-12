@@ -9,7 +9,7 @@
 namespace Blu\Http;
 
 /**
- * @subpackage Console
+ * @subpackage Http
  */
 class Guardian extends GuardianAbstract
 {

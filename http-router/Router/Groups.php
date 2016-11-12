@@ -5,12 +5,14 @@
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Http\Request;
+namespace Blu\Http\Router;
+
+use Blu\Essence\Writeable as Essence;
 
 /**
  * @subpackage Http
  */
-class Cookie extends \Blu\Essence\ReadableAbstract
+class Groups extends Essence
 {
     /**
      *  @param mixed $data

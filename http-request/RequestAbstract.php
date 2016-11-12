@@ -8,10 +8,12 @@
  */
 namespace Blu\Http;
 
+use Blu\Essence\ReadableAbstract as Essence;
+
 /**
  * @subpackage Http
  */
-abstract class RequestAbstract extends \Blu\Essence\ReadableAbstract
+abstract class RequestAbstract extends Essence implements RequestInterface
 {
     /**
      *  @var \Blu\Http\Request\Query
@@ -29,9 +31,9 @@ abstract class RequestAbstract extends \Blu\Essence\ReadableAbstract
     protected $files;
 
     /**
-     *  @var \Blu\Http\Request\Cookie
+     *  @var \Blu\Http\Request\Cookies
      */
-    protected $cookie;
+    protected $cookies;
 
     /**
      *  @var \Blu\Http\Request\Server
@@ -45,7 +47,7 @@ abstract class RequestAbstract extends \Blu\Essence\ReadableAbstract
         array $query    = null,
         array $body     = null,
         array $files    = null,
-        array $cookie   = null,
+        array $cookies   = null,
         array $server   = null
     ) {
         /**
@@ -65,8 +67,8 @@ abstract class RequestAbstract extends \Blu\Essence\ReadableAbstract
         /**
          *  @param \Blu\Http\Request\Cookie
          */
-        $this->cookie = new \Blu\Http\Request\Cookie(
-            $cookie !== null ? $cookie : $_COOKIE
+        $this->cookies = new \Blu\Http\Request\Cookies(
+            $cookies !== null ? $cookies : $_COOKIE
         );
 
         /**
@@ -130,7 +132,7 @@ abstract class RequestAbstract extends \Blu\Essence\ReadableAbstract
      */
     public function isolate()
     {
-        return new Blu\Essence\ReadableAbstract(
+        return new Essence(
             $this->data()
         );
     }
@@ -324,16 +326,16 @@ abstract class RequestAbstract extends \Blu\Essence\ReadableAbstract
     public function cookie($input = null, $alternate = null)
     {
         if ($input === null)
-            return $this->cookie;
+            return $this->cookies;
 
         if (is_array($input))
-            return $this->cookie
+            return $this->cookies
                 ->only(
                     $input,
                     $alternate
                 );
 
-        return $this->cookie
+        return $this->cookies
             ->get(
                 $input,
                 $alternate

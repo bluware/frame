@@ -11,7 +11,7 @@ namespace Blu\Http;
 /**
  * @subpackage Http
  */
-class Request extends RequestAbstract
+interface RequestInterface
 {
     //
 }

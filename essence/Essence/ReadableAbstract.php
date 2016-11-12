@@ -126,4 +126,24 @@ abstract class ReadableAbstract implements \Iterator
     {
         return $this->get($key, null);
     }
+
+    /**
+     *  @param scalar $key
+     *
+     *  @return mixed
+     */
+    public function to($type)
+    {
+        switch ($type) {
+            case 'array':
+                return $this->data;
+                break;
+
+            case 'json':
+                return json_encode(
+                    $this->data
+                );
+                break;
+        }
+    }
 }
