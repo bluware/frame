@@ -11,7 +11,7 @@ namespace Blu;
 /**
  * @subpackage Response
  */
-abstract class ResponseAbstract
+abstract class ResponseAbstract implements ResponseInterface
 {
     /**
      *  @var integer

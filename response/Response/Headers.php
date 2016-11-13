@@ -65,11 +65,6 @@ class Headers extends \Blu\Data\WriteableAbstract
                 "\n\r", $this->to('array')
             );
 
-        if ($type === 'json')
-            return json_encode(
-                $this->to('array')
-            );
-
         return null;
     }
 }

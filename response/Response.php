@@ -11,7 +11,7 @@ namespace Blu;
 /**
  * @subpackage Response
  */
-class Response extends ResponseAbstract
+class Response extends ResponseAbstract implements ResponseInterface
 {
     /**
      * @param  scalar   $body

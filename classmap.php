@@ -109,6 +109,8 @@ return [
      */
     "Blu\\Response\\Headers"
         => __DIR__ . "/response/Response/Headers.php",
+    "Blu\\ResponseInterface"
+        => __DIR__ . "/response/ResponseInterface.php",
     "Blu\\ResponseAbstract"
         => __DIR__ . "/response/ResponseAbstract.php",
     "Blu\\Response"
@@ -137,6 +139,10 @@ return [
     /**------------------------------------------------------------------------
      *  @package `controller` module
      */
+     "Blu\\Controller\\DispatcherInterface"
+         => __DIR__ . "/controller/Controller/DispatcherInterface.php",
+     "Blu\\Controller\\Dispatcher"
+         => __DIR__ . "/controller/Controller/Dispatcher.php",
      "Blu\\Controller"
          => __DIR__ . "/controller/Controller.php",
      "Blu\\ControllerInterface"
