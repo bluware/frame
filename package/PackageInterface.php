@@ -9,9 +9,12 @@
 namespace Blu;
 
 /**
- * @subpackage Aspect
+ * @subpackage Package
  */
-abstract class AspectAbstract extends ControllerAbstract
+interface PackageInterface
 {
-    //
+    /**
+     *  @return void
+     */
+    public function __construct();
 }

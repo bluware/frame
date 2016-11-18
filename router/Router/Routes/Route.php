@@ -8,7 +8,6 @@
 namespace Blu\Router\Routes;
 
 use Blu\Router\Aspects;
-use Blu\Router\Invokes;
 
 /**
  * @subpackage Http

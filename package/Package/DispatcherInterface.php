@@ -6,12 +6,15 @@
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Controller;
+namespace Blu\Package;
 
 /**
- * @subpackage Controller
+ * @subpackage Package
  */
 interface DispatcherInterface
 {
-    //
+    /**
+     *  @return void
+     */
+    public function dispatch();
 }

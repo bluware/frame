@@ -1,11 +1,12 @@
 <?php
 
 /**
- *  PHP Lite Frame
- *  @package  Blu
+ *  Bluware PHP Lite Web & API Framework
+ *
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Response;
+namespace Frame\Response;
 
 /**
  * @subpackage Response
@@ -23,7 +24,7 @@ class Headers extends \Blu\Data\WriteableAbstract
     /**
      *  @return void
      */
-    public function apply()
+    public function __invoke()
     {
         foreach ($this->to('array') as $header)
             header($header);

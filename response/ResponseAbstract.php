@@ -1,12 +1,12 @@
 <?php
 
 /**
- *  Blu | PHP Lite Web & API Framework
+ *  Bluware PHP Lite Web & API Framework
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
 /**
  * @subpackage Response
@@ -19,7 +19,7 @@ abstract class ResponseAbstract implements ResponseInterface
     protected $code;
 
     /**
-     *  @var \Blu\Response\Headers
+     *  @var \Frame\Response\Headers
      */
     protected $headers;
 
@@ -41,9 +41,9 @@ abstract class ResponseAbstract implements ResponseInterface
         $this->status   = $code;
 
         /**
-         *  @var \Blu\Response\Headers
+         *  @var \Frame\Response\Headers
          */
-        $this->headers  = new \Blu\Response\Headers($headers);
+        $this->headers  = new \Frame\Response\Headers($headers);
 
         /**
          *  @var scalar
@@ -55,7 +55,7 @@ abstract class ResponseAbstract implements ResponseInterface
      *  Get code or set current body content.
      *
      *  Usage:
-     *      \Blu\Response\Headers headers()
+     *      \Frame\Response\Headers headers()
      *      string headers($header)
      *      void   headers($header, $val)
      *
@@ -122,6 +122,15 @@ abstract class ResponseAbstract implements ResponseInterface
         return $this;
     }
 
+    public function print()
+    {
+        ob_start('ob_gzhandler');
+
+        echo $this->__toString();
+
+        ob_end_flush();
+    }
+
     /**
      *  @return string
      */
@@ -129,7 +138,7 @@ abstract class ResponseAbstract implements ResponseInterface
     {
         http_response_code($this->status);
 
-        $this->headers->apply();
+        ($this->headers)();
 
         return $this->body;
     }

@@ -1,17 +1,28 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite Web & API Framework
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
 /**
  * @subpackage Request
  */
 class Request extends RequestAbstract implements RequestInterface
 {
-    //
+    /**
+     *  @return \Blu\Request
+     */
+    public static function singleton()
+    {
+        static $instance = null;
+
+        if ($instance === null)
+            $instance = new static();
+
+        return $instance;
+    }
 }

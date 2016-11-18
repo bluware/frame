@@ -1,12 +1,12 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Frame Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Client;
+namespace Frame\Client;
 
 /**
  * @subpackage Http
@@ -19,12 +19,12 @@ class Response
     protected $code;
 
      /**
-      *  @var \Blu\Data\Readable
+      *  @var \Frame\Data\Readable
       */
      protected $headers;
 
      /**
-      *  @var \Blu\Data\Readable
+      *  @var \Frame\Data\Readable
       */
      protected $body;
 
@@ -39,10 +39,10 @@ class Response
         $this->code = $code;
 
         /**
-         *  @var \Blu\Data\Readable
+         *  @var \Frame\Data\Readable
          */
 
-        $this->headers = new \Blu\Data\Readable(
+        $this->headers = new \Frame\Data\Readable(
             is_array($headers) ?
                 $headers : $this->parse_header($headers)
         );

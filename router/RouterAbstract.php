@@ -195,7 +195,7 @@ abstract class RouterAbstract
     public function run()
     {
         $request = $this->request;
-        $routes  = $this->routes();
+        $routes  = $this->routes()->sort();
 
         if ($request->is('cli') === true) {
             if ($request->server('argc') < 2)

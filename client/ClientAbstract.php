@@ -1,15 +1,17 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
-use Blu\Uri;
-use Blu\UriAbstract;
+use Frame\Client\Headers;
+use Frame\Client\Response;
+use Frame\Uri;
+use Frame\UriAbstract;
 
 /**
  * @subpackage Client
@@ -22,12 +24,12 @@ abstract class ClientAbstract
     protected $method = 'GET';
 
     /**
-     *  @var \Blu\Uri
+     *  @var \Frame\Uri
      */
     protected $uri;
 
     /**
-     *  @var \Blu\Client\Headers
+     *  @var \Frame\Client\Headers
      */
     protected $headers;
 
@@ -52,12 +54,12 @@ abstract class ClientAbstract
     public function __construct($url)
     {
         /**
-         *  @var \Blu\Client\Headers
+         *  @var \Frame\Client\Headers
          */
-        $this->headers = new \Blu\Client\Headers();
+        $this->headers = new Headers();
 
         /**
-         *  @var \Blu\Client\Headers
+         *  @var \Frame\Client\Headers
          */
         $this->uri = is_object(
                  $url
@@ -215,11 +217,11 @@ abstract class ClientAbstract
         curl_close($request);
 
         if ($errno > 0)
-            throw new \Blu\Exception(
+            throw new \Frame\Exception(
                 "Request failed: " . $error, $errno
             );
 
-        return new \Blu\Client\Response(
+        return new Response(
             $body, $code, $headers
         );
     }

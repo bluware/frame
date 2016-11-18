@@ -1,12 +1,12 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite Web & API Framework
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
 use Blu\JSON;
 use Blu\Data\Readable;
@@ -153,8 +153,7 @@ abstract class RequestAbstract extends Readable implements RequestInterface
 
         return $this->query
             ->get(
-                $input,
-                $alternate
+                $input, $alternate
             );
     }
 
@@ -178,8 +177,7 @@ abstract class RequestAbstract extends Readable implements RequestInterface
 
         return $this->body
             ->get(
-                $input,
-                $alternate
+                $input, $alternate
             );
     }
 
@@ -280,8 +278,7 @@ abstract class RequestAbstract extends Readable implements RequestInterface
 
         return $this->files
             ->get(
-                $input,
-                $alternate
+                $input, $alternate
             );
     }
 
@@ -305,8 +302,7 @@ abstract class RequestAbstract extends Readable implements RequestInterface
 
         return $this->cookies
             ->get(
-                $input,
-                $alternate
+                $input, $alternate
             );
     }
 
@@ -330,8 +326,7 @@ abstract class RequestAbstract extends Readable implements RequestInterface
 
         return $this->server
             ->get(
-                $input,
-                $alternate
+                $input, $alternate
             );
     }
 

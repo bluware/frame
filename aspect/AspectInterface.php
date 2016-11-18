@@ -11,7 +11,7 @@ namespace Frame;
 /**
  * @subpackage Aspect
  */
-abstract class Aspect extends Controller
+interface AspectInterface
 {
-    abstract public function handle();
+    //
 }

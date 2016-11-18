@@ -1,11 +1,12 @@
 <?php
 
 /**
- *  PHP Lite Frame
- *  @package  Blu
+ *  Bluware PHP Lite Web & API Framework
+ *
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Request;
+namespace Frame\Request;
 
 use Blu\Data\Readable;
 use Blu\Cookie;

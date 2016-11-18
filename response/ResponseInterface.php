@@ -1,12 +1,12 @@
 <?php
 
 /**
- *  Blu | PHP Lite Web & API Framework
+ *  Bluware PHP Lite Web & API Framework
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
 /**
  * @subpackage Response
@@ -24,7 +24,7 @@ interface ResponseInterface
      *  Get code or set current body content.
      *
      *  Usage:
-     *      \Blu\Response\Headers headers()
+     *      \Frame\Response\Headers headers()
      *      string headers($header)
      *      void   headers($header, $val)
      *

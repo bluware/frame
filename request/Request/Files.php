@@ -1,16 +1,17 @@
 <?php
 
 /**
- *  PHP Lite Frame
- *  @package  Blu
+ *  Bluware PHP Lite Web & API Framework
+ *
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Request;
+namespace Frame\Request;
 
 /**
  * @subpackage Http
  */
-class Files extends \Blu\Data\ReadableAbstract
+class Files extends \Frame\Data\Read
 {
     /**
      *  @param mixed $data
