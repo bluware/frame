@@ -1,14 +1,12 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Data;
-
-use Blu\JSON;
+namespace Frame\Data;
 
 /**
  * @subpackage Essence
@@ -47,6 +45,18 @@ abstract class ReadableAbstract implements \Iterator
     public function get($key, $alternate = null)
     {
         return $this->has($key) ? $this->data[$key] : $alternate;
+    }
+
+    /**
+     *  @param array $data
+     *
+     *  @return mixed
+     */
+    public function diff(array $data)
+    {
+        return array_diff_assoc(
+            $this->data, $data
+        );
     }
 
     /**
@@ -130,6 +140,14 @@ abstract class ReadableAbstract implements \Iterator
     }
 
     /**
+     *  @return mixed
+     */
+    public function __invoke()
+    {
+        return $this->data();
+    }
+
+    /**
      *  @param scalar $key
      *
      *  @return mixed
@@ -142,7 +160,7 @@ abstract class ReadableAbstract implements \Iterator
                 break;
 
             case 'json':
-                return JSON::encode(
+                return \Frame\JSON::encode(
                     $this->data
                 );
                 break;

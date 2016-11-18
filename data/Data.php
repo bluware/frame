@@ -1,17 +1,17 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
 /**
  * @subpackage Data
  */
-abstract class Data implements ControllerInterface
+class Data extends \Frame\Data\WritableAbstract
 {
     //
 }
