@@ -217,7 +217,7 @@ abstract class ClientAbstract
         curl_close($request);
 
         if ($errno > 0)
-            throw new \Frame\Exception(
+            throw new \Exception(
                 "Request failed: " . $error, $errno
             );
 
