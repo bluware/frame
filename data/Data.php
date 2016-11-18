@@ -11,7 +11,7 @@ namespace Frame;
 /**
  * @subpackage Data
  */
-class Data extends \Frame\Data\WritableAbstract
+class Data extends \Frame\Data\Writable
 {
     //
 }

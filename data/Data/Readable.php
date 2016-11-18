@@ -11,7 +11,7 @@ namespace Frame\Data;
 /**
  * @subpackage Essence
  */
-abstract class ReadableAbstract implements \Iterator
+abstract class Readable implements \Iterator
 {
     /**
      *  @var array

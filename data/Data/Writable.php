@@ -11,7 +11,7 @@ namespace Frame\Data;
 /**
  * @subpackage Data
  */
-abstract class WritableAbstract extends ReadableAbstract
+abstract class Writable extends Readable
 {
     /**
      *  @param scalar $key
