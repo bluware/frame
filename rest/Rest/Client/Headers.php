@@ -11,7 +11,7 @@ namespace Frame\Rest\Client;
 /**
  * @subpackage Client
  */
-class Headers extends \Blu\Data\Writeable
+class Headers extends \Blu\Data\Writable
 {
     /**
      *  @param array $data
