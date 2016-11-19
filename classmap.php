@@ -4,8 +4,8 @@ return [
     /**------------------------------------------------------------------------
      *  @package `json` module
      */
-     'Frame\\JSON'
-         => __DIR__ . "/json/JSON.php",
+     'Frame\\Json'
+         => __DIR__ . "/json/Json.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -83,6 +83,8 @@ return [
          => __DIR__ . "/database/Database/Drive.php",
      'Frame\\Database\\Drive\\MySQL'
          => __DIR__ . "/database/Database/Drive/MySQL.php",
+'     'Frame\\Database\\Drive\\PgSQL'
+         => __DIR__ . "/database/Database/Drive/PgSQL.php",
      'Frame\\Database\\Drive\\SQLite'
          => __DIR__ . "/database/Database/Drive/SQLite.php",
      'Frame\\Database\\Query\\Where'
