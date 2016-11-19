@@ -8,8 +8,6 @@
  */
 namespace Frame\Database;
 
-use Frame\Data\Write;
-
 use Frame\Database\Query\Where;
 
 /**
@@ -20,7 +18,7 @@ class Query
     /**
      *  @var string
      */
-    protected $state = 'select';
+    protected $state;
 
     /**
      *  @var string
@@ -30,193 +28,1041 @@ class Query
     /**
      *  @var array
      */
+    protected $values   = [];
+
+    /**
+     *  @var array
+     */
+    protected $columns  = [];
+
+    /**
+     *  @var array
+     */
+    protected $join     = [];
+
+    /**
+     *  @var \Frame\Database\Query\Where
+     */
     protected $where;
 
     /**
      *  @var array
      */
+    protected $group    = [];
+
+    /**
+     *  @var \Frame\Database\Query\Where
+     */
     protected $having;
 
     /**
-     *  @var \Frame\Data\Write
+     *  @var array
      */
-    protected $bind;
+    protected $order    = [];
 
     /**
-     *  @return void
+     *  @var string
      */
-    public function __construct()
-    {
-        /**
-         *  @var \Frame\Data\Write
-         */
-        $this->where    = new Where();
-
-        /**
-         *  @var \Frame\Data\Write
-         */
-        $this->having   = new Where();
-
-        /**
-         *  @var \Frame\Data\Write
-         */
-        $this->bind     = new Write();
-    }
-
-    public function and($clause)
-    {
-        $this->{$clause}->and();
-
-        $params = func_get_args();
-
-        if (sizeof($params) === 1)
-            return $this;
-
-        return call_user_func_array([
-            $this, array_shift($params)
-        ], $params);
-    }
+    protected $limit;
 
     /**
-     *  @param  [type] $clause [description]
+     *  @var string
+     */
+    protected $offset;
+
+    /**
+     *  @var array
+     */
+    protected $bind     = [];
+
+    /**
+     *  @param  array $column
      *
      *  @return void
      */
-    public function or($clause)
+    public function select($column = null)
     {
-        $this->{$clause}->or();
+        /**
+         *  @var string
+         */
+        $this->state = 'SELECT';
 
-        $params = func_get_args();
+        /**
+         *  @var boolean
+         */
+        if ($column === null) {
+            /**
+             *  @var array
+             */
+            $this->columns = ['*'];
 
-        if (sizeof($params) === 1)
+            /**
+             *  @var static
+             */
             return $this;
+        }
 
-        return call_user_func_array([
-            $this, array_shift($params)
-        ], $params);
-    }
+        /**
+         *  @var array
+         */
+        $columns = is_array($column) === true ?
+            $column : func_get_args();
 
-    public function where($data)
-    {
-        $params = func_get_args();
-
-        array_unshift($params, 'where');
-
-        return call_user_func_array([
-            $this, '__where'
-        ], $params);
-    }
-
-    public function having($data)
-    {
-        $params = func_get_args();
-
-        array_unshift($params, 'having');
-
-        return call_user_func_array([
-            $this, '__where'
-        ], $params);
+        /**
+         *  @var void
+         */
+        return $this->column($columns);
     }
 
     /**
+     *  @param  array $column
+     *
      *  @return void
      */
-    protected function __where($prop, $data)
+    public function insert($table, $alias = null)
     {
-        $params = func_get_args();
+        /**
+         *  @var string
+         */
+        $this->state = 'INSERT';
 
-        array_shift($params);
+        /**
+         *  @var void
+         */
+        return $this->table(
+            $table, $alias
+        );
+    }
 
-        if (sizeof($params) === 1) {
-            if (gettype($data) === 'string') {
-                $this->where->push($data);
-            }
+    /**
+     *  @param  array $column
+     *
+     *  @return void
+     */
+    public function update($table, $alias = null)
+    {
+        /**
+         *  @var string
+         */
+        $this->state = 'UPDATE';
 
-            if (gettype($data) === 'array') {
-                foreach ($data as $column => $value) {
-                    is_numeric($column) ? $this->where->push(
-                        $value
-                    ) : $this->where->add(
-                            $column,
-                            '=',
-                            $this->bind(
-                                $column,
-                                $value
-                            )
-                        );
-                }
-            }
+        /**
+         *  @var void
+         */
+        return $this->table(
+            $table, $alias
+        );
+    }
 
-            if (gettype($data) === 'object') {
-                $this->where->detach(
-                    $this, $data
-                );
-            }
-        }
+    /**
+     *  @param  array $column
+     *
+     *  @return void
+     */
+    public function delete()
+    {
+        /**
+         *  @var string
+         */
+        $this->state = 'DELETE';
 
-        if (sizeof($params) === 2) {
-            $this->where->add(
-                $params[0],
-                '=',
-                $this->bind(
-                    $params[0],
-                    $params[1]
-                ),
-                'and'
+        /**
+         *  @var void
+         */
+        return $this;
+    }
+
+    /**
+     *  @param  string $column
+     *  @param  string $alias
+     *
+     *  @return string
+     */
+    public function column($column)
+    {
+        /**
+         *  @var array
+         */
+        $columns = is_array($column) === true ?
+            $column : func_get_args();
+
+        foreach ($columns as $column => $alias) {
+            /**
+             *  @var void
+             */
+            array_push(
+                /**
+                 *  @var string
+                 */
+                $this->columns, is_numeric(
+                    $column
+                ) ? $this->separate(
+                    $alias
+                ) : $this->as(
+                    $column, $alias
+                )
             );
         }
 
-        if (sizeof($params) === 3) {
-            $this->where->add(
-                $params[0],
-                $params[1],
-                $this->bind(
-                    $params[0],
-                    $params[2]
-                ),
-                'and'
-            );
-        }
+        /**
+         *  @var void
+         */
+        return $this;
+    }
 
-        if (sizeof($params) === 4) {
-            $this->where->add(
-                $params[0],
-                $params[1],
-                $this->bind(
-                    $params[0],
-                    $params[2]
-                ),
-                $params[3]
+    /**
+     *  @param  string $column
+     *  @param  string $alias
+     *
+     *  @return string
+     */
+    public function columns($column)
+    {
+        /**
+         *  @var array
+         */
+        $columns = is_array($column) === true ?
+            $column : func_get_args();
+
+        /**
+         *  @var void
+         */
+        return $this->column(
+            $columns
+        );
+    }
+
+    /**
+     *  @param  mixed $column
+     *  @param  string $value
+     *
+     *  @return void
+     */
+    public function values($column, $value = null)
+    {
+        /**
+         *  @var array
+         */
+        $values = is_array($column) ?
+             $column : [$column => $value];
+
+        foreach ($values as $column => $value)
+            /**
+             *  @var void
+             */
+            $this->values[
+                $this->separate($column)
+            ] = $this->bind($value);
+
+        /**
+         *  @var static
+         */
+        return $this;
+    }
+
+    /**
+     *  @param  mixed $column
+     *  @param  string $value
+     *
+     *  @return void
+     */
+    public function set($column, $value = null)
+    {
+        /**
+         *  @var static
+         */
+        return $this->values(
+            $column, $value
+        );
+    }
+
+    /**
+     *  @param  string $table
+     *  @param  string $alias
+     *
+     *  @return void
+     */
+    public function table($table, $alias = null)
+    {
+        /**
+         *  @var string
+         */
+        $this->table = $alias === null ?
+            $this->separate($table) : $this->as(
+                $table, $alias
             );
-        }
 
         return $this;
     }
 
     /**
+     *  @param  string $table
+     *  @param  string $alias
+     *
      *  @return void
      */
-    public function bind($column, $val)
+    public function from($table, $alias = null)
     {
-        if (gettype($val) === 'array')
-            return $val;
+        return $this->table($table, $alias);
+    }
 
-        if ($val === null) return 'NULL';
+    /**
+     *  @param  string $table
+     *  @param  string $alias
+     *
+     *  @return void
+     */
+    public function join($table, $alias, array $expression, $paste = 'inner')
+    {
+        /**
+         *  @var string
+         */
+        $tabe = $alias === null ?
+            $this->separate($table) : $this->as(
+                $table, $alias
+            );
 
-        $mock = sprintf(
-            ':%s:%s:%s',
-            $column,
+        foreach ($expression as $column => &$value)
+            $value = sprintf(
+                '%s = %s',
+                $this->separate($column),
+                $this->separate($value)
+            );
+
+        /**
+         *  @var void
+         */
+        array_push(
+            $this->join, sprintf(
+                '%s JOIN %s ON (%s)',
+                strtoupper($paste),
+                $table,
+                join(' AND ', $expression)
+            )
+        );
+
+        return $this;
+    }
+
+    /**
+     *  @param  string $table
+     *  @param  string $alias
+     *
+     *  @return void
+     */
+    public function inner($clause, $table, $alias, array $expression)
+    {
+        return $this->{$clause}($table, $alias, $expression, 'inner');
+    }
+
+    /**
+     *  @param  string $table
+     *  @param  string $alias
+     *
+     *  @return void
+     */
+    public function left($clause, $table, $alias, array $expression)
+    {
+        return $this->{$clause}($table, $alias, $expression, 'left');
+    }
+
+    /**
+     *  @param  string $table
+     *  @param  string $alias
+     *
+     *  @return void
+     */
+    public function right($clause, $table, $alias, array $expression)
+    {
+        return $this->{$clause}($table, $alias, $expression, 'right');
+    }
+
+    /**
+     *  @param  [type] $column [description]
+     *
+     *  @return static
+     */
+    public function where(
+        $column,
+        $value      = null,
+        $operator   = '=',
+        $paste      = 'and'
+    ) {
+        if ($this->where === null)
+            /**
+             *  @var Frame\Database\Query\Where
+             */
+            $this->where = new Where();
+
+        /**
+         *  @var array
+         */
+        $params = func_get_args();
+
+        /**
+         *  @var void
+         */
+        array_unshift($params, 'where');
+
+        /**
+         *  @var static
+         */
+        call_user_func_array(
+            [
+                $this, '__where'
+            ], $params
+        );
+
+        /**
+         *  @var static
+         */
+        return $this;
+    }
+
+    /**
+     *  @param  [type] $column [description]
+     *
+     *  @return static
+     */
+    public function having(
+        $column,
+        $value      = null,
+        $operator   = '=',
+        $paste      = 'and'
+    ) {
+        if ($this->having === null)
+            /**
+             *  @var Frame\Database\Query\Where
+             */
+            $this->having = new Where();
+
+        /**
+         *  @var array
+         */
+        $params = func_get_args();
+
+        /**
+         *  @var void
+         */
+        array_unshift($params, 'having');
+
+        /**
+         *  @var static
+         */
+        call_user_func_array(
+            [
+                $this, '__where'
+            ], $params
+        );
+
+        /**
+         *  @var static
+         */
+        return $this;
+    }
+
+    /**
+     *  @param  string $clause
+     *  @param  mixed  $column
+     *  @param  string $value
+     *  @param  string $operator
+     *  @param  string $paste
+     *
+     *  @return static
+     */
+    protected function __where(
+        $clause,
+        $column,
+        $value      = null,
+        $operator   = '=',
+        $paste      = 'and'
+    ) {
+        /**
+         *  @var array
+         */
+        $params = func_get_args();
+
+        /**
+         *  @var array
+         */
+        $clause = array_shift(
+            $params
+        );
+
+        /**
+         *  @var boolean
+         */
+        if (sizeof($params) === 1) {
+            /**
+             *  @var boolean
+             */
+            if (gettype($column) === 'string') {
+                /**
+                 *  @var \Frame\Database\Query\Where
+                 */
+                $this->{$clause}->push($column);
+            }
+
+            if (is_callable($column) === true) {
+                /**
+                 *  @var \Frame\Database\Query\Where
+                 */
+                $this->{$clause}->separate(
+                    $this, $column
+                );
+            }
+
+            if (gettype($column) === 'array') {
+                /**
+                 *  @var \Frame\Database\Query\Where
+                 */
+                foreach ($column as $_column => $_value)
+                    is_numeric(
+                        $_column
+                    ) ? $this->{$clause}->push(
+                        $_value
+                    ) : $this->{$clause}->add(
+                            $this->separate(
+                                $_column
+                            ),
+                            '=',
+                            $this->bind(
+                                $_value
+                            )
+                        );
+            }
+
+            /**
+             *  @var static
+             */
+            return $this;
+        }
+
+        /**
+         *  @var boolean
+         */
+        if (sizeof($params) === 2)
+            /**
+             *  @var array
+             */
+            list(
+                $column,
+                $value
+            ) = $params;
+
+        /**
+         *  @var boolean
+         */
+        if (sizeof($params) === 3)
+            /**
+             *  @var array
+             */
+            list(
+                $column,
+                $operator,
+                $value
+            ) = $params;
+
+        /**
+         *  @var boolean
+         */
+        if (sizeof($params) === 4)
+            /**
+             *  @var array
+             */
+            list(
+                $column,
+                $operator,
+                $value,
+                $paste
+            ) = $params;
+
+        /**
+         *  @var \Frame\Database\Query\Where
+         */
+        $this->{$clause}->set(
+            $this->separate(
+                $column
+            ),
+            $operator,
+            $this->bind(
+                $value
+            ),
+            $paste
+        );
+
+        /**
+         *  @var static
+         */
+        return $this;
+    }
+
+    /**
+     *  @param  mixed  $column
+     *  @param  string $sort
+     *
+     *  @return void
+     */
+    public function group($column)
+    {
+        /**
+         *  @var array
+         */
+        $columns = gettype($column) === 'array' ?
+            $column : func_get_args();
+
+        foreach ($columns as $column)
+            /**
+             *  @var void
+             */
+            array_push(
+                $this->group, $this->separate($column)
+            );
+
+        /**
+         *  @var void
+         */
+        return $this;
+    }
+
+    /**
+     *  @param  mixed  $column
+     *  @param  string $sort
+     *
+     *  @return void
+     */
+    public function order($column, $sort = 'ASC')
+    {
+        /**
+         *  @var array
+         */
+        $columns = gettype($column) === 'array' ?
+            $column : [$column => $sort];
+
+        foreach ($columns as $column => $sort)
+            /**
+             *  @var void
+             */
+            array_push(
+                $this->order,
+                sprintf(
+                    '%s %s',
+                    $this->separate($column),
+                    strtoupper($sort)
+                )
+            );
+
+        /**
+         *  @var void
+         */
+        return $this;
+    }
+
+    /**
+     *  @param  string $table
+     *  @param  string $alias
+     *
+     *  @return void
+     */
+    public function limit($number, $offset = null)
+    {
+        if (is_numeric($number) === true)
+            /**
+             *  @var integer
+             */
+            $this->limit = $number;
+
+        /**
+         *  @var void
+         */
+        return $this->offset(
+            $offset
+        );
+    }
+
+    /**
+     *  @param ingeger $number
+     */
+    public function offset($number)
+    {
+        if (is_numeric($number) === true)
+            /**
+             *  @var integer
+             */
+            $this->offset = $number;
+
+        /**
+         *  @var void
+         */
+        return $this;
+    }
+
+    /**
+     *  @param  string $clause
+     *
+     *  @return static
+     */
+    public function and($clause)
+    {
+        /**
+         *  @var void
+         */
+        $this->{$clause}->and();
+
+        /**
+         *  @var array
+         */
+        $params = func_get_args();
+
+        /**
+         *  @var boolean
+         */
+        if (sizeof($params) === 1)
+            /**
+             *  @var static
+             */
+            return $this;
+
+        /**
+         *  @var static
+         */
+        return call_user_func_array([
+            $this, array_shift($params)
+        ], $params);
+    }
+
+    /**
+     *  @param  string $clause
+     *
+     *  @return static
+     */
+    public function or($clause)
+    {
+        /**
+         *  @var void
+         */
+        $this->{$clause}->or();
+
+        /**
+         *  @var array
+         */
+        $params = func_get_args();
+
+        /**
+         *  @var boolean
+         */
+        if (sizeof($params) === 1)
+            /**
+             *  @var static
+             */
+            return $this;
+
+        /**
+         *  @var static
+         */
+        return call_user_func_array([
+            $this, array_shift($params)
+        ], $params);
+    }
+
+
+    /**
+     *  @param  string $column
+     *  @param  string $alias
+     *
+     *  @return string
+     */
+    public function as($column, $alias)
+    {
+        /**
+         *  @var string
+         */
+        return sprintf(
+            '%s AS %s',
+            $this->separate($column),
+            $this->separate($alias)
+        );
+    }
+
+    /**
+     *  @param  string $column
+     *  @param  string $alias
+     *
+     *  @return string
+     */
+    public function bind($value)
+    {
+        /**
+         *  @var boolean
+         */
+        if (gettype($value) === 'array') {
+            foreach ($value as &$subvalue)
+                /**
+                 *  @var string
+                 */
+                $subvalue = $this->bind(
+                    $subvalue
+                );
+
+            /**
+             *  @var array
+             */
+            return $value;
+        }
+
+        if ($value === null)
+            /**
+             *  @var string
+             */
+            return 'NULL';
+
+        /**
+         *  @var string
+         */
+        $rand = sprintf(
+            ':%s:%s',
             rand(10000,99999),
             uniqid()
         );
 
-        $this->bind->set($mock, $val);
+        /**
+         *  @var void
+         */
+        $this->bind[$rand] = $value;
 
-        return $mock;
+        /**
+         *  @var string
+         */
+        return $rand;
     }
 
-    public function to()
+    /**
+     *  @return string
+     */
+    public function date($column)
     {
-        return $this->where->to('string');
+        /**
+         *  @return string
+         */
+        return sprintf(
+            'DATE(%s)', $this->separate($column)
+        );
+    }
+
+    /**
+     *  @param  string $column
+     *  @param  string $alias
+     *
+     *  @return string
+     */
+    public function separate($column)
+    {
+        if (strpos($column, '`') !== false)
+            return $column;
+
+        /**
+         *  @var string
+         */
+        return sprintf(
+            '`%s`', str_replace('.', '`.`', $column)
+        );
+    }
+
+    /**
+     *  @param  string $prop
+     *
+     *  @return mixed
+     */
+    public function get($prop)
+    {
+        /**
+         *  @var array
+         */
+        switch ($prop) {
+            case 'bind':
+                /**
+                 *  @var array
+                 */
+                return $this->bind;
+                break;
+        }
+
+        return null;
+    }
+
+    /**
+     *  @param  string $prop
+     *
+     *  @return mixed
+     */
+    public function to($type)
+    {
+        /**
+         *  @var array
+         */
+        switch ($type) {
+            case 'string': case 'str':
+                /**
+                 *  @var string
+                 */
+                $column = join(', ', $this->columns);
+
+                /**
+                 *  @var array
+                 */
+                $values = $this->values;
+
+                /**
+                 *  @var string
+                 */
+                $join   = join(' ',  $this->join);
+
+                /**
+                 *  @var string
+                 */
+                $where  = $this->where !== null ?
+                    sprintf(
+                        'WHERE %s',
+                        $this->where->to('str')
+                    ) : null;
+
+                /**
+                 *  @var string
+                 */
+                $having = $this->having !== null ?
+                    sprintf(
+                        'HAVING %s',
+                        $this->having->to('str')
+                    ) : null;
+
+                /**
+                 *  @var string
+                 */
+                $group  = sizeof($this->group) > 0 ?
+                    sprintf(
+                        'GROUP BY %s',
+                        join(', ', $this->group)
+                    ) : null;
+
+                /**
+                 *  @var string
+                 */
+                $order  = sizeof($this->order) > 0 ?
+                    sprintf(
+                        'ORDER BY %s',
+                        join(', ', $this->order)
+                    ) : null;
+
+                /**
+                 *  @var string
+                 */
+                $limit  = $this->limit !== null ?
+                    sprintf(
+                        'LIMIT %s',
+                        $this->limit
+                    ) : null;
+
+                /**
+                 *  @var string
+                 */
+                $offset = $this->offset !== null ?
+                    sprintf(
+                        'OFFSET %s',
+                        $this->offset
+                    ) : null;
+
+                if ($this->state === 'SELECT') {
+                    $builder = [
+                        'SELECT',
+                        $column,
+                        'FROM',
+                        $this->table,
+                        $join,
+                        $where,
+                        $group,
+                        $having,
+                        $order,
+                        $limit,
+                        $offset,
+                    ];
+                }
+
+                if ($this->state === 'INSERT') {
+                    /**
+                     *  @var string
+                     */
+                    $column = sprintf(
+                        '(%s)', join(
+                            ', ', array_keys($values)
+                        )
+                    );
+
+                    /**
+                     *  @var string
+                     */
+                    $values = sprintf(
+                        '(%s)', join(
+                            ', ', array_values($values)
+                        )
+                    );
+
+                    $builder = [
+                        'INSERT INTO',
+                        $this->table,
+                        $column,
+                        'VALUES',
+                        $values,
+                    ];
+                }
+
+                if ($this->state === 'UPDATE') {
+                    foreach ($values as $column => &$value)
+                        $value = sprintf(
+                            '%s = %s',
+                            $column,
+                            $value
+                        );
+
+                    $builder = [
+                        'UPDATE',
+                        $this->table,
+                        $join,
+                        'SET',
+                        join(', ', $values),
+                        $where,
+                        $group,
+                        $having,
+                        $order,
+                        $limit,
+                        $offset,
+                    ];
+                }
+
+                if ($this->state === 'DELETE') {
+                    $builder = [
+                        'DELETE',
+                        'FROM',
+                        $this->table,
+                        $join,
+                        $where,
+                        $group,
+                        $having,
+                        $order,
+                        $limit,
+                        $offset,
+                    ];
+                }
+
+                /**
+                 * @var string
+                 */
+                return join(
+                    " ", array_filter($builder)
+                );
+
+                break;
+        }
+
+        return null;
     }
 }

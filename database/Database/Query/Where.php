@@ -28,75 +28,54 @@ class Where
      *
      *  @return void
      */
-    public function add($column, $operator = '=', $value, $paste = 'and')
+    public function set($column, $operator = '=', $value, $paste = 'and')
     {
+        /**
+         *  @var string
+         */
         $operator = strtoupper($operator);
 
         switch ($operator) {
             case 'IN': case 'NOT IN':
-                $this->push(
-                    sprintf(
-                        '%s %s (%s)',
-                        $column,
-                        $operator,
-                        join(
-                            ', ', is_array($value) ?
-                                $value : [$value]
-                        )
-                    ), $paste
+                /**
+                 *  @var array
+                 */
+                $values = gettype($value) === 'array' ?
+                    $value : [$value];
+
+                /**
+                 *  @var string
+                 */
+                $value = sprintf(
+                    '(%s)', join(', ', $values)
                 );
                 break;
 
             case 'BETWEEN': case 'NOT BETWEEN':
+                /**
+                 *  @var string
+                 */
                 if (gettype($value) !== 'array')
                     return $this;
 
-                list($from, $to) = array_values(
-                    $value
-                );
-
-                $this->push(
-                    sprintf(
-                        '%s %s %s AND %s',
-                        $column,
-                        $operator,
-                        $from,
-                        $to
-                    ), $paste
-                );
-                break;
-
-            case 'LIKE': case 'NOT LIKE':
-                if (gettype($value) !== 'array')
-                    return $this;
-
-                list($from, $to) = array_values(
-                    $value
-                );
-
-                $this->push(
-                    sprintf(
-                        '%s BETWEEN %s AND %s',
-                        $column,
-                        $from,
-                        $to
-                    ), $paste
-                );
-                break;
-
-            default:
-                $this->push(
-                    sprintf(
-                        '%s %s %s',
-                        $column,
-                        $operator,
-                        $value
-                    ), $paste
-                );
+                /**
+                 *  @var array
+                 */
+                 $value = join(' AND ', $value);
                 break;
         }
 
-        return $this;
+        /**
+         *  @var static
+         */
+        return $this->push(
+            sprintf(
+                '%s %s %s',
+                $column,
+                $operator,
+                $value
+            ), $paste
+        );
     }
 
     /**
@@ -104,6 +83,9 @@ class Where
      */
     public function and()
     {
+        /**
+         *  @var void
+         */
         return $this->paste('and');
     }
 
@@ -112,6 +94,9 @@ class Where
      */
     public function or()
     {
+        /**
+         *  @var void
+         */
         return $this->paste('or');
     }
 
@@ -119,14 +104,23 @@ class Where
      *  @param  string $query
      *  @param  string $paste
      *
-     *  @return void
+     *  @return static
      */
-    public function push($query, $paste = 'and')
+    public function push($partial, $paste = 'and')
     {
+        /**
+         *  @var void
+         */
         $this->paste($paste);
 
-        array_push($this->data, $query);
+        /**
+         * @var void
+         */
+        array_push($this->data, $partial);
 
+        /**
+         *  @var static
+         */
         return $this;
     }
 
@@ -136,15 +130,27 @@ class Where
      *
      *  @return void
      */
-    public function detach(Query $q, callable $callback)
+    public function separate(Query $q, callable $call)
     {
+        /**
+         *  @var void
+         */
         array_push($this->data, "(");
 
-        call_user_func($callback, $q);
+        /**
+         *  @var void
+         */
+        call_user_func($call, $q);
 
+        /**
+         *  @var void
+         */
         array_push($this->data, ")");
 
-        return $this;
+        /**
+         *  @var static
+         */
+        return $q;
     }
 
     /**
@@ -154,20 +160,34 @@ class Where
      */
     public function paste($type)
     {
-        $type = strtoupper($type);
-
         if (sizeof($this->data) === 0)
             return $this;
 
-        $end = end($this->data);
-
-        if ($end === "(" || $end === 'OR' || $end === 'AND')
-            return $this;
-
-        array_push(
-            $this->data, $type
+        /**
+         *  @var boolean
+         */
+        $cant = in_array(
+            end($this->data), [
+                '(', 'OR', 'AND'
+            ], true
         );
 
+        if ($cant === true)
+            /**
+             *  @var static
+             */
+            return $this;
+
+        /**
+         *  @var void
+         */
+        array_push(
+            $this->data, strtoupper($type)
+        );
+
+        /**
+         *  @var static
+         */
         return $this;
     }
 
@@ -179,10 +199,11 @@ class Where
     public function to($type)
     {
         switch ($type) {
-            case 'string':
-                $data = $this->data;
-
-                return join(' ', $data);
+            case 'string': case 'str':
+                /**
+                 *  @var string
+                 */
+                return join(' ', $this->data);
                 break;
         }
     }
