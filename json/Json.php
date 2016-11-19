@@ -3,15 +3,15 @@
 /**
  *  Blu | PHP Lite Web & API Framework
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
 /**
- * @subpackage Secure
+ * @subpackage Json
  */
-class JSON
+class Json
 {
     /**
      *  @param  string $input
@@ -21,12 +21,25 @@ class JSON
      */
     public static function decode($input, &$error = null)
     {
+        /**
+         *  @var mixed
+         */
         $decode = json_decode($input, true);
+
+        /**
+         *  @var integer
+         */
         $error  = json_last_error();
 
         if ($error === JSON_ERROR_NONE)
+            /**
+             * @var mixed
+             */
             return $decode;
 
+        /**
+         *  @var null
+         */
         return null;
     }
 
@@ -38,8 +51,14 @@ class JSON
     public static function encode($input)
     {
         if (is_object($input) === true)
+            /**
+             *  @var string
+             */
             return $input->to('json');
-            
+
+        /**
+         *  @var string
+         */
         return json_encode($input);
     }
 
@@ -67,10 +86,6 @@ class JSON
                 return static::decode(
                     file_get_contents('php://input')
                 );
-                break;
-
-            default:
-                # code...
                 break;
         }
     }

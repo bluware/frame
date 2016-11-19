@@ -6,10 +6,10 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame;
+namespace Frame\Rest;
 
 /**
- * @subpackage Client
+ * @subpackage Rest
  */
 class Client extends ClientAbstract
 {

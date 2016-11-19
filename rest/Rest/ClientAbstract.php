@@ -6,10 +6,10 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame;
+namespace Frame\Rest;
 
-use Frame\Client\Headers;
-use Frame\Client\Response;
+use Frame\Rest\Client\Headers;
+use Frame\Rest\Client\Response;
 use Frame\Uri;
 use Frame\UriAbstract;
 

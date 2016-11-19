@@ -6,7 +6,7 @@
  *  @package  Blu
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Client;
+namespace Frame\Rest\Client;
 
 /**
  * @subpackage Client

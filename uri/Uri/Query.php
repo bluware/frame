@@ -3,15 +3,15 @@
 /**
  *  Blu PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Uri;
+namespace Frame\Uri;
 
 /**
  * @subpackage Uri
  */
-class Query extends \Blu\Data\WriteableAbstract
+class Query extends \Frame\Data\Writable
 {
     /**
      *  @param mixed $data
@@ -22,12 +22,22 @@ class Query extends \Blu\Data\WriteableAbstract
     }
 
     /**
-     *  @return string
+     *  @param string $type
+     *
+     *  @return mixed
      */
-    public function __toString()
+    public function to($type)
     {
-        return http_build_query(
-            $this->data
-        );
+        switch ($type) {
+            case 'string':
+                /**
+                 *  @var string
+                 */
+                return http_build_query(
+                    $this->data
+                );
+
+                break;
+        }
     }
 }

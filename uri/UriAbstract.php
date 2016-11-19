@@ -1,17 +1,17 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Frame PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
 /**
  * @subpackage Uri
  */
-abstract class UriAbstract extends \Blu\Data\ReadableAbstract
+abstract class UriAbstract extends \Frame\Data\Readable
 {
     /**
      *  @param mixed $data
@@ -23,14 +23,17 @@ abstract class UriAbstract extends \Blu\Data\ReadableAbstract
                 "Bad url format: " . $url
             );
 
+        /**
+         *  @var void
+         */
         parent::__construct(
             parse_url($url)
         );
 
         /**
-         *  @var \Blu\Uri\Query
+         *  @var \Frame\Uri\Query
          */
-        $this->data['query'] = new \Blu\Uri\Query(
+        $this->data['query'] = new \Frame\Uri\Query(
             parse_str(
                 $this->get('query')
             )

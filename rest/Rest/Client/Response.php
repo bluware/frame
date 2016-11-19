@@ -6,7 +6,7 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Client;
+namespace Frame\Rest\Client;
 
 /**
  * @subpackage Http

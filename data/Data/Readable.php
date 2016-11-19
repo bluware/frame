@@ -156,11 +156,17 @@ abstract class Readable implements \Iterator
     {
         switch ($type) {
             case 'array':
+                /**
+                 *  @var array
+                 */
                 return $this->data;
                 break;
 
             case 'json':
-                return \Frame\JSON::encode(
+                /**
+                 *  @var string
+                 */
+                return \Frame\Json::encode(
                     $this->data
                 );
                 break;
