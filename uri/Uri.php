@@ -118,7 +118,7 @@ class Uri extends Readable
 
         if (empty($this->get('query')->data()) === false)
             array_push(
-                $components, '?', $this->get('query')->__toString()
+                $components, '?', $this->get('query')->to('string')
             );
 
         if ($this->has('fragment') === true)
