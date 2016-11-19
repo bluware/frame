@@ -1,23 +1,39 @@
 <?php
 
 /**
- *  Bluware PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
 namespace Frame\Request;
 
+use Frame\Data\Readable;
+use Frame\File;
+
 /**
- * @subpackage Http
+ * @subpackage Request
  */
-class Files extends \Frame\Data\Read
+class Files extends Readable
 {
     /**
      *  @param mixed $data
      */
-    public function __construct($data = null)
+    public function __construct(array $data = null)
     {
-        parent::__construct($data);
+        $this->data = $data;
+    }
+
+    /**
+     *  @param  string $key
+     *  @param  mixed  $alternate
+     *
+     *  @return \Blu\Http\Cookie
+     */
+    public function get($key, $alternate = null)
+    {
+        return new File(
+            $key, parent::get($key, $alternate)
+        );
     }
 }

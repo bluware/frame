@@ -1,27 +1,27 @@
 <?php
 
 /**
- *  Bluware PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
 namespace Frame\Request;
 
-use Blu\Data\Readable;
-use Blu\Cookie;
+use Frame\Data\Readable;
+use Frame\Cookie;
 
 /**
- * @subpackage Http
+ * @subpackage Request
  */
 class Cookies extends Readable
 {
     /**
      *  @param mixed $data
      */
-    public function __construct($data = null)
+    public function __construct(array $data = null)
     {
-        parent::__construct($data);
+        $this->data = $data;
     }
 
     /**
@@ -35,13 +35,5 @@ class Cookies extends Readable
         return new Cookie(
             $key, parent::get($key, $alternate)
         );
-    }
-
-    /**
-     *  @param mixed $data
-     */
-    public function to($type)
-    {
-        parent::__construct($data);
     }
 }

@@ -13,5 +13,11 @@ namespace Frame;
  */
 class Data extends \Frame\Data\Writable
 {
-    //
+    /**
+     *  @param mixed $data
+     */
+    public function __construct(array $data = null)
+    {
+        $this->data = $data;
+    }
 }

@@ -9,7 +9,7 @@
 namespace Frame\Data;
 
 /**
- * @subpackage Essence
+ * @subpackage Data
  */
 abstract class Readable implements \Iterator
 {
@@ -17,14 +17,6 @@ abstract class Readable implements \Iterator
      *  @var array
      */
     protected $data = [];
-
-    /**
-     *  @param mixed $data
-     */
-    public function __construct($data = null)
-    {
-        $this->data = is_array($data) ? $data : [];
-    }
 
     /**
      *  @param scalar $key
@@ -57,6 +49,16 @@ abstract class Readable implements \Iterator
         return array_diff_assoc(
             $this->data, $data
         );
+    }
+
+    /**
+     *  @return void
+     */
+    public function sort()
+    {
+        ksort($this->data);
+
+        return $this;
     }
 
     /**

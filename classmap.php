@@ -44,6 +44,34 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
+     *  @package `cookie` module
+     */
+     'Frame\\CookieInterface'
+         => __DIR__ . "/cookie/CookieInterface.php",
+     'Frame\\Cookie'
+         => __DIR__ . "/cookie/Cookie.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `request` module
+     */
+     'Frame\\Request\\Body'
+         => __DIR__ . "/request/Request/Body.php",
+     'Frame\\Request\\Cookies'
+         => __DIR__ . "/request/Request/Cookies.php",
+     'Frame\\Request\\Files'
+         => __DIR__ . "/request/Request/Files.php",
+     'Frame\\Request\\Query'
+         => __DIR__ . "/request/Request/Query.php",
+     'Frame\\Request\\Server'
+         => __DIR__ . "/request/Request/Server.php",
+     'Frame\\RequestInterface'
+         => __DIR__ . "/request/RequestInterface.php",
+     'Frame\\Request'
+         => __DIR__ . "/request/Request.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
      *  @package `database` module
      */
      'Frame\\Database\\Query\\Where'

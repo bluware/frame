@@ -14,11 +14,14 @@ namespace Frame\Rest\Client;
 class Headers extends \Blu\Data\Writeable
 {
     /**
-     *  @param mixed $data
+     *  @param array $data
      */
-    public function __construct($data = null)
+    public function __construct(array $data)
     {
-        parent::__construct($data);
+        /**
+         *  @var array
+         */
+        $this->data = $data;
     }
 
     /**

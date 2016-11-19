@@ -1,23 +1,28 @@
 <?php
 
 /**
- *  Bluware PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
 namespace Frame\Request;
 
+use Frame\Data\Readable;
+
 /**
- * @subpackage Http
+ * @subpackage Request
  */
-class Query extends \Frame\Data\ReadableAbstract
+class Query extends Readable
 {
     /**
-     *  @param mixed $data
+     *  @param array $data
      */
-    public function __construct($data = null)
+    public function __construct(array $data)
     {
-        parent::__construct($data);
+        /**
+         *  @var array
+         */
+        $this->data = $data;
     }
 }

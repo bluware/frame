@@ -42,7 +42,7 @@ class Response
          *  @var \Frame\Data\Readable
          */
 
-        $this->headers = new \Frame\Data\Readable(
+        $this->headers = new \Frame\Data(
             is_array($headers) ?
                 $headers : $this->parse_header($headers)
         );

@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  Blu | PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
  *  @package  Frame
  *  @author   Eugen Melnychenko

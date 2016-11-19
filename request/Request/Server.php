@@ -1,42 +1,50 @@
 <?php
 
 /**
- *  Bluware PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
 namespace Frame\Request;
 
+use Frame\Data\Readable;
+
 /**
- * @subpackage Http
+ * @subpackage Request
  */
-class Server extends \Blu\Data\Readable
+class Server extends Readable
 {
     /**
      *  @param mixed $data
      */
-    public function __construct($data = null)
+    public function __construct(array $data = null)
     {
         if (php_sapi_name() === 'cli')
             $data['REQUEST_METHOD'] = 'CLI';
 
-        parent::__construct($data);
+        $this->data = $data;
     }
 
     /**
-     *  @param  scalar $input     [description]
-     *  @param  mixed $alternate [description]
+     *  @param  scalar $input
+     *  @param  mixed $alternate
      *
      *  @return mixed
      */
     public function get($input, $alternate = null)
     {
         if ($this->has($input) === true)
+            /**
+             *  @var mixed
+             */
             return parent::get(
                 $input, $alternate
             );
 
+        /**
+         *  @var mixed
+         */
         return parent::get(
             str_replace(
                 '-', '_', strtoupper($input)

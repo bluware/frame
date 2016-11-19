@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  Bluware PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
  *  @package  Frame
  *  @author   Eugen Melnychenko
@@ -9,15 +9,15 @@
 namespace Frame\Request;
 
 /**
- * @subpackage Http
+ * @subpackage Request
  */
 class Body extends \Frame\Data\Readable
 {
     /**
      *  @param mixed $data
      */
-    public function __construct($data = null)
+    public function __construct(array $data = null)
     {
-        parent::__construct($data);
+        $this->data = $data;
     }
 }

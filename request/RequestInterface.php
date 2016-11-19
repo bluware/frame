@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  Bluware PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
  *  @package  Frame
  *  @author   Eugen Melnychenko
@@ -20,15 +20,9 @@ interface RequestInterface
         array $query    = null,
         array $body     = null,
         array $files    = null,
-        array $cookies   = null,
+        array $cookies  = null,
         array $server   = null
     );
-    /**
-     *  Isolate data container to new instance.
-     *
-     *  @return \Blu\Essence\ReadableAbstract
-     */
-    public function isolate();
 
     /**
      *  Mixed method with read instance or properties.
@@ -387,7 +381,7 @@ interface RequestInterface
     public function root($merge = null);
 
     /**
-     *  Exctract client best matches locale.
+     *  Extract client best matches locale.
      *
      *  Usage: string locale() || string locale('en')
      *
