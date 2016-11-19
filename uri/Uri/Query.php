@@ -8,17 +8,22 @@
  */
 namespace Frame\Uri;
 
+use Frame\Data\Writable;
+
 /**
  * @subpackage Uri
  */
-class Query extends \Frame\Data\Writable
+class Query extends Writable
 {
     /**
      *  @param mixed $data
      */
-    public function __construct($data = null)
+    public function __construct(array $data = null)
     {
-        parent::__construct($data);
+        /**
+         *  @var array
+         */
+        $this->data = $data;
     }
 
     /**
