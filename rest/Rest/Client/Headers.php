@@ -1,17 +1,19 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
 namespace Frame\Rest\Client;
 
+use Frame\Data\Writable;
+
 /**
- * @subpackage Client
+ * @subpackage Rest
  */
-class Headers extends \Blu\Data\Writable
+class Headers extends Writable
 {
     /**
      *  @param array $data
