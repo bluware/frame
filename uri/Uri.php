@@ -9,11 +9,12 @@
 namespace Frame;
 
 use Frame\Uri\Query;
+use Frame\Data\Readable;
 
 /**
  * @subpackage Uri
  */
-class Uri
+class Uri extends Readable
 {
     /**
      *  @param mixed $data
