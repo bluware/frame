@@ -24,11 +24,9 @@ abstract class UriAbstract extends \Frame\Data\Readable
             );
 
         /**
-         *  @var void
+         *  @var array
          */
-        parent::__construct(
-            parse_url($url)
-        );
+        $this->data = parse_url($url);
 
         /**
          *  @var \Frame\Uri\Query
