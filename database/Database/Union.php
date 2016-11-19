@@ -39,6 +39,17 @@ class Union extends Readable
     }
 
     /**
+     *  @param  string $name
+     *
+     *  @return mixed
+     */
+    public function driver($name)
+    {
+        return $this->connection($name);
+    }
+
+    /**
+     *  @param  string $name
      *  @param  array  $config
      *
      *  @return \Frame\Database\Drive\MySQL
@@ -62,6 +73,7 @@ class Union extends Readable
     }
 
     /**
+     *  @param  string $name
      *  @param  array  $config
      *
      *  @return \Frame\Database\Drive\PgSQL
@@ -85,6 +97,7 @@ class Union extends Readable
     }
 
     /**
+     *  @param  string $name
      *  @param  array  $config
      *
      *  @return \Frame\Database\Drive\SQLite
@@ -108,8 +121,8 @@ class Union extends Readable
     }
 
     /**
-     *  @param string $name
-     *  @param array  $config
+     *  @param  string $name
+     *  @param  array  $config
      *
      *  @return \Frame\Database\Drive
      */
@@ -135,7 +148,11 @@ class Union extends Readable
     }
 
     /**
-     *  @return [type] [description]
+     *  @param  string $type
+     *  @param  mixed  $names
+     *  @param  array  $config
+     *
+     *  @return mixed
      */
     public function from($type, $names, array $config = null)
     {

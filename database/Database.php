@@ -33,7 +33,7 @@ class Database
     /**
      *  @return \Frame\Database\Union
      */
-    public static function union()
+    public static function union($method = null)
     {
         /**
          *  @var mixed
@@ -50,8 +50,132 @@ class Database
             $union = new Union;
 
         /**
-         *  @var \Frame\Database\Union
+         *  @var boolean
          */
-        return $union;
+        if ($method === null)
+            /**
+             *  @var \Frame\Database\Union
+             */
+            return $union;
+
+        /**
+         *  @var arrau
+         */
+        $params = func_get_args();
+
+        /**
+         *  @var mixed
+         */
+        return call_user_func([
+            $union,
+            array_shift($params)
+        ], $params);
+    }
+
+    /**
+     *  @param  string $name
+     *
+     *  @return mixed
+     */
+    public function connection($name)
+    {
+        /**
+         *  @var \Frame\Database\Drive
+         */
+        return static::union('connection', $name, $config);
+    }
+
+    /**
+     *  @param  string $name
+     *
+     *  @return mixed
+     */
+    public function connect($name)
+    {
+        /**
+         *  @var \Frame\Database\Drive
+         */
+        return static::union('connection', $name, $config);
+    }
+
+    /**
+     *  @param  string $name
+     *
+     *  @return mixed
+     */
+    public static function driver($name)
+    {
+        /**
+         *  @var \Frame\Database\Drive
+         */
+        return static::union('connection', $name, $config);
+    }
+
+    /**
+     *  @param  string $name
+     *  @param  array  $config
+     *
+     *  @return \Frame\Database\Drive\MySQL
+     */
+    public function mysql($name, array $config)
+    {
+        /**
+         *  @var \Frame\Database\Drive
+         */
+        return static::union('mysql', $name, $config);
+    }
+
+    /**
+     *  @param  string $name
+     *  @param  array  $config
+     *
+     *  @return \Frame\Database\Drive\PgSQL
+     */
+    public function pgsql($name, array $config)
+    {
+        /**
+         *  @var \Frame\Database\Drive
+         */
+        return static::union('pgsql', $name, $config);
+    }
+
+    /**
+     *  @param  string $name
+     *  @param  array  $config
+     *
+     *  @return \Frame\Database\Drive\SQLite
+     */
+    public static function sqlite($name, array $config)
+    {
+        /**
+         *  @var \Frame\Database\Drive
+         */
+        return static::union('sqlite', $name, $config);
+    }
+
+    /**
+     *  @param  string $type
+     *  @param  mixed  $names
+     *  @param  array  $config
+     *
+     *  @return mixed
+     */
+    public static function add($name, array $config)
+    {
+        /**
+         *  @var \Frame\Database\Drive
+         */
+        return static::union('add', $name, $config);
+    }
+
+    /**
+     *  @return mixed
+     */
+    public static function from($type, $names, array $config = null)
+    {
+        /**
+         *  @var mixed
+         */
+        return static::union('from', $type, $names, $config);
     }
 }
