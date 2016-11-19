@@ -86,7 +86,7 @@ class Request extends Readable implements RequestInterface
                     'SERVER_NAME'           => 'localhost',
                     'SERVER_PORT'           => 80,
                     'HTTP_HOST'             => 'localhost',
-                    'HTTP_USER_AGENT'       => 'Blu/1.x',
+                    'HTTP_USER_AGENT'       => 'Frame/1.x',
                     'HTTP_ACCEPT'           => '*/*',
                     'HTTP_ACCEPT_LANGUAGE'  => 'en-us,en;q=0.5',
                     'HTTP_ACCEPT_CHARSET'   => 'ISO-8859-1,utf-8;q=0.7,*;q=0.7',
@@ -109,7 +109,7 @@ class Request extends Readable implements RequestInterface
             $body = Json::from('php://input');
 
         /**
-         *  @param \Blu\Request\Body
+         *  @param \Frame\Request\Body
          */
         $this->body = new Body(
             $body !== null ? $body : $_POST
@@ -149,7 +149,7 @@ class Request extends Readable implements RequestInterface
      *  Mixed method with read instance or properties.
      *
      *  Usage:
-     *      \Blu\Request\Query query()
+     *      \Frame\Request\Query query()
      *      mixed query($input)
      *      array query([$input])
      *
@@ -179,7 +179,7 @@ class Request extends Readable implements RequestInterface
      *  Mixed method with read instance or properties.
      *
      *  Usage:
-     *      \Blu\Request\Body body()
+     *      \Frame\Request\Body body()
      *      mixed body($input)
      *      array body([$input])
      *
@@ -223,7 +223,7 @@ class Request extends Readable implements RequestInterface
         /**
          *  @var mixed
          */
-        return $this->method('is', 'POST') ?
+        return $this->method('is', 'post') ?
             $this->body($input, $alternate) : null;
     }
 
@@ -245,7 +245,7 @@ class Request extends Readable implements RequestInterface
         /**
          *  @var mixed
          */
-        return $this->method('is', 'PUT') ?
+        return $this->method('is', 'put') ?
             $this->body($input, $alternate) : null;
     }
 
@@ -267,7 +267,7 @@ class Request extends Readable implements RequestInterface
         /**
          *  @var mixed
          */
-        return $this->method('is', 'DELETE') ?
+        return $this->method('is', 'delete') ?
             $this->body($input, $alternate) : null;
     }
 
@@ -298,7 +298,7 @@ class Request extends Readable implements RequestInterface
      *  Mixed method with read instance or properties.
      *
      *  Usage:
-     *      \Blu\Request\Files files()
+     *      \Frame\Request\Files files()
      *      mixed files($input)
      *      array files([$input])
      *
@@ -328,7 +328,7 @@ class Request extends Readable implements RequestInterface
      *  Mixed method with read instance or properties.
      *
      *  Usage:
-     *      \Blu\Request\Cookie cookie()
+     *      \Frame\Request\Cookie cookie()
      *      mixed cookie($input)
      *      array cookie([$input])
      *
@@ -358,7 +358,7 @@ class Request extends Readable implements RequestInterface
      *  Mixed method with read instance or properties.
      *
      *  Usage:
-     *      \Blu\Request\Server server()
+     *      \Frame\Request\Server server()
      *      mixed server($input)
      *      array server([$input])
      *
@@ -563,9 +563,7 @@ class Request extends Readable implements RequestInterface
      */
     public function method_is($comparison)
     {
-        return $this->server(
-            'REQUEST_METHOD', 'GET'
-        ) === strtoupper($comparison);
+        return $this->method() === strtoupper($comparison);
     }
 
     /**
@@ -582,9 +580,7 @@ class Request extends Readable implements RequestInterface
         );
 
         return in_array(
-            $this->server(
-                'REQUEST_METHOD', 'GET'
-            ), $comparison, true
+            $this->method(), $comparison, true
         );
     }
 
@@ -629,13 +625,11 @@ class Request extends Readable implements RequestInterface
     public function ip_is($comparison)
     {
         if ($comparison !== 'local')
-            return $this->server(
-                'REMOTE_ADDR', '127.0.0.1'
-            ) === $comparison;
+            return $this->ip() === $comparison;
 
         return preg_match(
             '/(127\.0\.0\.1|192\.168\.[0-9]{1,3}\.[0-9]{1,3})/',
-            $this->server('REMOTE_ADDR', '127.0.0.1')
+            $this->ip()
         );
     }
 
@@ -653,9 +647,7 @@ class Request extends Readable implements RequestInterface
                 return true;
 
         return in_array(
-            $this->server(
-                'REMOTE_ADDR', '127.0.0.1'
-            ), $comparison, true
+            $this->ip(), $comparison, true
         );
     }
 
