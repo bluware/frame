@@ -77,7 +77,7 @@ class Database
      *
      *  @return mixed
      */
-    public function connection($name)
+    public static function connection($name)
     {
         /**
          *  @var \Frame\Database\Drive
@@ -90,7 +90,7 @@ class Database
      *
      *  @return mixed
      */
-    public function connect($name)
+    public static function connect($name)
     {
         /**
          *  @var \Frame\Database\Drive
@@ -117,7 +117,7 @@ class Database
      *
      *  @return \Frame\Database\Drive\MySQL
      */
-    public function mysql($name, array $config)
+    public static function mysql($name, array $config)
     {
         /**
          *  @var \Frame\Database\Drive
@@ -131,7 +131,7 @@ class Database
      *
      *  @return \Frame\Database\Drive\PgSQL
      */
-    public function pgsql($name, array $config)
+    public static function pgsql($name, array $config)
     {
         /**
          *  @var \Frame\Database\Drive
