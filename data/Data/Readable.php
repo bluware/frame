@@ -16,7 +16,7 @@ abstract class Readable implements \Iterator
     /**
      *  @var array
      */
-    protected $data = [];
+    protected $data     = [];
 
     /**
      *  @param scalar $key

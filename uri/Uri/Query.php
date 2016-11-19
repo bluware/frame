@@ -20,10 +20,11 @@ class Query extends Writable
      */
     public function __construct(array $data = null)
     {
-        /**
-         *  @var array
-         */
-        $this->data = $data;
+        if ($data !== null)
+            /**
+             *  @var array
+             */
+            $this->data = $data;
     }
 
     /**

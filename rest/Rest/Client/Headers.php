@@ -18,12 +18,13 @@ class Headers extends Writable
     /**
      *  @param array $data
      */
-    public function __construct(array $data)
+    public function __construct(array $data = null)
     {
-        /**
-         *  @var array
-         */
-        $this->data = $data;
+        if ($data !== null)
+            /**
+             *  @var array
+             */
+            $this->data = $data;
     }
 
     /**

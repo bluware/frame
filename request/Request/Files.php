@@ -21,7 +21,11 @@ class Files extends Readable
      */
     public function __construct(array $data = null)
     {
-        $this->data = $data;
+        if ($data !== null)
+            /**
+             *  @var array
+             */
+            $this->data = $data;
     }
 
     /**

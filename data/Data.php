@@ -18,6 +18,10 @@ class Data extends \Frame\Data\Writable
      */
     public function __construct(array $data = null)
     {
-        $this->data = $data;
+        if ($data !== null)
+            /**
+             *  @var array
+             */
+            $this->data = $data;
     }
 }

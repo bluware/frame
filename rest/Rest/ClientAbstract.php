@@ -56,7 +56,7 @@ abstract class ClientAbstract
         /**
          *  @var \Frame\Client\Headers
          */
-        $this->headers = new Headers();
+        $this->headers = new Headers([]);
 
         /**
          *  @var \Frame\Client\Headers

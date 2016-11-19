@@ -20,10 +20,11 @@ class Server extends Readable
      */
     public function __construct(array $data = null)
     {
-        if (php_sapi_name() === 'cli')
-            $data['REQUEST_METHOD'] = 'CLI';
-
-        $this->data = $data;
+        if ($data !== null)
+            /**
+             *  @var array
+             */
+            $this->data = $data;
     }
 
     /**

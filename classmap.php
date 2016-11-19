@@ -24,8 +24,6 @@ return [
      */
      'Frame\\Uri\\Query'
          => __DIR__ . "/uri/Uri/Query.php",
-     'Frame\\UriAbstract'
-         => __DIR__ . "/uri/UriAbstract.php",
      'Frame\\Uri'
          => __DIR__ . "/uri/Uri.php",
     //-------------------------------------------------------------------------
