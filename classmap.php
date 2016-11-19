@@ -83,5 +83,9 @@ return [
          => __DIR__ . "/database/Database/Query/Where.php",
      'Frame\\Database\\Query'
          => __DIR__ . "/database/Database/Query.php",
+     'Frame\\Database\\State'
+         => __DIR__ . "/database/Database/State.php",
+     'Frame\\Database'
+         => __DIR__ . "/database/Database.php",
     //-------------------------------------------------------------------------
 ];
