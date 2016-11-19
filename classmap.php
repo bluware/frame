@@ -79,12 +79,20 @@ return [
     /**------------------------------------------------------------------------
      *  @package `database` module
      */
+     'Frame\\Database\\Drive'
+         => __DIR__ . "/database/Database/Drive.php",
+     'Frame\\Database\\Drive\\MySQL'
+         => __DIR__ . "/database/Database/Drive/MySQL.php",
+     'Frame\\Database\\Drive\\SQLite'
+         => __DIR__ . "/database/Database/Drive/SQLite.php",
      'Frame\\Database\\Query\\Where'
          => __DIR__ . "/database/Database/Query/Where.php",
      'Frame\\Database\\Query'
          => __DIR__ . "/database/Database/Query.php",
      'Frame\\Database\\State'
          => __DIR__ . "/database/Database/State.php",
+     'Frame\\Database\\Union'
+         => __DIR__ . "/database/Database/Union.php",
      'Frame\\Database'
          => __DIR__ . "/database/Database.php",
     //-------------------------------------------------------------------------

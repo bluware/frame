@@ -317,12 +317,15 @@ class Query
         /**
          *  @var string
          */
-        $tabe = $alias === null ?
+        $table = $alias === null ?
             $this->separate($table) : $this->as(
                 $table, $alias
             );
 
         foreach ($expression as $column => &$value)
+            /**
+             *  @var string
+             */
             $value = sprintf(
                 '%s = %s',
                 $this->separate($column),
@@ -352,6 +355,9 @@ class Query
      */
     public function inner($clause, $table, $alias, array $expression)
     {
+        /**
+         *  @var static
+         */
         return $this->{$clause}($table, $alias, $expression, 'inner');
     }
 
@@ -363,6 +369,9 @@ class Query
      */
     public function left($clause, $table, $alias, array $expression)
     {
+        /**
+         *  @var static
+         */
         return $this->{$clause}($table, $alias, $expression, 'left');
     }
 
@@ -374,6 +383,9 @@ class Query
      */
     public function right($clause, $table, $alias, array $expression)
     {
+        /**
+         *  @var static
+         */
         return $this->{$clause}($table, $alias, $expression, 'right');
     }
 
@@ -820,9 +832,10 @@ class Query
          *  @var string
          */
         $rand = sprintf(
-            ':%s:%s',
-            rand(10000,99999),
-            uniqid()
+            ':%s',
+            uniqid(
+                rand(10000,99999)
+            )
         );
 
         /**
@@ -857,7 +870,7 @@ class Query
      */
     public function separate($column)
     {
-        if (strpos($column, '`') !== false)
+        if (strpos($column, '`') !== false || strpos($column, '*') !== false)
             return $column;
 
         /**
@@ -923,7 +936,7 @@ class Query
                 $where  = $this->where !== null ?
                     sprintf(
                         'WHERE %s',
-                        $this->where->to('str')
+                        $this->where->to('string')
                     ) : null;
 
                 /**
@@ -932,7 +945,7 @@ class Query
                 $having = $this->having !== null ?
                     sprintf(
                         'HAVING %s',
-                        $this->having->to('str')
+                        $this->having->to('string')
                     ) : null;
 
                 /**

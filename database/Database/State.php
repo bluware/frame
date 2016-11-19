@@ -75,8 +75,8 @@ class State
 
 
     /**
-     *  @param  [type] $input [description]
-     *  @return [type]        [description]
+     *  @param  string $input
+     *  @return mixed
      */
     public function one($input = null)
     {
@@ -123,7 +123,7 @@ class State
             /**
              *  @var array
              */
-            array_key_exists($input, $data[0]) ?
+            return array_key_exists($input, $data[0]) ?
                 array_column($data, $input, $index) : [];
 
         /**
@@ -133,9 +133,7 @@ class State
     }
 
     /**
-     *  Override PDOStatement::rowCount if query not executed.
-     *
-     *  @return int
+     *  @return integer
      */
     public function count()
     {
