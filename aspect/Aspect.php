@@ -8,10 +8,15 @@
  */
 namespace Frame;
 
+use Frame\Controller;
+
 /**
  * @subpackage Aspect
  */
 abstract class Aspect extends Controller
 {
+    /**
+     *  @return mixed
+     */
     abstract public function handle();
 }

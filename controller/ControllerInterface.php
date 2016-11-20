@@ -1,9 +1,9 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite Web & API Framework
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
 namespace Blu;
@@ -22,18 +22,4 @@ interface ControllerInterface
      *  @return boolean
      */
     public function prevent();
-
-    /**
-     *  Fast router implementation.
-     *
-     *  @return mixed
-     */
-    public function request($input = null);
-
-    /**
-     *  @param  string $input
-     *
-     *  @return mixed
-     */
-    public function response($body, $code = 200, $headers = []);
 }

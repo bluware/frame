@@ -27,6 +27,17 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
+     *  @package `secure` module
+     */
+     'Frame\\Secure\\Keychain'
+         => __DIR__ . "/secure/Secure/Keychain.php",
+     'Frame\\SecureInterface'
+         => __DIR__ . "/secure/SecureInterface.php",
+     'Frame\\Secure'
+         => __DIR__ . "/secure/Secure.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
      *  @package `uri` module
      */
      'Frame\\Uri\\Query'
@@ -58,6 +69,17 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
+     *  @package `response` module
+     */
+     'Frame\\Response\\Headers'
+         => __DIR__ . "/response/Response/Headers.php",
+     'Frame\\ResponseInterface'
+         => __DIR__ . "/response/ResponseInterface.php",
+     'Frame\\Response'
+         => __DIR__ . "/response/Response.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
      *  @package `request` module
      */
      'Frame\\Request\\Body'
@@ -74,6 +96,33 @@ return [
          => __DIR__ . "/request/RequestInterface.php",
      'Frame\\Request'
          => __DIR__ . "/request/Request.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `http` module
+     */
+     'Frame\\HttpInterface'
+         => __DIR__ . "/http/HttpInterface.php",
+     'Frame\\Http'
+         => __DIR__ . "/http/Http.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `controller` module
+     */
+     'Frame\\ControllerInterface'
+         => __DIR__ . "/controller/ControllerInterface.php",
+     'Frame\\Controller'
+         => __DIR__ . "/controller/Controller.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `aspect` module
+     */
+     'Frame\\AspectInterface'
+         => __DIR__ . "/aspect/AspectInterface.php",
+     'Frame\\Aspect'
+         => __DIR__ . "/aspect/Aspect.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -103,8 +152,31 @@ return [
      *  @package `database` module
      */
      'Frame\\Active\\Query'
-         => __DIR__ . "/active/Active/Query.php",
+         => __DIR__ . "/active/Query.php",
      'Frame\\Active\\Record'
-         => __DIR__ . "/active/Active/Record.php",
+         => __DIR__ . "/active/Record.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `service` module
+     */
+     'Frame\\Service\\Autoload'
+         => __DIR__ . "/active/Autoload.php",
+     'Frame\\Service\\Locator'
+         => __DIR__ . "/active/Locator.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `package` module
+     */
+     'Frame\\Package'
+         => __DIR__ . "/package/Package.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `package` module
+     */
+     'Frame\\App'
+         => __DIR__ . "/app/App.php",
     //-------------------------------------------------------------------------
 ];

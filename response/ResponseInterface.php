@@ -59,9 +59,4 @@ interface ResponseInterface
      *  @return mixed
      */
     public function body($body = null);
-
-    /**
-     *  @return string
-     */
-    public function __toString();
 }

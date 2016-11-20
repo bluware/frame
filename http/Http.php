@@ -1,12 +1,15 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
+
+use Frame\Request;
+use Frame\Response;
 
 /**
  * @subpackage Http
@@ -18,63 +21,39 @@ class Http implements HttpInterface
      *
      *  @return mixed
      */
-    public static function uri($url)
-    {
-        return new \Blu\Http\URI($url);
-    }
-
-    /**
-     *  @param  string $data
-     *
-     *  @return Blu\Http\Client
-     */
-    public static function client($url)
-    {
-        return new \Blu\Http\Client($url);
-    }
-
-    /**
-     *  @param  string $data
-     *
-     *  @return Blu\Http\Router
-     */
-    public static function router($method = null)
-    {
-        static $router = null;
-
-        if ($router === null)
-            $router = new \Blu\Router(
-                \Blu\Http::request()
-            );
-
-        if ($method === null)
-            return $router;
-
-        $params = func_get_args();
-
-        return call_user_func_array([
-            $router,
-            array_shift($params)
-        ], $params);
-    }
-
-    /**
-     *  @param  string $input
-     *
-     *  @return mixed
-     */
     public static function request($method = null)
     {
+        /**
+         * @var void
+         */
         static $request = null;
 
+        /**
+         * @var boolean
+         */
         if ($request === null)
-            $request = new \Blu\Request();
+            /**
+             * @var \Frame\Request
+             */
+            $request = new Request();
 
+        /**
+         * @var boolean
+         */
         if ($method === null)
+            /**
+             * @var \Frame\Request
+             */
             return $request;
 
+        /**
+         * @var array
+         */
         $params = func_get_args();
 
+        /**
+         * @var mixed
+         */
         return call_user_func_array([
             $request,
             array_shift($params)
@@ -84,11 +63,42 @@ class Http implements HttpInterface
     /**
      *  @param  mixed $data
      *
-     *  @return Blu\Essence\Response
+     *  @return Frame\Essence\Response
      */
     public static function response(
-        $body, $status = 200, array $headers = []
+        $body, $code = 200, $headers = []
     ) {
-        return new \Blu\Response($body, $status, $headers);
+        /**
+         *  @var if
+         */
+        if (
+            in_array($body, [
+                'text',
+                'html',
+                'json',
+                'redirect',
+                'goto'
+            ], true)
+        ) {
+            /**
+             *  @var array
+             */
+            $params = func_get_args();
+
+            /**
+             *  @var array
+             */
+            return forward_static_call_array([
+                Response::class,
+                array_shift($params)
+            ], $params);
+        }
+
+        /**
+         *  @var Blu\Essence\Response
+         */
+        return new Response(
+            $body, $code, $headers
+        );
     }
 }

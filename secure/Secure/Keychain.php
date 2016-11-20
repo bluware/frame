@@ -1,21 +1,22 @@
 <?php
 
 /**
- *  Blu | PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Secure;
+namespace Frame\Secure;
 
-use Blu\JSON;
-use Blu\Data\Writeable           as Writeable;
-use Blu\Data\ReadableAbstract    as Readable;
+use Frame\Json;
+use Frame\Data;
+use Frame\Data\Writable;
+use Frame\Data\Readable;
 
 /**
  * @subpackage Secure
  */
-class Keychain extends Writeable
+class Keychain extends Writable
 {
     /**
      *  @const CHIPER
@@ -27,11 +28,25 @@ class Keychain extends Writeable
      *
      *  @param mixed $data
      */
-    public function __construct($data = null)
+    public function __construct(array $data = null)
     {
-        parent::__construct([
-            'default' => \Blu\Secure::random(32)
-        ]);
+        /**
+         *  @var boolean
+         */
+        if ($data === null)
+            /**
+             *  @var array
+             */
+            $data = [];
+
+        /**
+         *  @var array
+         */
+        $this->data = array_replace(
+            [
+                'default' => \Frame\Secure::random(32)
+            ], $data
+        );
     }
 
     /**
@@ -44,31 +59,43 @@ class Keychain extends Writeable
      */
     public function encrypt($input, $key = 'default')
     {
+        /**
+         *  @var mixed
+         */
         $secret = $this->get($key, null);
 
+        /**
+         *  @var boolean
+         */
         if ($secret === null)
             throw new \Exception(
                 "No key found in chain"
             );
 
         /**
-         *  Convertation Essence to JSON
+         *  @var mixed
          */
         if (is_object($input) === true) {
+            /**
+             *  @var mixed
+             */
             $input = is_subclass_of(
                 $input, Readable::class
             ) ? $input->to('json') : $input;
         }
 
         /**
-         *  Convertation to Array to JSON
+         *  @var mixed
          */
         if (is_array($input) === true) {
-            $input = JSON::encode($input);
+            /**
+             *  @var string
+             */
+            $input = Json::encode($input);
         }
 
         /**
-         *  Encryption
+         *  @var mixed
          */
         return @openssl_encrypt(
             $input, static::CHIPER, $secret
@@ -85,22 +112,45 @@ class Keychain extends Writeable
      */
     public function decrypt($input, $key = 'default')
     {
+        /**
+         *  @var mixed
+         */
         $secret = $this->get($key, null);
 
+        /**
+         *  @var boolean
+         */
         if ($secret === null)
             throw new \Exception(
                 "No key found in chain"
             );
 
+        /**
+         *  @var mixed
+         */
         $decrypt = openssl_decrypt(
             $input, static::CHIPER, $secret
         );
 
-        $data = JSON::decode($decrypt, $error);
+        /**
+         *  @var boolean
+         */
+        $data = Json::decode(
+            $decrypt, $error
+        );
 
+        /**
+         *  @var boolean
+         */
         if ($data !== null)
-            return new Writeable($data);
+            /**
+             *  @var \Frame\Data
+             */
+            return new Data($data);
 
+        /**
+         *  @var mixed
+         */
         return $decrypt === false ?
             null : $decrypt;
     }

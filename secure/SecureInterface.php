@@ -1,12 +1,12 @@
 <?php
 
 /**
- *  Blu | PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
 /**
  * @subpackage Secure
@@ -14,7 +14,7 @@ namespace Blu;
 interface SecureInterface
 {
     /**
-     *  Singleton Blu\Secure\Keychain instanse.
+     *  Singleton Frame\Secure\Keychain instanse.
      *
      *  @param  mixed  $method
      *
@@ -32,7 +32,7 @@ interface SecureInterface
     public static function random($length = 8, $key = null);
 
     /**
-     *  Short call Blu\Secure\Keychain::encrypt.
+     *  Short call Frame\Secure\Keychain::encrypt.
      *
      *  @param  mixed  $input
      *  @param  string $key
@@ -42,7 +42,7 @@ interface SecureInterface
     public static function encrypt($input, $key);
 
     /**
-     *  Short call Blu\Secure\Keychain::decrypt.
+     *  Short call Frame\Secure\Keychain::decrypt.
      *
      *  @param  mixed  $input
      *  @param  string $key

@@ -1,15 +1,14 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite Web & API Framework
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
-use Blu\Http;
-use Blu\Response;
+use Frame\Http;
 
 /**
  * @subpackage Controller
@@ -48,15 +47,15 @@ abstract class Controller implements ControllerInterface
      */
     function request($input = null)
     {
-        if ($input === null)
-            return Http::request();
-
-        $params = func_get_args();
-
-        return call_user_func_array([
-            Http::request(),
-            array_shift($params)
-        ], $params);
+        /**
+         *  @var mixed
+         */
+        return forward_static_call_array(
+            [
+                Http::class,
+                'request'
+            ], func_get_args()
+        );
     }
 
     /**
@@ -65,30 +64,14 @@ abstract class Controller implements ControllerInterface
      *  @return mixed
      */
     public function response($body, $code = 200, $headers = []) {
-        if (
-            in_array($body, [
-                'text',
-                'html',
-                'json',
-                'redirect',
-                'goto'
-            ], true)
-        ) {
-            $params = func_get_args();
-
-            return forward_static_call_array([
-                Response::class,
-                array_shift($params)
-            ], $params);
-        }
-
-        return Http::response(
-            $body, $code, $headers
+        /**
+         *  @var mixed
+         */
+        return forward_static_call_array(
+            [
+                Http::class,
+                'response'
+            ], func_get_args()
         );
-    }
-
-    public function __get($val)
-    {
-        return $this->{$val};
     }
 }

@@ -1,15 +1,16 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
-use Blu\Service;
-use Blu\Request;
+use Frame\Service\Autoload;
+use Frame\Service\Locator;
+use Frame\Request;
 
 /**
  * @subpackage Core
@@ -21,21 +22,21 @@ class App
         $locator = Service::locator();
 
         /**
-         *  @var \Blu\Secure
+         *  @var \Frame\Secure
          */
         $locator->add(
             Request::singleton(), 'request'
         );
 
         /**
-         *  @var \Blu\Request
+         *  @var \Frame\Request
          */
         $locator->add(
             Request::singleton(), 'request'
         );
 
         /**
-         *  @var \Blu\Request
+         *  @var \Frame\Request
          */
         $locator->add(
             Request::singleton(), 'request'

@@ -1,12 +1,12 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
 /**
  * @subpackage Http
@@ -14,34 +14,18 @@ namespace Blu;
 interface HttpInterface
 {
     /**
-     *  @param  string $url
+     *  @param  string $input
      *
-     *  @return Blu\Http\Client
+     *  @return mixed
      */
-    public static function client($url);
-
-    /**
-     *  @return Blu\Http\Router
-     */
-    public static function router();
-
-    /**
-     *  @param  string $data
-     *
-     *  @return Blu\Http\Request
-     */
-    public static function request(
-        $input = null
-    );
+    public static function request($method = null);
 
     /**
      *  @param  mixed $data
      *
-     *  @return Blu\Http\Response
+     *  @return Frame\Essence\Response
      */
     public static function response(
-        $data,
-        $status         = 200,
-        array $headers  = null
+        $body, $code = 200, $headers = []
     );
 }

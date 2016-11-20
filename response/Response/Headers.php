@@ -8,23 +8,29 @@
  */
 namespace Frame\Response;
 
+use Frame\Data\Writable;
+
 /**
  * @subpackage Response
  */
-class Headers extends \Blu\Data\WriteableAbstract
+class Headers extends Writable
 {
     /**
      *  @param mixed $data
      */
-    public function __construct($data = null)
+    public function __construct(array $data = null)
     {
-        parent::__construct($data);
+        if ($data !== null)
+            /**
+             *  @var array
+             */
+            $this->data = $data;
     }
 
     /**
      *  @return void
      */
-    public function __invoke()
+    public function __invoke(array $data = null)
     {
         foreach ($this->to('array') as $header)
             header($header);
