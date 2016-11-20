@@ -83,7 +83,7 @@ return [
          => __DIR__ . "/database/Database/Drive.php",
      'Frame\\Database\\Drive\\MySQL'
          => __DIR__ . "/database/Database/Drive/MySQL.php",
-'     'Frame\\Database\\Drive\\PgSQL'
+     'Frame\\Database\\Drive\\PgSQL'
          => __DIR__ . "/database/Database/Drive/PgSQL.php",
      'Frame\\Database\\Drive\\SQLite'
          => __DIR__ . "/database/Database/Drive/SQLite.php",
@@ -97,5 +97,14 @@ return [
          => __DIR__ . "/database/Database/Union.php",
      'Frame\\Database'
          => __DIR__ . "/database/Database.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `database` module
+     */
+     'Frame\\Active\\Query'
+         => __DIR__ . "/active/Active/Query.php",
+     'Frame\\Active\\Record'
+         => __DIR__ . "/active/Active/Record.php",
     //-------------------------------------------------------------------------
 ];

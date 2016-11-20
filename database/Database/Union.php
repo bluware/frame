@@ -23,7 +23,7 @@ class Union extends Readable
      *
      *  @return mixed
      */
-    public function connection($name)
+    public function connection($name = 'default')
     {
         return $this->get($name, null);
     }
@@ -33,7 +33,7 @@ class Union extends Readable
      *
      *  @return mixed
      */
-    public function connect($name)
+    public function connect($name = 'default')
     {
         return $this->connection($name);
     }
@@ -43,7 +43,7 @@ class Union extends Readable
      *
      *  @return mixed
      */
-    public function driver($name)
+    public function driver($name = 'default')
     {
         return $this->connection($name);
     }
@@ -54,7 +54,7 @@ class Union extends Readable
      *
      *  @return \Frame\Database\Drive\MySQL
      */
-    public function mysql($name, array $config)
+    public function mysql($name = 'default', array $config)
     {
         /**
          *  @var \Frame\Database\Drive\MySQL
@@ -78,7 +78,7 @@ class Union extends Readable
      *
      *  @return \Frame\Database\Drive\PgSQL
      */
-    public function pgsql($name, array $config)
+    public function pgsql($name = 'default', array $config)
     {
         /**
          *  @var \Frame\Database\Drive\PgSQL
@@ -102,7 +102,7 @@ class Union extends Readable
      *
      *  @return \Frame\Database\Drive\SQLite
      */
-    public function sqlite($name, array $config)
+    public function sqlite($name = 'default', array $config)
     {
         /**
          *  @var \Frame\Database\Drive\SQLite
@@ -126,7 +126,7 @@ class Union extends Readable
      *
      *  @return \Frame\Database\Drive
      */
-    public function add($name, array $config)
+    public function add($name = 'default', array $config)
     {
         if (array_key_exists('driver', $config) === false)
             /**

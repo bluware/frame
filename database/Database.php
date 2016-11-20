@@ -66,7 +66,7 @@ class Database
         /**
          *  @var mixed
          */
-        return call_user_func([
+        return call_user_func_array([
             $union,
             array_shift($params)
         ], $params);
@@ -77,7 +77,7 @@ class Database
      *
      *  @return mixed
      */
-    public static function connection($name)
+    public static function connection($name = 'default')
     {
         /**
          *  @var \Frame\Database\Drive
@@ -90,12 +90,12 @@ class Database
      *
      *  @return mixed
      */
-    public static function connect($name)
+    public static function connect($name = 'default')
     {
         /**
          *  @var \Frame\Database\Drive
          */
-        return static::union('connection', $name, $config);
+        return static::union('connection', $name);
     }
 
     /**
@@ -103,12 +103,12 @@ class Database
      *
      *  @return mixed
      */
-    public static function driver($name)
+    public static function driver($name = 'default')
     {
         /**
          *  @var \Frame\Database\Drive
          */
-        return static::union('connection', $name, $config);
+        return static::union('connection', $name);
     }
 
     /**
@@ -117,7 +117,7 @@ class Database
      *
      *  @return \Frame\Database\Drive\MySQL
      */
-    public static function mysql($name, array $config)
+    public static function mysql($name = 'default', array $config)
     {
         /**
          *  @var \Frame\Database\Drive
@@ -131,7 +131,7 @@ class Database
      *
      *  @return \Frame\Database\Drive\PgSQL
      */
-    public static function pgsql($name, array $config)
+    public static function pgsql($name = 'default', array $config)
     {
         /**
          *  @var \Frame\Database\Drive
@@ -145,7 +145,7 @@ class Database
      *
      *  @return \Frame\Database\Drive\SQLite
      */
-    public static function sqlite($name, array $config)
+    public static function sqlite($name = 'default', array $config)
     {
         /**
          *  @var \Frame\Database\Drive
@@ -160,7 +160,7 @@ class Database
      *
      *  @return mixed
      */
-    public static function add($name, array $config)
+    public static function add($name = 'default', array $config)
     {
         /**
          *  @var \Frame\Database\Drive

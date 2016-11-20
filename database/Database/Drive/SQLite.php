@@ -26,6 +26,10 @@ class SQLite extends Drive
          */
         $this->data = $data;
 
+        $dsn = $this->dsn([
+            'path' => ':memory:'
+        ], $data);
+
         /**
          *  @var string
          */

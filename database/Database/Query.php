@@ -90,7 +90,10 @@ class Query
         /**
          *  @var boolean
          */
-        if ($column === null) {
+        if (
+               $column === null
+            || empty($column)
+        ) {
             /**
              *  @var array
              */
@@ -400,6 +403,18 @@ class Query
         $operator   = '=',
         $paste      = 'and'
     ) {
+        /**
+         *  @var boolean
+         */
+        if (empty($column) === true)
+            /**
+             *  @var static
+             */
+            return $this;
+
+        /**
+         *  @var boolean
+         */
         if ($this->where === null)
             /**
              *  @var Frame\Database\Query\Where
@@ -442,6 +457,18 @@ class Query
         $operator   = '=',
         $paste      = 'and'
     ) {
+        /**
+         *  @var boolean
+         */
+        if (empty($column) === true)
+            /**
+             *  @var static
+             */
+            return $this;
+
+        /**
+         *  @var boolean
+         */
         if ($this->having === null)
             /**
              *  @var Frame\Database\Query\Where
@@ -533,7 +560,7 @@ class Query
                         $_column
                     ) ? $this->{$clause}->push(
                         $_value
-                    ) : $this->{$clause}->add(
+                    ) : $this->{$clause}->set(
                             $this->separate(
                                 $_column
                             ),
@@ -645,6 +672,15 @@ class Query
      */
     public function order($column, $sort = 'ASC')
     {
+        /**
+         *  @var boolean
+         */
+        if ($column === null)
+            /**
+             *  @var static
+             */
+            return $this;
+
         /**
          *  @var array
          */

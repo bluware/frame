@@ -169,8 +169,6 @@ abstract class Drive extends Writable
         /**
          *  @var integer
          */
-        return intval(
-            $this->pdo('lastInsertId')
-        );
+        return $this->pdo('lastInsertId');
     }
 }
