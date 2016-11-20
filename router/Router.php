@@ -1,12 +1,12 @@
 <?php
 
 /**
- *  Blu | PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
 /**
  * @subpackage Router

@@ -10,36 +10,82 @@ namespace Frame;
 
 use Frame\Service\Autoload;
 use Frame\Service\Locator;
+use Frame\Database;
+use Frame\Http;
+use Frame\Router;
 use Frame\Request;
+use Frame\Secure;
 
 /**
  * @subpackage Core
  */
 class App
 {
+    protected $locator;
+
     public function __construct()
     {
-        $locator = Service::locator();
+        /**
+         *  @var Frame\Service\Locator
+         */
+        $locator = new Locator();
 
         /**
-         *  @var \Frame\Secure
+         *  @var Frame\Service\Locator
          */
         $locator->add(
-            Request::singleton(), 'request'
+            new Autoload(),
+            'autoload'
         );
 
         /**
          *  @var \Frame\Request
          */
         $locator->add(
-            Request::singleton(), 'request'
+            Http::request(),
+            'request'
         );
 
         /**
-         *  @var \Frame\Request
+         *  @var \Frame\Router
          */
         $locator->add(
-            Request::singleton(), 'request'
+            new Router(),
+            'router'
         );
+
+        /**
+         *  @var \Frame\Database\Union
+         */
+        $locator->add(
+            Database::union(),
+            'database'
+        );
+
+        /**
+         *  @var \Frame\Secure\Keychain
+         */
+        $locator->add(
+            Secure::keychain(),
+            'keychain'
+        );
+
+        $this->locator = $locator;
+    }
+
+    public static function http($instance)
+    {
+        /**
+         *  @var array
+         */
+        $params = func_get_args();
+
+        /**
+         *  @var array
+         */
+        return forward_static_call_array([
+            Http::class,
+            array_shift($params)
+        ], $params);
     }
 }

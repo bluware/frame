@@ -1,20 +1,19 @@
 <?php
 
 /**
- *  Blu | PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu;
+namespace Frame;
 
-use Blu\RequestInterface;
-
-use Blu\Router\Aspects;
-use Blu\Router\Groups;
-use Blu\Router\Routes;
-use Blu\Router\Routes\Route;
-use Blu\Controller;
+use Frame\RequestInterface;
+use Frame\Router\Aspects;
+use Frame\Router\Groups;
+use Frame\Router\Routes;
+use Frame\Router\Routes\Route;
+use Frame\Controller;
 
 /**
  * @subpackage Router
@@ -27,22 +26,22 @@ abstract class RouterAbstract
     protected $separator    = '@';
 
     /**
-     *  @var \Blu\RequestInterface
+     *  @var \Frame\RequestInterface
      */
     protected $request;
 
     /**
-     *  @var  \Blu\Router\Aspects
+     *  @var  \Frame\Router\Aspects
      */
     protected $aspects;
 
     /**
-     *  @var \Blu\Router\Invokes
+     *  @var \Frame\Router\Invokes
      */
     protected $groups;
 
     /**
-     *  @var \Blu\Router\Routes
+     *  @var \Frame\Router\Routes
      */
     protected $routes;
 
@@ -63,17 +62,17 @@ abstract class RouterAbstract
         $this->routes       = new Routes();
 
         /**
-         *  @var \Blu\RequestAbstract
+         *  @var \Frame\RequestAbstract
          */
         $this->request      = $request;
 
         /**
-         *  @var \Blu\Router\Aspects
+         *  @var \Frame\Router\Aspects
          */
         $this->aspects      = new Aspects();
 
         /**
-         *  @var \Blu\Router\Groups
+         *  @var \Frame\Router\Groups
          */
         $this->groups       = new Groups();
     }
@@ -190,7 +189,7 @@ abstract class RouterAbstract
     }
 
     /**
-     *  @param \Blu\RequestAbstract
+     *  @param \Frame\RequestAbstract
      */
     public function run()
     {

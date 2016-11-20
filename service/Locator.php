@@ -1,23 +1,23 @@
 <?php
 
 /**
- *  Blu | PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Service;
+namespace Frame\Service;
 
-use Blu\Data\Writeable;
-use Blu\Data\Readable;
+use Frame\Data;
+use Frame\Data\Readable;
 
 /**
  * @subpackage Service
  */
-class Locator extends Readable implements LocatorInterface
+class Locator extends Readable
 {
     /**
-     * @var \Blu\Data\Writeable
+     * @var \Frame\Data
      */
     protected $services;
 
@@ -28,9 +28,10 @@ class Locator extends Readable implements LocatorInterface
      */
     public function __construct($data = null)
     {
-        $this->services = new Writeable();
+        $this->services = new Data();
 
-        parent::__construct(null);
+        if ($data !== null)
+            $this->data = $data;
     }
 
     /**

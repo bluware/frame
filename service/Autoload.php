@@ -1,27 +1,27 @@
 <?php
 
 /**
- *  Blu | PHP Lite Web & API Framework
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Service;
+namespace Frame\Service;
 
-use Blu\Data\Writeable;
+use Frame\Data;
 
 /**
  * @subpackage Service
  */
-class Autoload implements AutoloadInterface
+class Autoload
 {
     /**
-     *  @var \Blu\Data\Writeable
+     *  @var \Frame\Data
      */
     protected $namespaces;
 
     /**
-     *  @var \Blu\Data\Writeable
+     *  @var \Frame\Data
      */
     protected $classmaps;
 
@@ -31,14 +31,14 @@ class Autoload implements AutoloadInterface
     public function __construct()
     {
         /**
-         *  @var \Blu\Data\Writeable
+         *  @var \Frame\Data
          */
-        $this->namespaces = new Writeable();
+        $this->namespaces = new Data();
 
         /**
-         *  @var \Blu\Data\Writeable
+         *  @var \Frame\Data\Data
          */
-        $this->classmaps  = new Writeable();
+        $this->classmaps  = new Data();
     }
 
     /**

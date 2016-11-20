@@ -161,9 +161,9 @@ return [
      *  @package `service` module
      */
      'Frame\\Service\\Autoload'
-         => __DIR__ . "/active/Autoload.php",
+         => __DIR__ . "/service/Autoload.php",
      'Frame\\Service\\Locator'
-         => __DIR__ . "/active/Locator.php",
+         => __DIR__ . "/service/Locator.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
