@@ -50,13 +50,13 @@ return [
      *  @package `client` module
      */
      'Frame\\Rest\\Client\\Headers'
-         => __DIR__ . "/rest/Rest/Client/Headers.php",
+         => __DIR__ . "/rest/Client/Headers.php",
      'Frame\\Rest\\Client\\Response'
-         => __DIR__ . "/rest/Rest/Client/Response.php",
+         => __DIR__ . "/rest/Client/Response.php",
      'Frame\\Rest\\ClientAbstract'
-         => __DIR__ . "/rest/Rest/ClientAbstract.php",
+         => __DIR__ . "/rest/ClientAbstract.php",
      'Frame\\Rest\\Client'
-         => __DIR__ . "/rest/Rest/Client.php",
+         => __DIR__ . "/rest/Client.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
