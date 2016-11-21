@@ -17,7 +17,7 @@ use Frame\Request;
 use Frame\Secure;
 
 /**
- * @subpackage Core
+ * @subpackage App
  */
 class App
 {
