@@ -195,7 +195,6 @@ abstract class ClientAbstract
 
         curl_setopt_array(
             $request, array_replace($this->curlopt, [
-                CURLOPT_CUSTOMREQUEST   => $this->method,
                 CURLOPT_CONNECTTIMEOUT  => $this->timeout,
                 CURLOPT_TIMEOUT         => $this->timeout,
                 CURLOPT_URL             => $this->uri->__toString(),
@@ -205,7 +204,8 @@ abstract class ClientAbstract
 
         if ($this->method !== 'GET')
             curl_setopt_array($request, [
-                CURLOPT_POSTFIELDS => $this->body
+                CURLOPT_CUSTOMREQUEST   => $this->method,
+                CURLOPT_POSTFIELDS      => $this->body
             ]);
 
         $body       = curl_exec($request);
