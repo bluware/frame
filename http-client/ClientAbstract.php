@@ -6,15 +6,15 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Rest;
+namespace Frame\Http;
 
-use Frame\Rest\Client\Headers;
-use Frame\Rest\Client\Response;
-use Frame\Uri;
-use Frame\UriAbstract;
+use Frame\Http\Client\Headers;
+use Frame\Http\Client\Response;
+use Frame\Http\Uri;
+use Frame\Http\UriAbstract;
 
 /**
- * @subpackage Client
+ * @subpackage Http\Client
  */
 abstract class ClientAbstract
 {
@@ -130,7 +130,7 @@ abstract class ClientAbstract
      */
     public function header($header, $val = null)
     {
-        if ($value === null)
+        if ($val === null)
             return $this->headers
                 ->get($header);
 

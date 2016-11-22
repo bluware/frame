@@ -6,7 +6,7 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Uri;
+namespace Frame\Http\Uri;
 
 use Frame\Data\Writable;
 

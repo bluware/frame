@@ -6,12 +6,12 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Rest\Client;
+namespace Frame\Http\Client;
 
 use Frame\Data\Writable;
 
 /**
- * @subpackage Rest
+ * @subpackage Http\Client
  */
 class Headers extends Writable
 {

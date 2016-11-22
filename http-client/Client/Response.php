@@ -6,10 +6,10 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Rest\Client;
+namespace Frame\Http\Client;
 
 /**
- * @subpackage Http
+ * @subpackage Http\Client
  */
 class Response
 {

@@ -6,15 +6,15 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame;
+namespace Frame\Http;
 
-use Frame\Uri\Query;
-use Frame\Data\Readable;
+use Frame\Http\Uri\Query;
+use Frame\Data\Writable;
 
 /**
  * @subpackage Uri
  */
-class Uri extends Readable
+class Uri extends Writable
 {
     /**
      *  @param mixed $data

@@ -38,34 +38,34 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `uri` module
+     *  @package `http-uri` module
      */
-     'Frame\\Uri\\Query'
-         => __DIR__ . "/uri/Uri/Query.php",
-     'Frame\\Uri'
-         => __DIR__ . "/uri/Uri.php",
+     'Frame\\Http\\Uri\\Query'
+         => __DIR__ . "/http-uri/Uri/Query.php",
+     'Frame\\Http\\Uri'
+         => __DIR__ . "/http-uri/Uri.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
      *  @package `client` module
      */
-     'Frame\\Rest\\Client\\Headers'
-         => __DIR__ . "/rest/Client/Headers.php",
-     'Frame\\Rest\\Client\\Response'
-         => __DIR__ . "/rest/Client/Response.php",
-     'Frame\\Rest\\ClientAbstract'
-         => __DIR__ . "/rest/ClientAbstract.php",
-     'Frame\\Rest\\Client'
-         => __DIR__ . "/rest/Client.php",
+     'Frame\\Http\\Client\\Headers'
+         => __DIR__ . "/http-client/Client/Headers.php",
+     'Frame\\Http\\Client\\Response'
+         => __DIR__ . "/http-client/Client/Response.php",
+     'Frame\\Http\\ClientAbstract'
+         => __DIR__ . "/http-client/ClientAbstract.php",
+     'Frame\\Http\\Client'
+         => __DIR__ . "/http-client/Client.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
      *  @package `cookie` module
      */
      'Frame\\CookieInterface'
-         => __DIR__ . "/cookie/CookieInterface.php",
+         => __DIR__ . "/http-cookie/CookieInterface.php",
      'Frame\\Cookie'
-         => __DIR__ . "/cookie/Cookie.php",
+         => __DIR__ . "/http-cookie/Cookie.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
