@@ -63,9 +63,15 @@ abstract class ClientAbstract
          */
         $this->uri = is_object(
                  $url
-             ) && is_subclass_of(
-                 $url, UriAbstract::class
-             ) ? $url : new Uri($url);
+             ) && (
+                get_class(
+                    $url
+                ) === Uri::class
+                ||
+                is_subclass_of(
+                    $url, Uri::class
+                )
+            ) ? $url : new Uri($url);
 
         /**
          *  @var array

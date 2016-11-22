@@ -34,11 +34,13 @@ class Uri extends Writable
         /**
          *  @var \Frame\Uri\Query
          */
-        $this->data['query'] = new Query(
-            parse_str(
-                $this->get('query')
+        $this->data([
+            'query' => new Query(
+                parse_str(
+                    $this->get('query')
+                )
             )
-        );
+        ]);
     }
 
     /**
