@@ -945,7 +945,7 @@ class Query
      */
     public function separate($column)
     {
-        if (strpos($column, '`') !== false || strpos($column, '*' || strpos($column, '(') !== false)
+        if (strpos($column, '`') !== false || strpos($column, '*') !== false || strpos($column, '(') !== false)
             return $column;
 
         /**
