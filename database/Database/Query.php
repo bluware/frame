@@ -912,6 +912,32 @@ class Query
     }
 
     /**
+     *  @return string
+     */
+    public function year($column)
+    {
+        /**
+         *  @return string
+         */
+        return sprintf(
+            'YEAR(%s)', $this->separate($column)
+        );
+    }
+
+    /**
+     *  @return string
+     */
+    public function week($column)
+    {
+        /**
+         *  @return string
+         */
+        return sprintf(
+            'WEEK(%s)', $this->separate($column)
+        );
+    }
+
+    /**
      *  @param  string $column
      *  @param  string $alias
      *
