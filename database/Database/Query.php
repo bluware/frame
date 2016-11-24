@@ -899,6 +899,19 @@ class Query
     }
 
     /**
+     *  @return string
+     */
+    public function sum($column)
+    {
+        /**
+         *  @return string
+         */
+        return sprintf(
+            'SUM(%s)', $this->separate($column)
+        );
+    }
+
+    /**
      *  @param  string $column
      *  @param  string $alias
      *
