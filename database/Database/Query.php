@@ -693,7 +693,10 @@ class Query
              */
             array_push(
                 $this->order,
-                sprintf(
+                is_numeric($column) ? sprintf(
+                    '%s ASC',
+                    $this->separate($sort)
+                ) : sprintf(
                     '%s %s',
                     $this->separate($column),
                     strtoupper($sort)
