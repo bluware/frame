@@ -343,7 +343,7 @@ class Query
                 '%s JOIN %s ON (%s)',
                 strtoupper($paste),
                 $table,
-                join(' AND ', $expression)
+                join(', ', $expression)
             )
         );
 
@@ -911,6 +911,19 @@ class Query
          */
         return sprintf(
             'SUM(%s)', $this->separate($column)
+        );
+    }
+
+    /**
+     *  @return string
+     */
+    public function max($column)
+    {
+        /**
+         *  @return string
+         */
+        return sprintf(
+            'MAX(%s)', $this->separate($column)
         );
     }
 
