@@ -53,8 +53,8 @@ return [
          => __DIR__ . "/http-client/Client/Headers.php",
      'Frame\\Http\\Client\\Response'
          => __DIR__ . "/http-client/Client/Response.php",
-     'Frame\\Http\\ClientAbstract'
-         => __DIR__ . "/http-client/ClientAbstract.php",
+     'Frame\\Http\\ClientInterface'
+         => __DIR__ . "/http-client/ClientInterface.php",
      'Frame\\Http\\Client'
          => __DIR__ . "/http-client/Client.php",
     //-------------------------------------------------------------------------
@@ -62,40 +62,40 @@ return [
     /**------------------------------------------------------------------------
      *  @package `cookie` module
      */
-     'Frame\\CookieInterface'
+     'Frame\\Http\\CookieInterface'
          => __DIR__ . "/http-cookie/CookieInterface.php",
-     'Frame\\Cookie'
+     'Frame\\Http\\Cookie'
          => __DIR__ . "/http-cookie/Cookie.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
      *  @package `response` module
      */
-     'Frame\\Response\\Headers'
-         => __DIR__ . "/response/Response/Headers.php",
-     'Frame\\ResponseInterface'
-         => __DIR__ . "/response/ResponseInterface.php",
-     'Frame\\Response'
-         => __DIR__ . "/response/Response.php",
+     'Frame\\Http\\Response\\Headers'
+         => __DIR__ . "/http-response/Response/Headers.php",
+     'Frame\\Http\\ResponseInterface'
+         => __DIR__ . "/http-response/ResponseInterface.php",
+     'Frame\\Http\\Response'
+         => __DIR__ . "/http-response/Response.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
      *  @package `request` module
      */
-     'Frame\\Request\\Body'
-         => __DIR__ . "/request/Request/Body.php",
-     'Frame\\Request\\Cookies'
-         => __DIR__ . "/request/Request/Cookies.php",
-     'Frame\\Request\\Files'
-         => __DIR__ . "/request/Request/Files.php",
-     'Frame\\Request\\Query'
-         => __DIR__ . "/request/Request/Query.php",
-     'Frame\\Request\\Server'
-         => __DIR__ . "/request/Request/Server.php",
-     'Frame\\RequestInterface'
-         => __DIR__ . "/request/RequestInterface.php",
-     'Frame\\Request'
-         => __DIR__ . "/request/Request.php",
+     'Frame\\Http\\Request\\Body'
+         => __DIR__ . "/http-request/Request/Body.php",
+     'Frame\\Http\\Request\\Cookies'
+         => __DIR__ . "/http-request/Request/Cookies.php",
+     'Frame\\Http\\Request\\Files'
+         => __DIR__ . "/http-request/Request/Files.php",
+     'Frame\\Http\\Request\\Query'
+         => __DIR__ . "/http-request/Request/Query.php",
+     'Frame\\Http\\Request\\Server'
+         => __DIR__ . "/http-request/Request/Server.php",
+     'Frame\\Http\\RequestInterface'
+         => __DIR__ . "/http-request/RequestInterface.php",
+     'Frame\\Http\\Request'
+         => __DIR__ . "/http-request/Request.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -151,10 +151,10 @@ return [
     /**------------------------------------------------------------------------
      *  @package `database` module
      */
-     'Frame\\Active\\Query'
-         => __DIR__ . "/active/Query.php",
-     'Frame\\Active\\Record'
-         => __DIR__ . "/active/Record.php",
+     'Frame\\ActiveRecord\\Query'
+         => __DIR__ . "/active-record/ActiveRecord/Query.php",
+     'Frame\\ActiveRecord'
+         => __DIR__ . "/active-record/ActiveRecord.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------

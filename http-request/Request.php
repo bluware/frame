@@ -6,13 +6,13 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame;
+namespace Frame\Http;
 
-use Frame\Request\Body;
-use Frame\Request\Cookies;
-use Frame\Request\Files;
-use Frame\Request\Query;
-use Frame\Request\Server;
+use Frame\Http\Request\Body;
+use Frame\Http\Request\Cookies;
+use Frame\Http\Request\Files;
+use Frame\Http\Request\Query;
+use Frame\Http\Request\Server;
 use Frame\Data\Readable;
 use Frame\Json;
 

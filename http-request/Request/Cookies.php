@@ -6,10 +6,10 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Request;
+namespace Frame\Http\Request;
 
 use Frame\Data\Readable;
-use Frame\Cookie;
+use Frame\Http\Cookie;
 
 /**
  * @subpackage Request

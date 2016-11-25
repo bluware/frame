@@ -6,17 +6,15 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Request;
-
-use Frame\Data\Readable;
+namespace Frame\Http\Request;
 
 /**
  * @subpackage Request
  */
-class Query extends Readable
+class Body extends \Frame\Data\Readable
 {
     /**
-     *  @param array $data
+     *  @param mixed $data
      */
     public function __construct(array $data = null)
     {

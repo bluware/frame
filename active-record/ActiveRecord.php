@@ -6,12 +6,14 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Active;
+namespace Frame;
+
+use Frame\ActiveRecord\Query;
 
 /**
  * @subpackage Active
  */
-abstract class Record extends Query
+abstract class ActiveRecord extends Query
 {
     /**
      *  @param  array  $data

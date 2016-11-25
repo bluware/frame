@@ -6,7 +6,7 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Response;
+namespace Frame\Http\Response;
 
 use Frame\Data\Writable;
 

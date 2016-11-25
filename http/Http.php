@@ -8,8 +8,8 @@
  */
 namespace Frame;
 
-use Frame\Request;
-use Frame\Response;
+use Frame\Http\Request;
+use Frame\Http\Response;
 
 /**
  * @subpackage Http
@@ -58,6 +58,35 @@ class Http implements HttpInterface
             $request,
             array_shift($params)
         ], $params);
+    }
+
+    /**
+     *  @param  string $input
+     *
+     *  @return mixed
+     */
+    public static function cookie($input = null, $alternate = null)
+    {
+        /**
+         * @var void
+         */
+        $request = static::request();
+
+        /**
+         * @var boolean
+         */
+        if ($input === null)
+            /**
+             * @var \Frame\Request
+             */
+            return $request->cookie();
+
+        /**
+         * @var mixed
+         */
+        return $request->cookie(
+            $input, $alternate
+        );
     }
 
     /**

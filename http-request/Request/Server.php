@@ -6,7 +6,7 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Request;
+namespace Frame\Http\Request;
 
 use Frame\Data\Readable;
 

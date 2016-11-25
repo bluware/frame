@@ -6,12 +6,15 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Request;
+namespace Frame\Http\Request;
+
+use Frame\Data\Readable;
+use Frame\Http\File;
 
 /**
  * @subpackage Request
  */
-class Body extends \Frame\Data\Readable
+class Files extends Readable
 {
     /**
      *  @param mixed $data
@@ -23,5 +26,18 @@ class Body extends \Frame\Data\Readable
              *  @var array
              */
             $this->data = $data;
+    }
+
+    /**
+     *  @param  string $key
+     *  @param  mixed  $alternate
+     *
+     *  @return \Blu\Http\Cookie
+     */
+    public function get($key, $alternate = null)
+    {
+        return new File(
+            $key, parent::get($key, $alternate)
+        );
     }
 }
