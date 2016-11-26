@@ -29,8 +29,8 @@ interface CookieInterface
         $name,
         $input      = null,
         $expire     = 0,
-        $path       = '/',
-        $domain     = null,
+        $path       = '',
+        $domain     = '',
         $secure     = false,
         $http       = true
     );

@@ -33,7 +33,7 @@ class Cookie implements CookieInterface
     /**
      *  @var string
      */
-    protected $domain           = null;
+    protected $domain           = '';
 
     /**
      *  @var bool
@@ -66,7 +66,7 @@ class Cookie implements CookieInterface
         $input      = null,
         $expire     = 0,
         $path       = '',
-        $domain     = null,
+        $domain     = '',
         $secure     = false,
         $http       = true
     ) {
@@ -341,5 +341,17 @@ class Cookie implements CookieInterface
                 return intval($this->input);
                 break;
         }
+    }
+
+    /**
+     *  Data transfer.
+     *
+     *  @param mixed $type
+     *
+     *  @return mixed
+     */
+    public function __get($input)
+    {
+        return $this->{$input};
     }
 }

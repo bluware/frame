@@ -73,13 +73,6 @@ class Request extends Readable implements RequestInterface
         /**
          *  @param \Frame\Request\Cookie
          */
-        $this->cookies = new Cookies(
-            $cookies !== null ? $cookies : $_COOKIE
-        );
-
-        /**
-         *  @param \Frame\Request\Cookie
-         */
         $this->server = new Server(
             array_replace(
                 [
@@ -98,6 +91,14 @@ class Request extends Readable implements RequestInterface
                     'REQUEST_URI'           => '/',
                 ], $server !== null ? $server : $_SERVER
             )
+        );
+
+        /**
+         *  @param \Frame\Request\Cookie
+         */
+        $this->cookies = new Cookies(
+            $cookies !== null ? $cookies : $_COOKIE,
+            $this->secure()
         );
 
         /**
@@ -385,6 +386,29 @@ class Request extends Readable implements RequestInterface
     }
 
     /**
+     *  Mixed method with read instance or properties.
+     *
+     *  Usage:
+     *      \Frame\Request\Server server()
+     *      mixed server($input)
+     *      array server([$input])
+     *
+     *  @param  scalar $input
+     *  @param  mixed  $alternate
+     *
+     *  @return mixed
+     */
+    public function header($input, $alternate = null)
+    {
+        /**
+         *  @var string|null
+         */
+        return $this->server(
+            sprintf('HTTP_%s', $input)
+        );
+    }
+
+    /**
      *  Get method or use comparison methods
      *
      *  Usage:
@@ -393,19 +417,16 @@ class Request extends Readable implements RequestInterface
      *      bool   schema('in', [$schema_a, $schema_b])
      *
      *  @param  scalar $prop
-     *  @param  scalar $comparison
+     *  @param  scalar $compare
      *
      *  @return mixed
      */
-    public function schema($prop = null, $comparison = null)
+    public function schema($prop = null, $compare = null)
     {
-        if ($prop !== null) {
-            return call_user_func([
-                $this, sprintf(
-                    'schema_%s', $prop
-                )
-            ], $comparison);
-        }
+        if ($prop !== null)
+            return $this->{
+                sprintf('schema_%s', $prop)
+            }($compare);
 
         return $this->server('HTTPS', 'off') !== 'off'
             || $this->port() === 443 ? 'https' : 'http';
@@ -414,33 +435,33 @@ class Request extends Readable implements RequestInterface
     /**
      *  Compare request method, use schema('is', $schema) instead.
      *
-     *  @param  string $comparison
+     *  @param  string $compare
      *
      *  @return boolean
      */
-    public function schema_is($comparison)
+    public function schema_is($compare)
     {
         return strtolower(
-            $comparison
+            $compare
         ) === $this->schema();
     }
 
     /**
      *  Compare request method, use schema('in', [$schema_a, $schema_b]) instead.
      *
-     *  @param  array $comparison
+     *  @param  array $compare
      *
      *  @return boolean
      */
-    public function schema_in(array $comparison)
+    public function schema_in(array $compare)
     {
-        $comparison = array_map(
-            'strtolower', $comparison
+        $compare = array_map(
+            'strtolower', $compare
         );
 
         return in_array(
             $this->schema(),
-            $comparison,
+            $compare,
             true
         );
     }
@@ -460,10 +481,37 @@ class Request extends Readable implements RequestInterface
      *
      *  @return string
      */
-    public function host()
+    public function host($prop = null, $compare = null)
     {
-        return $this->server(
-            'HTTP_HOST', '127.0.0.1'
+        if ($prop !== null)
+            return $this->{
+                sprintf('host_%s', $prop)
+            }($compare);
+
+        return $this->header(
+            'HOST', '127.0.0.1'
+        );
+    }
+
+    /**
+     *  Get server hostname.
+     *
+     *  @return string
+     */
+    public function host_is($compare)
+    {
+        return $this->host() === $compare;
+    }
+
+    /**
+     *  Get server hostname.
+     *
+     *  @return string
+     */
+    public function host_in(array $compare)
+    {
+        return in_array(
+            $this->host(), $compare, true
         );
     }
 
@@ -472,8 +520,13 @@ class Request extends Readable implements RequestInterface
      *
      *  @return string
      */
-    public function port()
+    public function port($prop = null, $compare = null)
     {
+        if ($prop !== null)
+            return $this->{
+                sprintf('port_%s', $prop)
+            }($compare);
+
         return intval(
             $this->server(
                 'SERVER_PORT', 80
@@ -482,14 +535,71 @@ class Request extends Readable implements RequestInterface
     }
 
     /**
+     *  Get server port.
+     *
+     *  @return string
+     */
+    public function port_is($compare)
+    {
+        return $this->port() === intval(
+            $compare
+        );
+    }
+
+    /**
+     *  Get server port.
+     *
+     *  @return string
+     */
+    public function port_in(array $compare)
+    {
+        $compare = array_map(
+            'intval', $compare
+        );
+
+        return in_array(
+            $this->port(), $compare, true
+        );
+    }
+
+    /**
      *  Get server uri.
      *
      *  @return string
      */
-    public function uri()
+    public function uri($prop = null, $compare = null)
     {
+        if ($prop !== null)
+            return $this->{
+                sprintf('uri_%s', $prop)
+            }($compare);
+
         return $this->server(
             'REQUEST_URI', '/'
+        );
+    }
+
+    /**
+     *  Get server uri.
+     *
+     *  @return string
+     */
+    public function uri_is($compare)
+    {
+        return $this->uri() === intval(
+            $compare
+        );
+    }
+
+    /**
+     *  Get server uri.
+     *
+     *  @return string
+     */
+    public function uri_in(array $compare)
+    {
+        return in_array(
+            $this->uri(), $compare, true
         );
     }
 
@@ -498,10 +608,39 @@ class Request extends Readable implements RequestInterface
      *
      *  @return string
      */
-    public function path()
+    public function path($prop = null, $compare = null)
     {
+        if ($prop !== null)
+            return $this->{
+                sprintf('path_%s', $prop)
+            }($compare);
+
         return strtok(
             $this->uri(), '?'
+        );
+    }
+
+    /**
+     *  Get server port.
+     *
+     *  @return string
+     */
+    public function path_is($compare)
+    {
+        return $this->path() === intval(
+            $compare
+        );
+    }
+
+    /**
+     *  Get server path.
+     *
+     *  @return string
+     */
+    public function path_in(array $compare)
+    {
+        return in_array(
+            $this->path(), $compare, true
         );
     }
 
@@ -535,19 +674,16 @@ class Request extends Readable implements RequestInterface
      *      bool   method('in', [$method_a, $method_b])
      *
      *  @param  scalar $prop
-     *  @param  scalar $comparison
+     *  @param  scalar $compare
      *
      *  @return mixed
      */
-    public function method($prop = null, $comparison = null)
+    public function method($prop = null, $compare = null)
     {
-        if ($prop !== null) {
-            return call_user_func([
-                $this, sprintf(
-                    'method_%s', $prop
-                )
-            ], $comparison);
-        }
+        if ($prop !== null)
+            return $this->{
+                sprintf('method_%s', $prop)
+            }($compare);
 
         return $this->server(
             'REQUEST_METHOD', 'GET'
@@ -557,30 +693,30 @@ class Request extends Readable implements RequestInterface
     /**
      *  Compare request method, use method('is', $method) instead.
      *
-     *  @param  string $comparison
+     *  @param  string $compare
      *
      *  @return boolean
      */
-    public function method_is($comparison)
+    public function method_is($compare)
     {
-        return $this->method() === strtoupper($comparison);
+        return $this->method() === strtoupper($compare);
     }
 
     /**
      *  Compare request method, use method('in', [$method_a, $method_b]) instead.
      *
-     *  @param  array $comparison
+     *  @param  array $compare
      *
      *  @return boolean
      */
-    public function method_in(array $comparison)
+    public function method_in(array $compare)
     {
-        $comparison = array_map(
-            'strtoupper', $comparison
+        $compare = array_map(
+            'strtoupper', $compare
         );
 
         return in_array(
-            $this->method(), $comparison, true
+            $this->method(), $compare, true
         );
     }
 
@@ -595,20 +731,16 @@ class Request extends Readable implements RequestInterface
      *      bool   ip('in', [$address_a, 'local']) # local network client
      *
      *  @param  scalar $prop
-     *  @param  scalar $comparison
+     *  @param  scalar $compare
      *
      *  @return mixed
      */
-    public function ip($prop = null, $comparison = null)
+    public function ip($prop = null, $compare = null)
     {
-
-        if ($prop !== null) {
-            return call_user_func([
-                $this, sprintf(
-                    'ip_%s', $prop
-                )
-            ], $comparison);
-        }
+        if ($prop !== null)
+            return $this->{
+                sprintf('ip_%s', $prop)
+            }($compare);
 
         return $this->server(
             'REMOTE_ADDR', '127.0.0.1'
@@ -618,14 +750,14 @@ class Request extends Readable implements RequestInterface
     /**
      *  Compare client ip, use ip('is', $ip | 'local') instead.
      *
-     *  @param  string $comparison
+     *  @param  string $compare
      *
      *  @return boolean
      */
-    public function ip_is($comparison)
+    public function ip_is($compare)
     {
-        if ($comparison !== 'local')
-            return $this->ip() === $comparison;
+        if ($compare !== 'local')
+            return $this->ip() === $compare;
 
         return preg_match(
             '/(127\.0\.0\.1|192\.168\.[0-9]{1,3}\.[0-9]{1,3})/',
@@ -636,18 +768,18 @@ class Request extends Readable implements RequestInterface
     /**
      *  Compare client ip, use ip('in', [$ip_a, $ip_b]) instead.
      *
-     *  @param  array $comparison
+     *  @param  array $compare
      *
      *  @return boolean
      */
-    public function ip_in(array $comparison)
+    public function ip_in(array $compare)
     {
-        if (in_array('local', $comparison, true))
+        if (in_array('local', $compare, true))
             if ($this->ip('is', 'local') === true)
                 return true;
 
         return in_array(
-            $this->ip(), $comparison, true
+            $this->ip(), $compare, true
         );
     }
 
@@ -656,9 +788,36 @@ class Request extends Readable implements RequestInterface
      *
      *  @return string
      */
-    public function agent()
+    public function agent($prop = null, $compare = null)
     {
-        return $this->server('HTTP_USER_AGENT');
+        if ($prop !== null)
+            return $this->{
+                sprintf('agent_%s', $prop)
+            }($compare);
+
+        return $this->header('USER_AGENT');
+    }
+
+    /**
+     *  Get client agent
+     *
+     *  @return string
+     */
+    public function agent_is($compare)
+    {
+        return $this->agent() === $compare;
+    }
+
+    /**
+     *  Get client agent
+     *
+     *  @return string
+     */
+    public function agent_in(array $compare)
+    {
+        return in_array(
+            $this->agent(), $compare, true
+        );
     }
 
     /**
@@ -667,15 +826,17 @@ class Request extends Readable implements RequestInterface
      *  Usage: bool is('console'|'cli'|'ajax'|'xhr'|'json')
      *
      *  @param  scalar $prop
-     *  @param  scalar $comparison
+     *  @param  scalar $compare
      *
      *  @return mixed
      */
-    public function is($prop, $comparison = null)
+    public function is($prop, $compare = null)
     {
-        return call_user_func([
-            $this, sprintf('is_%s', $prop)
-        ], $comparison);
+        return $this->{
+            sprintf(
+                'is_%s', $prop
+            )
+        }($compare);
     }
 
     /**
@@ -727,7 +888,7 @@ class Request extends Readable implements RequestInterface
     public function is_xhr()
     {
         return 'xmlhttprequest' == strtolower(
-            $this->server('HTTP_X_REQUESTED_WITH', '')
+            $this->header('X_REQUESTED_WITH', '')
         );
     }
 
@@ -783,13 +944,13 @@ class Request extends Readable implements RequestInterface
      *
      *  @return string
      */
-    public function locale($locale = 'en')
+    public function locales()
     {
         if (
             preg_match_all(
                 '/([a-z]{1,8}(?:-[a-z]{1,8})?)(?:;q=([0-9.]+))?/',
                 strtolower(
-                    $this->server('HTTP_ACCEPT_LANGUAGE')
+                    $this->header('ACCEPT_LANGUAGE')
                 ),
                 $matches
             )
@@ -802,14 +963,42 @@ class Request extends Readable implements RequestInterface
 
             arsort($language, SORT_NUMERIC);
 
-            $language   = array_keys($language);
-            $primary    = array_shift(
-                $language
-            );
+            $language = array_keys($language);
 
-            $locale = strtok($primary, '-');
+            return $language;
         }
 
-        return $locale;
+        return ['en'];
+    }
+
+    /**
+     *  Exctract client best matches locale.
+     *
+     *  Usage: string locale() || string locale('en')
+     *
+     *  @var string $locale
+     *
+     *  @return string
+     */
+    public function locale($locale = 'en')
+    {
+        /**
+         *  @var string
+         */
+        $locales = $this->locales([
+            $locale
+        ]);
+
+        /**
+         *  @var string
+         */
+        $suggest = array_shift(
+            $locales
+        );
+
+        /**
+         *  @var string
+         */
+        return strtok($suggest, '-');
     }
 }

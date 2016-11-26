@@ -17,15 +17,25 @@ use Frame\Http\Cookie;
 class Cookies extends Readable
 {
     /**
+     *  @var boolean
+     */
+    protected $secure   = false;
+
+    /**
      *  @param mixed $data
      */
-    public function __construct(array $data = null)
+    public function __construct(array $data = null, $secure = false)
     {
         if ($data !== null)
             /**
              *  @var array
              */
             $this->data = $data;
+
+        /**
+         *  @var boolean
+         */
+        $this->secure = $secure;
     }
 
     /**
@@ -37,7 +47,14 @@ class Cookies extends Readable
     public function get($key, $alternate = null)
     {
         return new Cookie(
-            $key, parent::get($key, $alternate)
+            $key,
+            parent::get(
+                $key, $alternate
+            ),
+            0,
+            '',
+            '',
+            $this->secure
         );
     }
 }
