@@ -52,6 +52,18 @@ abstract class Readable implements \Iterator
     }
 
     /**
+     *  @param array $data
+     *
+     *  @return mixed
+     */
+    public function intersect(array $data)
+    {
+        return array_intersect_assoc(
+            $this->data, $data
+        );
+    }
+
+    /**
      *  @return void
      */
     public function sort()

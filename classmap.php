@@ -167,6 +167,20 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
+     *  @package `form` module
+     */
+     'Frame\\Form\\Filter'
+         => __DIR__ . "/form/Form/Filter.php",
+     'Frame\\Form\\Input'
+         => __DIR__ . "/form/Form/Input.php",
+     'Frame\\FormInterface'
+         => __DIR__ . "/form/FormInterface.php",
+     'Frame\\Form'
+         => __DIR__ . "/form/Form.php",
+    //-------------------------------------------------------------------------
+
+
+    /**------------------------------------------------------------------------
      *  @package `package` module
      */
      'Frame\\Package'
