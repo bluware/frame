@@ -12,8 +12,8 @@ use Frame\Service\Autoload;
 use Frame\Service\Locator;
 use Frame\Database;
 use Frame\Http;
-use Frame\Router;
-use Frame\Request;
+use Frame\Routing;
+use Frame\Http\Request;
 use Frame\Secure;
 
 /**
@@ -21,9 +21,15 @@ use Frame\Secure;
  */
 class App
 {
+    /**
+     *  @var Frame\Service\Locator
+     */
     protected $locator;
 
-    public function __construct()
+    /**
+     *  @return void
+     */
+    public function __construct($config = [])
     {
         /**
          *  @var Frame\Service\Locator
@@ -31,61 +37,134 @@ class App
         $locator = new Locator();
 
         /**
+         *  @var array
+         */
+        $config = gettype($config) === 'string' && is_file($config) ?
+            include($config) : $config;
+
+        /**
          *  @var Frame\Service\Locator
          */
-        $locator->add(
-            new Autoload(),
-            'autoload'
-        );
+        $locator->add($config, 'config');
+
+        /**
+         *  @var Frame\Service\Locator
+         */
+        $autoload = new Autoload();
+
+        /**
+         *  @var Frame\Service\Locator
+         */
+        $locator->add($autoload, 'autoload');
+
+        /**
+         *
+         */
+        $this->extract($config, 'autoload', [
+            $autoload, 'add'
+        ]);
 
         /**
          *  @var \Frame\Request
          */
-        $locator->add(
-            Http::request(),
-            'request'
-        );
+        $request = new Request();
+
+        /**
+         *  @var \Frame\Request
+         */
+        $locator->add($request, 'request');
 
         /**
          *  @var \Frame\Router
          */
-        $locator->add(
-            new Router(),
-            'router'
-        );
+        $routing = new Routing();
+
+        /**
+         *  @var \Frame\Router
+         */
+        $locator->add($routing, 'router');
 
         /**
          *  @var \Frame\Database\Union
          */
-        $locator->add(
-            Database::union(),
-            'database'
-        );
+        $database = Database::union();
+
+        /**
+         *  @var \Frame\Database\Union
+         */
+        $locator->add($database, 'database');
+
+        /**
+         *  @var void
+         */
+        $this->extract($config, 'database', [
+            $database, 'add'
+        ]);
 
         /**
          *  @var \Frame\Secure\Keychain
          */
-        $locator->add(
-            Secure::keychain(),
-            'keychain'
-        );
+        $secure = Secure::keychain();
 
+        /**
+         *  @var \Frame\Secure\Keychain
+         */
+        $locator->add($secure, 'secure');
+
+        /**
+         *  @var void
+         */
+        $this->extract($config, 'secure', [
+            $secure, 'set'
+        ]);
+
+        /**
+         *  @var \Frame\Service\Locator
+         */
         $this->locator = $locator;
     }
 
-    public static function http($instance)
+    /**
+     *  @param  array    $config [description]
+     *  @param  [type]   $key    [description]
+     *  @param  callable $call   [description]
+     *
+     *  @return [type]           [description]
+     */
+    protected function extract(array $config, $key, callable $call)
     {
         /**
-         *  @var array
+         *  @var boolean
          */
-        $params = func_get_args();
+        $isset = array_key_exists($key, $config);
 
         /**
-         *  @var array
+         *  @var boolean
          */
-        return forward_static_call_array([
-            Http::class,
-            array_shift($params)
-        ], $params);
+        if ($isset === false)
+            return $this;
+
+        /**
+         *  @var mixed
+         */
+        $config = $config[$key];
+
+        /**
+         *  @var boolean
+         */
+        if (gettype($config) !== 'array')
+            $config = ['default' => $config];
+
+        /**
+         *  @var boolean
+         */
+        foreach ($config as $key => $value) {
+             call_user_func($call, $key, $value);
+        }
+
+        /**
+         *  @var boolean
+         */
+        return $this;
     }
 }

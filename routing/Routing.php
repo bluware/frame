@@ -400,7 +400,7 @@ class Routing
     /**
      *  @return mixed
      */
-    public function compile()
+    public function compile($injection = null)
     {
         /**
          *  @var boolean
@@ -502,7 +502,7 @@ class Routing
                         }
 
                         $maked = call_user_func_array([
-                            new $aspect(), 'inspect'
+                            new $aspect($injection), 'inspect'
                         ], $params);
 
                         if ($maked !== null)
@@ -537,7 +537,7 @@ class Routing
                      *  @var array
                      */
                     $data['maker'] = [
-                        new $class, $method
+                        new $class($injection), $method
                     ];
                 }
 

@@ -39,6 +39,13 @@ class Autoload
          *  @var \Frame\Data\Data
          */
         $this->classmaps  = new Data();
+
+        /**
+         *  @var \Frame\Data\Data
+         */
+        spl_autoload_register([
+            $this, 'loader'
+        ]);
     }
 
     /**
@@ -68,17 +75,17 @@ class Autoload
         return $this;
     }
 
-    /**
-     *  @return void
-     */
-    public function register()
-    {
-        spl_autoload_register([
-            $this, 'loader'
-        ]);
-
-        return $this;
-    }
+    // /**
+    //  *  @return void
+    //  */
+    // public function register()
+    // {
+    //     spl_autoload_register([
+    //         $this, 'loader'
+    //     ]);
+    //
+    //     return $this;
+    // }
 
     /**
      *  @param  string $class
