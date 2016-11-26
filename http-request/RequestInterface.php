@@ -25,10 +25,17 @@ interface RequestInterface
     );
 
     /**
+     *  @param scalar $key
+     *
+     *  @return boolean
+     */
+    public function has($instance, $key = null);
+
+    /**
      *  Mixed method with read instance or properties.
      *
      *  Usage:
-     *      \Blu\Request\Query query()
+     *      \Frame\Request\Query query()
      *      mixed query($input)
      *      array query([$input])
      *
@@ -43,7 +50,7 @@ interface RequestInterface
      *  Mixed method with read instance or properties.
      *
      *  Usage:
-     *      \Blu\Request\Body body()
+     *      \Frame\Request\Body body()
      *      mixed body($input)
      *      array body([$input])
      *
@@ -118,7 +125,7 @@ interface RequestInterface
      *  Mixed method with read instance or properties.
      *
      *  Usage:
-     *      \Blu\Request\Files files()
+     *      \Frame\Request\Files files()
      *      mixed files($input)
      *      array files([$input])
      *
@@ -133,7 +140,7 @@ interface RequestInterface
      *  Mixed method with read instance or properties.
      *
      *  Usage:
-     *      \Blu\Request\Cookie cookie()
+     *      \Frame\Request\Cookie cookie()
      *      mixed cookie($input)
      *      array cookie([$input])
      *
@@ -148,7 +155,7 @@ interface RequestInterface
      *  Mixed method with read instance or properties.
      *
      *  Usage:
-     *      \Blu\Request\Server server()
+     *      \Frame\Request\Server server()
      *      mixed server($input)
      *      array server([$input])
      *
@@ -160,6 +167,21 @@ interface RequestInterface
     public function server($input = null, $alternate = null);
 
     /**
+     *  Mixed method with read instance or properties.
+     *
+     *  Usage:
+     *      \Frame\Request\Server server()
+     *      mixed server($input)
+     *      array server([$input])
+     *
+     *  @param  scalar $input
+     *  @param  mixed  $alternate
+     *
+     *  @return mixed
+     */
+    public function header($input, $alternate = null);
+
+    /**
      *  Get method or use comparison methods
      *
      *  Usage:
@@ -168,29 +190,29 @@ interface RequestInterface
      *      bool   schema('in', [$schema_a, $schema_b])
      *
      *  @param  scalar $prop
-     *  @param  scalar $comparison
+     *  @param  scalar $compare
      *
      *  @return mixed
      */
-    public function schema($prop = null, $comparison = null);
+    public function schema($prop = null, $compare = null);
 
     /**
      *  Compare request method, use schema('is', $schema) instead.
      *
-     *  @param  string $comparison
+     *  @param  string $compare
      *
      *  @return boolean
      */
-    public function schema_is($comparison);
+    public function schema_is($compare);
 
     /**
      *  Compare request method, use schema('in', [$schema_a, $schema_b]) instead.
      *
-     *  @param  array $comparison
+     *  @param  array $compare
      *
      *  @return boolean
      */
-    public function schema_in(array $comparison);
+    public function schema_in(array $compare);
 
     /**
      *  Get requested schema
@@ -204,28 +226,84 @@ interface RequestInterface
      *
      *  @return string
      */
-    public function host();
+    public function host($prop = null, $compare = null);
+
+    /**
+     *  Get server hostname.
+     *
+     *  @return string
+     */
+    public function host_is($compare);
+
+    /**
+     *  Get server hostname.
+     *
+     *  @return string
+     */
+    public function host_in(array $compare);
 
     /**
      *  Get server port.
      *
      *  @return string
      */
-    public function port();
+    public function port($prop = null, $compare = null);
+
+    /**
+     *  Get server port.
+     *
+     *  @return string
+     */
+    public function port_is($compare);
+
+    /**
+     *  Get server port.
+     *
+     *  @return string
+     */
+    public function port_in(array $compare);
 
     /**
      *  Get server uri.
      *
      *  @return string
      */
-    public function uri();
+    public function uri($prop = null, $compare = null);
+
+    /**
+     *  Get server uri.
+     *
+     *  @return string
+     */
+    public function uri_is($compare);
+
+    /**
+     *  Get server uri.
+     *
+     *  @return string
+     */
+    public function uri_in(array $compare);
 
     /**
      *  Get path.
      *
      *  @return string
      */
-    public function path();
+    public function path($prop = null, $compare = null);
+
+    /**
+     *  Get server port.
+     *
+     *  @return string
+     */
+    public function path_is($compare);
+
+    /**
+     *  Get server path.
+     *
+     *  @return string
+     */
+    public function path_in(array $compare);
 
     /**
      *  Get url address with possible replacement path.
@@ -243,29 +321,29 @@ interface RequestInterface
      *      bool   method('in', [$method_a, $method_b])
      *
      *  @param  scalar $prop
-     *  @param  scalar $comparison
+     *  @param  scalar $compare
      *
      *  @return mixed
      */
-    public function method($prop = null, $comparison = null);
+    public function method($prop = null, $compare = null);
 
     /**
      *  Compare request method, use method('is', $method) instead.
      *
-     *  @param  string $comparison
+     *  @param  string $compare
      *
      *  @return boolean
      */
-    public function method_is($comparison);
+    public function method_is($compare);
 
     /**
      *  Compare request method, use method('in', [$method_a, $method_b]) instead.
      *
-     *  @param  array $comparison
+     *  @param  array $compare
      *
      *  @return boolean
      */
-    public function method_in(array $comparison);
+    public function method_in(array $compare);
 
     /**
      *  Get client ip or use middleware methods
@@ -278,36 +356,50 @@ interface RequestInterface
      *      bool   ip('in', [$address_a, 'local']) # local network client
      *
      *  @param  scalar $prop
-     *  @param  scalar $comparison
+     *  @param  scalar $compare
      *
      *  @return mixed
      */
-    public function ip($prop = null, $comparison = null);
+    public function ip($prop = null, $compare = null);
 
     /**
      *  Compare client ip, use ip('is', $ip | 'local') instead.
      *
-     *  @param  string $comparison
+     *  @param  string $compare
      *
      *  @return boolean
      */
-    public function ip_is($comparison);
+    public function ip_is($compare);
 
     /**
      *  Compare client ip, use ip('in', [$ip_a, $ip_b]) instead.
      *
-     *  @param  array $comparison
+     *  @param  array $compare
      *
      *  @return boolean
      */
-    public function ip_in(array $comparison);
+    public function ip_in(array $compare);
 
     /**
      *  Get client agent
      *
      *  @return string
      */
-    public function agent();
+    public function agent($prop = null, $compare = null);
+
+    /**
+     *  Get client agent
+     *
+     *  @return string
+     */
+    public function agent_is($compare);
+
+    /**
+     *  Get client agent
+     *
+     *  @return string
+     */
+    public function agent_in(array $compare);
 
     /**
      *  General comparison mehtod with modulation.
@@ -315,11 +407,11 @@ interface RequestInterface
      *  Usage: bool is('console'|'cli'|'ajax'|'xhr'|'json')
      *
      *  @param  scalar $prop
-     *  @param  scalar $comparison
+     *  @param  scalar $compare
      *
      *  @return mixed
      */
-    public function is($prop, $comparison = null);
+    public function is($prop, $compare = null);
 
     /**
      *  Compare if request maked with 'cli' sapi.
@@ -374,14 +466,7 @@ interface RequestInterface
     public function base($merge = null);
 
     /**
-     *  Alias for 'base'.
-     *
-     *  @return string
-     */
-    public function root($merge = null);
-
-    /**
-     *  Extract client best matches locale.
+     *  Exctract client best matches locale.
      *
      *  Usage: string locale() || string locale('en')
      *
@@ -389,5 +474,16 @@ interface RequestInterface
      *
      *  @return string
      */
-    public function locale($locale = 'en');
+    public function locales();
+
+    /**
+     *  Exctract client best matches locale.
+     *
+     *  Usage: string locale() || string locale('en')
+     *
+     *  @var string $locale
+     *
+     *  @return string
+     */
+    public function locale();
 }

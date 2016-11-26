@@ -97,8 +97,7 @@ class Request extends Readable implements RequestInterface
          *  @param \Frame\Request\Cookie
          */
         $this->cookies = new Cookies(
-            $cookies !== null ? $cookies : $_COOKIE,
-            $this->secure()
+            $cookies !== null ? $cookies : $_COOKIE, $this->secure()
         );
 
         /**
@@ -926,16 +925,6 @@ class Request extends Readable implements RequestInterface
     }
 
     /**
-     *  Alias for 'base'.
-     *
-     *  @return string
-     */
-    public function root($merge = null)
-    {
-        return $this->base($merge);
-    }
-
-    /**
      *  Exctract client best matches locale.
      *
      *  Usage: string locale() || string locale('en')
@@ -980,14 +969,12 @@ class Request extends Readable implements RequestInterface
      *
      *  @return string
      */
-    public function locale($locale = 'en')
+    public function locale()
     {
         /**
          *  @var string
          */
-        $locales = $this->locales([
-            $locale
-        ]);
+        $locales = $this->locales();
 
         /**
          *  @var string
