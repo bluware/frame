@@ -8,6 +8,7 @@
  */
 namespace Frame;
 
+use Frame\App\Packages;
 use Frame\Service\Autoload;
 use Frame\Service\Locator;
 use Frame\Database;
@@ -124,6 +125,11 @@ class App
         $this->locator = $locator;
     }
 
+    public function locator()
+    {
+        return $this->locator;
+    }
+
     /**
      *  @param  array    $config [description]
      *  @param  [type]   $key    [description]
@@ -166,5 +172,56 @@ class App
          *  @var boolean
          */
         return $this;
+    }
+
+    /**
+     *  @param  array $packages
+     *  @param  array $directories
+     *
+     *  @return void
+     */
+    public function package(
+        array $packages     = null,
+        array $directories  = null
+    ) {
+        /**
+         *  @var \Frame\App\Package
+         */
+        $package = new Packages(
+            $packages, $directories
+        );
+
+        /**
+         *  @var \Frame\App\Package
+         */
+        $this->locator->add(
+            $package, 'package'
+        );
+
+        /**
+         *  @var void
+         */
+        $package->dispatch(
+            $this
+        );
+
+        /**
+         *  @var $this
+         */
+        return $this;
+    }
+
+    public function run()
+    {
+        ob_start();
+        // ob_start("ob_gzhandler");
+
+        echo $this->locator->get(
+            'router'
+        )->compile(
+            $this
+        );
+
+        ob_end_flush();
     }
 }

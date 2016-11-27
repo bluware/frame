@@ -8,10 +8,13 @@
  */
 namespace Frame;
 
+use Frame\App;
+use Frame\Service\Locator;
+
 /**
  * @subpackage Package
  */
-abstract class Package implements PackageInterface
+abstract class Package
 {
     /**
      *  @var array
@@ -25,10 +28,21 @@ abstract class Package implements PackageInterface
     /**
      *  @return void
      */
-    final public function __construct()
+    final public function __construct(App $app)
     {
-        foreach ($this->methods as $method)
-            method_exists($this, $method) ?
-                $this->{$method}() : null;
+        method_exists($this, 'bootstrap') ?
+            $this->bootstrap(
+                $app->locator()
+            ) : null;
+
+        method_exists($this, 'autoload') ?
+            $this->autoload(
+                $app->locator()->get('autoload')
+            ) : null;
+
+        method_exists($this, 'routing') ?
+            $this->routing(
+                $app->locator()->get('router')
+            ) : null;
     }
 }

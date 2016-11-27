@@ -57,13 +57,10 @@ abstract class ActiveRecord extends Query
                  *  @var boolean
                  */
                 $q->where([
-                    $primary
+                    $self->primary
                         => $id
-                ])->order(
-                    $order
-                )->limit(
-                    1,
-                    $offset
+                ])->limit(
+                    1, 0
                 );
             }
         );

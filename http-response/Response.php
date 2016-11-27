@@ -218,16 +218,12 @@ class Response implements ResponseInterface
         return $this;
     }
 
-    public function print()
+    public function __toString()
     {
-        ob_start('ob_gzhandler');
-
         http_response_code($this->status);
 
         ($this->headers)();
 
-        echo $this->body;
-
-        ob_end_flush();
+        return $this->body;
     }
 }

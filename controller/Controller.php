@@ -9,35 +9,25 @@
 namespace Frame;
 
 use Frame\Http;
+use Frame\App;
 
 /**
  * @subpackage Controller
  */
-abstract class Controller implements ControllerInterface
+abstract class Controller
 {
-    /**
-     *  @var boolean
-     */
-    protected $pass = false;
+    protected $app;
+
+    protected $request;
 
     /**
-     *  @return void
+     *
      */
-    public function prevent()
+    public function __construct(App $app)
     {
-        $this->pass = false;
+        $this->app      = $app;
 
-        return $this;
-    }
-
-    /**
-     *  @return void
-     */
-    public function next()
-    {
-        $this->pass = true;
-
-        return $this;
+        $this->request  = $app->locator()->get('request');
     }
 
     /**
@@ -47,15 +37,16 @@ abstract class Controller implements ControllerInterface
      */
     function request($input = null)
     {
-        /**
-         *  @var mixed
-         */
-        return forward_static_call_array(
-            [
-                Http::class,
-                'request'
-            ], func_get_args()
-        );
+        if ($input === null)
+            return $this->request;
+
+        $params = func_get_args();
+
+        return call_user_func([
+            $this->request, array_shift(
+                $params
+            )
+        ], $params);
     }
 
     /**

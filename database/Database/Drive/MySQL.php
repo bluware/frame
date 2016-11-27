@@ -71,11 +71,9 @@ class MySQL extends Drive
          *  @var void
          */
         $this->pdo(
-            'exec', strtoupper(
-                sprintf(
-                    "SET NAMES '%s'",
-                    $this->get('charset', 'utf8')
-                )
+            'exec', sprintf(
+                "SET NAMES %s",
+                $this->get('charset', 'utf8')
             )
         );
     }

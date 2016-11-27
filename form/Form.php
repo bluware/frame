@@ -182,11 +182,12 @@ class Form extends Writable implements FormInterface
      */
     public function replace(array $data)
     {
-        $this->data(
-            array_replace(
-                $this->data(), $data
-            )
+        $data = array_replace(
+            $this->data(), $data
         );
+
+        foreach ($data as $key => $value)
+            $this->data[$key]->set($value);
 
         return $this;
     }
@@ -198,11 +199,12 @@ class Form extends Writable implements FormInterface
      */
     public function merge(array $data)
     {
-        $this->data(
-            array_merge(
-                $this->data(), $data
-            )
+        $data = array_merge(
+            $this->data(), $data
         );
+
+        foreach ($data as $key => $value)
+            $this->data[$key]->set($value);
 
         return $this;
     }

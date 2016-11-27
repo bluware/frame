@@ -9,6 +9,7 @@
 namespace Frame\App;
 
 use Frame\Data;
+use Frame\App;
 
 /**
  * @subpackage App
@@ -46,7 +47,25 @@ class Packages
     /**
      *  @return void
      */
-    public function dispatch()
+    public function add(
+        array $packages     = null,
+        array $directories  = null
+    ) {
+        /**
+         *  @var array
+         */
+        $this->packages->replace($packages);
+
+        /**
+         *  @var array
+         */
+        $this->directories->replace($directories);
+    }
+
+    /**
+     *  @return void
+     */
+    public function dispatch(App $app)
     {
         foreach ($this->packages as $path => $namespace) {
             if (is_numeric($path) === true)
@@ -57,7 +76,7 @@ class Packages
             class_exists($package) === false ?
                 $this->browse($path) : null;
 
-            new $package();
+            new $package($app);
         }
     }
 

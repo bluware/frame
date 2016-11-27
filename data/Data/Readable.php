@@ -36,7 +36,9 @@ abstract class Readable implements \Iterator
      */
     public function get($key, $alternate = null)
     {
-        return $this->has($key) ? $this->data[$key] : $alternate;
+        return array_key_exists(
+            $key, $this->data
+        ) ? $this->data[$key] : $alternate;
     }
 
     /**

@@ -529,8 +529,8 @@ class Routing
                     if ($nspace === true)
                         $class = sprintf(
                             '%s\\%s',
-                            $class,
-                            $data['group']['namespace']
+                            $data['group']['namespace'],
+                            $class
                         );
 
                     /**
