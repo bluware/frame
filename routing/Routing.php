@@ -610,6 +610,12 @@ class Routing
      */
     public function pattern($value)
     {
+        // $xor = preg_replace(
+        //     '/(([a-zA-Z0-9\_\-]+\|){1,}[a-zA-Z0-9\_\-]+)/i',
+        //     '(?<=$1)',
+        //     $value
+        // );
+
         $xor = str_replace([
             '/',  '[',  ']', ':?', '*'
         ], [

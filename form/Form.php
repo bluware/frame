@@ -187,7 +187,8 @@ class Form extends Writable implements FormInterface
         );
 
         foreach ($data as $key => $value)
-            $this->data[$key]->set($value);
+            if ($this->has($key) === true)
+                $this->data[$key]->set($value);
 
         return $this;
     }
@@ -204,7 +205,8 @@ class Form extends Writable implements FormInterface
         );
 
         foreach ($data as $key => $value)
-            $this->data[$key]->set($value);
+            if ($this->has($key) === true)
+                $this->data[$key]->set($value);
 
         return $this;
     }
