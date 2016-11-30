@@ -340,10 +340,10 @@ class Query
          */
         array_push(
             $this->join, sprintf(
-                '%s JOIN %s ON (%s)',
+                '%s JOIN %s ON %s',
                 strtoupper($paste),
                 $table,
-                join(', ', $expression)
+                join(' AND ', $expression)
             )
         );
 
@@ -961,7 +961,7 @@ class Query
      */
     public function separate($column)
     {
-        if (strpos($column, '`') !== false || strpos($column, '*') !== false || strpos($column, '(') !== false)
+        if (strpos($column, '`') !== false || strpos($column, '*') !== false || strpos($column, '(') !== false || strpos($column, '\'') !== false)
             return $column;
 
         /**
