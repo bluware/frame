@@ -917,6 +917,19 @@ class Query
     /**
      *  @return string
      */
+    public function count($column)
+    {
+        /**
+         *  @return string
+         */
+        return sprintf(
+            'COUNT(%s)', $this->separate($column)
+        );
+    }
+
+    /**
+     *  @return string
+     */
     public function max($column)
     {
         /**
