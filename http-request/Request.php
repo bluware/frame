@@ -655,10 +655,12 @@ class Request extends Readable implements RequestInterface
                 sprintf('/%s', $path) : $path;
 
         return sprintf(
-            "%s://%s:%s%s",
+            "%s://%s%s%s",
             $this->schema(),
             $this->host(),
-            $this->port(),
+            $this->port('in', [80, 443]) ? '' : sprintf(
+                ':%s', $this->port()
+            ),
             $path !== null ?
                 $path : $this->path()
         );
