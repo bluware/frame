@@ -45,5 +45,7 @@ class Query extends Writable
 
                 break;
         }
+
+        return parent::to($type);
     }
 }

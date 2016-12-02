@@ -78,6 +78,11 @@ class Uri extends Writable
         return $this;
     }
 
+    public function to($type)
+    {
+        return $this->__toString();
+    }
+
     /**
      *  @return string
      */
