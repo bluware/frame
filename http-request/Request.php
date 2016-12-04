@@ -874,7 +874,7 @@ class Request extends Readable implements RequestInterface
     public function is_json()
     {
         return (bool) preg_match(
-            '/\/json$/i',
+            '/(\/json$|\/json\;)/i',
             $this->server('CONTENT_TYPE')
         );
     }
