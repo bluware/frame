@@ -98,7 +98,7 @@ abstract class Controller
      *  @return mixed
      */
     public function view(
-        $path, array $data, $prevent = false, $code = 200, $headers = []
+        $path, array $data = [], $prevent = false, $code = 200, $headers = []
     ) {
         /**
          *  @var mixed
