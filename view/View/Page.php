@@ -178,7 +178,7 @@ class Page implements IPage
             /**
              *  @var array
              */
-            $key = [$key => $val]
+            $key = [$key => $val];
 
         /**
          *  @var array
