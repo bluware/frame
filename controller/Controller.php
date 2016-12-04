@@ -65,4 +65,65 @@ abstract class Controller
             ], func_get_args()
         );
     }
+
+    /**
+     *  @param  string      $path
+     *  @param  array       $data
+     *  @param  boolean     $prevent
+     *  @param  integer     $code
+     *  @param  array       $headers
+     *
+     *  @return mixed
+     */
+    public function view(
+        $path, array $data, $prevent, $code = 200, $headers = []
+    ) {
+        /**
+         *  @var mixed
+         */
+        $page = $this->app->locator()->make(
+            $path, $data, $prevent
+        );
+
+        /**
+         *  @var \Frame\Response
+         */
+        return $this->response(
+            'html', $page, $code, $headers
+        );
+    }
+
+    /**
+     *  @param  string      $url
+     *  @param  integer     $code
+     *  @param  array       $headers
+     *
+     *  @return mixed
+     */
+    public function redirect($url, $code = 200, array $headers = [])
+    {
+        /**
+         *  @var \Frame\Response
+         */
+        return $this->response(
+            'redirect', $url, $code, $headers
+        );
+    }
+
+    /**
+     *  @param  string      $url
+     *  @param  integer     $code
+     *  @param  array       $headers
+     *
+     *  @return mixed
+     */
+    public function goto($url, $code = 200, array $headers = [])
+    {
+        /**
+         *  @var \Frame\Response
+         */
+        return $this->response(
+            'redirect', $url, $code, $headers
+        );
+    }
 }

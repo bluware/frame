@@ -16,6 +16,7 @@ use Frame\Http;
 use Frame\Routing;
 use Frame\Http\Request;
 use Frame\Secure;
+use Frame\View;
 
 /**
  * @subpackage App
@@ -84,6 +85,16 @@ class App
          *  @var \Frame\Router
          */
         $locator->add($routing, 'router');
+
+        /**
+         *  @var \Frame\View
+         */
+        $view = new View();
+
+        /**
+         *  @var \Frame\View
+         */
+        $locator->add($view, 'view');
 
         /**
          *  @var \Frame\Database\Union

@@ -115,6 +115,19 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
+     *  @package `aspect` module
+     */
+     'Frame\\View\\IPage'
+         => __DIR__ . "/view/View/IPage.php",
+     'Frame\\View\\Page'
+         => __DIR__ . "/view/View/Page.php",
+     'Frame\\IView'
+         => __DIR__ . "/view/IView.php",
+     'Frame\\View'
+         => __DIR__ . "/view/View.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
      *  @package `controller` module
      */
      'Frame\\ControllerInterface'
