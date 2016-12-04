@@ -110,6 +110,17 @@ class Form extends Writable implements FormInterface
     }
 
     /**
+     *  @return array
+     */
+    public function error()
+    {
+        /**
+         *  @return array
+         */
+        return $this->error;
+    }
+
+    /**
      *  @var $this
      */
     public function is($prop, $comparison = null)
