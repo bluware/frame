@@ -1,5 +1,10 @@
 <?php
 
+function __($word)
+{
+    return $word;
+}
+
 function route($class, $event, $separator = '@')
 {
     return sprintf(
