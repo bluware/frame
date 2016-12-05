@@ -861,6 +861,18 @@ class Query
             return $value;
         }
 
+        /**
+         *  @var boolean
+         */
+        if ($value === 'b\'1\'' || $value === 'b\'0\'')
+          /**
+           *  @var string
+           */
+          return $value;
+
+        /**
+         *  @var boolean
+         */
         if ($value === null)
             /**
              *  @var string
