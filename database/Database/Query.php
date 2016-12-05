@@ -841,6 +841,22 @@ class Query
      *
      *  @return string
      */
+    public function bit($value)
+    {
+        /**
+         *  @var string
+         */
+        return sprintf(
+            'b\'%d\'', boolval($value)
+        );
+    }
+
+    /**
+     *  @param  string $column
+     *  @param  string $alias
+     *
+     *  @return string
+     */
     public function bind($value)
     {
         /**
