@@ -265,6 +265,21 @@ class Routing
     }
 
     /**
+     *  @param array  $methods
+     *  @param scalar $route
+     *  @param mixed  $maker
+     *
+     *  @return void
+     */
+    public function add($methods, $patterns, $maker = null, $priority = 50)
+    {
+        /**
+         *  @var boolean
+         */
+        return $this->match($methods, $patterns, $maker, $priority);
+    }
+
+    /**
      *  @param  string $pattern
      *  @param  mixed  $maker
      *
@@ -557,6 +572,14 @@ class Routing
     }
 
     /**
+     *  @return mixed
+     */
+    public function run($injection = null)
+    {
+        return $this->compile($injection);
+    }
+
+    /**
      *  @param  mixed $prop
      *  @param  mixed $compare
      *
@@ -610,12 +633,6 @@ class Routing
      */
     public function pattern($value)
     {
-        // $xor = preg_replace(
-        //     '/(([a-zA-Z0-9\_\-]+\|){1,}[a-zA-Z0-9\_\-]+)/i',
-        //     '(?<=$1)',
-        //     $value
-        // );
-
         $xor = str_replace([
             '/',  '[',  ']', ':?', '*'
         ], [
