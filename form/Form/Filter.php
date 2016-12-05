@@ -320,8 +320,23 @@ class Filter
      */
     public static function datetime($value, $format = 'Y-m-d H:i:s')
     {
-        if ($format === 'c' || strtoupper($format) === 'ISO8601')
+        if ($format === 'c' || strtoupper($format) === 'ISO8601') {
             $format = 'Y-m-d\TH:i:sO';
+
+            $valid = DateTime::createFromFormat(
+                $format, $value
+            ) !== false;
+
+            if ($valid === false) {
+                $format = 'Y-m-d\TH:i:s.uO';
+
+                return DateTime::createFromFormat(
+                    $format, $value
+                ) !== false;
+            }
+
+            return $valid;
+        }
 
         return DateTime::createFromFormat(
             $format, $value
