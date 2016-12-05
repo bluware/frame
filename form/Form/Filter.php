@@ -321,17 +321,13 @@ class Filter
     public static function datetime($value, $format = 'Y-m-d H:i:s')
     {
         if ($format === 'c' || strtoupper($format) === 'ISO8601') {
-            $format = 'Y-m-d\TH:i:sO';
-
             $valid = DateTime::createFromFormat(
-                $format, $value
+                'Y-m-d\TH:i:sO', $value
             ) !== false;
 
             if ($valid === false) {
-                $format = 'Y-m-d\TH:i:s.uO';
-
                 return DateTime::createFromFormat(
-                    $format, $value
+                    'Y-m-d\TH:i:s.uO', $value
                 ) !== false;
             }
 
