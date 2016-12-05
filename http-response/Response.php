@@ -50,7 +50,8 @@ class Response implements ResponseInterface
         /**
          *  @var scalar
          */
-        $this->body     = $body;
+        $this->body     = gettype($body) === 'object' ?
+            $body->__toString() : $body;
     }
 
     /**

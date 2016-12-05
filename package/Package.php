@@ -44,5 +44,10 @@ abstract class Package
             $this->routing(
                 $app->locator()->get('router')
             ) : null;
+
+        method_exists($this, 'view') ?
+            $this->view(
+                $app->locator()->get('view')
+            ) : null;
     }
 }
