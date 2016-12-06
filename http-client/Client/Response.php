@@ -26,6 +26,11 @@ class Response
      /**
       *  @var \Frame\Data\Readable
       */
+     protected $cookies;
+
+     /**
+      *  @var \Frame\Data\Readable
+      */
      protected $body;
 
     /**
@@ -38,10 +43,16 @@ class Response
          */
         $this->code = $code;
 
+
         /**
-         *  @var \Frame\Data\Readable
+         *  @var \Frame\Data
          */
 
+        $this->cookies = new \Frame\Data();
+
+        /**
+         *  @var \Frame\Data
+         */
         $this->headers = new \Frame\Data(
             is_array($headers) ?
                 $headers : $this->parse_header($headers)
@@ -65,11 +76,22 @@ class Response
         $header_text = substr($response, 0, strpos($response, "\r\n\r\n"));
 
         foreach (explode("\r\n", $header_text) as $i => $line)
-            if ($i === 0)
+            if ($i === 0) {
                 $headers['http_code'] = $line;
-            else
-            {
+            } else {
                 list ($key, $value) = explode(': ', $line);
+
+                if ($key === 'Set-Cookie') {
+                    preg_match('/^(.*?)=(.*?)(\;|$)/i', $value, $matches);
+
+                    array_shift($matches);
+
+                    list($ckey, $cval) = $matches;
+
+                    $this->cookies->set(
+                        $ckey, $cval
+                    );
+                }
 
                 $headers[$key] = $value;
             }
@@ -90,8 +112,18 @@ class Response
      */
     public function header($header, $alternate = null)
     {
-        return $this->header->get(
+        return $this->headers->get(
             $header, $alternate
+        );
+    }
+
+    /**
+     *  @return mixed
+     */
+    public function cookie($key, $alternate = null)
+    {
+        return $this->cookies->get(
+            $key, $alternate
         );
     }
 

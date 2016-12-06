@@ -57,7 +57,7 @@ class Form extends Writable implements FormInterface
     /**
      *  @return boolean
      */
-    public function filtrate()
+    public function validate()
     {
         /**
          *  @var boolean
@@ -107,6 +107,17 @@ class Form extends Writable implements FormInterface
          *  @var boolean
          */
         return $this->valid;
+    }
+
+    /**
+     *  @return boolean
+     */
+    public function filtrate()
+    {
+        /**
+         *  @return boolean
+         */
+        return $this->validate();
     }
 
     /**
