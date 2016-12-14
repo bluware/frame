@@ -134,4 +134,12 @@ class Response
     {
         return $this->body;
     }
+
+    /**
+     *  @return mixed
+     */
+    public function __get($input)
+    {
+        return $this->{$input};
+    }
 }
