@@ -285,6 +285,7 @@ class Client
                 CURLOPT_TIMEOUT         => $this->timeout,
                 CURLOPT_URL             => $this->uri->__toString(),
                 CURLOPT_HTTPHEADER      => $this->headers->__toArray(),
+                CURLOPT_HEADER          => true,
             ])
         );
 
@@ -296,9 +297,13 @@ class Client
 
         $body       = curl_exec($request);
         $code       = curl_getinfo($request, CURLINFO_HTTP_CODE);
-        $headers    = curl_getinfo($request, CURLINFO_HEADER_OUT);
+        // $headers    = curl_getinfo($request, CURLINFO_HEADER_OUT);
         $errno      = curl_errno($request);
         $error      = curl_error($request);
+
+        $hsize      = curl_getinfo($request, CURLINFO_HEADER_SIZE);
+        $headers    = substr($body, 0, $hsize);
+        $body       = substr($body, $hsize);
 
         curl_close($request);
 

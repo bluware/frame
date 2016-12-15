@@ -235,4 +235,9 @@ class App
 
         ob_end_flush();
     }
+
+    public function __get($key)
+    {
+        return $this->{$key};
+    }
 }

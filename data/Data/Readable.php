@@ -186,6 +186,13 @@ abstract class Readable implements \Iterator
                     $this->data
                 );
                 break;
+
+            case 'form':
+                /**
+                 *  @var string
+                 */
+                return http_build_query($this->data);
+                break;
         }
     }
 }
