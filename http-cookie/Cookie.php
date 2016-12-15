@@ -297,6 +297,30 @@ class Cookie implements CookieInterface
     }
 
     /**
+     *  Remove cookie.
+     *
+     *  @param mixed $input
+     *
+     *  @return void
+     */
+    public function remove()
+    {
+        return $this->forget();
+    }
+
+    /**
+     *  Remove cookie.
+     *
+     *  @param mixed $input
+     *
+     *  @return void
+     */
+    public function delete()
+    {
+        return $this->forget();
+    }
+
+    /**
      *  Blu\Secure : for encrypt and set input.
      *
      *  @param  mixed $input

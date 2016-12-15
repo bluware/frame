@@ -64,7 +64,7 @@ abstract class Controller
 
         $params = func_get_args();
 
-        return call_user_func([
+        return call_user_func_array([
             $this->request, array_shift(
                 $params
             )
