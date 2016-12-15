@@ -613,14 +613,6 @@ class Routing
     }
 
     /**
-     *  @return mixed
-     */
-    public function run($injection = null)
-    {
-        return $this->compile($injection);
-    }
-
-    /**
      *  @param  mixed $prop
      *  @param  mixed $compare
      *
