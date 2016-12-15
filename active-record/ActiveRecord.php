@@ -21,9 +21,7 @@ abstract class ActiveRecord extends Query
      */
     public static function create(array $data)
     {
-        return (
-            new static()
-        )->insert(
+        return (new static)->insert(
             $data
         );
     }
@@ -34,9 +32,7 @@ abstract class ActiveRecord extends Query
      */
     public static function find($id)
     {
-        return (
-            new static()
-        )->select(
+        return (new static)->select(
             'one', function(
                 $q, $self
             ) use ($id) {
@@ -78,9 +74,10 @@ abstract class ActiveRecord extends Query
         $order  = null,
         $offset = null
     ) {
-        return (
-            new static()
-        )->select(
+        if (gettype($where) === 'string' && $where === 'query')
+            return (new static)->query('one', $order);
+
+        return (new static)->select(
             'one', function(
                 $q, $self
             ) use (
@@ -120,9 +117,10 @@ abstract class ActiveRecord extends Query
         $limit  = null,
         $offset = null
     ) {
-        return (
-            new static()
-        )->select(
+        if (gettype($where) === 'string' && $where === 'query')
+            return (new static)->query('all', $order);
+
+        return (new static)->select(
             'all', function(
                 $q, $self
             ) use (
