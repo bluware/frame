@@ -19,7 +19,7 @@ abstract class Query extends Writable
     /**
      *  @var string
      */
-    protected $driver       = 'default';
+    protected $adapter       = 'default';
 
     /**
      *  @var string
@@ -90,7 +90,7 @@ abstract class Query extends Writable
             /**
              *  @var integer
              */
-            $data[$this->primary] = $this->driver('id');
+            $data[$this->primary] = $this->adapter('id');
 
         /**
          *  @var boolean
@@ -403,14 +403,14 @@ abstract class Query extends Writable
             /**
              *  @var \Frame\Database\State
              */
-            return $this->driver(
+            return $this->adapter(
                 'query', $pull
             );
 
         /**
          *  @var mixed
          */
-        return $this->driver(
+        return $this->adapter(
             'query', $query
         )->{$pull}();
     }
@@ -426,32 +426,32 @@ abstract class Query extends Writable
         /**
          *  @var mixed
          */
-        return $this->driver(
-            'transaction', $query, $error
+        return $this->adapter()->transaction(
+            $call, $error
         );
     }
 
     /**
      *  @return mixed
      */
-    public function driver($method = null)
+    public function adapter($method = null)
     {
         /**
          *  @var \Frame\Database\Drive
          */
-        $driver = Database::driver(
-            $this->driver
+        $adapter = Database::adapter(
+            $this->adapter
         );
 
         /**
          * @var boolean
          */
-        if ($driver === null)
+        if ($adapter === null)
             /**
              * @var \Exception
              */
             throw new \Exception(
-                "Driver does not exist " . $this->driver
+                "Driver does not exist " . $this->adapter
             );
 
         /**
@@ -461,7 +461,7 @@ abstract class Query extends Writable
             /**
              *  @var \Frame\Database\Drive
              */
-            return $driver;
+            return $adapter;
 
         /**
          *  @var array
@@ -472,7 +472,7 @@ abstract class Query extends Writable
          *  @var mixed
          */
         return call_user_func_array([
-            $driver,
+            $adapter,
             array_shift($params)
         ], $params);
     }

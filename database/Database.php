@@ -103,7 +103,7 @@ class Database
      *
      *  @return mixed
      */
-    public static function driver($name = 'default')
+    public static function adapter($name = 'default')
     {
         /**
          *  @var \Frame\Database\Drive

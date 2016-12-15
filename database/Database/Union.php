@@ -43,7 +43,7 @@ class Union extends Readable
      *
      *  @return mixed
      */
-    public function driver($name = 'default')
+    public function adapter($name = 'default')
     {
         return $this->connection($name);
     }
@@ -128,7 +128,7 @@ class Union extends Readable
      */
     public function add($name = 'default', array $config)
     {
-        if (array_key_exists('driver', $config) === false)
+        if (array_key_exists('adapter', $config) === false)
             /**
              *  @var void
              */
@@ -137,7 +137,7 @@ class Union extends Readable
         /**
          *  @var string
          */
-        $driver = $config['driver'];
+        $driver = $config['adapter'];
 
         /**
          *  @var \Frame\Database\Drive
