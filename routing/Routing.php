@@ -8,6 +8,8 @@
  */
 namespace Frame;
 
+use Frame\Routing\Aspects;
+
 /**
  * @subpackage Routing
  */
@@ -41,7 +43,7 @@ class Routing
     /**
      *  @var array
      */
-    protected $aspects      = [];
+    protected $aspects      = null;
 
     /**
      *  @return void
@@ -62,11 +64,15 @@ class Routing
             ) : 'get'
         ) : 'cli';
 
-        if ($method === 'cli') {
-            // $this->params =
-        }
-
+        /**
+         *  @var string
+         */
         $this->method = $method;
+
+        /**
+         *  @var \Frame\Routing\Aspects
+         */
+        $this->aspects = new Aspects;
     }
 
     /**
@@ -83,8 +89,37 @@ class Routing
         /**
          *  @var array
          */
-        $this->aspects = array_replace(
-            $this->aspects, $aspects
+        $this->aspects->replace($aspects);
+
+        /**
+         *  @var $this
+         */
+        return $this;
+    }
+
+    /**
+     *  @return void
+     */
+    public function guard($aspects, $class = null)
+    {
+        /**
+         *  @var $this
+         */
+        return $this->aspect(
+            $aspects, $class
+        );
+    }
+
+    /**
+     *  @return void
+     */
+    public function middleware($aspects, $class = null)
+    {
+        /**
+         *  @var $this
+         */
+        return $this->aspect(
+            $aspects, $class
         );
     }
 
@@ -246,10 +281,10 @@ class Routing
                         199 : $priority,
                     4, 0,
                     STR_PAD_LEFT
-                ), rand(
+                ), uniqid(), rand(
                     1000000000000,
                     9999999999999
-                ), uniqid()
+                )
             );
 
             /**
@@ -495,11 +530,7 @@ class Routing
                      *  @var array
                      */
                     foreach ($aspects as $key => $aspect) {
-                        if (!is_numeric($key) && isset(
-                            $this->aspects[$key]
-                        )) {
-                            $aspect = $this->aspects[$key];
-                        }
+                        $aspect = $this->aspects->get($aspect);
 
                         $maked = call_user_func_array([
                             new $aspect($injection), 'inspect'
@@ -554,6 +585,16 @@ class Routing
         }
 
         return null;
+    }
+
+    public function make($injection = null)
+    {
+        return $this->compile($injection);
+    }
+
+    public function run($injection = null)
+    {
+        return $this->compile($injection);
     }
 
     /**

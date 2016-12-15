@@ -110,6 +110,8 @@ return [
     /**------------------------------------------------------------------------
      *  @package `router` module
      */
+     'Frame\\Routing\\Aspects'
+         => __DIR__ . "/routing/Routing/Aspects.php",
      'Frame\\Routing'
          => __DIR__ . "/routing/Routing.php",
     //-------------------------------------------------------------------------
