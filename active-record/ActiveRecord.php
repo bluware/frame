@@ -75,7 +75,7 @@ abstract class ActiveRecord extends Query
         $offset = null
     ) {
         if (gettype($where) === 'string' && $where === 'query')
-            return (new static)->query('one', $order);
+            return (new static)->select('one', $order);
 
         return (new static)->select(
             'one', function(
@@ -118,7 +118,7 @@ abstract class ActiveRecord extends Query
         $offset = null
     ) {
         if (gettype($where) === 'string' && $where === 'query')
-            return (new static)->query('all', $order);
+            return (new static)->select('all', $order);
 
         return (new static)->select(
             'all', function(
