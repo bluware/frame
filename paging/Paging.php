@@ -8,56 +8,89 @@
  */
 namespace Frame;
 
-use Frame\Http\Request\Query;
-use Frame\Data\Writable;
+use Frame\Data\Readable;
+use Frame\Form;
 
 /**
  * @subpackage Session
  */
-class Paging extends Writable
+class Paging extends Form
 {
-    /**
-     *  @var \Frame\Http\Request\Query
-     */
-    protected $q;
-
     /**
      *  @param string  $name
      *  @param array   $data
      *
      *  @return void
      */
-    public function __construct(Query $q, $all = 0)
+    public function __construct($total = 0, Readable $q = null)
     {
-        $this->replace([
-            'page.this'
-                => 1,
-            'let'
-                => 0,
-            'max'
-                => 25,
-        ])->replace(
-            $q->to('array')
-        )->([
-            'all'
-                => $all,
-        ]);
-
-        $this->set(
-            'page.count', intval(
-                ceil(
-                    $all / $this->get('max')
-                )
-            )
+        $this->input(
+            'total', 0
+        )->filter([
+            'integer'
+        ])->set(
+            $total
         );
 
-        if ($this->get('page', 1) < 1)
-            $this->set(
-                'page', 1
-            );
+        $this->input(
+            'limit', 10
+        )->filter([
+            'integer', 'enum' => [
+                5, 10, 25
+            ]
+        ]);
 
-        $this->set('off')
+        $this->input(
+            'let', 0
+        )->filter([
+            'integer'
+        ]);
 
-        if ($this->get('all', 0) === 0)
+        $this->input(
+            'offset', 0
+        )->filter([
+            'integer', 'spec' => function(&$value) {
+                $page = $this->get('page') - 1;
+
+                $value = $page * $this->get('limit');
+
+                $value += $this->get('let');
+
+                return true;
+            }
+        ]);
+
+        $this->input(
+            'pages', 0
+        )->filter([
+            'integer', 'min' => function(&$value) {
+                $value = intval(
+                    ceil(
+                        $this->get('total') / $this->get('limit')
+                    )
+                );
+
+                return true;
+            }
+        ]);
+
+        $this->input(
+            'page', 1
+        )->filter([
+            'integer', 'between' => function(&$value) {
+                if ($value < 0)
+                    $value = 1;
+
+                $pages = $this->get('pages');
+
+                if ($pages > 0 && $value > $pages)
+                    $value = $pages;
+
+                return true;
+            }
+        ]);
+
+        if ($q !== null)
+            $this->apply($q);
     }
 }

@@ -261,9 +261,10 @@ class Input
                 /**
                  *  @var boolean
                  */
-                $valid = call_user_func(
-                    $values, $this->input
-                );
+                $valid = ($values)($this->input);
+                // $valid = call_user_func(
+                //     $values, $this->input
+                // );
             } else {
                 /**
                  *  @var boolean
