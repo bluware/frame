@@ -30,9 +30,16 @@ class Filter
      *
      *  @return bool
      */
-    public static function boolean($value)
+    public static function boolean(&$value)
     {
-        return gettype($value) === 'boolean';
+        $equal = filter_var(
+            $value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE
+        );
+
+        if ($equal !== null)
+            $value = $equal;
+
+        return $equal !== null;
     }
 
     /**
@@ -40,7 +47,7 @@ class Filter
      *
      *  @return bool
      */
-    public static function bool($value)
+    public static function bool(&$value)
     {
         return static::boolean($value);
     }
@@ -50,13 +57,18 @@ class Filter
      *
      *  @return bool
      */
-    public static function integer($value)
+    public static function integer(&$value)
     {
-        return boolval(
+        $equal = boolval(
             filter_var(
                 $value, FILTER_VALIDATE_INT
             )
         );
+
+        if ($equal === true)
+            $value = intval($value);
+
+        return $equal;
     }
 
     /**
@@ -66,7 +78,7 @@ class Filter
      *
      *  @return bool
      */
-    public static function int($value)
+    public static function int(&$value)
     {
         return static::integer($value);
     }
@@ -76,13 +88,18 @@ class Filter
      *
      *  @return bool
      */
-    public static function float($value)
+    public static function float(&$value)
     {
-        return boolval(
+        $equal = boolval(
             filter_var(
                 $value, FILTER_VALIDATE_FLOAT
             )
         );
+
+        if ($equal === true)
+            $value = floatval($value);
+
+        return $equal;
     }
 
     /**
@@ -90,9 +107,14 @@ class Filter
      *
      *  @return bool
      */
-    public static function numeric($value)
+    public static function numeric(&$value)
     {
-        return is_numeric($value);
+        $equal = is_numeric($value);
+
+        if ($equal === true)
+            $value = $value + 0;
+
+        return $equal;
     }
 
     /**
@@ -100,7 +122,7 @@ class Filter
      *
      *  @return bool
      */
-    public static function num($value)
+    public static function num(&$value)
     {
         return static::numeric($value);
     }
@@ -146,7 +168,11 @@ class Filter
      */
     public static function alpha($value)
     {
-        return (bool) preg_replace('/^[a-zA-Z]+$/i', '', $value);
+        return boolval(
+            preg_match(
+                '/^[a-zA-Z]+$/i', $value
+            )
+        );
     }
 
     /**
@@ -207,8 +233,8 @@ class Filter
     public static function alphanumeric($value)
     {
         return boolval(
-            preg_replace(
-                '/^[a-zA-Z0-9]+$/i', '', $value
+            preg_match(
+                '/^[a-zA-Z0-9]+$/i', $value
             )
         );
     }
@@ -289,7 +315,9 @@ class Filter
     public static function regexp($value, $pattern)
     {
         return boolval(
-            preg_match($pattern, $value)
+            preg_match(
+                $pattern, $value
+            )
         );
     }
 
@@ -300,7 +328,9 @@ class Filter
      */
     public static function html($value)
     {
-        return static::regexp($value, '/(\/[a-z0-9]*>|<.*?\=\".*?>)/i');
+        return static::regexp(
+            $value, '/(\/[a-z0-9]*>|<.*?\=\".*?>)/i'
+        );
     }
 
     /**
@@ -318,25 +348,36 @@ class Filter
      *
      *  @return bool
      */
-    public static function datetime($value, $format = 'Y-m-d H:i:s')
+    public static function datetime(&$value, $format = 'Y-m-d H:i:s')
     {
         if ($format === 'c' || strtoupper($format) === 'ISO8601') {
             $valid = DateTime::createFromFormat(
                 'Y-m-d\TH:i:sO', $value
             ) !== false;
 
-            if ($valid === false) {
-                return DateTime::createFromFormat(
-                    'Y-m-d\TH:i:s.uO', $value
-                ) !== false;
-            }
+            $date = DateTime::createFromFormat(
+                'Y-m-d\TH:i:sO', $value
+            );
 
-            return $valid;
+            if ($date === false)
+                $date = DateTime::createFromFormat(
+                    'Y-m-d\TH:i:s.uO', $value
+                );
+
+            if ($date !== false)
+                $value = $date;
+
+            return $date !== false;
         }
 
-        return DateTime::createFromFormat(
+        $date = DateTime::createFromFormat(
             $format, $value
-        ) !== false;
+        );
+
+        if ($date !== false)
+            $value = $date;
+
+        return $date !== false;
     }
 
     /**
@@ -344,9 +385,11 @@ class Filter
      *
      *  @return bool
      */
-    public static function date($value, $format = 'Y-m-d')
+    public static function date(&$value, $format = 'Y-m-d')
     {
-        return static::datetime($value, $format);
+        return static::datetime(
+            $value, $format
+        );
     }
 
     /**
@@ -354,9 +397,11 @@ class Filter
      *
      *  @return bool
      */
-    public static function time($value, $format = 'H:i:s')
+    public static function time(&$value, $format = 'H:i:s')
     {
-        return static::datetime($value, $format);
+        return static::datetime(
+            $value, $format
+        );
     }
 
     /**
@@ -376,7 +421,9 @@ class Filter
      */
     public static function min($value, $size)
     {
-        return static::minimum($value, $size);
+        return static::minimum(
+            $value, $size
+        );
     }
 
     /**
@@ -396,7 +443,9 @@ class Filter
      */
     public static function max($value, $size)
     {
-        return static::maximum($value, $size);
+        return static::maximum(
+            $value, $size
+        );
     }
 
     /**
@@ -406,8 +455,10 @@ class Filter
      */
     public static function between($value, $min, $max)
     {
-        $length = strlen($value);
-        return $length >= $min && $length <= $max;
+        $len = strlen($value);
+
+        return $len >= $min &&
+               $len <= $max;
     }
 
     /**

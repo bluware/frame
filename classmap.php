@@ -110,8 +110,8 @@ return [
     /**------------------------------------------------------------------------
      *  @package `http` module
      */
-     'Frame\\ISession'
-         => __DIR__ . "/session/ISession.php",
+     'Frame\\SessionInterface'
+         => __DIR__ . "/session/SessionInterface.php",
      'Frame\\Session'
          => __DIR__ . "/session/Session.php",
     //-------------------------------------------------------------------------
@@ -128,12 +128,12 @@ return [
     /**------------------------------------------------------------------------
      *  @package `aspect` module
      */
-     'Frame\\View\\IPage'
-         => __DIR__ . "/view/View/IPage.php",
+     'Frame\\View\\PageInterface'
+         => __DIR__ . "/view/View/PageInterface.php",
      'Frame\\View\\Page'
          => __DIR__ . "/view/View/Page.php",
-     'Frame\\IView'
-         => __DIR__ . "/view/IView.php",
+     'Frame\\ViewInterface'
+         => __DIR__ . "/view/ViewInterface.php",
      'Frame\\View'
          => __DIR__ . "/view/View.php",
     //-------------------------------------------------------------------------
@@ -215,6 +215,13 @@ return [
      */
      'Frame\\Package'
          => __DIR__ . "/package/Package.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `package` module
+     */
+     'Frame\\Paging'
+         => __DIR__ . "/paging/Paging.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------

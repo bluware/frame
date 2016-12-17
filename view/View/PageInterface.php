@@ -11,7 +11,7 @@ namespace Frame\View;
 /**
  * @subpackage View
  */
-interface IPage
+interface PageInterface
 {
     //
 }

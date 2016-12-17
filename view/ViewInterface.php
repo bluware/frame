@@ -14,7 +14,7 @@ namespace Frame;
  *
  *  @subpackage Swift
  */
-interface IView
+interface ViewInterface
 {
     //
 }

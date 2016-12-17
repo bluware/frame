@@ -14,7 +14,7 @@ use Frame\Secure;
 /**
  * @subpackage Session
  */
-class Session extends Writable implements ISession
+class Session extends Writable implements SessionInterface
 {
     /**
      *  @var string

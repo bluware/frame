@@ -24,6 +24,6 @@ class Query extends Readable
             /**
              *  @var array
              */
-            $this->data = $data;
+            return $this->data = $data;
     }
 }

@@ -11,7 +11,7 @@ namespace Frame;
 /**
  * @subpackage Session
  */
-interface ISession
+interface SessionInterface
 {
     /**
      *  @param string  $name

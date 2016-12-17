@@ -8,12 +8,12 @@
  */
 namespace Frame\View;
 
-use Frame\IView;
+use Frame\ViewInterface;
 
 /**
  * @subpackage View
  */
-class Page implements IPage
+class Page implements PageInterface
 {
     /**
      *  @var \Frame\IView
@@ -56,7 +56,7 @@ class Page implements IPage
     protected $call         = [];
 
     public function __construct(
-        IView $view,
+        ViewInterface $view,
         $page,
         array $data = [],
         $prevent = false

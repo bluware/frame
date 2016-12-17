@@ -21,6 +21,11 @@ class Input
     /**
      *  @var mixed
      */
+    protected $default  = null;
+
+    /**
+     *  @var mixed
+     */
     protected $filter   = [];
 
     /**
@@ -45,7 +50,15 @@ class Input
      */
     public function __construct($input = null)
     {
-        $this->input = $input;
+        /**
+         *  @var mixed
+         */
+        $this->input    = $input;
+
+        /**
+         *  @var mixed
+         */
+        $this->default  = $input;
     }
 
     /**
@@ -64,6 +77,42 @@ class Input
          *  @var $this
          */
         return $this;
+    }
+
+    /**
+     *  @return mixed
+     */
+    public function get()
+    {
+        /**
+         *  @var mixed
+         */
+        return $this->input;
+    }
+
+    /**
+     *  @return mixed
+     */
+    public function __get($input)
+    {
+        /**
+         *  @var mixed
+         */
+        return $this->{$input};
+    }
+
+    /**
+     *  @var $this
+     */
+    public function is($prop, $comparison = null)
+    {
+        switch ($prop) {
+            case 'valid':
+                return $this->valid;
+                break;
+        }
+
+        return null;
     }
 
     /**
@@ -221,17 +270,54 @@ class Input
                  */
                 $values = gettype($values) === 'array' ? $values : [];
 
-                /**
-                 *  @var void
-                 */
-                array_unshift($values, $this->input);
+                $scalar = in_array($name, [
+                    'null',
+                    'bool',
+                    'boolean',
+                    'integer',
+                    'int',
+                    'float',
+                    'numeric',
+                    'num'
+                ], true);
 
-                /**
-                 *  @var boolean
-                 */
-                $valid = forward_static_call_array([
-                    Filter::class, $name
-                ], $values);
+                $datetime = in_array($name, [
+                    'datetime',
+                    'date',
+                    'time'
+                ], true);
+
+                if ($scalar === true) {
+                    /**
+                     *  @var boolean
+                     */
+                    $valid = Filter::{$name}(
+                        $this->input
+                    );
+                } elseif ($datetime === true) {
+                    $size = sizeof($values) === 0;
+                    /**
+                     *  @var boolean
+                     */
+                    $valid = $size ? Filter::{$name}(
+                        $this->input
+                    ) : Filter::{$name}(
+                        $this->input,
+                        current($values)
+                    );
+                } else {
+                    /**
+                     *  @var void
+                     */
+                    array_unshift($values, $this->input);
+
+                    /**
+                     *  @var boolean
+                     */
+                    $valid = forward_static_call_array([
+                        Filter::class, $name
+                    ], $values);
+                }
             }
 
             /**
@@ -252,6 +338,8 @@ class Input
                         ) ? $this->error['input'] : null
                     );
 
+                $this->input = $this->default;
+
                 /**
                  *  @var boolean
                  */
@@ -263,45 +351,5 @@ class Input
          *  @var boolean
          */
         return true;
-    }
-
-    /**
-     *  @return mixed
-     */
-    public function get()
-    {
-        /**
-         *  @var mixed
-         */
-        return $this->input;
-    }
-
-    /**
-     *  @var $this
-     */
-    public function is($prop, $comparison = null)
-    {
-        return $this->{
-            sprintf('is_%s', $prop)
-        }($comparison);
-    }
-
-    /**
-     *  @var $this
-     */
-    public function is_valid()
-    {
-        return $this->valid;
-    }
-
-    /**
-     *  @return mixed
-     */
-    public function __get($input)
-    {
-        /**
-         *  @var mixed
-         */
-        return $this->{$input};
     }
 }

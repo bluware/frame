@@ -17,7 +17,7 @@ use Frame\View\Page;
  *
  *  @subpackage Swift
  */
-class View implements IView
+class View implements ViewInterface
 {
     /**
      *  @var array
