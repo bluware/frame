@@ -160,7 +160,7 @@ abstract class Query extends Writable
         /**
          *  @var boolean
          */
-        if ($data === false || sizeof($data) === 0)
+        if (sizeof($data) === 0)
             return null;
 
         /**

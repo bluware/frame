@@ -87,6 +87,9 @@ class State
             'fetch', PDO::FETCH_ASSOC
         );
 
+        if ($data === false)
+            $data = [];
+
         /**
          *  @var mixed
          */
@@ -115,6 +118,12 @@ class State
          *  @var array
          */
         $data = $this->state('fetchAll', PDO::FETCH_ASSOC);
+
+        /**
+         *  @var array
+         */
+        if ($data === false)
+            $data = [];
 
         /**
          *  @var array
