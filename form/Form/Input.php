@@ -258,13 +258,7 @@ class Input
              *  @var boolean
              */
             if (is_callable($values) === true) {
-                /**
-                 *  @var boolean
-                 */
                 $valid = ($values)($this->input);
-                // $valid = call_user_func(
-                //     $values, $this->input
-                // );
             } else {
                 /**
                  *  @var boolean
@@ -344,7 +338,7 @@ class Input
                 /**
                  *  @var boolean
                  */
-                return $this->valid = false;
+                $this->valid = false;
             }
         }
 

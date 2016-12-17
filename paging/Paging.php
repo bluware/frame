@@ -49,7 +49,7 @@ class Paging extends Form
         $this->input(
             'offset', 0
         )->filter([
-            'integer', 'spec' => function(&$value) {
+            'integer', 'cast' => function(&$value) {
                 $page = $this->get('page') - 1;
 
                 $value = $page * $this->get('limit');
