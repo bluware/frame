@@ -338,7 +338,7 @@ class Input
                 /**
                  *  @var boolean
                  */
-                $this->valid = false;
+                return $this->valid = false;
             }
         }
 
