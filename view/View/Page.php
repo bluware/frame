@@ -9,6 +9,7 @@
 namespace Frame\View;
 
 use Frame\ViewInterface;
+use Frame\Data\Readable;
 
 /**
  * @subpackage View
@@ -81,7 +82,13 @@ class Page implements PageInterface
          */
         foreach ($data as $k => $v)
             $this->{
-                is_callable($v) ? 'call' : 'prop'
+                is_object($v) && is_subclass_of(
+                    $v, Readable::class
+                ) ? 'prop' : (
+                    is_callable(
+                        $v
+                    ) ? 'call' : 'prop'
+                )
             }[$k] = $v;
     }
 
