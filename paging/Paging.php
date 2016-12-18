@@ -16,6 +16,10 @@ use Frame\Form;
  */
 class Paging extends Form
 {
+    protected $limits = [
+        5, 10, 25, 50, 100
+    ];
+
     /**
      *  @param string  $name
      *  @param array   $data
@@ -35,9 +39,7 @@ class Paging extends Form
         $this->input(
             'limit', 10
         )->filter([
-            'integer', 'enum' => [
-                5, 10, 25
-            ]
+            'integer', 'enum' => $this->limits
         ]);
 
         $this->input(
