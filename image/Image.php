@@ -53,8 +53,8 @@ class Image
     }
 
     /**
-     *  @param  integer $w [description]
-     *  @param  integer $h [description]
+     *  @param  integer $w
+     *  @param  integer $h
      *  @return void
      */
     public function resize($w, $h)
