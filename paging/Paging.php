@@ -47,9 +47,25 @@ class Paging extends Form
         ]);
 
         $this->input(
+            'page', 1
+        )->filter([
+            'integer', 'between' => function(&$value) {
+                if ($value < 0)
+                    $value = 1;
+
+                $pages = $this->get('pages');
+
+                if ($pages > 0 && $value > $pages)
+                    $value = $pages;
+
+                return true;
+            }
+        ]);
+
+        $this->input(
             'offset', 0
         )->filter([
-            'integer', 'cast' => function(&$value) {
+            'cast' => function(&$value) {
                 $page = $this->get('page') - 1;
 
                 $value = $page * $this->get('limit');
@@ -69,22 +85,6 @@ class Paging extends Form
                         $this->get('total') / $this->get('limit')
                     )
                 );
-
-                return true;
-            }
-        ]);
-
-        $this->input(
-            'page', 1
-        )->filter([
-            'integer', 'between' => function(&$value) {
-                if ($value < 0)
-                    $value = 1;
-
-                $pages = $this->get('pages');
-
-                if ($pages > 0 && $value > $pages)
-                    $value = $pages;
 
                 return true;
             }
