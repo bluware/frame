@@ -237,7 +237,7 @@ return [
      *  @package `file` module
      */
      'Frame\\File\\Base64'
-         => __DIR__ . "/image/File/Base64.php",
+         => __DIR__ . "/file/File/Base64.php",
     //-------------------------------------------------------------------------
 
 

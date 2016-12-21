@@ -63,7 +63,7 @@ class Base64
      *
      *  @return void
      */
-    public function __construct($data, $name = null)
+    public function __construct($data, $name = null, $hash = 'md5')
     {
         /**
          *  @var boolean
@@ -125,11 +125,31 @@ class Base64
         $this->valid    = true;
 
         /**
-         *  @var boolean
+         *  @var string
          */
-        $this->hash      = md5(
-            $this->data
-        );
+        switch ($hash) {
+            case 'sha1':
+                /**
+                 *  @var string
+                 */
+                $this->hash      = sha1($this->data);
+                break;
+
+            case 'crc32':
+                /**
+                 *  @var string
+                 */
+                $this->hash      = crc32($this->data);
+                break;
+
+            case 'md5': default:
+                /**
+                 *  @var string
+                 */
+                $this->hash      = md5($this->data);
+                break;
+        }
+
 
         if ($name === null)
             return;

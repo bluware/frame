@@ -32,9 +32,9 @@ class Base64 extends \Frame\File\Base64
      *
      *  @return void
      */
-    public function __construct($data, $name = null)
+    public function __construct($data, $name = null, $hash = 'md5')
     {
-        parent::__construct($data, $name);
+        parent::__construct($data, $name, $hash);
 
         if ($this->valid = false)
             return;
