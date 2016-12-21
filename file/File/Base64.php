@@ -204,6 +204,16 @@ class Base64
      *
      *  @return mixed
      */
+    public function __set($key, $value)
+    {
+        return $this->{$key} = $value;
+    }
+
+    /**
+     *  @param  string $key
+     *
+     *  @return mixed
+     */
     public function is($input)
     {
         switch ($input) {
