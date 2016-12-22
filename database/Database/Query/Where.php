@@ -130,8 +130,13 @@ class Where
      *
      *  @return void
      */
-    public function separate(Query $q, callable $call)
+    public function separate(Query $q, callable $call, $paste = 'and')
     {
+        /**
+         *  @var void
+         */
+        $this->paste($paste);
+        
         /**
          *  @var void
          */
