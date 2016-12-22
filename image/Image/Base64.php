@@ -58,6 +58,11 @@ class Base64 extends \Frame\File\Base64
          *  @var \Frame\Image
          */
         $this->image = new Image($resource);
+
+        /**
+         *  @var boolean
+         */
+        $this->valid = true;
     }
 
     /**
