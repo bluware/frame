@@ -168,4 +168,12 @@ class Base64 extends \Frame\File\Base64
 
         return $this;
     }
+
+    public function __get($input)
+    {
+        if (in_array($input, ['x', 'y'], true) === true)
+            return $this->image->{$input};
+
+        return parent::__get($input);
+    }
 }
