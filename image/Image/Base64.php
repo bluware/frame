@@ -32,9 +32,9 @@ class Base64 extends \Frame\File\Base64
      *
      *  @return void
      */
-    public function __construct($data, $name = null)
+    public function __construct($data, $name = null, $hash = 'md5')
     {
-        parent::__construct($data, $name);
+        parent::__construct($data, $name, $hash);
 
         if ($this->valid = false)
             return;
@@ -58,6 +58,11 @@ class Base64 extends \Frame\File\Base64
          *  @var \Frame\Image
          */
         $this->image = new Image($resource);
+
+        /**
+         *  @var boolean
+         */
+        $this->valid = true;
     }
 
     /**
@@ -162,5 +167,13 @@ class Base64 extends \Frame\File\Base64
         $this->image->gif($file);
 
         return $this;
+    }
+
+    public function __get($input)
+    {
+        if (in_array($input, ['x', 'y'], true) === true)
+            return $this->image->{$input};
+
+        return parent::__get($input);
     }
 }

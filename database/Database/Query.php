@@ -547,7 +547,7 @@ class Query
                  *  @var \Frame\Database\Query\Where
                  */
                 $this->{$clause}->separate(
-                    $this, $column
+                    $this, $column, $paste
                 );
             }
 
