@@ -18,5 +18,5 @@ abstract class Aspect extends Controller
     /**
      *  @return mixed
      */
-    abstract public function handle();
+    abstract public function inspect();
 }
