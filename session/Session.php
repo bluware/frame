@@ -51,12 +51,34 @@ class Session extends Writable implements SessionInterface
              *  @var array
              */
             $this->enter(function() use ($data) {
-                if (array_key_exists($this->name, $_SESSION) === true)
+                /**
+                 *  @var bool
+                 */
+                $exist = array_key_exists(
+                    $this->name, $_SESSION
+                );
+
+                /**
+                 *  @var bool
+                 */
+                if ($exist === true)
+                    /**
+                     *  @var mixed
+                     */
                     $data = $_SESSION[$this->name];
 
+                /**
+                 *  @var bool
+                 */
                 if (gettype($data) !== 'array')
+                    /**
+                     *  @var array
+                     */
                     $data = [];
 
+                /**
+                 *  @var mixed
+                 */
                 $this->data = $data;
             });
     }
