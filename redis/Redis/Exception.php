@@ -6,12 +6,12 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Session;
+namespace Frame\Redis;
 
 /**
- *  @subpackage Session
+ *  @subpackage Redis
  */
-class Except extends \Exception
+class Exception extends \Exception
 {
     //
 }

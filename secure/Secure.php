@@ -8,7 +8,7 @@
  */
 namespace Frame;
 
-use Frame\Secure\Keychain;
+use Frame\Secure\Chain;
 
 /**
  * @subpackage Secure
@@ -16,36 +16,36 @@ use Frame\Secure\Keychain;
 class Secure implements SecureInterface
 {
     /**
-     *  Singleton Frame\Secure\Keychain instanse.
+     *  Singleton Frame\Secure\Chain instanse.
      *
      *  @param  mixed  $method
      *
      *  @return mixed
      */
-    public static function keychain($method = null)
+    public static function chain($method = null)
     {
         /**
          *  @var mixed
          */
-        static $keychain = null;
+        static $chain = null;
 
         /**
          *  @var boolean
          */
-        if ($keychain === null)
+        if ($chain === null)
             /**
-             *  @var \Frame\Secure\Keychain
+             *  @var \Frame\Secure\Chain
              */
-            $keychain = new Keychain();
+            $chain = new Chain();
 
         /**
          *  @var boolean
          */
         if ($method === null)
             /**
-             *  @var \Frame\Secure\Keychain
+             *  @var \Frame\Secure\Chain
              */
-            return $keychain;
+            return $chain;
 
         /**
          *  @var array
@@ -56,7 +56,7 @@ class Secure implements SecureInterface
          *  @var mixed
          */
         return call_user_func_array([
-            $keychain,
+            $chain,
             array_shift($params)
         ], $params);
     }
@@ -81,7 +81,7 @@ class Secure implements SecureInterface
     }
 
     /**
-     *  Short call Frame\Secure\Keychain::encrypt.
+     *  Short call Frame\Secure\Chain::encrypt.
      *
      *  @param  mixed  $input
      *  @param  string $key
@@ -93,13 +93,13 @@ class Secure implements SecureInterface
         /**
          *  @var mixed
          */
-        return static::keychain(
+        return static::chain(
             'encrypt', $input, $key
         );
     }
 
     /**
-     *  Short call Frame\Secure\Keychain::decrypt.
+     *  Short call Frame\Secure\Chain::decrypt.
      *
      *  @param  mixed  $input
      *  @param  string $key
@@ -111,7 +111,7 @@ class Secure implements SecureInterface
         /**
          *  @var mixed
          */
-        return static::keychain(
+        return static::chain(
             'decrypt', $input, $key
         );
     }

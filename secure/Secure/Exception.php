@@ -8,12 +8,10 @@
  */
 namespace Frame\Secure;
 
-use Exception;
-
 /**
  *  @subpackage Secure
  */
-class Except extends Exception
+class Exception extends \Exception
 {
     //
 }

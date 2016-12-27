@@ -14,13 +14,13 @@ namespace Frame;
 interface SecureInterface
 {
     /**
-     *  Singleton Frame\Secure\Keychain instanse.
+     *  Singleton Frame\Secure\Chain instanse.
      *
      *  @param  mixed  $method
      *
      *  @return mixed
      */
-    public static function keychain($method = null);
+    public static function chain($method = null);
 
     /**
      *  Alphanum random generator.
@@ -32,7 +32,7 @@ interface SecureInterface
     public static function random($length = 8, $key = null);
 
     /**
-     *  Short call Frame\Secure\Keychain::encrypt.
+     *  Short call Frame\Secure\Chain::encrypt.
      *
      *  @param  mixed  $input
      *  @param  string $key
@@ -42,7 +42,7 @@ interface SecureInterface
     public static function encrypt($input, $key);
 
     /**
-     *  Short call Frame\Secure\Keychain::decrypt.
+     *  Short call Frame\Secure\Chain::decrypt.
      *
      *  @param  mixed  $input
      *  @param  string $key

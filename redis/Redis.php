@@ -37,6 +37,6 @@ class Redis implements RedisInterface
 
     public static function command($command, $argv)
     {
-
+        $this->adapter()->{$command};
     }
 }

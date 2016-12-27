@@ -19,7 +19,7 @@ use Frame\Data\Readable;
 /**
  * @subpackage Secure
  */
-class Keychain extends Writable
+class Chain extends Writable
 {
     /**
      *  @const CHIPER

@@ -8,7 +8,7 @@
  */
 namespace Frame;
 
-use Frame\Session\Except;
+use Frame\Session\Exception;
 use Frame\Data\Writable;
 
 /**
