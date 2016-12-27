@@ -66,4 +66,19 @@ class Bit implements BitInterface
     {
         return $this->input & $bit;
     }
+
+    public function set($bit, $value)
+    {
+        $isset = $this->input & $bit;
+
+        $value = boolval($value);
+
+        if ($isset && !$value)
+            $this->input -= $bit;
+
+        if (!$isset && $value)
+            $this->input += $bit;
+
+        return $this;
+    }
 }
