@@ -31,6 +31,9 @@ class Json
          */
         $error  = json_last_error();
 
+        /**
+         *  @var bool
+         */
         if ($error === JSON_ERROR_NONE)
             /**
              * @var mixed

@@ -4,8 +4,10 @@ return [
     /**------------------------------------------------------------------------
      *  @package `json` module
      */
-     'Frame\\Json'
-         => __DIR__ . "/json/Json.php",
+    'Frame\\Data\\Except'
+        => __DIR__ . "/data/Data/Except.php",
+    'Frame\\Json'
+        => __DIR__ . "/json/Json.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -18,17 +20,23 @@ return [
     /**------------------------------------------------------------------------
      *  @package `data` module
      */
-     'Frame\\Data\\Readable'
-         => __DIR__ . "/data/Data/Readable.php",
-     'Frame\\Data\\Writable'
-         => __DIR__ . "/data/Data/Writable.php",
-     'Frame\\Data'
-         => __DIR__ . "/data/Data.php",
+    'Frame\\Data\\Except'
+        => __DIR__ . "/data/Data/Except.php",
+    'Frame\\Data\\Readable'
+        => __DIR__ . "/data/Data/Readable.php",
+    'Frame\\Data\\Writable'
+        => __DIR__ . "/data/Data/Writable.php",
+    'Frame\\Data'
+        => __DIR__ . "/data/Data.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
      *  @package `secure` module
      */
+     'Frame\\Secure\\Secret'
+         => __DIR__ . "/secure/Secure/Secret.php",
+     'Frame\\Secure\\Except'
+         => __DIR__ . "/secure/Secure/Except.php",
      'Frame\\Secure\\Keychain'
          => __DIR__ . "/secure/Secure/Keychain.php",
      'Frame\\SecureInterface'
@@ -110,6 +118,8 @@ return [
     /**------------------------------------------------------------------------
      *  @package `http` module
      */
+     'Frame\\Session\\Except'
+         => __DIR__ . "/session/Session/Except.php",
      'Frame\\SessionInterface'
          => __DIR__ . "/session/SessionInterface.php",
      'Frame\\Session'
@@ -182,6 +192,8 @@ return [
     /**------------------------------------------------------------------------
      *  @package `database` module
      */
+     'Frame\\ActiveRecord\\Except'
+         => __DIR__ . "/active-record/ActiveRecord/Except.php",
      'Frame\\ActiveRecord\\Query'
          => __DIR__ . "/active-record/ActiveRecord/Query.php",
      'Frame\\ActiveRecord'
@@ -191,15 +203,19 @@ return [
     /**------------------------------------------------------------------------
      *  @package `service` module
      */
-     'Frame\\Service\\Autoload'
-         => __DIR__ . "/service/Autoload.php",
-     'Frame\\Service\\Locator'
-         => __DIR__ . "/service/Locator.php",
+    'Frame\\Service\\Except'
+        => __DIR__ . "/service/Service/Except.php",
+    'Frame\\Service\\Autoload'
+        => __DIR__ . "/service/Autoload.php",
+    'Frame\\Service\\Locator'
+        => __DIR__ . "/service/Locator.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
      *  @package `form` module
      */
+     'Frame\\Form\\Except'
+         => __DIR__ . "/form/Form/Except.php",
      'Frame\\Form\\Filter'
          => __DIR__ . "/form/Form/Filter.php",
      'Frame\\Form\\Input'
@@ -213,20 +229,26 @@ return [
     /**------------------------------------------------------------------------
      *  @package `package` module
      */
-     'Frame\\Package'
-         => __DIR__ . "/package/Package.php",
+    'Frame\\Package\\Except'
+        => __DIR__ . "/package/Package/Except.php",
+    'Frame\\Package'
+        => __DIR__ . "/package/Package.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
      *  @package `package` module
      */
-     'Frame\\Paging'
-         => __DIR__ . "/paging/Paging.php",
+    'Frame\\Paging\\Except'
+        => __DIR__ . "/paging/Paging/Except.php",
+    'Frame\\Paging'
+        => __DIR__ . "/paging/Paging.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
      *  @package `image` module
      */
+     'Frame\\Image\\Except'
+         => __DIR__ . "/image/Image/Except.php",
      'Frame\\Image'
          => __DIR__ . "/image/Image.php",
      'Frame\\Image\\Base64'
@@ -236,6 +258,10 @@ return [
     /**------------------------------------------------------------------------
      *  @package `file` module
      */
+     'Frame\\File\\Except'
+         => __DIR__ . "/file/File/Except.php",
+     'Frame\\File'
+         => __DIR__ . "/file/File.php",
      'Frame\\File\\Base64'
          => __DIR__ . "/file/File/Base64.php",
     //-------------------------------------------------------------------------
@@ -244,6 +270,8 @@ return [
     /**------------------------------------------------------------------------
      *  @package `package` module
      */
+     'Frame\\App\\Except'
+         => __DIR__ . "/app/App/Except.php",
      'Frame\\App\\Packages'
          => __DIR__ . "/app/App/Packages.php",
      'Frame\\App'

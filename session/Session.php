@@ -8,8 +8,8 @@
  */
 namespace Frame;
 
+use Frame\Session\Except;
 use Frame\Data\Writable;
-use Frame\Secure;
 
 /**
  * @subpackage Session

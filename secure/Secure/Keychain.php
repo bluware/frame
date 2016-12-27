@@ -8,6 +8,9 @@
  */
 namespace Frame\Secure;
 
+use Frame\Secure;
+use Frame\Secure\Except;
+
 use Frame\Json;
 use Frame\Data;
 use Frame\Data\Writable;
@@ -44,7 +47,8 @@ class Keychain extends Writable
          */
         $this->data = array_replace(
             [
-                'default' => \Frame\Secure::random(32)
+                'default'
+                    => Secure::random(32)
             ], $data
         );
     }
@@ -65,11 +69,11 @@ class Keychain extends Writable
         $secret = $this->get($key, null);
 
         /**
-         *  @var boolean
+         *  @var bool
          */
         if ($secret === null)
-            throw new \Exception(
-                "No key found in chain"
+            throw new Except(
+                'No key found in chain'
             );
 
         /**
@@ -91,14 +95,18 @@ class Keychain extends Writable
             /**
              *  @var string
              */
-            $input = Json::encode($input);
+            $input = Json::encode(
+                $input
+            );
         }
 
         /**
          *  @var mixed
          */
         return @openssl_encrypt(
-            $input, static::CHIPER, $secret
+            $input,
+            static::CHIPER,
+            $secret
         );
     }
 
@@ -118,11 +126,11 @@ class Keychain extends Writable
         $secret = $this->get($key, null);
 
         /**
-         *  @var boolean
+         *  @var bool
          */
         if ($secret === null)
-            throw new \Exception(
-                "No key found in chain"
+            throw new Except(
+                'No key found in chain'
             );
 
         /**
