@@ -30,8 +30,8 @@ return [
         => __DIR__ . "/secure/Secure/Exception.php",
     'Frame\\Secure\\Secret'
         => __DIR__ . "/secure/Secure/Secret.php",
-    'Frame\\Secure\\Keychain'
-        => __DIR__ . "/secure/Secure/Keychain.php",
+    'Frame\\Secure\\Chain'
+        => __DIR__ . "/secure/Secure/Chain.php",
     'Frame\\SecureInterface'
         => __DIR__ . "/secure/SecureInterface.php",
     'Frame\\Secure'
