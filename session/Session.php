@@ -32,7 +32,7 @@ class Session extends Writable implements SessionInterface
      *
      *  @return void
      */
-    public function __construct($name, array $data = null) {
+    public function __construct($name, array $data = null, $id = null) {
         /**
          *  @var string
          */
@@ -81,6 +81,9 @@ class Session extends Writable implements SessionInterface
                  */
                 $this->data = $data;
             });
+
+        if ($id !== null)
+            session_id($sid);
     }
 
     /**

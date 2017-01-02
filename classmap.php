@@ -32,6 +32,8 @@ return [
         => __DIR__ . "/secure/Secure/Secret.php",
     'Frame\\Secure\\Chain'
         => __DIR__ . "/secure/Secure/Chain.php",
+    'Frame\\Secure\\Hash'
+        => __DIR__ . "/secure/Secure/Hash.php",
     'Frame\\SecureInterface'
         => __DIR__ . "/secure/SecureInterface.php",
     'Frame\\Secure'
