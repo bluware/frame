@@ -8,8 +8,8 @@
  */
 namespace Frame;
 
+use Frame\Session\Exception;
 use Frame\Data\Writable;
-use Frame\Secure;
 
 /**
  * @subpackage Session
@@ -32,7 +32,7 @@ class Session extends Writable implements SessionInterface
      *
      *  @return void
      */
-    public function __construct($name, array $data = null) {
+    public function __construct($name, array $data = null, $id = null) {
         /**
          *  @var string
          */
@@ -51,14 +51,39 @@ class Session extends Writable implements SessionInterface
              *  @var array
              */
             $this->enter(function() use ($data) {
-                if (array_key_exists($this->name, $_SESSION) === true)
+                /**
+                 *  @var bool
+                 */
+                $exist = array_key_exists(
+                    $this->name, $_SESSION
+                );
+
+                /**
+                 *  @var bool
+                 */
+                if ($exist === true)
+                    /**
+                     *  @var mixed
+                     */
                     $data = $_SESSION[$this->name];
 
+                /**
+                 *  @var bool
+                 */
                 if (gettype($data) !== 'array')
+                    /**
+                     *  @var array
+                     */
                     $data = [];
 
+                /**
+                 *  @var mixed
+                 */
                 $this->data = $data;
             });
+
+        if ($id !== null)
+            session_id($sid);
     }
 
     /**

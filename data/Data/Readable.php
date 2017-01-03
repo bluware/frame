@@ -25,7 +25,9 @@ abstract class Readable implements \Iterator
      */
     public function has($key)
     {
-        return array_key_exists($key, $this->data);
+        return array_key_exists(
+            $key, $this->data
+        );
     }
 
     /**
@@ -38,7 +40,9 @@ abstract class Readable implements \Iterator
     {
         return array_key_exists(
             $key, $this->data
-        ) ? $this->data[$key] : $alternate;
+        ) ? $this->data[
+            $key
+        ] : $alternate;
     }
 
     /**
@@ -171,7 +175,7 @@ abstract class Readable implements \Iterator
     public function to($type)
     {
         switch ($type) {
-            case 'array':
+            case 'array': case 'arr':
                 /**
                  *  @var array
                  */

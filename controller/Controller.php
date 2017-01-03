@@ -72,6 +72,25 @@ abstract class Controller
     }
 
     /**
+     *  Fast router implementation.
+     *
+     *  @return mixed
+     */
+    function locator($input = null)
+    {
+        if ($input === null)
+            return $this->locator;
+
+        $params = func_get_args();
+
+        return call_user_func_array([
+            $this->locator, array_shift(
+                $params
+            )
+        ], $params);
+    }
+
+    /**
      *  @param  string $input
      *
      *  @return mixed

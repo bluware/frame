@@ -116,7 +116,7 @@ class App
         /**
          *  @var \Frame\Secure\Keychain
          */
-        $secure = Secure::keychain();
+        $secure = Secure::chain();
 
         /**
          *  @var \Frame\Secure\Keychain
