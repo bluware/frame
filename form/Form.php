@@ -284,7 +284,9 @@ class Form extends Writable implements FormInterface
          */
         return $this->data(
             $data
-        )->filtrate();
+        );
+
+        return $this->filtrate();
     }
 
     /**
