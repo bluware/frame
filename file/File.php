@@ -3,10 +3,10 @@
 namespace Frame;
 
 use Frame\File\Exception;
-use Frame\File\Data;
+
 use Frame\File\Util;
 
-class File extends Data
+class File extends \Frame\File\Data
 {
     /**
      *  @var string

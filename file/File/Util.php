@@ -8,8 +8,6 @@
  */
 namespace Frame\File;
 
-use Frame\Data;
-
 /**
  *  @subpackage File
  */
@@ -17,7 +15,7 @@ class Util
 {
     public static function remote($url, $input = null)
     {
-        $data = new Data;
+        $data = new \Frame\Data;
 
         $curl = curl_init( $url );
 
