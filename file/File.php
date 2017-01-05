@@ -2,107 +2,98 @@
 
 namespace Frame;
 
-use Frame\File\Except;
+use Frame\File\Exception;
+use Frame\File\Data;
+use Frame\File\Util;
 
-class File
+class File extends Data
 {
+    /**
+     *  @var string
+     */
+    const PATTERN64         = '#^data:([\w\.\/\+\-]+);base64,([a-zA-Z0-9\/\r\n+]*={0,2})#i';
+
     /**
      *  @var array
      */
-    public static $support = [
-        'temp', 'binary'
-    ];
+    protected $types        = [];
 
     /**
-     *  binary || temp
-     *
-     * @var enum
+     *  @var boolean
      */
-    protected $scope    = 'temp';
+    protected $valid        = true;
 
     /**
-     *  Natural file size
+     *  @param  string $data
      *
-     *  @var integer
+     *  @return void
      */
-    protected $size     = 0;
-
-    /**
-     *  Mime of file
-     *
-     *  @var string
-     */
-    protected $type;
-
-    /**
-     *  Name of file
-     *
-     *  @var string
-     */
-    protected $name;
-
-    /**
-     *  In memory handler
-     *
-     *  @var binary
-     */
-    protected $binary;
-
-    /**
-     *  In memory handler
-     *
-     *  @var binary
-     */
-    protected $temp;
-
-    /**
-     *
-     */
-    public function __construct($scope = 'temp', array $data)
+    public function __construct($data, $hash = 'md5')
     {
-        /**
-         *  @var bool
-         */
-        if (in_array($scope, static::$support, true) === false)
-            /**
-             *  @var Err
-             */
-            throw new Except('Scope do not supports.');
+        parent::__construct($data);
+
+        if (sizeof($this->types) > 0) {
+            $type = in_array($this->get('type'), $this->types, true);
+
+            if ($type === false)
+                return $this->valid = false;
+        }
+
+        switch ($hash) {
+            case 'md5': default:
+                $this->set('hash', @is_file(
+                        $this->get('file')
+                    ) ? md5_file(
+                        $this->get('file')
+                    ) : md5(
+                        $this->get('file')
+                    )
+                );
+                break;
+
+            case 'crc32':
+                $this->set('hash', crc32(
+                        $this->get('file')
+                    )
+                );
+                break;
+
+            case 'sha1':
+                $this->set('hash', @is_file(
+                        $this->get('file')
+                    ) ? sha1_file(
+                        $this->get('file')
+                    ) : sha1(
+                        $this->get('file')
+                    )
+                );
+                break;
+        }
 
         /**
          *  @var array
          */
-        $require = [
-            'name', 'size', 'type', $scope
-        ];
-
-        /**
-         *  @var array
-         */
-        $filter = array_intersect(
-            $require, array_keys(
-                $data
-            )
+        $info = pathinfo(
+            $this->get('name')
         );
 
         /**
-         *  @var bool
+         *  @var string
          */
-        if (sizeof($filter) !== sizeof($require))
-            /**
-             *  @var Err
-             */
-            throw new Except('Wrong input params.');
-
+        $this->set('name', $info[
+            'filename'
+        ]);
 
         /**
-         *  @var iterable
+         *  @var boolean
          */
-        foreach ($data as $input => $value)
+        if (array_key_exists('extension', $info) === true)
             /**
-             *  @var mixed
+             *  @var string
              */
-            $this->{$input} = $value;
+            $this->set(
+                'extension', $info['extension']
+            );
     }
 
     /**
@@ -110,41 +101,115 @@ class File
      * @param  [type] $type [description]
      * @return [type]       [description]
      */
-    public static function from($type, $data)
+    public static function from($type, $data, $hash = 'md5')
     {
         switch ($type) {
-            case 'native':
-                # code...
+            case 'array':
+                return new static(
+                    $data, $hash
+                );
                 break;
 
             case 'base64':
-                # code...
+                if (gettype($data) !== 'array')
+                    throw new Exception("base64 file should be array [base64, name]");
+
+                list($base, $name) = $data;
+
+                /**
+                 *  @var boolean
+                 */
+                $correct = boolval(
+                    preg_match(static::PATTERN64, $base, $matches)
+                );
+
+                /**
+                 *  @var boolean
+                 */
+                if ($correct === false)
+                    return;
+
+                /**
+                 *  @var void
+                 */
+                array_shift($matches);
+
+                /**
+                 *  @var void
+                 */
+                list(
+                    $type, $encoded
+                ) = $matches;
+
+                /**
+                 *  @var float
+                 */
+                $size = (int) (
+                    strlen(
+                        rtrim($encoded, '=')
+                    ) * 3 / 4
+                );
+
+                /**
+                 *  @var string
+                 */
+                $file = base64_decode(
+                    $encoded
+                );
+
+                return new static([
+                    'file' => $file,
+                    'type' => $type,
+                    'size' => $size,
+                    'name' => $name,
+                ], $hash);
                 break;
 
-            case 'memory':
-                # code...
+            case 'filesystem': case 'fs': case 'file': case 'local':
+                return new static([
+                    'file' => $data,
+                    'type' => mime_content_type($data),
+                    'size' => filesize($data),
+                    'name' => basename($data),
+                ], $hash);
                 break;
 
-            case 'web': case 'url': case 'http':
-                # code...
-                break;
+            case 'web': case 'url': case 'http': case 'https':
+                $meta = Util::remote($data);
 
-            case 'filesystem': case 'fs': case 'file':
-                # code...
+                try {
+                    $meta->data([
+                        'file' => file_get_contents(
+                            $data
+                        ),
+                        'name' => basename($data)
+                    ]);
+                } catch (\Exception $e) {
+                    throw new Exception(
+                        "Remote file large."
+                    );
+                }
+
+                return new static(
+                    $meta->data(), $hash
+                );
                 break;
         }
     }
 
-    public function put($path)
+    /**
+     *  @param  string $key
+     *
+     *  @return mixed
+     */
+    public function is($input)
     {
-        switch ($this->scope) {
-            case 'memory':
-                file_put_contents($path, $this->memory);
-                break;
-
-            case 'temp':
-                move_uploaded_file($path, $this->temp);
+        switch ($input) {
+            case 'valid':
+                return $this->valid;
                 break;
         }
+
+        return false;
     }
 }

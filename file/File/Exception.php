@@ -11,7 +11,7 @@ namespace Frame\File;
 /**
  *  @subpackage File
  */
-class Except extends \Exception
+class Exception extends \Exception
 {
     //
 }

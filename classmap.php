@@ -264,6 +264,10 @@ return [
      */
     'Frame\\File\\Exception'
         => __DIR__ . "/file/File/Exception.php",
+    'Frame\\File\\Util'
+        => __DIR__ . "/file/File/Util.php",
+    'Frame\\File\\Data'
+        => __DIR__ . "/file/File/Data.php",
     'Frame\\File'
         => __DIR__ . "/file/File.php",
     'Frame\\File\\Base64'
