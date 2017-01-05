@@ -186,7 +186,7 @@ class File extends Data
                     ]);
                 } catch (\Exception $e) {
                     throw new Exception(
-                        "Remote file large."
+                        "Getting remote file failed."
                     );
                 }
 

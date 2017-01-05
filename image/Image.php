@@ -8,48 +8,42 @@
  */
 namespace Frame;
 
+use Frame\Image\Exception;
+
+use Frame\File;
+
 /**
  * @subpackage Image
  */
-class Image
+class Image extends File
 {
-    /**
-     *  @var resource
-     */
-    protected $resource;
-
-    /**
-     *  @var integer
-     */
-    protected $x;
-
-    /**
-     *  @var integer
-     */
-    protected $y;
-
     /**
      *  @param resource
      */
-    public function __construct($resource)
+    public function __construct($data, $hash = 'md5')
     {
-        if (gettype($resource) !== 'resource')
-            throw new \Exception("Bad resource type.");
+        parent::__construct($data, $hash);
+
+        $infs = @is_file(
+            $file = $this->get('file')
+        );
+
+        $image = @imagecreatefromstring(
+            $infs === false || $infs === null ?
+                $file : file_put_contents($file)
+        );
+
+        if (gettype($image) !== 'resource')
+            throw new Exception("Bad image to resource convertation.");
 
         /**
-         *  @var resource
+         *  @var void
          */
-        $this->resource = $resource;
-
-        /**
-         *  @var integer
-         */
-        $this->x = imagesx($resource);
-
-        /**
-         *  @var integer
-         */
-        $this->y = imagesy($resource);
+        $this->data([
+            'image' => $image,
+            'x'     => imagesx($image),
+            'y'     => imagesy($image)
+        ]);
     }
 
     /**
@@ -62,7 +56,7 @@ class Image
         /**
          *  @var resource
          */
-        $resource = imagecreatetruecolor(
+        $image = imagecreatetruecolor(
             $w, $h
         );
 
@@ -70,29 +64,29 @@ class Image
          *  @var void
          */
         imagecopyresized(
-            $resource,
-            $this->resource,
+            $image,
+            $this->get('image'),
             0,
             0,
             0,
             0,
             $w,
             $h,
-            $this->x,
-            $this->y
+            $this->get('x'),
+            $this->get('y')
         );
 
         /**
          *  @var bool
          */
         imagedestroy(
-            $this->resource
+            $this->get('image')
         );
 
         /**
          *  @var resource
          */
-        $this->resource = $resource;
+        $this->set('image', $image);
 
         /**
          *  @var $this
@@ -110,21 +104,21 @@ class Image
         switch ($orientation) {
             case 'horizontal':
             case 'h':
-                imageflip($this->resource, IMG_FLIP_VERTICAL);
+                imageflip($this->get('image'), IMG_FLIP_VERTICAL);
                 break;
 
             case 'vertical':
             case 'v':
-                imageflip($this->resource, IMG_FLIP_VERTICAL);
+                imageflip($this->get('image'), IMG_FLIP_VERTICAL);
                 break;
 
             case 'both':
             case 'b':
-                imageflip($this->resource, IMG_FLIP_BOTH);
+                imageflip($this->get('image'), IMG_FLIP_BOTH);
                 break;
 
             default:
-                throw new \Exception("Bad orientation");
+                throw new Exception("Bad orientation. Supports : 'horizontal', 'h', 'vertical', 'v', 'both', 'b'");
                 break;
         }
 
@@ -136,19 +130,19 @@ class Image
 
     public function rotate($degrees = 90)
     {
-        $resource = imagerotate($this->resource, $degrees, 0);
+        $image = imagerotate($this->get('image'), $degrees, 0);
 
         /**
          *  @var bool
          */
         imagedestroy(
-            $this->resource
+            $this->get('image')
         );
 
         /**
          *  @var resource
          */
-        $this->resource = $resource;
+        $this->set('image', $image);
 
         /**
          *  @var $this
@@ -160,48 +154,48 @@ class Image
     {
         $x = $w; $y = $h;
 
-        if ($w > $this->x && $h <= $this->y) {
-            $x = $this->x;
+        if ($w > $this->get('x') && $h <= $this->get('y')) {
+            $x = $this->get('x');
             $y = floor(
-                ($this->x / $w) * $h
+                ($this->get('x') / $w) * $h
             );
         }
 
-        if ($w <= $this->x && $h > $this->y) {
-            $y = $this->y;
+        if ($w <= $this->get('x') && $h > $this->get('y')) {
+            $y = $this->get('y');
             $x = floor(
-                ($this->y / $h) * $w
+                ($this->get('y') / $h) * $w
             );
         }
 
-        if (($w >= $this->x && $h >= $this->y) || ($w < $this->x && $h < $this->y)) {
+        if (($w >= $this->get('x') && $h >= $this->get('y')) || ($w < $this->get('x') && $h < $this->get('y'))) {
             if ($w > $h) {
-                $x = $this->x;
+                $x = $this->get('x');
                 $y = floor(
-                    ($this->x / $w) * $h
+                    ($this->get('x') / $w) * $h
                 );
             }
 
             if ($w === $h) {
                 $x = $y = (
-                    $this->x > $this->y
-                ) ? $this->y : $this->x;
+                    $this->get('x') > $this->get('y')
+                ) ? $this->get('y') : $this->get('x');
             }
 
             if ($w < $h) {
                 $x = floor(
-                    ($this->y / $h) * $w
+                    ($this->get('y') / $h) * $w
                 );
-                $y = $this->y;
+                $y = $this->get('y');
             }
         }
 
         /**
          *  @var resource
          */
-        $resource = imagecrop($this->resource, [
-            'x'         => floor(($this->x - $x) / 2),
-            'y'         => floor(($this->y - $y) / 2),
+        $image = imagecrop($this->get('image'), [
+            'x'         => floor(($this->get('x') - $x) / 2),
+            'y'         => floor(($this->get('y') - $y) / 2),
             'width'     => $x,
             'height'    => $y
         ]);
@@ -210,23 +204,23 @@ class Image
          *  @var bool
          */
         imagedestroy(
-            $this->resource
+            $this->get('image')
         );
 
         /**
          *  @var resource
          */
-        $this->resource = $resource;
+        $this->set('image', $image);
 
         /**
          *  @var integer
          */
-        $this->x = $x;
+        $this->set('x', $x);
 
         /**
          *  @var integer
          */
-        $this->y = $y;
+        $this->set('y', $y);
 
         /**
          *  @var $this
@@ -235,137 +229,52 @@ class Image
     }
 
     /**
-     *  @param  string $input
-     *  @param  mixed $data
-     *
-     *  @return static
-     */
-    public static function make($type, $data = null)
-    {
-        /**
-         *  @var string
-         */
-        switch ($type) {
-            case 'file': case 'filesystem': case 'url': case 'web': case 'http':
-                /**
-                 *  @var static
-                 */
-                return new static(
-                    imagecreatefromstring(
-                        file_get_contents($data)
-                    )
-                );
-                break;
-
-            case 'string': case 'str':
-                /**
-                 *  @var static
-                 */
-                return new static(
-                    imagecreatefromstring($data)
-                );
-                break;
-
-            case 'jpeg': case 'jpg': case 'image/jpeg':
-                /**
-                 *  @var static
-                 */
-                return new static(
-                    imagecreatefromjpeg($data)
-                );
-                break;
-
-            case 'png': case 'image/png':
-                /**
-                 *  @var static
-                 */
-                return new static(
-                    imagecreatefrompng($data)
-                );
-                break;
-
-            case 'gif': case 'image/gif':
-                /**
-                 *  @var static
-                 */
-                return new static(
-                    imagecreatefromgif($data)
-                );
-                break;
-
-            default:
-                /**
-                 *  @var static
-                 */
-                return new static(
-                    imagecreatefromstring(
-                        file_get_contents($type)
-                    )
-                );
-                break;
-        }
-
-        throw new \Exception(
-            "Bad type creation."
-        );
-    }
-
-    /**
-     *  @param  string  $file
+     *  @param  string  $image
      *  @param  integer $q
      *
      *  @return void
      */
-    public function put($file, $q = 75)
+    public function put($image, $q = 75)
     {
-        return $this->jpeg($file, $q);
+        return $this->jpeg($image, $q);
     }
 
     /**
-     *  @param  string  $file
+     *  @param  string  $image
      *  @param  integer $q
      *
      *  @return void
      */
-    public function jpeg($file, $q = 75)
+    public function jpeg($image, $q = 75)
     {
         imagejpeg(
-            $this->resource, $file, $q
+            $this->get('image'), $image, $q
         );
     }
 
     /**
-     *  @param  string  $file
+     *  @param  string  $image
      *  @param  integer $q
      *  @param  integer $filter
      *
      *  @return void
      */
-    public function png($file, $q = 0, $filter = 0)
+    public function png($image, $q = 0, $filter = 0)
     {
         imagepng(
-            $this->resource, $file, $q, $filter
+            $this->get('image'), $image, $q, $filter
         );
     }
 
     /**
-     *  @param  string  $file
+     *  @param  string  $image
      *
      *  @return void
      */
-    public function gif($file)
+    public function gif($image)
     {
         imagegif(
-            $this->resource, $file
+            $this->get('image'), $image
         );
-    }
-
-    /**
-     *  @param  string $input
-     *  @return mixed
-     */
-    public function __get($input)
-    {
-        return $this->{$input};
     }
 }
