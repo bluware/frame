@@ -491,6 +491,13 @@ class Filter
         );
     }
 
+    public static function trim(&$value)
+    {
+        $value = trim($value);
+
+        return true;
+    }
+
     /**
      *  @param  mixed $value
      *
