@@ -1,11 +1,20 @@
 <?php
 
+/**
+ *  Bluware PHP Lite & Scaleable Web Frame
+ *
+ *  @package  Frame
+ *  @author   Eugen Melnychenko
+ */
 namespace Frame;
 
 use Frame\File\Exception;
 
 use Frame\File\Util;
 
+/**
+ * @subpackage File
+ */
 class File extends \Frame\File\Data
 {
     /**
@@ -17,6 +26,11 @@ class File extends \Frame\File\Data
      *  @var array
      */
     protected $types        = [];
+
+    /**
+     *  @var array
+     */
+    protected $limit        = 0;
 
     /**
      *  @var boolean
@@ -41,7 +55,8 @@ class File extends \Frame\File\Data
 
         switch ($hash) {
             case 'md5': default:
-                $this->set('hash', @is_file(
+                $this->set(
+                    'hash', @is_file(
                         $this->get('file')
                     ) ? md5_file(
                         $this->get('file')
@@ -52,14 +67,16 @@ class File extends \Frame\File\Data
                 break;
 
             case 'crc32':
-                $this->set('hash', crc32(
+                $this->set(
+                    'hash', crc32(
                         $this->get('file')
                     )
                 );
                 break;
 
             case 'sha1':
-                $this->set('hash', @is_file(
+                $this->set(
+                    'hash', @is_file(
                         $this->get('file')
                     ) ? sha1_file(
                         $this->get('file')
@@ -101,7 +118,7 @@ class File extends \Frame\File\Data
      * @param  [type] $type [description]
      * @return [type]       [description]
      */
-    public static function from($type, $data, $hash = 'md5')
+    public static function read($type, $data, $hash = 'md5')
     {
         switch ($type) {
             case 'array':
@@ -112,7 +129,9 @@ class File extends \Frame\File\Data
 
             case 'base64':
                 if (gettype($data) !== 'array')
-                    throw new Exception("base64 file should be array [base64, name]");
+                    throw new Exception(
+                        "base64 file should be array [base64, name]"
+                    );
 
                 list($base, $name) = $data;
 
@@ -165,7 +184,7 @@ class File extends \Frame\File\Data
                 ], $hash);
                 break;
 
-            case 'filesystem': case 'fs': case 'file': case 'local':
+            case 'local':
                 return new static([
                     'file' => $data,
                     'type' => mime_content_type($data),
@@ -174,24 +193,56 @@ class File extends \Frame\File\Data
                 ], $hash);
                 break;
 
-            case 'web': case 'url': case 'http': case 'https':
-                $meta = Util::remote($data);
-
-                try {
-                    $meta->data([
-                        'file' => file_get_contents(
-                            $data
-                        ),
-                        'name' => basename($data)
-                    ]);
-                } catch (\Exception $e) {
-                    throw new Exception(
-                        "Getting remote file failed."
-                    );
-                }
+            case 'remote':
+                $meta = Util::remote(
+                    $data
+                )->data([
+                    'file' => file_get_contents(
+                        $data
+                    ),
+                    'name' => basename($data)
+                ]);
 
                 return new static(
                     $meta->data(), $hash
+                );
+                break;
+        }
+    }
+
+    public static function base64($data, $name, $hash = 'md5')
+    {
+        return static::read('base64', [
+            $data, $name
+        ], $hash);
+    }
+
+    public static function local($path, $hash = 'md5')
+    {
+        return static::read(
+            'local', $path, $hash
+        );
+    }
+
+    public static function remote($uri, $hash = 'md5')
+    {
+        return static::read(
+            'remote', $uri, $hash
+        );
+    }
+
+    public static function content($event, $path, $data = null)
+    {
+        switch ($event) {
+            case 'get':
+                return file_get_contents(
+                    $path
+                );
+                break;
+
+            case 'put':
+                return file_put_contents(
+                    $path, $data
                 );
                 break;
         }

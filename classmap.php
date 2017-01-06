@@ -260,6 +260,15 @@ return [
     /**------------------------------------------------------------------------
      *  @package `file` module
      */
+    'Frame\\Dir\\Exception'
+        => __DIR__ . "/dir/Dir/Exception.php",
+    'Frame\\Dir'
+        => __DIR__ . "/dir/Dir.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `file` module
+     */
     'Frame\\File\\Exception'
         => __DIR__ . "/file/File/Exception.php",
     'Frame\\File\\Util'
