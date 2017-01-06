@@ -8,8 +8,7 @@
  */
 namespace Frame;
 
-use Frame\App;
-use Frame\Service\Locator;
+use Frame\Service\LocatorTrait;
 
 /**
  * @subpackage Package
@@ -17,19 +16,17 @@ use Frame\Service\Locator;
 abstract class Package
 {
     /**
-     *  @var array
+     *  @trait \Frame\Service\LocatorTrait
      */
-    protected $methods = array(
-        'bootstrap',
-        'autoload',
-        'router'
-    );
+    use LocatorTrait;
 
     /**
      *  @return void
      */
-    final public function __construct(App $app)
+    final public function __construct(\Frame\App $app)
     {
+        $locator = $app->locator();
+
         method_exists($this, 'bootstrap') ?
             $this->bootstrap(
                 $app->locator()

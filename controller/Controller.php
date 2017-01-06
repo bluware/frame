@@ -8,28 +8,24 @@
  */
 namespace Frame;
 
-use Frame\Http;
 use Frame\App;
+use Frame\Http;
+
+use Frame\Service\LocatorTrait;
 
 /**
  * @subpackage Controller
  */
 abstract class Controller
 {
+    use Http\RequestTrait;
+
+    use LocatorTrait;
+
     /**
      *  @var \Frame\App
      */
     protected $app;
-
-    /**
-     *  @var \Frame\Http\Request
-     */
-    protected $request;
-
-    /**
-     *  @var \Frame\Service\Locator
-     */
-    protected $locator;
 
     /**
      *
@@ -50,44 +46,6 @@ abstract class Controller
          *  @var \Frame\Http\Request
          */
         $this->request  = $app->locator()->get('request');
-    }
-
-    /**
-     *  Fast router implementation.
-     *
-     *  @return mixed
-     */
-    function request($input = null)
-    {
-        if ($input === null)
-            return $this->request;
-
-        $params = func_get_args();
-
-        return call_user_func_array([
-            $this->request, array_shift(
-                $params
-            )
-        ], $params);
-    }
-
-    /**
-     *  Fast router implementation.
-     *
-     *  @return mixed
-     */
-    function locator($input = null)
-    {
-        if ($input === null)
-            return $this->locator;
-
-        $params = func_get_args();
-
-        return call_user_func_array([
-            $this->locator, array_shift(
-                $params
-            )
-        ], $params);
     }
 
     /**

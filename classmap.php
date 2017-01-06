@@ -106,6 +106,8 @@ return [
         => __DIR__ . "/http-request/Request/Server.php",
     'Frame\\Http\\RequestInterface'
         => __DIR__ . "/http-request/RequestInterface.php",
+    'Frame\\Http\\RequestTrait'
+        => __DIR__ . "/http-request/RequestTrait.php",
     'Frame\\Http\\Request'
         => __DIR__ . "/http-request/Request.php",
     //-------------------------------------------------------------------------
@@ -113,6 +115,8 @@ return [
     /**------------------------------------------------------------------------
      *  @package `http` module
      */
+     'Frame\\Http\\Exception'
+         => __DIR__ . "/http/Http/Exception.php",
     'Frame\\HttpInterface'
         => __DIR__ . "/http/HttpInterface.php",
     'Frame\\Http'
@@ -208,11 +212,13 @@ return [
      *  @package `service` module
      */
     'Frame\\Service\\Exception'
-        => __DIR__ . "/service/Service/Exception.php",
+        => __DIR__ . "/service/Exception.php",
     'Frame\\Service\\Autoload'
         => __DIR__ . "/service/Autoload.php",
     'Frame\\Service\\Locator'
         => __DIR__ . "/service/Locator.php",
+    'Frame\\Service\\LocatorTrait'
+        => __DIR__ . "/service/LocatorTrait.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
