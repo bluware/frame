@@ -213,16 +213,23 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `service` module
+     *  @package `autoload` module
      */
-    'Frame\\Service\\Exception'
-        => __DIR__ . "/service/Exception.php",
-    'Frame\\Service\\Autoload'
-        => __DIR__ . "/service/Autoload.php",
-    'Frame\\Service\\Locator'
-        => __DIR__ . "/service/Locator.php",
-    'Frame\\Service\\Locator\\Mock'
-        => __DIR__ . "/service/Locator/Mock.php",
+    'Frame\\Autoload\\Exception'
+        => __DIR__ . "/autoload/Autoload/Exception.php",
+    'Frame\\Autoload'
+        => __DIR__ . "/autoload/Autoload.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `locator` module
+     */
+    'Frame\\Locator\\Exception'
+        => __DIR__ . "/locator/Locator/Exception.php",
+    'Frame\\Locator'
+        => __DIR__ . "/locator/Locator.php",
+    'Frame\\Locator\\Mock'
+        => __DIR__ . "/locator/Locator/Mock.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -307,8 +314,6 @@ return [
      */
     'Frame\\App\\Exception'
         => __DIR__ . "/app/App/Exception.php",
-    'Frame\\App\\Packages'
-        => __DIR__ . "/app/App/Packages.php",
     'Frame\\App'
         => __DIR__ . "/app/App.php",
     'Frame\\App\\Mock'

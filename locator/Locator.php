@@ -6,15 +6,14 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Service;
+namespace Frame;
 
 use Frame\Data;
-use Frame\Data\Readable;
 
 /**
- * @subpackage Service
+ * @subpackage Locator
  */
-class Locator extends Readable
+class Locator extends Data
 {
     /**
      * @var \Frame\Data

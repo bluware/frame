@@ -6,12 +6,12 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Service;
+namespace Frame;
 
 use Frame\Data;
 
 /**
- * @subpackage Service
+ * @subpackage Autoload
  */
 class Autoload
 {
@@ -74,18 +74,6 @@ class Autoload
 
         return $this;
     }
-
-    // /**
-    //  *  @return void
-    //  */
-    // public function register()
-    // {
-    //     spl_autoload_register([
-    //         $this, 'loader'
-    //     ]);
-    //
-    //     return $this;
-    // }
 
     /**
      *  @param  string $class

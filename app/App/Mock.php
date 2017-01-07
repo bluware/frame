@@ -8,48 +8,17 @@
  */
 namespace Frame\App;
 
-use Frame\App;
-use Frame\View;
-use Frame\Http\Request;
-use Frame\Http\Response;
-use Frame\Service\Locator;
+use Frame\App\Exception;
 
 /**
  * @subpackage App
  */
 trait Mock
 {
-    use Locator\Mock, Request\Mock, Response\Mock, View\Mock;
-
     /**
      *  @var \Frame\Service\Locator
      */
     protected $app;
-
-    /**
-     *  @param App $app
-     */
-    public function __construct(App $app)
-    {
-        /**
-         *  @var \Frame\App
-         */
-        $this->app      = $app;
-
-        /**
-         *  @var \Frame\App
-         */
-        $this->locator  = $this->app(
-            'locator'
-        );
-
-        /**
-         *  @var \Frame\Http\Request
-         */
-        $this->request  = $this->app(
-            'locator', 'get', 'request'
-        );
-    }
 
     /**
      *  Fast locator implementation.

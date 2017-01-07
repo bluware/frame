@@ -6,10 +6,10 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Service;
+namespace Frame\Autoload;
 
 /**
- * @subpackage Service
+ *  @subpackage Autoload
  */
 class Exception extends \Exception
 {

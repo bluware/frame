@@ -9,11 +9,26 @@
 namespace Frame;
 
 use Frame\App;
+use Frame\Locator;
+use Frame\Http\Request;
+use Frame\Http\Response;
+use Frame\View;
 
 /**
  * @subpackage Controller
  */
 abstract class Controller
 {
-    use App\Mock;
+    use App\Mock, Locator\Mock, Request\Mock, Response\Mock, View\Mock;
+
+    public function __construct(App $app)
+    {
+        $this->app      = $app;
+
+        $this->locator  = $app->locator();
+
+        $this->request  = $app->locator(
+            'get', 'request'
+        );
+    }
 }

@@ -9,7 +9,7 @@
 namespace Frame;
 
 use Frame\App;
-use Frame\Service\Locator;
+use Frame\Locator;
 
 /**
  * @subpackage Package
@@ -17,16 +17,18 @@ use Frame\Service\Locator;
 abstract class Package
 {
     /**
-     *  @trait \Frame\Service\LocatorTrait
+     *  @trait Frame\App\Mock
      */
-    use Locator\Mock;
+    use App\Mock, Locator\Mock;
 
     /**
      *  @return void
      */
     final public function __construct(App $app)
     {
-        $this->locator = $app->locator();
+        $this->app      = $app;
+
+        $this->locator  = $app->locator();
 
         method_exists($this, 'bootstrap') ?
             $this->bootstrap(

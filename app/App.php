@@ -9,9 +9,8 @@
 namespace Frame;
 
 use Frame\Package;
-use Frame\Service\Autoload;
-use Frame\Service\Locator;
-use Frame\Service\LocatorTrait;
+use Frame\Autoload;
+use Frame\Locator;
 use Frame\Database;
 use Frame\Http;
 use Frame\Routing;

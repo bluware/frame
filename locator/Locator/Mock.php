@@ -6,15 +6,15 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Service;
+namespace Frame\Locator;
 
 /**
- * @subpackage Service
+ * @subpackage Locator
  */
-trait LocatorTrait
+trait Mock
 {
     /**
-     *  @var \Frame\Service\Locator
+     *  @var \Frame\Locator
      */
     protected $locator;
 
@@ -30,7 +30,7 @@ trait LocatorTrait
          */
         if ($this->locator === null)
             /**
-             *  @var \Frame\Service\Exception
+             *  @var \Frame\Exception
              */
             throw new Exception(
                 'Locator is null and cannot executed.'
