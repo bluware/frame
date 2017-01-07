@@ -6,12 +6,14 @@
  *  @package  Frame\Http
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http;
+namespace Frame\Http\Request;
+
+use Frame\Http\Exception;
 
 /**
  * @subpackage Request
  */
-trait RequestTrait
+trait Mock
 {
     /**
      *  @var \Frame\Service\Locator

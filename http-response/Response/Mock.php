@@ -6,14 +6,14 @@
  *  @package  Frame\Http
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http;
+namespace Frame\Http\Response;
 
 use Frame\Http;
 
 /**
  * @subpackage Response
  */
-trait ResponseTrait
+trait Mock
 {
     /**
      *  @param  string $input

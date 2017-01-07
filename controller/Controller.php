@@ -8,12 +8,12 @@
  */
 namespace Frame;
 
-use Frame\AppTrait;
+use Frame\App;
 
 /**
  * @subpackage Controller
  */
 abstract class Controller
 {
-    use AppTrait;
+    use App\Mock;
 }

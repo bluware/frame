@@ -24,7 +24,7 @@ use Frame\View;
  */
 class App
 {
-    use LocatorTrait;
+    use Locator\Mock;
 
     /**
      *  @return void

@@ -6,19 +6,20 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame;
+namespace Frame\App;
 
-use Frame\ViewTrait;
-use Frame\Http\RequestTrait;
-use Frame\Http\ResponseTrait;
-use Frame\Service\LocatorTrait;
+use Frame\App;
+use Frame\View;
+use Frame\Http\Request;
+use Frame\Http\Response;
+use Frame\Service\Locator;
 
 /**
  * @subpackage App
  */
-trait AppTrait
+trait Mock
 {
-    use LocatorTrait, RequestTrait, ResponseTrait, ViewTrait;
+    use Locator\Mock, Request\Mock, Response\Mock, View\Mock;
 
     /**
      *  @var \Frame\Service\Locator
@@ -26,7 +27,7 @@ trait AppTrait
     protected $app;
 
     /**
-     *
+     *  @param App $app
      */
     public function __construct(App $app)
     {

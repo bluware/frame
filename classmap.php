@@ -87,8 +87,8 @@ return [
         => __DIR__ . "/http-response/Response/Headers.php",
     'Frame\\Http\\ResponseInterface'
         => __DIR__ . "/http-response/ResponseInterface.php",
-    'Frame\\Http\\ResponseTrait'
-        => __DIR__ . "/http-response/ResponseTrait.php",
+    'Frame\\Http\\Response\\Mock'
+        => __DIR__ . "/http-response/Response/Mock.php",
     'Frame\\Http\\Response'
         => __DIR__ . "/http-response/Response.php",
     //-------------------------------------------------------------------------
@@ -108,8 +108,8 @@ return [
         => __DIR__ . "/http-request/Request/Server.php",
     'Frame\\Http\\RequestInterface'
         => __DIR__ . "/http-request/RequestInterface.php",
-    'Frame\\Http\\RequestTrait'
-        => __DIR__ . "/http-request/RequestTrait.php",
+    'Frame\\Http\\Request\\Mock'
+        => __DIR__ . "/http-request/Request/Mock.php",
     'Frame\\Http\\Request'
         => __DIR__ . "/http-request/Request.php",
     //-------------------------------------------------------------------------
@@ -154,8 +154,8 @@ return [
         => __DIR__ . "/view/View/Page.php",
     'Frame\\ViewInterface'
         => __DIR__ . "/view/ViewInterface.php",
-    'Frame\\ViewTrait'
-        => __DIR__ . "/view/ViewTrait.php",
+    'Frame\\View\\Mock'
+        => __DIR__ . "/view/View/Mock.php",
     'Frame\\View'
         => __DIR__ . "/view/View.php",
     //-------------------------------------------------------------------------
@@ -221,8 +221,8 @@ return [
         => __DIR__ . "/service/Autoload.php",
     'Frame\\Service\\Locator'
         => __DIR__ . "/service/Locator.php",
-    'Frame\\Service\\LocatorTrait'
-        => __DIR__ . "/service/LocatorTrait.php",
+    'Frame\\Service\\Locator\\Mock'
+        => __DIR__ . "/service/Locator/Mock.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -309,7 +309,7 @@ return [
         => __DIR__ . "/app/App/Packages.php",
     'Frame\\App'
         => __DIR__ . "/app/App.php",
-    'Frame\\AppTrait'
-        => __DIR__ . "/app/AppTrait.php",
+    'Frame\\App\\Mock'
+        => __DIR__ . "/app/App/Mock.php",
     //-------------------------------------------------------------------------
 ];
