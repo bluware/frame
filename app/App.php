@@ -8,7 +8,7 @@
  */
 namespace Frame;
 
-use Frame\App\Packages;
+use Frame\Package;
 use Frame\Service\Autoload;
 use Frame\Service\Locator;
 use Frame\Service\LocatorTrait;
@@ -168,9 +168,10 @@ class App
         /**
          *  @var boolean
          */
-        foreach ($config as $key => $value) {
-             call_user_func($call, $key, $value);
-        }
+        foreach ($config as $key => $value)
+            call_user_func(
+                $call, $key, $value
+            );
 
         /**
          *  @var boolean
@@ -191,15 +192,15 @@ class App
         /**
          *  @var \Frame\App\Package
          */
-        $package = new Packages(
+        $package = new Package\Dispatcher(
             $packages, $directories
         );
 
         /**
          *  @var \Frame\App\Package
          */
-        $this->locator->add(
-            $package, 'package'
+        $this->locator(
+            'add', $package, 'package'
         );
 
         /**

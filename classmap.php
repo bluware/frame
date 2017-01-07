@@ -245,6 +245,8 @@ return [
      */
     'Frame\\Package\\Exception'
         => __DIR__ . "/package/Package/Exception.php",
+    'Frame\\Package\\Dispatcher'
+        => __DIR__ . "/package/Package/Dispatcher.php",
     'Frame\\Package'
         => __DIR__ . "/package/Package.php",
     //-------------------------------------------------------------------------

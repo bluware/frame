@@ -1,27 +1,28 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame
  *
- *  @package  Blu
+ *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Blu\Package;
+namespace Frame\Package;
 
-use Blu\Data\Readable;
+use Frame\Data;
+use Frame\App;
 
 /**
  * @subpackage Package
  */
-class Dispatcher implements DispatcherInterface
+class Dispatcher
 {
     /**
-     *  @var \Blu\Data\Readable
+     *  @var \Frame\Data\Readable
      */
     protected $directories;
 
     /**
-     *  @var \Blu\Data\Readable
+     *  @var \Frame\Data\Readable
      */
     protected $packages;
 
@@ -35,18 +36,36 @@ class Dispatcher implements DispatcherInterface
         /**
          *  @var array
          */
-        $this->packages     = new Readable($packages);
+        $this->packages     = new Data($packages);
 
         /**
          *  @var array
          */
-        $this->directories  = new Readable($directories);
+        $this->directories  = new Data($directories);
     }
 
     /**
      *  @return void
      */
-    public function dispatch()
+    public function add(
+        array $packages     = null,
+        array $directories  = null
+    ) {
+        /**
+         *  @var array
+         */
+        $this->packages->replace($packages);
+
+        /**
+         *  @var array
+         */
+        $this->directories->replace($directories);
+    }
+
+    /**
+     *  @return void
+     */
+    public function dispatch(App $app)
     {
         foreach ($this->packages as $path => $namespace) {
             if (is_numeric($path) === true)
@@ -57,7 +76,7 @@ class Dispatcher implements DispatcherInterface
             class_exists($package) === false ?
                 $this->browse($path) : null;
 
-            new $package();
+            new $package($app);
         }
     }
 
