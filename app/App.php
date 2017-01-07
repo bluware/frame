@@ -17,6 +17,7 @@ use Frame\Routing;
 use Frame\Http\Request;
 use Frame\Secure;
 use Frame\View;
+use Frame\Hook;
 
 /**
  * @subpackage App
@@ -119,6 +120,8 @@ class App
          *  @var \Frame\Secure\Keychain
          */
         $locator->add($secure, 'secure');
+
+        $locator->add(new Hook, 'hook');
 
         /**
          *  @var void

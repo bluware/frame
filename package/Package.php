@@ -10,6 +10,7 @@ namespace Frame;
 
 use Frame\App;
 use Frame\Locator;
+use Frame\Hook;
 
 /**
  * @subpackage Package
@@ -37,17 +38,22 @@ abstract class Package
 
         method_exists($this, 'autoload') ?
             $this->autoload(
-                $app->locator()->get('autoload')
+                $app->locator('get', 'autoload')
+            ) : null;
+
+        method_exists($this, 'hook') ?
+            $this->hook(
+                $app->locator('get', 'hook')
             ) : null;
 
         method_exists($this, 'routing') ?
             $this->routing(
-                $app->locator()->get('router')
+                $app->locator('get', 'router')
             ) : null;
 
         method_exists($this, 'view') ?
             $this->view(
-                $app->locator()->get('view')
+                $app->locator('get', 'view')
             ) : null;
     }
 }
