@@ -8,15 +8,47 @@
  */
 namespace Frame;
 
+use Frame\ViewTrait;
+use Frame\Http\RequestTrait;
+use Frame\Http\ResponseTrait;
+use Frame\Service\LocatorTrait;
+
 /**
  * @subpackage App
  */
 trait AppTrait
 {
+    use LocatorTrait, RequestTrait, ResponseTrait, ViewTrait;
+
     /**
      *  @var \Frame\Service\Locator
      */
     protected $app;
+
+    /**
+     *
+     */
+    public function __construct(App $app)
+    {
+        /**
+         *  @var \Frame\App
+         */
+        $this->app      = $app;
+
+        /**
+         *  @var \Frame\App
+         */
+        $this->locator  = $this->app(
+            'locator'
+        );
+
+        /**
+         *  @var \Frame\Http\Request
+         */
+        $this->request  = $this->app(
+            'locator', 'get', 'request'
+        );
+    }
 
     /**
      *  Fast locator implementation.
