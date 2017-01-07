@@ -11,6 +11,7 @@ namespace Frame;
 use Frame\App\Packages;
 use Frame\Service\Autoload;
 use Frame\Service\Locator;
+use Frame\Service\LocatorTrait;
 use Frame\Database;
 use Frame\Http;
 use Frame\Routing;
@@ -23,10 +24,7 @@ use Frame\View;
  */
 class App
 {
-    /**
-     *  @var Frame\Service\Locator
-     */
-    protected $locator;
+    use LocatorTrait;
 
     /**
      *  @return void
@@ -134,11 +132,6 @@ class App
          *  @var \Frame\Service\Locator
          */
         $this->locator = $locator;
-    }
-
-    public function locator()
-    {
-        return $this->locator;
     }
 
     /**

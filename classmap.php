@@ -87,6 +87,8 @@ return [
         => __DIR__ . "/http-response/Response/Headers.php",
     'Frame\\Http\\ResponseInterface'
         => __DIR__ . "/http-response/ResponseInterface.php",
+    'Frame\\Http\\ResponseTrait'
+        => __DIR__ . "/http-response/ResponseTrait.php",
     'Frame\\Http\\Response'
         => __DIR__ . "/http-response/Response.php",
     //-------------------------------------------------------------------------
@@ -152,6 +154,8 @@ return [
         => __DIR__ . "/view/View/Page.php",
     'Frame\\ViewInterface'
         => __DIR__ . "/view/ViewInterface.php",
+    'Frame\\ViewTrait'
+        => __DIR__ . "/view/ViewTrait.php",
     'Frame\\View'
         => __DIR__ . "/view/View.php",
     //-------------------------------------------------------------------------
@@ -305,5 +309,7 @@ return [
         => __DIR__ . "/app/App/Packages.php",
     'Frame\\App'
         => __DIR__ . "/app/App.php",
+    'Frame\\AppTrait'
+        => __DIR__ . "/app/AppTrait.php",
     //-------------------------------------------------------------------------
 ];
