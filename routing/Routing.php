@@ -548,7 +548,7 @@ class Routing
                         $aspect = $this->aspects->get($aspect);
 
                         $maked = call_user_func_array([
-                            new $aspect($injection), 'inspect'
+                            new $aspect($injection), 'before'
                         ], $params);
 
                         if ($maked !== null)

@@ -8,15 +8,19 @@
  */
 namespace Frame;
 
-use Frame\Controller;
-
 /**
  * @subpackage Aspect
  */
-abstract class Aspect extends Controller
+abstract class Aspect extends \Frame\Controller
 {
     /**
      *  @return mixed
      */
-    abstract public function inspect();
+    abstract public function before();
+
+
+    /**
+     *  @return mixed
+     */
+    abstract public function after();
 }
