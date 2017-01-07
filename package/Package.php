@@ -27,10 +27,19 @@ abstract class Package
      */
     final public function __construct(App $app)
     {
+        /**
+         *  @var Frame\App
+         */
         $this->app      = $app;
 
+        /**
+         *  @var Frame\Locator
+         */
         $this->locator  = $app->locator();
 
+        /**
+         *  @var Frame\App
+         */
         method_exists($this, 'bootstrap') ?
             $this->bootstrap(
                 $app->locator()
