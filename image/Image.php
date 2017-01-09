@@ -17,6 +17,10 @@ use Frame\File;
  */
 class Image extends File
 {
+    protected $types  = [
+        'image/jpeg', 'image/png', 'image/gif'
+    ];
+
     /**
      *  @param resource
      */

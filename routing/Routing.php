@@ -18,7 +18,7 @@ class Routing
     /**
      *  @const CAPTURE
      */
-    const CAPTURE           = '[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)]+';
+    const CAPTURE           = '[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\@]+';
 
     /**
      *  @var string

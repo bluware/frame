@@ -914,7 +914,7 @@ class Request extends Readable implements RequestInterface
     {
         if ($merge !== null) {
             $merge = $merge[0] !== '/' ?
-                sprintf('/%', $merge) : $merge;
+                sprintf('/%s', $merge) : $merge;
 
             return $this->server(
                 'DOCUMENT_ROOT'
