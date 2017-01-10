@@ -273,7 +273,8 @@ class Input
                     'int',
                     'float',
                     'numeric',
-                    'num'
+                    'num',
+                    'trim'
                 ], true);
 
                 $datetime = in_array($name, [
