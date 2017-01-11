@@ -42,9 +42,9 @@ class SQLite extends Drive
             sprintf('sqlite:%s', $path),
             null,
             null,
-            [
-                PDO::ATTR_PERSISTENT => true
-            ]
+            $this->get(
+                'options', []
+            )
         );
 
         /**

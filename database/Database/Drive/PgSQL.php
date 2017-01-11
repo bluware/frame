@@ -50,9 +50,9 @@ class PgSQL extends Drive
             ),
             $this->get('username'),
             $this->get('password'),
-            [
-                PDO::ATTR_PERSISTENT => true
-            ]
+            $this->get(
+                'options', []
+            )
         );
 
         /**
