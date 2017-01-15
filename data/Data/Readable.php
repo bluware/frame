@@ -140,6 +140,55 @@ abstract class Readable implements \Iterator
     }
 
     /**
+     *  Pull multidemential array using \. modifier
+     *
+     *  @var strict $key
+     *
+     *  @return bool
+     */
+    public function pull($key)
+    {
+        if (strpos($key, '.') === false) {
+            return array_key_exists($key, $this->data) ? $this->data[$key] : null;
+        }
+
+        $keys = explode('.', $key);
+
+        return $this->__pull(
+            $keys, 0, count($keys), $this->data
+        );
+    }
+
+    /**
+     *  Recursion of pull action.
+     *
+     *  @var array      $keys
+     *  @var numeric    $index
+     *  @var numeric    $limit
+     *  @var mixed     $data
+     *
+     *  @return mixed
+     */
+    protected function __pull(array $keys, $index, $limit = null, $data)
+    {
+        if ($index >= $limit)
+            return $data;
+
+        if (array_key_exists($index, $keys) && array_key_exists($keys[$index], $data))
+            return call_user_func(
+                __METHOD__,
+                $keys,
+                $index + 1,
+                $limit,
+                $data[
+                    $keys[$index]
+                ]
+            );
+
+        return null;
+    }
+
+    /**
      *  @param scalar $key
      *
      *  @return boolean
