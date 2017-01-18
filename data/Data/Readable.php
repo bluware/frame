@@ -11,7 +11,7 @@ namespace Frame\Data;
 /**
  * @subpackage Data
  */
-abstract class Readable implements \Iterator
+abstract class Readable implements \Iterator, \JsonSerializable
 {
     /**
      *  @var array
@@ -213,7 +213,14 @@ abstract class Readable implements \Iterator
      */
     public function __invoke()
     {
-        return $this->data();
+        return $this->data;
+    }
+
+    /**
+     *  @return array
+     */
+    public function jsonSerialize() {
+        return $this->data;
     }
 
     /**
