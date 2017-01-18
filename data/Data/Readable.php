@@ -11,7 +11,7 @@ namespace Frame\Data;
 /**
  * @subpackage Data
  */
-abstract class Readable implements \Iterator, \JsonSerializable
+abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
 {
     /**
      *  @var array
@@ -220,7 +220,89 @@ abstract class Readable implements \Iterator, \JsonSerializable
      *  @return array
      */
     public function jsonSerialize() {
+        /**
+         *  @var array
+         */
         return $this->data;
+    }
+
+    /**
+     *  @param scalar $key
+     *  @param mixed  $value
+     *
+     *  @return $this
+     */
+    public function offsetSet($key, $value) {
+        /**
+         *  @var bool
+         */
+        if (
+            array_key_exists($key, $this->data)
+        ) {
+            /**
+             *  @var mixed
+             */
+            $this->data[] = $value;
+        } else {
+            /**
+             *  @var mixed
+             */
+            $this->data[$key] = $value;
+        }
+
+        /**
+         *  @this
+         */
+        return $this;
+    }
+
+    /**
+     *  @param scalar $key
+     *
+     *  @return bool
+     */
+    public function offsetExists($key) {
+        /**
+         *  @var bool
+         */
+        return array_key_exists(
+            $key, $this->data
+        );
+    }
+
+    /**
+     *  @param scalar $key
+     *
+     *  @return $this
+     */
+    public function offsetUnset($key) {
+        /**
+         *  @var void
+         */
+        unset(
+            $this->data[$key]
+        );
+
+        /**
+         *  @var $this
+         */
+        return $this;
+    }
+
+    /**
+     *  @param scalar $key
+     *
+     *  @return mixed
+     */
+    public function offsetGet($key) {
+        /**
+         *  @var mixed
+         */
+        return array_key_exists(
+            $key, $this->data
+        ) ? $this->data[
+            $key
+        ] : null;
     }
 
     /**
