@@ -266,7 +266,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function offsetSet($key, $value)
     {
-        //
+        // At this place can be \Exception
     }
 
     /**
@@ -276,7 +276,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function offsetUnset($key)
     {
-        //
+        // At this place can be \Exception
     }
 
     /**
