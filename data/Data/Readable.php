@@ -70,24 +70,6 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  @param scalar $data
-     *  @param scalar $key
-     *
-     *  @return array
-     */
-    public function column($val, $key = null)
-    {
-        /**
-         *  @var array
-         */
-        return array_column(
-            $this->data,
-            $val,
-            $key
-        );
-    }
-
-    /**
      *  @return void
      */
     public function sort()
