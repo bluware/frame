@@ -81,7 +81,9 @@ abstract class Writable extends Readable
         /**
          *  @var void
          */
-        array_replace($this->data, $data);
+        $this->data = array_replace(
+            $this->data, $data
+        );
 
         /**
          *  @var $this
@@ -191,7 +193,9 @@ abstract class Writable extends Readable
         /**
          *  @var void
          */
-        array_replace($this->data, $data);
+        $this->data = array_replace(
+            $this->data, $data
+        );
 
         /**
          *  @var $this
