@@ -228,40 +228,11 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
 
     /**
      *  @param scalar $key
-     *  @param mixed  $value
-     *
-     *  @return $this
-     */
-    public function offsetSet($key, $value) {
-        /**
-         *  @var bool
-         */
-        if (
-            array_key_exists($key, $this->data)
-        ) {
-            /**
-             *  @var mixed
-             */
-            $this->data[] = $value;
-        } else {
-            /**
-             *  @var mixed
-             */
-            $this->data[$key] = $value;
-        }
-
-        /**
-         *  @this
-         */
-        return $this;
-    }
-
-    /**
-     *  @param scalar $key
      *
      *  @return bool
      */
-    public function offsetExists($key) {
+    public function offsetExists($key)
+    {
         /**
          *  @var bool
          */
@@ -273,28 +244,10 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     /**
      *  @param scalar $key
      *
-     *  @return $this
-     */
-    public function offsetUnset($key) {
-        /**
-         *  @var void
-         */
-        unset(
-            $this->data[$key]
-        );
-
-        /**
-         *  @var $this
-         */
-        return $this;
-    }
-
-    /**
-     *  @param scalar $key
-     *
      *  @return mixed
      */
-    public function offsetGet($key) {
+    public function offsetGet($key)
+    {
         /**
          *  @var mixed
          */
@@ -303,6 +256,27 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
         ) ? $this->data[
             $key
         ] : null;
+    }
+
+    /**
+     *  @param scalar $key
+     *  @param mixed  $value
+     *
+     *  @return void
+     */
+    public function offsetSet($key, $value)
+    {
+        //
+    }
+
+    /**
+     *  @param scalar $key
+     *
+     *  @return $this
+     */
+    public function offsetUnset($key)
+    {
+        //
     }
 
     /**

@@ -34,7 +34,7 @@ abstract class Writable extends Readable
      */
     public function __set($key, $val)
     {
-        return $this->set($key, $val);
+        $this->data[$key] = $val;
     }
 
     /**
@@ -44,7 +44,9 @@ abstract class Writable extends Readable
      */
     public function replace(array $data)
     {
-        $this->data = array_replace($this->data, $data);
+        $this->data = array_replace(
+            $this->data, $data
+        );
 
         return $this;
     }
@@ -56,7 +58,9 @@ abstract class Writable extends Readable
      */
     public function merge(array $data)
     {
-        $this->data = array_merge($this->data, $data);
+        $this->data = array_merge(
+            $this->data, $data
+        );
 
         return $this;
     }
@@ -77,7 +81,12 @@ abstract class Writable extends Readable
         /**
          *  @var void
          */
-        return $this->replace($data);
+        array_replace($this->data, $data);
+
+        /**
+         *  @var $this
+         */
+        return $this;
     }
 
     /**
@@ -130,10 +139,63 @@ abstract class Writable extends Readable
     }
 
     /**
+     *  @param scalar $key
+     *  @param mixed  $value
+     *
+     *  @return void
+     */
+    public function offsetSet($key, $value) {
+        /**
+         *  @var bool
+         */
+        if (
+            array_key_exists($key, $this->data)
+        ) {
+            /**
+             *  @var mixed
+             */
+            $this->data[] = $value;
+        } else {
+            /**
+             *  @var mixed
+             */
+            $this->data[$key] = $value;
+        }
+    }
+
+    /**
+     *  @param scalar $key
+     *
+     *  @return $this
+     */
+    public function offsetUnset($key) {
+        /**
+         *  @var void
+         */
+        unset(
+            $this->data[$key]
+        );
+    }
+
+    /**
      *  @return mixed
      */
     public function __invoke(array $data = null)
     {
-        return $this->data($data);
+        /**
+         *  @var array
+         */
+        if ($data === null)
+            return parent::data($data);
+
+        /**
+         *  @var void
+         */
+        array_replace($this->data, $data);
+
+        /**
+         *  @var $this
+         */
+        return $this;
     }
 }
