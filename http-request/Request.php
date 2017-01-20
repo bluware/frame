@@ -154,11 +154,11 @@ class Request extends Readable implements RequestInterface
      *      array query([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function query($input = null, $alternate = null)
+    public function query($input = null, $alt = null)
     {
         if ($input === null)
             /**
@@ -171,7 +171,7 @@ class Request extends Readable implements RequestInterface
          */
         return $this->query
             ->get(
-                $input, $alternate
+                $input, $alt
             );
     }
 
@@ -184,11 +184,11 @@ class Request extends Readable implements RequestInterface
      *      array body([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function body($input = null, $alternate = null)
+    public function body($input = null, $alt = null)
     {
         if ($input === null)
             /**
@@ -201,7 +201,7 @@ class Request extends Readable implements RequestInterface
          */
         return $this->body
             ->get(
-                $input, $alternate
+                $input, $alt
             );
     }
 
@@ -214,17 +214,17 @@ class Request extends Readable implements RequestInterface
      *      array post([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function post($input = null, $alternate = null)
+    public function post($input = null, $alt = null)
     {
         /**
          *  @var mixed
          */
         return $this->method('is', 'post') ?
-            $this->body($input, $alternate) : null;
+            $this->body($input, $alt) : null;
     }
 
     /**
@@ -236,17 +236,17 @@ class Request extends Readable implements RequestInterface
      *      array put([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function put($input = null, $alternate = null)
+    public function put($input = null, $alt = null)
     {
         /**
          *  @var mixed
          */
         return $this->method('is', 'put') ?
-            $this->body($input, $alternate) : null;
+            $this->body($input, $alt) : null;
     }
 
     /**
@@ -258,17 +258,17 @@ class Request extends Readable implements RequestInterface
      *      array delete([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function delete($input = null, $alternate = null)
+    public function delete($input = null, $alt = null)
     {
         /**
          *  @var mixed
          */
         return $this->method('is', 'delete') ?
-            $this->body($input, $alternate) : null;
+            $this->body($input, $alt) : null;
     }
 
     /**
@@ -280,17 +280,17 @@ class Request extends Readable implements RequestInterface
      *      array del([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function del($input = null, $alternate = null)
+    public function del($input = null, $alt = null)
     {
         /**
          *  @var mixed
          */
         return $this->delete(
-            $input, $alternate
+            $input, $alt
         );
     }
 
@@ -303,11 +303,11 @@ class Request extends Readable implements RequestInterface
      *      array files([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function files($input = null, $alternate = null)
+    public function files($input = null, $alt = null)
     {
         if ($input === null)
             /**
@@ -320,7 +320,7 @@ class Request extends Readable implements RequestInterface
          */
         return $this->files
             ->get(
-                $input, $alternate
+                $input, $alt
             );
     }
 
@@ -333,11 +333,11 @@ class Request extends Readable implements RequestInterface
      *      array cookie([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function cookie($input = null, $alternate = null)
+    public function cookie($input = null, $alt = null)
     {
         if ($input === null)
             /**
@@ -350,7 +350,7 @@ class Request extends Readable implements RequestInterface
          */
         return $this->cookies
             ->get(
-                $input, $alternate
+                $input, $alt
             );
     }
 
@@ -363,11 +363,11 @@ class Request extends Readable implements RequestInterface
      *      array server([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function server($input = null, $alternate = null)
+    public function server($input = null, $alt = null)
     {
         if ($input === null)
             /**
@@ -380,7 +380,7 @@ class Request extends Readable implements RequestInterface
          */
         return $this->server
             ->get(
-                $input, $alternate
+                $input, $alt
             );
     }
 
@@ -393,11 +393,11 @@ class Request extends Readable implements RequestInterface
      *      array server([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function header($input, $alternate = null)
+    public function header($input, $alt = null)
     {
         /**
          *  @var string|null

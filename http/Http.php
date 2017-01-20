@@ -65,7 +65,7 @@ class Http implements HttpInterface
      *
      *  @return mixed
      */
-    public static function cookie($input = null, $alternate = null)
+    public static function cookie($input = null, $alt = null)
     {
         /**
          * @var void
@@ -85,7 +85,7 @@ class Http implements HttpInterface
          * @var mixed
          */
         return $request->cookie(
-            $input, $alternate
+            $input, $alt
         );
     }
 

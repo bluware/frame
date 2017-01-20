@@ -40,16 +40,16 @@ class Cookies extends Readable
 
     /**
      *  @param  string $key
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return \Blu\Http\Cookie
      */
-    public function get($key, $alternate = null)
+    public function get($key, $alt = null)
     {
         return new Cookie(
             $key,
             parent::get(
-                $key, $alternate
+                $key, $alt
             ),
             0,
             '',

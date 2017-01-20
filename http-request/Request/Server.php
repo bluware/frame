@@ -29,18 +29,18 @@ class Server extends Readable
 
     /**
      *  @param  scalar $input
-     *  @param  mixed $alternate
+     *  @param  mixed $alt
      *
      *  @return mixed
      */
-    public function get($input, $alternate = null)
+    public function get($input, $alt = null)
     {
         if ($this->has($input) === true)
             /**
              *  @var mixed
              */
             return parent::get(
-                $input, $alternate
+                $input, $alt
             );
 
         /**
@@ -49,7 +49,7 @@ class Server extends Readable
         return parent::get(
             str_replace(
                 '-', '_', strtoupper($input)
-            ), $alternate
+            ), $alt
         );
     }
 }

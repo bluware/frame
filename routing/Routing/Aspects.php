@@ -18,7 +18,7 @@ class Aspects extends Writable
     /**
      *  @return void
      */
-    public function get($input, $alternate = null)
+    public function get($input, $alt = null)
     {
         /**
          *  @var array
@@ -38,6 +38,6 @@ class Aspects extends Writable
          *  @var mixed
          */
         return isset($data[$input]) ?
-            $input : $alternate;
+            $input : $alt;
     }
 }

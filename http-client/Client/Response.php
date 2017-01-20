@@ -110,20 +110,20 @@ class Response
     /**
      *  @return mixed
      */
-    public function header($header, $alternate = null)
+    public function header($header, $alt = null)
     {
         return $this->headers->get(
-            $header, $alternate
+            $header, $alt
         );
     }
 
     /**
      *  @return mixed
      */
-    public function cookie($key, $alternate = null)
+    public function cookie($key, $alt = null)
     {
         return $this->cookies->get(
-            $key, $alternate
+            $key, $alt
         );
     }
 

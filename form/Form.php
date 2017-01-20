@@ -151,13 +151,13 @@ class Form extends Writable implements FormInterface
 
     /**
      *  @param scalar $key
-     *  @param scalar $alternate
+     *  @param scalar $alt
      *
      *  @return mixed
      */
-    public function get($key, $alternate = null)
+    public function get($key, $alt = null)
     {
-        return $this->has($key) ? $this->data[$key]->get() : $alternate;
+        return $this->has($key) ? $this->data[$key]->get() : $alt;
     }
 
     /**

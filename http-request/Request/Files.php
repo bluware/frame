@@ -30,14 +30,14 @@ class Files extends Readable
 
     /**
      *  @param  string $key
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return \Blu\Http\Cookie
      */
-    public function get($key, $alternate = null)
+    public function get($key, $alt = null)
     {
         return new File(
-            $key, parent::get($key, $alternate)
+            $key, parent::get($key, $alt)
         );
     }
 }

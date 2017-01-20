@@ -40,11 +40,11 @@ interface RequestInterface
      *      array query([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function query($input = null, $alternate = null);
+    public function query($input = null, $alt = null);
 
     /**
      *  Mixed method with read instance or properties.
@@ -55,11 +55,11 @@ interface RequestInterface
      *      array body([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function body($input = null, $alternate = null);
+    public function body($input = null, $alt = null);
 
     /**
      *  Compare and get '$_POST' params.
@@ -70,11 +70,11 @@ interface RequestInterface
      *      array post([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function post($input = null, $alternate = null);
+    public function post($input = null, $alt = null);
 
     /**
      *  Compare and get '$_PUT' params.
@@ -85,11 +85,11 @@ interface RequestInterface
      *      array put([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function put($input = null, $alternate = null);
+    public function put($input = null, $alt = null);
 
     /**
      *  Compare and get '$_DELETE' params.
@@ -100,11 +100,11 @@ interface RequestInterface
      *      array delete([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function delete($input = null, $alternate = null);
+    public function delete($input = null, $alt = null);
 
     /**
      *  Alias for delete() method.
@@ -115,11 +115,11 @@ interface RequestInterface
      *      array del([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function del($input = null, $alternate = null);
+    public function del($input = null, $alt = null);
 
     /**
      *  Mixed method with read instance or properties.
@@ -130,11 +130,11 @@ interface RequestInterface
      *      array files([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function files($input = null, $alternate = null);
+    public function files($input = null, $alt = null);
 
     /**
      *  Mixed method with read instance or properties.
@@ -145,11 +145,11 @@ interface RequestInterface
      *      array cookie([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function cookie($input = null, $alternate = null);
+    public function cookie($input = null, $alt = null);
 
     /**
      *  Mixed method with read instance or properties.
@@ -160,11 +160,11 @@ interface RequestInterface
      *      array server([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function server($input = null, $alternate = null);
+    public function server($input = null, $alt = null);
 
     /**
      *  Mixed method with read instance or properties.
@@ -175,11 +175,11 @@ interface RequestInterface
      *      array server([$input])
      *
      *  @param  scalar $input
-     *  @param  mixed  $alternate
+     *  @param  mixed  $alt
      *
      *  @return mixed
      */
-    public function header($input, $alternate = null);
+    public function header($input, $alt = null);
 
     /**
      *  Get method or use comparison methods

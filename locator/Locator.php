@@ -73,18 +73,18 @@ class Locator extends Data
 
     /**
      *  @param  string  $key
-     *  @param  mixed   $alternate
+     *  @param  mixed   $alt
      *
      *  @return mixed
      */
-    public function get($key, $alternate = null)
+    public function get($key, $alt = null)
     {
-        $service = parent::get($key, $alternate);
+        $service = parent::get($key, $alt);
 
         if ($service === null)
             $service = parent::get(
                 $this->services->get(
-                    $key, $alternate
+                    $key, $alt
                 )
             );
 

@@ -32,17 +32,17 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
 
     /**
      *  @param scalar $key
-     *  @param scalar $alternate
+     *  @param scalar $alt
      *
      *  @return mixed
      */
-    public function get($key, $alternate = null)
+    public function get($key, $alt = null)
     {
         return array_key_exists(
             $key, $this->data
         ) ? $this->data[
             $key
-        ] : $alternate;
+        ] : $alt;
     }
 
     /**
