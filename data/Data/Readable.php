@@ -146,16 +146,18 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
      *
      *  @return bool
      */
-    public function pull($key)
+    public function pull($key, $alt = null)
     {
         if (strpos($key, '.') === false) {
-            return array_key_exists($key, $this->data) ? $this->data[$key] : null;
+            return array_key_exists(
+                $key, $this->data
+            ) ? $this->data[$key] : $alt;
         }
 
         $keys = explode('.', $key);
 
         return $this->__pull(
-            $keys, 0, count($keys), $this->data
+            $keys, 0, count($keys), $this->data, $alt
         );
     }
 
@@ -169,7 +171,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
      *
      *  @return mixed
      */
-    protected function __pull(array $keys, $index, $limit = null, $data)
+    protected function __pull(array $keys, $index, $limit = null, $data, $alt = null)
     {
         if ($index >= $limit)
             return $data;
@@ -185,7 +187,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
                 ]
             );
 
-        return null;
+        return $alt;
     }
 
     /**
