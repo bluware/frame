@@ -45,21 +45,50 @@ abstract class Package
                 $app->locator()
             ) : null;
 
+        /**
+         *  @var mixed
+         */
         method_exists($this, 'autoload') ?
             $this->autoload(
                 $app->locator('get', 'autoload')
             ) : null;
 
-        method_exists($this, 'hook') ?
-            $this->hook(
+        /**
+         *  @var bool
+         */
+        if (method_exists($this, 'hook') === true) {
+            /**
+             *  @var array
+             */
+            $controllers = $this->hook(
                 $app->locator('get', 'hook')
-            ) : null;
+            );
 
+            /**
+             *  @var array
+             */
+            if (gettype($controllers) === 'array')
+                /**
+                 *  @var iterable
+                 */
+                foreach ($controllers as $controller)
+                    /**
+                     *  @var Frame\Hook\Controller
+                     */
+                    new $controller($app);
+        }
+
+        /**
+         *  @var mixed
+         */
         method_exists($this, 'routing') ?
             $this->routing(
                 $app->locator('get', 'router')
             ) : null;
 
+        /**
+         *  @var mixed
+         */
         method_exists($this, 'view') ?
             $this->view(
                 $app->locator('get', 'view')
