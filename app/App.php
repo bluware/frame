@@ -18,6 +18,7 @@ use Frame\Http\Request;
 use Frame\Secure;
 use Frame\View;
 use Frame\Hook;
+use Frame\Data;
 
 /**
  * @subpackage App
@@ -39,8 +40,10 @@ class App
         /**
          *  @var array
          */
-        $config = gettype($config) === 'string' && is_file($config) ?
-            include($config) : $config;
+        $config = new Data(
+            gettype($config) === 'string' && is_file($config) ?
+                include($config) : $config
+        );
 
         /**
          *  @var Frame\Service\Locator
