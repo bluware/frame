@@ -184,7 +184,8 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
                 $limit,
                 $data[
                     $keys[$index]
-                ]
+                ],
+                $alt
             );
 
         return $alt;
