@@ -146,12 +146,12 @@ class App
      *
      *  @return [type]           [description]
      */
-    protected function extract(array $config, $key, callable $call)
+    protected function extract(Data $config, $key, callable $call)
     {
         /**
          *  @var boolean
          */
-        $isset = array_key_exists($key, $config);
+        $isset = $config->has($key);
 
         /**
          *  @var boolean
@@ -162,7 +162,7 @@ class App
         /**
          *  @var mixed
          */
-        $config = $config[$key];
+        $config = $config->get($key);
 
         /**
          *  @var boolean
