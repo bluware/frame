@@ -11,7 +11,16 @@ namespace Frame;
 /**
  * @subpackage Aspect
  */
-abstract class Aspect extends \Frame\Controller implements AspectInterface
+interface AspectInterface
 {
-    //
+    /**
+     *  @return mixed
+     */
+    public function before();
+
+
+    /**
+     *  @return mixed
+     */
+    public function after();
 }

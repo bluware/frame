@@ -38,19 +38,19 @@ abstract class Package
         $this->locator  = $app->locator();
 
         /**
-         *  @var Frame\App
-         */
-        method_exists($this, 'bootstrap') ?
-            $this->bootstrap(
-                $app->locator()
-            ) : null;
-
-        /**
          *  @var mixed
          */
         method_exists($this, 'autoload') ?
             $this->autoload(
                 $app->locator('get', 'autoload')
+            ) : null;
+
+        /**
+         *  @var Frame\App
+         */
+        method_exists($this, 'bootstrap') ?
+            $this->bootstrap(
+                $app->locator()
             ) : null;
 
         /**
