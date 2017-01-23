@@ -15,41 +15,30 @@ use Frame\Data;
  */
 class I18n
 {
-    // Internal variables
-    private $dian   = false;
-    private $file        = false;
-    private $meta = array();
-    private $data        = array();
-    /**
-     * Read values from the MO file
-     *
-     * @param  string  $bytes
-     */
-    protected function unpack($bytes)
+    protected $file = false;
+
+    protected $meta = [];
+
+    protected $data = [];
+
+
+    protected function unpack($bytes, $ed = false)
     {
         return unpack(
             sprintf(
-                '%s%d', $this->dian === false ? 'V' : 'N', $bytes
+                '%s%d', $ed === false ? 'V' : 'N', $bytes
             ), fread(
                 $this->file, 4 * $bytes
             )
         );
     }
-    /**
-     * Load translation data (MO file reader)
-     *
-     * @param  string  $path  MO file to add, full path must be given for access
-     * @param  string  $locale    New Locale/Language to set, identical with locale identifier,
-     *                            see Zend_Locale for more information
-     * @param  array   $option    OPTIONAL Options to use
-     * @throws Zend_Translation_Exception
-     * @return array
-     */
+
+
     public function read($path, $locale, array $options = array())
     {
         $this->data = [];
 
-        $this->dian = false;
+        $ed = false;
 
         $this->file = @fopen(
             $path, 'rb'
@@ -64,38 +53,44 @@ class I18n
             throw new \Exception('\'' . $path . '\' is not a gettext file');
         }
 
-        // get Endian
-        $input = $this->unpack(1);
+        $input = $this->unpack(1, $ed);
 
-        $dian = strtolower(
+        $ed = strtolower(
             substr(
                 dechex($input[1]), -8
             )
         );
 
-        if ($dian !== '950412de' && $dian !== 'de120495') {
+        if ($ed !== '950412de' && $ed !== 'de120495') {
             @fclose($this->file);
-            // require_once 'Zend/Translate/Exception.php';
+
             throw new \Exception('\'' . $path . '\' is not a gettext file');
         }
 
-        if ($dian === 'de120495')
-            $this->dian = true;
+        $ed = $ed === 'de120495';
 
         // read revision - not supported for now
-        $input  = $this->unpack(1);
+        $input  = $this->unpack(
+            1, $ed
+        );
 
         // number of bytes
-        $input  = $this->unpack(1);
+        $input  = $this->unpack(
+            1, $ed
+        );
 
         $total  = $input[1];
 
         // number of original strings
-        $input  = $this->unpack(1);
+        $input  = $this->unpack(
+            1, $ed
+        );
 
         $OOffset = $input[1];
         // number of translation strings
-        $input  = $this->unpack(1);
+        $input  = $this->unpack(
+            1, $ed
+        );
 
         $TOffset = $input[1];
 
@@ -105,7 +100,7 @@ class I18n
         );
 
         $origtemp = $this->unpack(
-            2 * $total
+            2 * $total, $ed
         );
 
         fseek(
@@ -113,12 +108,16 @@ class I18n
         );
 
         $transtemp = $this->unpack(
-            2 * $total
+            2 * $total, $ed
         );
 
         for($count = 0; $count < $total; ++$count) {
             if ($origtemp[$count * 2 + 1] != 0) {
-                fseek($this->file, $origtemp[$count * 2 + 2]);
+
+                fseek(
+                    $this->file, $origtemp[$count * 2 + 2]
+                );
+
                 $original = @fread($this->file, $origtemp[$count * 2 + 1]);
                 $original = explode("\0", $original);
             } else {
