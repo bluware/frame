@@ -38,6 +38,34 @@ abstract class Package
         $this->locator  = $app->locator();
 
         /**
+         *  @var bool
+         */
+        if (method_exists($this, 'translator') === true) {
+            /**
+             *  @var Frame\I18n
+             */
+            $i18n = $app->locator('get', 'translator');
+
+            /**
+             *  @var array
+             */
+            $directories = $this->translator($i18n);
+
+            /**
+             *  @var array
+             */
+            if (gettype($directories) === 'array')
+                /**
+                 *  @var iterable
+                 */
+                foreach ($directories as $directory)
+                    /**
+                     *  @var Frame\Hook\Controller
+                     */
+                    $i18n->scan($directory);
+        }
+
+        /**
          *  @var mixed
          */
         method_exists($this, 'autoload') ?

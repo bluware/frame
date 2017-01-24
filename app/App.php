@@ -19,6 +19,7 @@ use Frame\Secure;
 use Frame\View;
 use Frame\Hook;
 use Frame\Data;
+use Frame\I18n;
 
 /**
  * @subpackage App
@@ -26,6 +27,11 @@ use Frame\Data;
 class App
 {
     use Locator\Mock;
+
+    /**
+     *  @var array
+     */
+    protected static $singleton;
 
     /**
      *  @return void
@@ -88,6 +94,18 @@ class App
         $locator->add($routing, 'router');
 
         /**
+         *  @var \Frame\Router
+         */
+        $i18n = new I18n(
+            $request->locale()
+        );
+
+        /**
+         *  @var \Frame\Router
+         */
+        $locator->add($i18n, 'translator');
+
+        /**
          *  @var \Frame\View
          */
         $view = new View();
@@ -124,6 +142,9 @@ class App
          */
         $locator->add($secure, 'secure');
 
+        /**
+         *
+         */
         $locator->add(new Hook, 'hook');
 
         /**
@@ -137,6 +158,11 @@ class App
          *  @var \Frame\Service\Locator
          */
         $this->locator = $locator;
+
+        /**
+         *  @var $this
+         */
+        static::$singleton = $this;
     }
 
     /**
@@ -238,5 +264,19 @@ class App
     public function __get($key)
     {
         return $this->{$key};
+    }
+
+    public static function singleton($input = null)
+    {
+        $app = static::$singleton;
+
+        if ($input === null)
+            return $app;
+
+        $var = func_get_args();
+
+        return call_user_func_array([
+            $app, array_shift($var)
+        ], $var);
     }
 }

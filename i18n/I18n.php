@@ -15,45 +15,87 @@ use Frame\Data;
  */
 class I18n
 {
-    protected $file = false;
+    protected $dictionary   = [];
 
-    protected $meta = [];
+    protected $locale       = 'en';
 
-    protected $data = [];
+    public function __construct($locale = 'en')
+    {
+        $this->locale = $locale;
+    }
 
+    public function translate($sentense, $locale = null)
+    {
+        if ($locale === null)
+            $locale = $this->locale;
 
-    protected function unpack($bytes, $ed = false)
+        $isset = array_key_exists(
+            $locale, $this->dictionary
+        );
+
+        return $isset === true ? $this->dictionary[
+            $locale
+        ]->get(
+            $sentense,
+            $sentense
+        ) : $sentense;
+    }
+
+    protected function unpack($bytes, $file, $ed = false)
     {
         return unpack(
             sprintf(
                 '%s%d', $ed === false ? 'V' : 'N', $bytes
             ), fread(
-                $this->file, 4 * $bytes
+                $file, 4 * $bytes
             )
         );
     }
 
+    public function scan($dir)
+    {
+        if (substr($dir, -1) !== '/')
+            $dir .= '/';
+
+        $pattern = sprintf('%s*.mo', $dir);
+
+        foreach (glob($pattern) as $file) {
+            $locale = str_replace(
+                [$dir, '.mo'], '', $file
+            );
+
+            $this->read($file, $locale);
+        }
+    }
+
+    public function locale($locale = null)
+    {
+        if ($locale === null)
+            return $this->locale;
+
+        $this->locale = $locale;
+
+        return $this;
+    }
 
     public function read($path, $locale, array $options = array())
     {
-        $this->data = [];
+        $data = [];
 
         $ed = false;
 
-        $this->file = @fopen(
-            $path, 'rb'
-        );
+        $file = @fopen($path, 'rb');
 
-        if ($this->file === false)
+        if ($file === false)
             throw new \Exception("No file");
 
         if (@filesize($path) < 10) {
-            @fclose($this->file);
+            @fclose($file);
 
             throw new \Exception('\'' . $path . '\' is not a gettext file');
         }
 
-        $input = $this->unpack(1, $ed);
+        $input = $this->unpack(1, $file, $ed);
 
         $ed = strtolower(
             substr(
@@ -62,63 +104,59 @@ class I18n
         );
 
         if ($ed !== '950412de' && $ed !== 'de120495') {
-            @fclose($this->file);
+            @fclose($file);
 
             throw new \Exception('\'' . $path . '\' is not a gettext file');
         }
 
         $ed = $ed === 'de120495';
 
-        // read revision - not supported for now
         $input  = $this->unpack(
-            1, $ed
+            1, $file, $ed
         );
 
-        // number of bytes
         $input  = $this->unpack(
-            1, $ed
+            1, $file, $ed
         );
 
         $total  = $input[1];
 
-        // number of original strings
         $input  = $this->unpack(
-            1, $ed
+            1, $file, $ed
         );
 
         $OOffset = $input[1];
-        // number of translation strings
+
         $input  = $this->unpack(
-            1, $ed
+            1, $file, $ed
         );
 
         $TOffset = $input[1];
 
-        // fill the original table
         fseek(
-            $this->file, $OOffset
+            $file, $OOffset
         );
 
         $origtemp = $this->unpack(
-            2 * $total, $ed
+            2 * $total, $file, $ed
         );
 
         fseek(
-            $this->file, $TOffset
+            $file, $TOffset
         );
 
         $transtemp = $this->unpack(
-            2 * $total, $ed
+            2 * $total, $file, $ed
         );
 
         for($count = 0; $count < $total; ++$count) {
             if ($origtemp[$count * 2 + 1] != 0) {
 
                 fseek(
-                    $this->file, $origtemp[$count * 2 + 2]
+                    $file, $origtemp[$count * 2 + 2]
                 );
 
-                $original = @fread($this->file, $origtemp[$count * 2 + 1]);
+                $original = @fread($file, $origtemp[$count * 2 + 1]);
                 $original = explode("\0", $original);
             } else {
                 $original[0] = '';
@@ -126,12 +164,12 @@ class I18n
 
             if ($transtemp[$count * 2 + 1] != 0) {
                 fseek(
-                    $this->file,
+                    $file,
                     $transtemp[$count * 2 + 2]
                 );
 
                 $translate = fread(
-                    $this->file,
+                    $file,
                     $transtemp[$count * 2 + 1]
                 );
 
@@ -140,38 +178,42 @@ class I18n
                 );
 
                 if (count($original) > 1) {
-                    $this->data[$locale][$original[0]] = $translate;
+                    $data[$locale][$original[0]] = $translate;
 
                     array_shift($original);
 
                     foreach ($original as $orig)
-                        $this->data[$locale][$orig] = '';
+                        $data[$locale][$orig] = '';
 
                 } else {
-                    $this->data[$locale][$original[0]] = $translate[0];
+                    $data[$locale][$original[0]] = $translate[0];
                 }
             }
         }
 
-        @fclose($this->file);
+        @fclose($file);
 
-        $this->data[$locale][''] = trim(
-            $this->data[$locale]['']
+        $data[$locale][''] = trim(
+            $data[$locale]['']
         );
 
-        $this->meta[$path] = isset(
-            $this->data[$locale]['']
-        ) ? $this->data[$locale][''] : 'No meta';
+        // $this->meta[$path] = isset(
+        //     $data[$locale]['']
+        // ) ? $data[$locale][''] : 'No meta';
 
         unset(
-            $this->data[$locale]['']
+            $data[$locale]['']
         );
 
-        return $this->data;
-    }
+        $isset = array_key_exists($locale, $this->dictionary);
 
-    public function meta()
-    {
-        return $this->meta;
+        if ($isset === false)
+            $this->dictionary[$locale] = new Data;
+
+        $this->dictionary[$locale]->replace(
+            $data[$locale]
+        );
+
+        return $data[$locale];
     }
 }

@@ -1,8 +1,12 @@
 <?php
 
-function __($word)
+function __($word, $locale = null)
 {
-    return $word;
+    return Frame\App::singleton(
+        'locator', 'get', 'translator'
+    )->translate(
+        $word, $locale
+    );
 }
 
 function route($class, $event, $separator = '@')
