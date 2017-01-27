@@ -67,6 +67,8 @@ class Dispatcher
      */
     public function dispatch(App $app)
     {
+        $packages = [];
+
         foreach ($this->packages as $path => $namespace) {
             if (is_numeric($path) === true)
                 $path = str_replace('\\', '/', $namespace);
@@ -76,7 +78,99 @@ class Dispatcher
             class_exists($package) === false ?
                 $this->browse($path) : null;
 
-            new $package($app);
+            $package = new $package($app);
+
+            /**
+             *  @var bool
+             */
+            if (method_exists($package, 'translator') === true) {
+                /**
+                 *  @var Frame\I18n
+                 */
+                $i18n = $app->locator('get', 'translator');
+
+                /**
+                 *  @var array
+                 */
+                $directories = $package->translator($i18n);
+
+                /**
+                 *  @var array
+                 */
+                if (gettype($directories) === 'array')
+                    /**
+                     *  @var iterable
+                     */
+                    foreach ($directories as $directory)
+                        /**
+                         *  @var Frame\Hook\Controller
+                         */
+                        $i18n->scan($directory);
+            }
+
+            /**
+             *  @var mixed
+             */
+            method_exists($package, 'autoload') ?
+                $package->autoload(
+                    $app->locator('get', 'autoload')
+                ) : null;
+
+            $packages[] = $package;
+        }
+
+        /**
+         *  Second phase of booting
+         */
+        foreach ($packages as $package) {
+            /**
+             *  @var Frame\App
+             */
+            method_exists($package, 'bootstrap') ?
+                $package->bootstrap(
+                    $app->locator()
+                ) : null;
+
+            /**
+             *  @var bool
+             */
+            if (method_exists($package, 'hook') === true) {
+                /**
+                 *  @var array
+                 */
+                $controllers = $package->hook(
+                    $app->locator('get', 'hook')
+                );
+
+                /**
+                 *  @var array
+                 */
+                if (gettype($controllers) === 'array')
+                    /**
+                     *  @var iterable
+                     */
+                    foreach ($controllers as $controller)
+                        /**
+                         *  @var Frame\Hook\Controller
+                         */
+                        new $controller($app);
+            }
+
+            /**
+             *  @var mixed
+             */
+            method_exists($package, 'routing') ?
+                $package->routing(
+                    $app->locator('get', 'router')
+                ) : null;
+
+            /**
+             *  @var mixed
+             */
+            method_exists($package, 'view') ?
+                $package->view(
+                    $app->locator('get', 'view')
+                ) : null;
         }
     }
 
