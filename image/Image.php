@@ -34,7 +34,7 @@ class Image extends File
 
         $image = @imagecreatefromstring(
             $infs === false || $infs === null ?
-                $file : file_put_contents($file)
+                $file : file_get_contents($file)
         );
 
         if (gettype($image) !== 'resource')
