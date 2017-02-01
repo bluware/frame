@@ -168,7 +168,7 @@ class Cookie implements CookieInterface
             return $this->expire;
 
         $this->expire = $expire === 0 ?
-            0 : time() + $expire;
+            0 : $expire;
 
         return $this;
     }
