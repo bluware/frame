@@ -18,7 +18,12 @@ abstract class Controller extends \Frame\Controller
     /**
      *  @var array
      */
-    protected $events = [];
+    protected $events   = [];
+
+    /**
+     *  @var array
+     */
+    protected $priority = [];
 
     /**
      *  @param App $app
@@ -38,7 +43,10 @@ abstract class Controller extends \Frame\Controller
              *  @var void
              */
             $this->hook('event', $event, [
-                $this, $method
-            ]);
+                    $this, $method
+                ], isset(
+                    $this->priority[$event]
+                ) ? $this->priority[$event] : 50
+            );
     }
 }
