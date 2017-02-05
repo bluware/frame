@@ -328,9 +328,9 @@ class Cookie implements CookieInterface
      *
      *  @return void
      */
-    public function encrypt($input, $key = 'default')
+    public function encrypt($input, $key = 'default', $type = 'private')
     {
-        $this->input = Secure::encrypt($input, $key);
+        $this->input = Secure::encrypt($input, $key, $type);
 
         return $this;
     }
@@ -342,9 +342,11 @@ class Cookie implements CookieInterface
      *
      *  @return mixed
      */
-    public function decrypt($key = 'default')
+    public function decrypt($key = 'default', $type = 'public')
     {
-        return Secure::decrypt($this->input, $key);
+        return Secure::decrypt(
+            $this->input, $key, $type
+        );
     }
 
     /**

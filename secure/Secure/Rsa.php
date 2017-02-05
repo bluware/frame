@@ -11,52 +11,43 @@ namespace Frame\Secure;
 use Frame\Secure;
 use Frame\Secure\Except;
 
+use Frame\Json;
+use Frame\Data;
+use Frame\Data\Writable;
+use Frame\Data\Readable;
+
+
 /**
  *  @subpackage Secure
  */
 class Rsa
 {
     /**
-     *  @const CHIPER
+     *  @var string
      */
-    const CHIPER    = 'AES-256-CBC';
+    protected $private;
 
     /**
      *  @var string
      */
-    protected $secret;
+    protected $public;
 
     /**
      *  @param string $secret
      */
-    public function __construct($private, $public = null)
+    public function __construct($private, $public)
     {
-        /**
-         *  @var bool
-         */
-        if (gettype($secret) !== 'string')
+        if ($private !== null && is_file($private) === true)
             /**
              *  @var Except
              */
-            throw new Except(
-                'Secret should be a string'
-            );
+            $this->private = file_get_contents($private);
 
-        /**
-         *  @var bool
-         */
-        if (strlen($secret) < 16)
+        if ($public !== null && is_file($public) === true)
             /**
              *  @var Except
              */
-            throw new Except(
-                'Secret cannot be less than 16 char'
-            );
-
-        /**
-         *  @var string
-         */
-        $this->secret = $secret;
+            $this->public = file_get_contents($public);
     }
 
     /**
@@ -66,17 +57,9 @@ class Rsa
      *
      *  @return mixed
      */
-    public function public($event, $data)
+    public function public($event, $hash = null)
     {
-        switch ($event) {
-            case 'decrypt':
-                # code...
-                break;
-
-            case 'encrypt':
-                # code...
-                break;
-        }
+        return $this->{$event}('public', $hash);
     }
 
     /**
@@ -86,53 +69,82 @@ class Rsa
      *
      *  @return mixed
      */
-    public function private($event, $data)
+    public function private($event, $hash = null)
     {
-        switch ($event) {
-            case 'decrypt':
-                # code...
-                break;
-
-            case 'encrypt':
-                # code...
-                break;
-        }
+        return $this->{$event}(
+            'private', $hash
+        );
     }
 
-    /**
-     *  Alias for dectypt()
-     *
-     *  @param  string $data
-     *
-     *  @return mixed
-     */
-    public function sign($event, $data)
+    public function decrypt($type, $hash)
     {
-        switch ($event) {
-            case 'public':
-                # code...
-                break;
-
-            case 'encrypt':
-                # code...
-                break;
-        }
-    }
-
-    /**
-     *  Alias for dectypt()
-     *
-     *  @param  string $data
-     *
-     *  @return mixed
-     */
-    public function decrypt($data)
-    {
-        $decrypt = openssl_decrypt(
-            $data, static::CHIPER, $this->secret
+        $hash = base64_decode(
+            $hash
         );
 
-        return $decrypt !== false ?
-            $decrypt : null;
+        if ($hash === false)
+            return null;
+
+        switch ($type) {
+            case 'public':
+                @openssl_public_decrypt(
+                    $hash, $data, $this->public
+                );
+                break;
+
+            case 'private':
+                @openssl_private_decrypt(
+                    $hash, $data, $this->private
+                );
+                break;
+        }
+
+        if ($data === false)
+            return null;
+
+        /**
+         *  @var boolean
+         */
+        $data = Json::decode(
+            $data, $error
+        );
+
+        /**
+         *  @var boolean
+         */
+        if ($data !== null && gettype($data) === 'array')
+            /**
+             *  @var \Frame\Data
+             */
+            return new Data($data);
+
+        /**
+         *  @var mixed
+         */
+        return $data;
+    }
+
+    public function encrypt($type, $hash)
+    {
+        if (gettype($hash) === 'object')
+            $hash = $hash->to('json');
+
+        switch ($type) {
+            case 'public':
+                @openssl_public_encrypt(
+                    $hash, $data, $this->public
+                );
+                break;
+
+            case 'private':
+                @openssl_private_encrypt(
+                    $hash, $data, $this->private
+                );
+                break;
+        }
+
+        return base64_encode(
+            $data
+        );
     }
 }

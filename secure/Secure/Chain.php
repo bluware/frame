@@ -61,12 +61,17 @@ class Chain extends Writable
      *
      *  @return mixed
      */
-    public function encrypt($input, $key = 'default')
+    public function encrypt($input, $key = 'default', $type = 'private')
     {
         /**
          *  @var mixed
          */
         $secret = $this->get($key, null);
+
+        if (gettype($secret) === 'object')
+            return $secret->encrypt(
+                $type, $input
+            );
 
         /**
          *  @var bool
@@ -110,6 +115,21 @@ class Chain extends Writable
         );
     }
 
+    public function set($name, $data)
+    {
+        if (gettype($data) !== 'array')
+            return parent::set(
+                $name, $data
+            );
+
+        return parent::set(
+            $name, new Rsa(
+                $data['private'],
+                $data['public']
+            )
+        );
+    }
+
     /**
      *  Dectypt $input using secret key
      *
@@ -118,12 +138,17 @@ class Chain extends Writable
      *
      *  @return mixed
      */
-    public function decrypt($input, $key = 'default')
+    public function decrypt($input, $key = 'default', $type = 'public')
     {
         /**
          *  @var mixed
          */
         $secret = $this->get($key, null);
+
+        if (gettype($secret) === 'object')
+            return $secret->decrypt(
+                $type, $input
+            );
 
         /**
          *  @var bool

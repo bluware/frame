@@ -41,6 +41,8 @@ return [
         => __DIR__ . "/secure/Secure/Secret.php",
     'Frame\\Secure\\Chain'
         => __DIR__ . "/secure/Secure/Chain.php",
+    'Frame\\Secure\\Rsa'
+        => __DIR__ . "/secure/Secure/Rsa.php",
     'Frame\\Secure\\Hash'
         => __DIR__ . "/secure/Secure/Hash.php",
     'Frame\\SecureInterface'

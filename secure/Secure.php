@@ -88,13 +88,13 @@ class Secure implements SecureInterface
      *
      *  @return string
      */
-    public static function encrypt($input, $key)
+    public static function encrypt($input, $key, $type = 'private')
     {
         /**
          *  @var mixed
          */
         return static::chain(
-            'encrypt', $input, $key
+            'encrypt', $input, $key, $type
         );
     }
 
@@ -106,13 +106,13 @@ class Secure implements SecureInterface
      *
      *  @return string
      */
-    public static function decrypt($input, $key)
+    public static function decrypt($input, $key, $type = 'public')
     {
         /**
          *  @var mixed
          */
         return static::chain(
-            'decrypt', $input, $key
+            'decrypt', $input, $key, $type
         );
     }
 }
