@@ -9,8 +9,6 @@
 namespace Frame\Secure;
 
 use Frame\Secure;
-use Frame\Secure\Except;
-
 use Frame\Json;
 use Frame\Data;
 use Frame\Data\Writable;
@@ -77,7 +75,7 @@ class Chain extends Writable
          *  @var bool
          */
         if ($secret === null)
-            throw new Except(
+            throw new \Exception(
                 'No key found in chain'
             );
 
@@ -154,7 +152,7 @@ class Chain extends Writable
          *  @var bool
          */
         if ($secret === null)
-            throw new Except(
+            throw new \Exception(
                 'No key found in chain'
             );
 
