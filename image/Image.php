@@ -281,4 +281,21 @@ class Image extends File
             $this->get('image'), $image
         );
     }
+
+    public function __clone()
+    {
+        $cloning = imagecreatetruecolor(
+            $this->get('x'), $this->get('x')
+        );
+
+        imagecopy(
+            $cloning,
+            $this->get('image'),
+            0, 0, 0, 0,
+            $this->get('x'),
+            $this->get('x')
+        );
+
+        $this->set('image', $cloning);
+    }
 }
