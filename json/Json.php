@@ -62,7 +62,9 @@ class Json
         /**
          *  @var string
          */
-        return json_encode($input);
+        return json_encode(
+            $input, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT
+        );
     }
 
     /**
@@ -73,7 +75,7 @@ class Json
     public static function pretty($input)
     {
         return json_encode(
-            $input, JSON_PRETTY_PRINT
+            $input, JSON_PRETTY_PRINT|JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT
         );
     }
 
