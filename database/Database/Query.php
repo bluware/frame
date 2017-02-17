@@ -88,6 +88,11 @@ class Query
         $this->state = 'SELECT';
 
         /**
+         *  @var array
+         */
+        $this->columns = [];
+
+        /**
          *  @var boolean
          */
         if (
