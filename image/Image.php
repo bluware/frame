@@ -192,11 +192,11 @@ class Image extends File
         $shared = $w / $h;
 
         if ($origin > $shared) {
-            $y = $this->get('y') > $h ? $this->get('y') : $h;
-            $x = $this->get('x') / $w * $y;
+            $y = $this->get('y');
+            $x = $this->get('y') / $h * $w;
         } else {
-            $x = $this->get('x') > $w ? $this->get('x') : $w;
-            $y = $this->get('y') / $h * $x;
+            $x = $this->get('x');
+            $y = $this->get('x') / $w * $h;
         }
 
         /**
