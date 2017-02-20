@@ -32,6 +32,28 @@ class Image extends File
             $file = $this->get('file')
         );
 
+        if ($infs === false || $infs === null) {
+            $image = @imagecreatefromstring(
+                $infs
+            );
+        } else {
+            $mime = mime_content_type($file);
+
+            switch ($mime) {
+                case 'image/png':
+                    $image = @imagecreatefrompng(
+                        $file
+                    );
+                    break;
+
+                default:
+                    $image = @imagecreatefromstring(
+                        file_get_contents($file)
+                    );
+                    break;
+            }
+        }
+
         $image = @imagecreatefromstring(
             $infs === false || $infs === null ?
                 $file : file_get_contents($file)
@@ -39,6 +61,9 @@ class Image extends File
 
         if (gettype($image) !== 'resource')
             throw new Exception("Bad image to resource convertation.");
+
+            imagealphablending($image, true);
+            imagesavealpha($image, false);
 
         /**
          *  @var void
@@ -64,10 +89,15 @@ class Image extends File
             $w, $h
         );
 
+        imagealphablending($image, false);
+        imagesavealpha($image, true);
+
+        // imagealphablending($this->get('image'), false);
+
         /**
          *  @var void
          */
-        imagecopyresized(
+        imagecopyresampled(
             $image,
             $this->get('image'),
             0,
@@ -79,6 +109,8 @@ class Image extends File
             $this->get('x'),
             $this->get('y')
         );
+
+
 
         /**
          *  @var bool
@@ -174,10 +206,12 @@ class Image extends File
 
         if (($w >= $this->get('x') && $h >= $this->get('y')) || ($w < $this->get('x') && $h < $this->get('y'))) {
             if ($w > $h) {
-                $x = $this->get('x');
-                $y = floor(
-                    ($this->get('x') / $w) * $h
+
+
+                $x = floor(
+                    ($this->get('y') / $h) * $w
                 );
+                $y = $this->get('y');
             }
 
             if ($w === $h) {
@@ -187,10 +221,10 @@ class Image extends File
             }
 
             if ($w < $h) {
-                $x = floor(
-                    ($this->get('y') / $h) * $w
+                $x = $this->get('x');
+                $y = floor(
+                    ($this->get('x') / $w) * $h
                 );
-                $y = $this->get('y');
             }
         }
 
@@ -203,6 +237,9 @@ class Image extends File
             'width'     => $x,
             'height'    => $y
         ]);
+
+        imagealphablending($image, true);
+        imagesavealpha($image, false);
 
         /**
          *  @var bool
