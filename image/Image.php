@@ -188,42 +188,15 @@ class Image extends File
 
     public function crop($w, $h)
     {
-        $x = $w; $y = $h;
+        $origin = $this->get('x') / $this->get('y');
+        $shared = $w / $h;
 
-        if ($w > $this->get('x') && $h <= $this->get('y')) {
-            $x = $this->get('x');
-            $y = floor(
-                ($this->get('x') / $w) * $h
-            );
-        }
-
-        if ($w <= $this->get('x') && $h > $this->get('y')) {
-            $y = $this->get('y');
-            $x = floor(
-                ($this->get('y') / $h) * $w
-            );
-        }
-
-        if (($w >= $this->get('x') && $h >= $this->get('y')) || ($w < $this->get('x') && $h < $this->get('y'))) {
-            if ($w > $h) {
-                $x = $this->get('x');
-                $y = floor(
-                    ($this->get('x') / $w) * $h
-                );
-            }
-
-            if ($w === $h) {
-                $x = $y = (
-                    $this->get('x') > $this->get('y')
-                ) ? $this->get('y') : $this->get('x');
-            }
-
-            if ($w < $h) {
-                $x = floor(
-                    ($this->get('y') / $h) * $w
-                );
-                $y = $this->get('y');
-            }
+        if ($origin > $shared) {
+            $y = $this->get('y') > $h ? $this->get('y') : $h;
+            $x = $this->get('x') / $w * $y;
+        } else {
+            $x = $this->get('x') > $w ? $this->get('x') : $w;
+            $y = $this->get('y') / $h * $x;
         }
 
         /**
