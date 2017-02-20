@@ -190,42 +190,17 @@ class Image extends File
     {
         $x = $w; $y = $h;
 
-        if ($w > $this->get('x') && $h <= $this->get('y')) {
-            $x = $this->get('x');
-            $y = floor(
-                ($this->get('x') / $w) * $h
-            );
-        }
+        $oaspect = $this->get('x') / $this->get('y');
+        $taspect = $w / $y;
 
-        if ($w <= $this->get('x') && $h > $this->get('y')) {
-            $y = $this->get('y');
-            $x = floor(
-                ($this->get('y') / $h) * $w
-            );
-        }
-
-        if (($w >= $this->get('x') && $h >= $this->get('y')) || ($w < $this->get('x') && $h < $this->get('y'))) {
-            if ($w > $h) {
-
-
-                $x = floor(
-                    ($this->get('y') / $h) * $w
-                );
-                $y = $this->get('y');
-            }
-
-            if ($w === $h) {
-                $x = $y = (
-                    $this->get('x') > $this->get('y')
-                ) ? $this->get('y') : $this->get('x');
-            }
-
-            if ($w < $h) {
-                $x = floor(
-                    ($this->get('y') / $h) * $w
-                );
-                $y = $this->get('y');
-            }
+        if ($oaspect >= $taspect) {
+           $x = floor(
+               $this->get('x') / ($this->get('y') / $h)
+           );
+        } else {
+           $y = floor(
+               $this->get('y') / ($this->get('x') / $w)
+           );
         }
 
         /**
