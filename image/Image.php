@@ -221,10 +221,10 @@ class Image extends File
             }
 
             if ($w < $h) {
-                $x = $this->get('x');
-                $y = floor(
-                    ($this->get('x') / $w) * $h
+                $x = floor(
+                    ($this->get('y') / $h) * $w
                 );
+                $y = $this->get('y');
             }
         }
 
