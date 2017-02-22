@@ -223,7 +223,7 @@ class Page implements PageInterface
             *  @var string
             */
             include $this->view->find(
-                $path, $ext
+                $key, $ext
             );
 
             /**
