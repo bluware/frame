@@ -229,8 +229,10 @@ class Page implements PageInterface
             /**
              *  @var string
              */
-            return ob_get_clean();
+            ob_get_clean();
         }
+
+        return $this;
     }
 
     /**
