@@ -202,6 +202,39 @@ class Page implements PageInterface
 
     /**
      *  @param  mixed $key
+     *  @param  mixed $def
+     *
+     *  @return mixed
+     */
+    public function include($key, $ext = 'php')
+    {
+        /**
+         *  @var mixed
+         */
+        $keys = gettype($key) === 'array' ? $key : [$key];
+
+        foreach ($keys as $key) {
+            /**
+             *  @var void
+             */
+            ob_start();
+
+            /**
+            *  @var string
+            */
+            include $this->view->find(
+                $path, $ext
+            );
+
+            /**
+             *  @var string
+             */
+            return ob_get_clean();
+        }
+    }
+
+    /**
+     *  @param  mixed $key
      *  @param  mixed $val
      *
      *  @return $this

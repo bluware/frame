@@ -89,17 +89,17 @@ class View implements ViewInterface
      *
      *  @return mixed
      */
-    public function find($file)
+    public function find($file, $ext = null)
     {
         /**
          *  @var iterable
          */
-        foreach ($this->data as $dir => $ext) {
+        foreach ($this->data as $dir => $_ext) {
             /**
              *  @var string
              */
             $path = sprintf(
-                '%s/%s.%s', $dir, $file, $ext
+                '%s/%s.%s', $dir, $file, $ext === null ? $_ext : $ext
             );
 
             /**
