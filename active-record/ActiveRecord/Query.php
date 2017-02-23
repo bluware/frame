@@ -51,6 +51,12 @@ abstract class Query extends Writable
      */
     protected $isset        = false;
 
+    public function __construct(array $data = null)
+    {
+        if ($data !== null)
+            $this->data = $data;
+    }
+
     /**
      *  @param  array  $data
      *  @return mixed
