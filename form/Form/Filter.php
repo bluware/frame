@@ -90,11 +90,11 @@ class Filter
      */
     public static function float(&$value)
     {
-        $equal = boolval(
+        $equal = gettype(
             filter_var(
                 $value, FILTER_VALIDATE_FLOAT
             )
-        );
+        ) === 'double';
 
         if ($equal === true)
             $value = floatval($value);
@@ -351,10 +351,6 @@ class Filter
     public static function datetime(&$value, $format = 'Y-m-d H:i:s')
     {
         if ($format === 'c' || strtoupper($format) === 'ISO8601') {
-            $valid = DateTime::createFromFormat(
-                'Y-m-d\TH:i:sO', $value
-            ) !== false;
-
             $date = DateTime::createFromFormat(
                 'Y-m-d\TH:i:sO', $value
             );
