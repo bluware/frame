@@ -505,7 +505,7 @@ class Filter
      */
     public static function required($value)
     {
-        return !empty($value);
+        return $value !== null;
     }
 
     /**
