@@ -59,11 +59,11 @@ class Filter
      */
     public static function integer(&$value)
     {
-        $equal = boolval(
+        $equal = gettype(
             filter_var(
                 $value, FILTER_VALIDATE_INT
             )
-        );
+        ) === 'integer';
 
         if ($equal === true)
             $value = intval($value);
