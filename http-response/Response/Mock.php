@@ -20,7 +20,8 @@ trait Mock
      *
      *  @return mixed
      */
-    public function response($body, $code = 200, $headers = []) {
+    public function response($body, $code = 200, $headers = [])
+    {
         /**
          *  @var mixed
          */

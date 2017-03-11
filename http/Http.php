@@ -104,6 +104,7 @@ class Http implements HttpInterface
             in_array($body, [
                 'text',
                 'html',
+                'xml',
                 'json',
                 'redirect',
                 'goto'
