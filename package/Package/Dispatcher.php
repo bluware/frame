@@ -25,9 +25,12 @@ class Dispatcher
      *  @var \Frame\Data\Readable
      */
     protected $packages;
-
+    
     /**
-     *  @return void
+     * Dispatcher constructor.
+     *
+     * @param array|null $packages
+     * @param array|null $directories
      */
     public function __construct(
         array $packages     = null,
@@ -43,9 +46,10 @@ class Dispatcher
          */
         $this->directories  = new Data($directories);
     }
-
+    
     /**
-     *  @return void
+     * @param array|null $packages
+     * @param array|null $directories
      */
     public function add(
         array $packages     = null,
@@ -61,9 +65,9 @@ class Dispatcher
          */
         $this->directories->replace($directories);
     }
-
+    
     /**
-     *  @return void
+     * @param App $app
      */
     public function dispatch(App $app)
     {

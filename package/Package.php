@@ -8,9 +8,7 @@
  */
 namespace Frame;
 
-use Frame\App;
-use Frame\Locator;
-use Frame\Hook;
+use Frame\App, Frame\Locator;
 
 /**
  * @subpackage Package
@@ -21,19 +19,21 @@ abstract class Package
      *  @trait Frame\App\Mock
      */
     use App\Mock, Locator\Mock;
-
+    
     /**
-     *  @return void
+     *  Package constructor.
+     *
+     *  @param \Frame\App $app
      */
     final public function __construct(App $app)
     {
         /**
-         *  @var Frame\App
+         *  @var \Frame\App
          */
         $this->app      = $app;
 
         /**
-         *  @var Frame\Locator
+         *  @var \Frame\Locator
          */
         $this->locator  = $app->locator();
     }
