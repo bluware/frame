@@ -1,12 +1,11 @@
 <?php
-/**
- *  Panda PHP Foundation, Packages and Framework
- *
- *  @package Panda
- *  @author  Eugen Melnychenko
- *  @since   v1.2.0
- */
 
+/**
+ *  Bluware PHP Lite & Scaleable Web Frame
+ *
+ *  @package  Frame
+ *  @author   Eugen Melnychenko
+ */
 namespace Frame;
 
 use Frame\Data;
