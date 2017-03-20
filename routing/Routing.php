@@ -46,7 +46,7 @@ class Routing
     protected $aspects      = null;
 
     /**
-     *  @return void
+     *
      */
     public function __construct()
     {
@@ -76,7 +76,7 @@ class Routing
     }
 
     /**
-     *  @return void
+     *  @return Routing
      */
     public function aspect($aspects, $class = null)
     {
@@ -98,7 +98,7 @@ class Routing
     }
 
     /**
-     *  @return void
+     *  @return Routing
      */
     public function guard($aspects, $class = null)
     {
@@ -111,7 +111,7 @@ class Routing
     }
 
     /**
-     *  @return void
+     *  @return Routing
      */
     public function middleware($aspects, $class = null)
     {
@@ -124,7 +124,10 @@ class Routing
     }
 
     /**
-     *  @return void
+     *  @param array $group
+     *  @param callable $call
+     *
+     *  @return Routing
      */
     public function group(array $group, callable $call)
     {
@@ -207,10 +210,10 @@ class Routing
 
     /**
      *  @param array  $methods
-     *  @param scalar $route
+     *  @param scalar $patterns
      *  @param mixed  $maker
      *
-     *  @return void
+     *  @return Routing
      */
     public function match($methods, $patterns, $maker = null, $priority = 50)
     {
@@ -304,7 +307,7 @@ class Routing
      *  @param scalar $route
      *  @param mixed  $maker
      *
-     *  @return void
+     *  @return Routing
      */
     public function add($methods, $patterns, $maker = null, $priority = 50)
     {
@@ -318,7 +321,7 @@ class Routing
      *  @param  string $pattern
      *  @param  mixed  $maker
      *
-     *  @return void
+     *  @return Routing
      */
     public function any($pattern, $maker = null, $priority = 50)
     {
@@ -336,7 +339,7 @@ class Routing
      *  @param  string $pattern
      *  @param  mixed  $maker
      *
-     *  @return void
+     *  @return Routing
      */
     public function get($pattern, $maker = null, $priority = 50)
     {
@@ -354,7 +357,7 @@ class Routing
      *  @param  string $pattern
      *  @param  mixed  $maker
      *
-     *  @return void
+     *  @return Routing
      */
     public function post($pattern, $maker = null, $priority = 50)
     {
@@ -371,7 +374,7 @@ class Routing
      *  @param  string $pattern
      *  @param  mixed  $maker
      *
-     *  @return void
+     *  @return Routing
      */
     public function put($pattern, $maker = null, $priority = 50)
     {
@@ -388,7 +391,7 @@ class Routing
      *  @param  string $pattern
      *  @param  mixed  $maker
      *
-     *  @return void
+     *  @return Routing
      */
     public function delete($pattern, $maker = null, $priority = 50)
     {
@@ -404,7 +407,7 @@ class Routing
      *  @param  string $pattern
      *  @param  mixed  $maker
      *
-     *  @return void
+     *  @return Routing
      */
     public function del($pattern, $maker = null, $priority = 50)
     {
@@ -418,7 +421,7 @@ class Routing
      *  @param  string $pattern
      *  @param  mixed  $maker
      *
-     *  @return void
+     *  @return Routing
      */
     public function cli($pattern, $maker = null, $priority = 50)
     {
@@ -436,7 +439,7 @@ class Routing
      *  @param scalar $pattern
      *  @param mixed  $maker
      *
-     *  @return void
+     *  @return Routing
      */
     public function deny($pattern, $maker = null, $priority = 50)
     {
