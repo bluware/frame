@@ -75,7 +75,11 @@ class Xml
                         $this->whitespace($whitespace),
                         $this->properties($key)
                     );
-                    $result[] = $this->gather($value, $whitespace + 1, $key);
+
+                    $result[] = $this->gather(
+                        $value, $whitespace + 1, $key
+                    );
+
                     $result[] = sprintf(
                         '%s</%s>',
                         $this->whitespace($whitespace),
@@ -83,13 +87,23 @@ class Xml
                     );
                 }
             } else {
-                $result[] = sprintf(
-                    '%s<%s>%s</%s>',
-                    $this->whitespace($whitespace),
-                    $this->properties($key),
-                    $value,
-                    $key
-                );
+                if (
+                    is_numeric($key)
+                ) {
+                    $result[] = sprintf(
+                        '%s<%s />',
+                        $this->whitespace($whitespace),
+                        $this->properties($value)
+                    );
+                } else {
+                    $result[] = sprintf(
+                        '%s<%s>%s</%s>',
+                        $this->whitespace($whitespace),
+                        $this->properties($key),
+                        $value,
+                        $key
+                    );
+                }
             }
         }
         return implode("\n", $result);
