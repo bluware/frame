@@ -62,8 +62,8 @@ class Image extends File
         if (gettype($image) !== 'resource')
             throw new Exception("Bad image to resource convertation.");
 
-            imagealphablending($image, true);
-            imagesavealpha($image, false);
+            imagealphablending($image, false);
+            imagesavealpha($image, true);
 
         /**
          *  @var void
