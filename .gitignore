@@ -1,0 +1,4 @@
+.directory
+composer.lock
+composer.phar
+.idea

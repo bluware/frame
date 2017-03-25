@@ -345,6 +345,8 @@ return [
         => __DIR__ . "/app/App/Exception.php",
     'Frame\\App'
         => __DIR__ . "/app/App.php",
+    'Frame\\Node'
+        => __DIR__ . "/app/Node.php",
     'Frame\\App\\Mock'
         => __DIR__ . "/app/App/Mock.php",
     //-------------------------------------------------------------------------

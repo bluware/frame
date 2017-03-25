@@ -20,6 +20,8 @@ use Frame\View;
 use Frame\Hook;
 use Frame\Data;
 use Frame\I18n;
+use Frame\App;
+use Frame\App\Exception;
 
 /**
  * @subpackage App
@@ -163,6 +165,8 @@ class App
          *  @var $this
          */
         static::$singleton = $this;
+
+        static::app($this);
     }
 
     /**
@@ -278,5 +282,63 @@ class App
         return call_user_func_array([
             $app, array_shift($var)
         ], $var);
+    }
+
+    /**
+     *  @param App|null $instance
+     *
+     *  @return App
+     */
+    public static function app(App $instance = null)
+    {
+        /**
+         *  @var App|null
+         */
+        static $app = null;
+
+        if ($instance === null) {
+            if ($app === null)
+                throw new Exception(
+                    "App construction cannot be empty"
+                );
+
+            return $app;
+        }
+
+
+        /**
+         *  @var bool
+         */
+        if ($app !== null)
+            throw new Exception(
+                "App construction cannot be reinitialize"
+            );
+
+        /**
+         *  @var bool
+         */
+        if ($app === null)
+            $app = $instance;
+
+        return $app;
+    }
+
+    /**
+     *  Method using for generating universal app instance anywhere
+     *
+     *  @param string $class
+     *
+     *  @return mixed
+     */
+    public static function factory($classname)
+    {
+        if (is_subclass_of($classname, Node::class) === false)
+            throw new Exception(
+                "App factory cannot create instance from non-child of Frame\\Node"
+            );
+
+        return new $classname(
+            static::app()
+        );
     }
 }
