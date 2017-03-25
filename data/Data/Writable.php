@@ -14,10 +14,10 @@ namespace Frame\Data;
 abstract class Writable extends Readable
 {
     /**
-     *  @param scalar $key
-     *  @param mixed  $val
+     *  @param $key
+     *  @param $val
      *
-     *  @return \Frame\Data\Write
+     *  @return $this
      */
     public function set($key, $val)
     {
@@ -27,20 +27,22 @@ abstract class Writable extends Readable
     }
 
     /**
-     *  @param scalar $key
-     *  @param mixed  $val
+     *  @param $key
+     *  @param $val
      *
-     *  @return mixed
+     *  @return $this
      */
     public function __set($key, $val)
     {
         $this->data[$key] = $val;
+
+        return $this;
     }
 
     /**
      *  @param array $data
      *
-     *  @return mixed
+     *  @return $this
      */
     public function replace(array $data)
     {
@@ -54,7 +56,7 @@ abstract class Writable extends Readable
     /**
      *  @param array $data
      *
-     *  @return mixed
+     *  @return $this
      */
     public function merge(array $data)
     {
@@ -66,9 +68,9 @@ abstract class Writable extends Readable
     }
 
     /**
-     *  @param scalar $key
+     *  @param array|null $data
      *
-     *  @return mixed
+     *  @return $this
      */
     public function data(array $data = null)
     {
@@ -76,7 +78,7 @@ abstract class Writable extends Readable
          *  @var array
          */
         if ($data === null)
-            return parent::data($data);
+            return parent::data();
 
         /**
          *  @var void
@@ -92,8 +94,8 @@ abstract class Writable extends Readable
     }
 
     /**
-     *  @var mixed $key
-     *  @var mixed $value
+     *  @param $key
+     *  @param null $value
      *
      *  @return $this
      */
@@ -113,13 +115,13 @@ abstract class Writable extends Readable
     }
 
     /**
-     *  @var array   $key
-     *  @var mixed   $value
-     *  @var numeric $index
-     *  @var numeric $limit
-     *  @var array   $data
+     *  @param array $keys
+     *  @param $value
+     *  @param $index
+     *  @param int $limit
+     *  @param $data
      *
-     *  @return $this
+     *  @return mixed
      */
     public function __push(array $keys, $value, $index, $limit = 0, $data)
     {
@@ -141,10 +143,8 @@ abstract class Writable extends Readable
     }
 
     /**
-     *  @param scalar $key
-     *  @param mixed  $value
-     *
-     *  @return void
+     *  @param mixed $key
+     *  @param mixed $value
      */
     public function offsetSet($key, $value) {
         /**
@@ -166,9 +166,7 @@ abstract class Writable extends Readable
     }
 
     /**
-     *  @param scalar $key
-     *
-     *  @return $this
+     *      @param mixed $key
      */
     public function offsetUnset($key) {
         /**
@@ -177,29 +175,5 @@ abstract class Writable extends Readable
         unset(
             $this->data[$key]
         );
-    }
-
-    /**
-     *  @return mixed
-     */
-    public function __invoke(array $data = null)
-    {
-        /**
-         *  @var array
-         */
-        if ($data === null)
-            return parent::data($data);
-
-        /**
-         *  @var void
-         */
-        $this->data = array_replace(
-            $this->data, $data
-        );
-
-        /**
-         *  @var $this
-         */
-        return $this;
     }
 }

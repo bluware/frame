@@ -239,6 +239,8 @@ return [
         => __DIR__ . "/locator/Locator.php",
     'Frame\\Locator\\Mock'
         => __DIR__ . "/locator/Locator/Mock.php",
+    'Frame\\Locator\\Support'
+        => __DIR__ . "/locator/Locator/Support.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -345,7 +347,7 @@ return [
         => __DIR__ . "/app/App/Exception.php",
     'Frame\\App'
         => __DIR__ . "/app/App.php",
-    'Frame\\Node'
+    'Frame\\Object'
         => __DIR__ . "/app/Node.php",
     'Frame\\App\\Mock'
         => __DIR__ . "/app/App/Mock.php",

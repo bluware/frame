@@ -8,16 +8,21 @@
  */
 namespace Frame;
 
+use Frame\Data\Writable;
+
 /**
  * @subpackage Data
  */
-class Data extends \Frame\Data\Writable
+class Data extends Writable
 {
     /**
      *  @param mixed $data
      */
     public function __construct(array $data = null)
     {
+        /**
+         * @val bool
+         */
         if ($data !== null)
             /**
              *  @var array

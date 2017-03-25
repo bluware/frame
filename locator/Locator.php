@@ -8,43 +8,45 @@
  */
 namespace Frame;
 
-use Frame\Data;
+use Frame\Locator\Exception;
+use Frame\Data\Readable;
 
 /**
  * @subpackage Locator
  */
-class Locator extends Data
+class Locator extends Readable
 {
     /**
      * @var \Frame\Data
      */
-    protected $services;
+    protected $invokable;
 
     /**
-     *  @param mixed $data
-     *
-     *  @return void
+     *  Locator constructor.
      */
-    public function __construct($data = null)
+    public function __construct()
     {
-        $this->services = new Data();
-
-        if ($data !== null)
-            $this->data = $data;
+        $this->invokable = new Data();
     }
 
     /**
-     *  @param  mixed   $service
-     *  @param  string  $alias
+     *  @param $service
+     *  @param null $alias
      *
-     *  @return void
+     *  @return $this
+     *  @throws Exception
      */
-    public function add($service, $alias)
+    public function add($service, $alias = null)
     {
         /**
          *  @var string
          */
-        $interface = is_object($service) ?
+        if (gettype($service) !== 'object' && $alias === null)
+            throw new Exception(
+                "Non-object service should have alias name"
+            );
+
+        $interface = gettype($service) === 'object' ?
             get_class($service) : $alias;
 
         /**
@@ -53,41 +55,53 @@ class Locator extends Data
         $this->data[$interface] = $service;
 
         /**
-         *  @var string
+         *  @var boolean
          */
-        $this->services->set($alias, $interface);
+        if ($alias !== null)
+            /**
+             *  @var string
+             */
+            $this->invokable->set($alias, $interface);
 
         return $this;
     }
 
     /**
-     *  @param  string  $key
+     *  @param string $key
      *
-     *  @return boolean
+     *  @return bool
      */
     public function has($key)
     {
-        return parent::has($key) === false ?
-            $this->services->has($key) : true;
+        if (parent::has($key) === true)
+            return true;
+
+        return $this->invokable->has($key);
     }
 
     /**
-     *  @param  string  $key
-     *  @param  mixed   $alt
+     *  @param string $key
+     *  @param null $alt
      *
      *  @return mixed
      */
     public function get($key, $alt = null)
     {
-        $service = parent::get($key, $alt);
+        $instance = parent::get($key, $alt);
 
-        if ($service === null)
-            $service = parent::get(
-                $this->services->get(
-                    $key, $alt
-                )
-            );
+        if ($instance === null) {
+            $key = $this->invokable->get($key, $alt);
 
-        return $service;
+            $instance = parent::get($key, $alt);
+        }
+
+
+        if (is_callable($instance) === true) {
+            $instance = call_user_func($instance, $this);
+
+            $this->data[$key] = $instance;
+        }
+
+        return $instance;
     }
 }

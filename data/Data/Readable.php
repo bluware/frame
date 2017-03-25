@@ -19,9 +19,9 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     protected $data     = [];
 
     /**
-     *  @param scalar $key
+     *  @param $key
      *
-     *  @return boolean
+     *  @return bool
      */
     public function has($key)
     {
@@ -31,10 +31,10 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  @param scalar $key
-     *  @param scalar $alt
+     *  @param $key
+     *  @param null $alt
      *
-     *  @return mixed
+     *  @return mixed|null
      */
     public function get($key, $alt = null)
     {
@@ -48,7 +48,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     /**
      *  @param array $data
      *
-     *  @return mixed
+     * @return array
      */
     public function diff(array $data)
     {
@@ -60,7 +60,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     /**
      *  @param array $data
      *
-     *  @return mixed
+     *  @return array
      */
     public function intersect(array $data)
     {
@@ -70,7 +70,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  @return void
+     *  @return $this
      */
     public function sort()
     {
@@ -80,9 +80,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  @param scalar $key
-     *
-     *  @return mixed
+     *  @return array
      */
     public function data()
     {
@@ -90,18 +88,6 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  \Iterator implementation
-     *
-     *  @return mixed
-     */
-    function rewind()
-    {
-        return reset($this->data);
-    }
-
-    /**
-     *  \Iterator implementation
-     *
      *  @return mixed
      */
     function current()
@@ -110,8 +96,14 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  \Iterator implementation
-     *
+     *  @return mixed
+     */
+    function rewind()
+    {
+        return reset($this->data);
+    }
+
+    /**
      *  @return mixed
      */
     function key()
@@ -120,8 +112,6 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  \Iterator implementation
-     *
      *  @return mixed
      */
     function next()
@@ -130,8 +120,6 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  \Iterator implementation
-     *
      *  @return bool
      */
     function valid()
@@ -140,11 +128,10 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  Pull multidemential array using \. modifier
+     *  @param $key
+     *  @param null $alt
      *
-     *  @var strict $key
-     *
-     *  @return bool
+     *  @return mixed|null
      */
     public function pull($key, $alt = null)
     {
@@ -162,14 +149,13 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  Recursion of pull action.
+     *  @param array $keys
+     *  @param $index
+     *  @param null $limit
+     *  @param $data
+     *  @param null $alt
      *
-     *  @var array      $keys
-     *  @var numeric    $index
-     *  @var numeric    $limit
-     *  @var mixed     $data
-     *
-     *  @return mixed
+     *  @return mixed|null
      */
     protected function __pull(array $keys, $index, $limit = null, $data, $alt = null)
     {
@@ -192,9 +178,9 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  @param scalar $key
+     *  @param $key
      *
-     *  @return boolean
+     *  @return bool
      */
     public function __isset($key)
     {
@@ -202,21 +188,13 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  @param scalar $key
+     *  @param $key
      *
-     *  @return mixed
+     *  @return mixed|null
      */
     public function __get($key)
     {
         return $this->get($key, null);
-    }
-
-    /**
-     *  @return mixed
-     */
-    public function __invoke()
-    {
-        return $this->data;
     }
 
     /**
@@ -230,7 +208,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  @param scalar $key
+     *  @param mixed $key
      *
      *  @return bool
      */
@@ -245,9 +223,9 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  @param scalar $key
+     *  @param mixed $key
      *
-     *  @return mixed
+     *  @return mixed|null
      */
     public function offsetGet($key)
     {
@@ -262,35 +240,40 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     *  @param scalar $key
-     *  @param mixed  $value
+     *  @param mixed $key
+     *  @param mixed $value
      *
-     *  @return void
+     *  @throws Exception
      */
     public function offsetSet($key, $value)
     {
-        // At this place can be \Exception
+        throw new Exception(
+            "Readable data object cannot implement setter. Use writable instead"
+        );
     }
 
     /**
-     *  @param scalar $key
+     *  @param mixed $key
      *
-     *  @return $this
+     *  @throws Exception
      */
     public function offsetUnset($key)
     {
-        // At this place can be \Exception
+        throw new Exception(
+            "Readable data object cannot implement setter. Use writable instead"
+        );
     }
 
     /**
-     *  @param scalar $key
+     *  @param $type
      *
-     *  @return mixed
+     *  @return array|string
+     *  @throws Exception
      */
     public function to($type)
     {
         switch ($type) {
-            case 'array': case 'arr':
+            case 'array': case 'arr': case 'a':
                 /**
                  *  @var array
                  */
@@ -313,5 +296,9 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
                 return http_build_query($this->data);
                 break;
         }
+
+        throw new Exception(
+            "Convert supports only 'array', 'json' and 'form' types"
+        );
     }
 }
