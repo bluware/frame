@@ -23,7 +23,7 @@ abstract class Node
      *
      *  @param App $app
      */
-    final public function __construct(App $app)
+    public function __construct(App $app)
     {
         $this->app = $app;
     }

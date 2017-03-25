@@ -13,7 +13,7 @@ use Frame\Http\Response;
 /**
  * @subpackage View
  */
-trait Mock
+trait Support
 {
     /**
      *  @param  string      $path

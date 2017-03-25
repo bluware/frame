@@ -218,10 +218,10 @@ class App
     }
 
     /**
-     *  @param  array $packages
-     *  @param  array $directories
+     *  @param array|null $packages
+     *  @param array|null $directories
      *
-     *  @return void
+     *  @return $this
      */
     public function package(
         array $packages     = null,
@@ -237,9 +237,7 @@ class App
         /**
          *  @var \Frame\App\Package
          */
-        $this->locator(
-            'add', $package, 'package'
-        );
+        $this->locator()->add($package, 'package');
 
         /**
          *  @var void
@@ -288,9 +286,10 @@ class App
     }
 
     /**
-     *  @param App|null $instance
+     *  @param \Frame\App|null $instance
      *
-     *  @return App
+     *  @return \Frame\App|null
+     *  @throws Exception
      */
     public static function app(App $instance = null)
     {
@@ -327,11 +326,10 @@ class App
     }
 
     /**
-     *  Method using for generating universal app instance anywhere
-     *
-     *  @param string $class
+     *  @param $classname
      *
      *  @return mixed
+     *  @throws Exception
      */
     public static function factory($classname)
     {

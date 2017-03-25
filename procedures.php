@@ -1,10 +1,10 @@
 <?php
 
+use Frame\App;
+
 function __($word, $locale = null)
 {
-    return Frame\App::singleton(
-        'locator', 'get', 'translator'
-    )->translate(
+    return App::app()->locator('translator')->translate(
         $word, $locale
     );
 }

@@ -18,22 +18,12 @@ use Frame\View;
 /**
  * @subpackage Controller
  */
-abstract class Controller
+abstract class Controller extends Node
 {
-    use App\Mock, Locator\Mock, Hook\Mock, Request\Mock, Response\Mock, View\Mock;
-
-    public function __construct(App $app)
-    {
-        $this->app      = $app;
-
-        $this->locator  = $app->locator();
-
-        $this->request  = $app->locator(
-            'get', 'request'
-        );
-
-        $this->hook  = $app->locator(
-            'get', 'hook'
-        );
-    }
+    use
+        Locator\Support,
+        Hook\Support,
+        Request\Support,
+        Response\Support,
+        View\Support;
 }

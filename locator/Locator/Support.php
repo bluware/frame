@@ -38,7 +38,7 @@ trait Support
             /**
              *  @var boolean
              */
-            if ($this->app === null)
+            if (property_exists($this, 'app') === false)
                 /**
                  *  @thrown Exception
                  */

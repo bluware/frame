@@ -9,34 +9,45 @@
 namespace Frame\Http\Request;
 
 use Frame\Http\Exception;
+use Frame\Http\Request;
 
 /**
  * @subpackage Request
  */
-trait Mock
+trait Support
 {
     /**
-     *  @var \Frame\Service\Locator
+     *  @var \Frame\Http\Request
      */
     protected $request;
 
     /**
-     *  Fast locator implementation.
+     *  @param null $input
      *
-     *  @return mixed
+     *  @return Request|mixed
+     *  @throws Exception
      */
     public function request($input = null)
     {
         /**
          *  @var bool
          */
-        if ($this->request === null)
+        if ($this->request === null) {
             /**
-             *  @var \Frame\Service\Exception
+             *  @var boolean
              */
-            throw new Exception(
-                'Request is null and cannot executed.'
+            if (property_exists($this, 'locator') === false)
+                /**
+                 *  @thrown Exception
+                 */
+                throw new Exception(
+                    'Request is null and cannot executed.'
+                );
+
+            $this->request = $this->locator(
+                Request::class
             );
+        }
 
         /**
          *  @var bool

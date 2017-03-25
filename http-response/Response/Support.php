@@ -13,7 +13,7 @@ use Frame\Http;
 /**
  * @subpackage Response
  */
-trait Mock
+trait Support
 {
     /**
      *  @param  string $input

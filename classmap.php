@@ -89,8 +89,8 @@ return [
         => __DIR__ . "/http-response/Response/Headers.php",
     'Frame\\Http\\ResponseInterface'
         => __DIR__ . "/http-response/ResponseInterface.php",
-    'Frame\\Http\\Response\\Mock'
-        => __DIR__ . "/http-response/Response/Mock.php",
+    'Frame\\Http\\Response\\Support'
+        => __DIR__ . "/http-response/Response/Support.php",
     'Frame\\Http\\Response'
         => __DIR__ . "/http-response/Response.php",
     //-------------------------------------------------------------------------
@@ -110,8 +110,8 @@ return [
         => __DIR__ . "/http-request/Request/Server.php",
     'Frame\\Http\\RequestInterface'
         => __DIR__ . "/http-request/RequestInterface.php",
-    'Frame\\Http\\Request\\Mock'
-        => __DIR__ . "/http-request/Request/Mock.php",
+    'Frame\\Http\\Request\\Support'
+        => __DIR__ . "/http-request/Request/Support.php",
     'Frame\\Http\\Request'
         => __DIR__ . "/http-request/Request.php",
     //-------------------------------------------------------------------------
@@ -163,8 +163,8 @@ return [
         => __DIR__ . "/view/View/Page.php",
     'Frame\\ViewInterface'
         => __DIR__ . "/view/ViewInterface.php",
-    'Frame\\View\\Mock'
-        => __DIR__ . "/view/View/Mock.php",
+    'Frame\\View\\Support'
+        => __DIR__ . "/view/View/Support.php",
     'Frame\\View'
         => __DIR__ . "/view/View.php",
     //-------------------------------------------------------------------------
@@ -237,8 +237,6 @@ return [
         => __DIR__ . "/locator/Locator/Exception.php",
     'Frame\\Locator'
         => __DIR__ . "/locator/Locator.php",
-    'Frame\\Locator\\Mock'
-        => __DIR__ . "/locator/Locator/Mock.php",
     'Frame\\Locator\\Support'
         => __DIR__ . "/locator/Locator/Support.php",
     //-------------------------------------------------------------------------
@@ -250,8 +248,8 @@ return [
         => __DIR__ . "/hook/Hook/Exception.php",
     'Frame\\Hook'
         => __DIR__ . "/hook/Hook.php",
-    'Frame\\Hook\\Mock'
-        => __DIR__ . "/hook/Hook/Mock.php",
+    'Frame\\Hook\\Support'
+        => __DIR__ . "/hook/Hook/Support.php",
     'Frame\\Hook\\Controller'
         => __DIR__ . "/hook/Hook/Controller.php",
     //-------------------------------------------------------------------------
@@ -347,10 +345,8 @@ return [
         => __DIR__ . "/app/App/Exception.php",
     'Frame\\App'
         => __DIR__ . "/app/App.php",
-    'Frame\\Object'
+    'Frame\\Node'
         => __DIR__ . "/app/Node.php",
-    'Frame\\App\\Mock'
-        => __DIR__ . "/app/App/Mock.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------

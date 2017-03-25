@@ -8,12 +8,12 @@
  */
 namespace Frame\Hook;
 
-use Frame\Hook\Exception;
+use Frame\Hook;
 
 /**
  * @subpackage Hook
  */
-trait Mock
+trait Support
 {
     /**
      *  @var \Frame\Hook
@@ -21,22 +21,33 @@ trait Mock
     protected $hook;
 
     /**
-     *  Fast locator implementation.
+     *  @param null $input
+     *  @return \Frame\Hook|mixed
      *
-     *  @return mixed
+     *  @throws Exception
      */
     public function hook($input = null)
     {
         /**
-         *  @var bool
+         *  @var boolean
          */
-        if ($this->hook === null)
+        if ($this->hook === null) {
             /**
-             *  @var \Frame\Service\Exception
+             *  @var boolean
              */
-            throw new Exception(
-                'Hook is null and cannot executed.'
+            if (property_exists($this, 'locator') === false)
+                /**
+                 *  @var Exception
+                 */
+                throw new Exception(
+                    'Hook is null and cannot executed.'
+                );
+
+            $this->hook = $this->locator(
+                Hook::class
             );
+        }
+
 
         /**
          *  @var bool
