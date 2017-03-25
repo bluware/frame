@@ -72,7 +72,7 @@ abstract class Query extends Writable
         /**
          *  @var void
          */
-        $this->query(function($q) use ($data) {
+        static::query(function($q) use ($data) {
             /**
              *  @var boolean
              */
@@ -96,7 +96,7 @@ abstract class Query extends Writable
             /**
              *  @var integer
              */
-            $data[$this->primary] = $this->adapter('id');
+            $data[$this->primary] = static::adapter('id');
 
         /**
          *  @var boolean
@@ -128,7 +128,7 @@ abstract class Query extends Writable
         /**
          *  @var void
          */
-        $data = $this->query(function(
+        $data = static::query(function(
             $q
         ) use (
             $state,
@@ -256,7 +256,7 @@ abstract class Query extends Writable
         /**
          *  @var void
          */
-        $this->query(function($q) use ($data) {
+        static::query(function($q) use ($data) {
             $q->update(
                 $this->table
             )->set(
@@ -297,7 +297,7 @@ abstract class Query extends Writable
         /**
          *  @var void
          */
-        $this->query(function($q) {
+        static::query(function($q) {
             $q->delete(
                 //
             )->from(
@@ -403,20 +403,20 @@ abstract class Query extends Writable
      *
      *  @return mixed
      */
-    public function query($pull, $query = null)
+    protected static function query($pull, $query = null)
     {
         if ($query === null)
             /**
              *  @var \Frame\Database\State
              */
-            return $this->adapter(
+            return static::adapter(
                 'query', $pull
             );
 
         /**
          *  @var mixed
          */
-        return $this->adapter(
+        return static::adapter(
             'query', $query
         )->{$pull}();
     }
@@ -427,12 +427,12 @@ abstract class Query extends Writable
      *
      *  @return mixed
      */
-    public function transaction($call, &$error = null)
+    protected static function transaction($call, &$error = null)
     {
         /**
          *  @var mixed
          */
-        return $this->adapter()->transaction(
+        return static::adapter()->transaction(
             $call, $error
         );
     }
@@ -440,7 +440,7 @@ abstract class Query extends Writable
     /**
      *  @return mixed
      */
-    public function adapter($method = null)
+    protected static function adapter($method = null)
     {
         /**
          *  @var \Frame\Database\Drive
