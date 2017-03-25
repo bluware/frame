@@ -19,7 +19,7 @@ abstract class Query extends Writable
     /**
      *  @var string
      */
-    protected $adapter       = 'default';
+    protected static $adapter       = 'default';
 
     /**
      *  @var string
@@ -446,7 +446,7 @@ abstract class Query extends Writable
          *  @var \Frame\Database\Drive
          */
         $adapter = Database::adapter(
-            $this->adapter
+            static::$adapter
         );
 
         /**
@@ -457,7 +457,7 @@ abstract class Query extends Writable
              * @var \Exception
              */
             throw new \Exception(
-                "Driver does not exist " . $this->adapter
+                "Driver does not exist " . static::$adapter
             );
 
         /**
