@@ -14,11 +14,6 @@ namespace Frame\Locator;
 trait Support
 {
     /**
-     *  @var \Frame\App
-     */
-    protected $app;
-
-    /**
      *  @var \Frame\Locator
      */
     protected $locator;
