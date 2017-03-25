@@ -14,7 +14,7 @@ namespace Frame;
 class Dir
 {
     /**
-     *  @param  string $path
+     *  @param $path
      *
      *  @return bool
      */
@@ -24,7 +24,7 @@ class Dir
     }
 
     /**
-     *  @param  string $path
+     *  @param $path
      *
      *  @return bool
      */
@@ -34,8 +34,9 @@ class Dir
     }
 
     /**
-     *  @param  [type] $path [description]
-     *  @return [type]       [description]
+     *  @param $path
+     *
+     *  @return string
      */
     public static function name($path)
     {

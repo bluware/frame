@@ -8,19 +8,7 @@
  */
 namespace Frame;
 
-use Frame\Package;
-use Frame\Autoload;
-use Frame\Locator;
-use Frame\Database;
-use Frame\Http;
-use Frame\Routing;
 use Frame\Http\Request;
-use Frame\Secure;
-use Frame\View;
-use Frame\Hook;
-use Frame\Data;
-use Frame\I18n;
-use Frame\App;
 use Frame\App\Exception;
 
 /**
@@ -36,7 +24,9 @@ class App
     protected static $singleton;
 
     /**
-     *  @return void
+     *  App constructor.
+     *
+     *  @param array $config
      */
     public function __construct($config = [])
     {
@@ -46,7 +36,7 @@ class App
         $locator = new Locator();
 
         /**
-         *  @var array
+         *
          */
         $config = new Data(
             gettype($config) === 'string' && is_file($config) ?
@@ -54,17 +44,17 @@ class App
         );
 
         /**
-         *  @var Frame\Service\Locator
+         *  @var \Frame\Locator
          */
         $locator->add($config, 'config');
 
         /**
-         *  @var Frame\Service\Locator
+         *  @var \Frame\Locator
          */
         $autoload = new Autoload();
 
         /**
-         *  @var Frame\Service\Locator
+         *  @var \Frame\Locator
          */
         $locator->add($autoload, 'autoload');
 
@@ -76,34 +66,34 @@ class App
         ]);
 
         /**
-         *  @var \Frame\Request
+         *
          */
         $request = new Request();
 
         /**
-         *  @var \Frame\Request
+         *
          */
         $locator->add($request, 'request');
 
         /**
-         *  @var \Frame\Router
+         *
          */
         $routing = new Routing();
 
         /**
-         *  @var \Frame\Router
+         *
          */
         $locator->add($routing, 'router');
 
         /**
-         *  @var \Frame\Router
+         *
          */
         $i18n = new I18n(
             $request->locale()
         );
 
         /**
-         *  @var \Frame\Router
+         *
          */
         $locator->add($i18n, 'translator');
 
@@ -135,13 +125,13 @@ class App
         ]);
 
         /**
-         *  @var \Frame\Secure\Keychain
+         *
          */
         $secure = Secure::chain();
 
         /**
-         *  @var \Frame\Secure\Keychain
-         */
+        *
+        */
         $locator->add($secure, 'secure');
 
         /**
@@ -157,7 +147,7 @@ class App
         ]);
 
         /**
-         *  @var \Frame\Service\Locator
+         *
          */
         $this->locator = $locator;
 
@@ -169,15 +159,15 @@ class App
         /**
          *  @var $this
          */
-        static::app($this);
+        static::instance($this);
     }
 
     /**
-     *  @param  array    $config [description]
-     *  @param  [type]   $key    [description]
-     *  @param  callable $call   [description]
+     *  @param \Frame\Data $config
+     *  @param $key
+     *  @param callable $call
      *
-     *  @return [type]           [description]
+     *  @return $this
      */
     protected function extract(Data $config, $key, callable $call)
     {
@@ -228,14 +218,14 @@ class App
         array $directories  = null
     ) {
         /**
-         *  @var \Frame\App\Package
+         *  @var \Frame\Package\Dispatcher
          */
         $package = new Package\Dispatcher(
             $packages, $directories
         );
 
         /**
-         *  @var \Frame\App\Package
+         *  @var void
          */
         $this->locator()->add($package, 'package');
 
@@ -291,7 +281,7 @@ class App
      *  @return \Frame\App|null
      *  @throws Exception
      */
-    public static function app(App $instance = null)
+    public static function instance(App $instance = null)
     {
         /**
          *  @var App|null
@@ -339,7 +329,7 @@ class App
             );
 
         return new $classname(
-            static::app()
+            static::instance()
         );
     }
 }
