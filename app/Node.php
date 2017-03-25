@@ -13,6 +13,8 @@ namespace Frame;
  */
 abstract class Node
 {
+    use Locator\Support;
+
     /**
      * @var App
      */
@@ -25,7 +27,15 @@ abstract class Node
      */
     public function __construct(App $app)
     {
-        $this->app = $app;
+        /**
+         *  @var \Frame\App
+         */
+        $this->app      = $app;
+
+        /**
+         *  @var \Frame\Locator
+         */
+        $this->locator  = $app->locator();
     }
 
     /**

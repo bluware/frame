@@ -8,22 +8,37 @@
  */
 namespace Frame;
 
-use Frame\App;
-use Frame\Hook;
-use Frame\Locator;
-use Frame\Http\Request;
-use Frame\Http\Response;
-use Frame\View;
 
 /**
  * @subpackage Controller
  */
 abstract class Controller extends Node
 {
-    use
-        Locator\Support,
-        Hook\Support,
-        Request\Support,
-        Response\Support,
-        View\Support;
+    use Hook\Support;
+    use Http\Response\Support;
+    use Http\Request\Support;
+    use View\Support;
+
+    /**
+     *  Instance constructor.
+     *
+     *  @param App $app
+     */
+    public function __construct(App $app)
+    {
+        /**
+         *
+         */
+        parent::__construct($app);
+
+        /**
+         *  @var \Frame\Hook
+         */
+        $this->hook     = $this->locator('hook');
+
+        /**
+         *  @var \Frame\Http\Request
+         */
+        $this->request  = $this->locator('request');
+    }
 }
