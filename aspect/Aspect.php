@@ -11,7 +11,15 @@ namespace Frame;
 /**
  * @subpackage Aspect
  */
-abstract class Aspect extends \Frame\Controller implements AspectInterface
+abstract class Aspect extends Controller implements IAspect
 {
-    //
+    public function before()
+    {
+        // TODO: Implement before() method.
+    }
+
+    public function after()
+    {
+        // TODO: Implement after() method.
+    }
 }

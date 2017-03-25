@@ -11,16 +11,15 @@ namespace Frame;
 /**
  * @subpackage Aspect
  */
-interface AspectInterface
+interface IAspect
 {
     /**
-     *  @return mixed
+     * @return mixed
      */
     public function before();
 
-
     /**
-     *  @return mixed
+     * @return mixed
      */
     public function after();
 }

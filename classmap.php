@@ -181,8 +181,8 @@ return [
     /**------------------------------------------------------------------------
      *  @package `aspect` module
      */
-    'Frame\\AspectInterface'
-        => __DIR__ . "/aspect/AspectInterface.php",
+    'Frame\\IAspect'
+        => __DIR__ . "/aspect/IAspect.php",
     'Frame\\Aspect'
         => __DIR__ . "/aspect/Aspect.php",
     //-------------------------------------------------------------------------
