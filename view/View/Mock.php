@@ -30,7 +30,7 @@ trait Mock
         /**
          *  @var mixed
          */
-        $page = $this->locator('get', 'view')->make(
+        $page = $this->locator('view')->make(
             $path, $data, $prevent
         );
 

@@ -28,7 +28,7 @@ use Frame\App\Exception;
  */
 class App
 {
-    use Locator\Mock;
+    use Locator\Support;
 
     /**
      *  @var array
@@ -41,7 +41,7 @@ class App
     public function __construct($config = [])
     {
         /**
-         *  @var Frame\Service\Locator
+         *  @var \Frame\Locator
          */
         $locator = new Locator();
 
@@ -166,6 +166,9 @@ class App
          */
         static::$singleton = $this;
 
+        /**
+         *  @var $this
+         */
         static::app($this);
     }
 

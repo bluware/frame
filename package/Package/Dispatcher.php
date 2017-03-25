@@ -91,7 +91,7 @@ class Dispatcher
                 /**
                  *  @var Frame\I18n
                  */
-                $i18n = $app->locator('get', 'translator');
+                $i18n = $app->locator('translator');
 
                 /**
                  *  @var array
@@ -117,7 +117,7 @@ class Dispatcher
              */
             method_exists($package, 'autoload') ?
                 $package->autoload(
-                    $app->locator('get', 'autoload')
+                    $app->locator('autoload')
                 ) : null;
 
             $packages[] = $package;
@@ -143,7 +143,7 @@ class Dispatcher
                  *  @var array
                  */
                 $controllers = $package->hook(
-                    $app->locator('get', 'hook')
+                    $app->locator('hook')
                 );
 
                 /**
@@ -165,7 +165,7 @@ class Dispatcher
              */
             method_exists($package, 'routing') ?
                 $package->routing(
-                    $app->locator('get', 'router')
+                    $app->locator('router')
                 ) : null;
 
             /**
@@ -173,7 +173,7 @@ class Dispatcher
              */
             method_exists($package, 'view') ?
                 $package->view(
-                    $app->locator('get', 'view')
+                    $app->locator('view')
                 ) : null;
         }
     }
