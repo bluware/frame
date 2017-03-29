@@ -263,14 +263,14 @@ class Form extends Writable implements FormInterface
          *  @var array
          */
         if ($data !== null) {
+            if (is_array($data) === false && $data instanceof Readable === false)
+                throw new \Exception("Should be array or Readable object");
+            
             /**
              *  @var $this
              */
             return $this->replace($data);
         }
-
-        if (is_array($data) === false && $data instanceof Readable === false)
-            throw new \Exception("Should be array or Readable object");
 
         /**
          *  @var array
