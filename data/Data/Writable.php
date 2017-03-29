@@ -40,12 +40,16 @@ abstract class Writable extends Readable
     }
 
     /**
-     *  @param array $data
+     *  @param $data
      *
      *  @return $this
+     *  @throws Exception
      */
-    public function replace(array $data)
+    public function replace($data)
     {
+        if (is_array($data) === false && $data instanceof Readable === false)
+            throw new Exception("Should be array or Writable object");
+
         $this->data = array_replace(
             $this->data, $data
         );
@@ -57,9 +61,13 @@ abstract class Writable extends Readable
      *  @param array $data
      *
      *  @return $this
+     *  @throws Exception
      */
-    public function merge(array $data)
+    public function merge($data)
     {
+        if (is_array($data) === false && $data instanceof Readable === false)
+            throw new Exception("Should be array or Writable object");
+
         $this->data = array_merge(
             $this->data, $data
         );
@@ -70,7 +78,7 @@ abstract class Writable extends Readable
     /**
      *  @param array|null $data
      *
-     *  @return $this
+     *  @return $this|array
      */
     public function data(array $data = null)
     {
