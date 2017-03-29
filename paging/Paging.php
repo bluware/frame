@@ -9,22 +9,23 @@
 namespace Frame;
 
 use Frame\Data\Readable;
-use Frame\Form;
 
 /**
  * @subpackage Session
  */
 class Paging extends Form
 {
+    /**
+     * @var array
+     */
     protected $limits = [
         5, 10, 25, 50, 100
     ];
 
     /**
-     *  @param string  $name
-     *  @param array   $data
-     *
-     *  @return void
+     * Paging constructor.
+     * @param int $total
+     * @param Readable|null $q
      */
     public function __construct($total = 0, Readable $q = null)
     {

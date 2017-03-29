@@ -48,7 +48,7 @@ abstract class Writable extends Readable
     public function replace($data)
     {
         if (is_array($data) === false && $data instanceof Readable === false)
-            throw new Exception("Should be array or Writable object");
+            throw new Exception("Should be array or Readable object");
 
         $this->data = array_replace(
             $this->data, $data
@@ -66,7 +66,7 @@ abstract class Writable extends Readable
     public function merge($data)
     {
         if (is_array($data) === false && $data instanceof Readable === false)
-            throw new Exception("Should be array or Writable object");
+            throw new Exception("Should be array or Readable object");
 
         $this->data = array_merge(
             $this->data, $data
@@ -76,17 +76,21 @@ abstract class Writable extends Readable
     }
 
     /**
-     *  @param array|null $data
+     *  @param null $data
      *
      *  @return $this|array
+     *  @throws Exception
      */
-    public function data(array $data = null)
+    public function data($data = null)
     {
         /**
          *  @var array
          */
         if ($data === null)
             return parent::data();
+
+        if (is_array($data) === false && $data instanceof Readable === false)
+            throw new Exception("Should be array or Readable object");
 
         /**
          *  @var void

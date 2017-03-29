@@ -132,7 +132,9 @@ class Form extends Writable implements FormInterface
     }
 
     /**
-     *  @var $this
+     * @param $prop
+     * @param null $comparison
+     * @return mixed
      */
     public function is($prop, $comparison = null)
     {
@@ -150,10 +152,10 @@ class Form extends Writable implements FormInterface
     }
 
     /**
-     *  @param scalar $key
-     *  @param scalar $alt
+     *  @param $key
+     *  @param null $alt
      *
-     *  @return mixed
+     *  @return null
      */
     public function get($key, $alt = null)
     {
@@ -161,34 +163,42 @@ class Form extends Writable implements FormInterface
     }
 
     /**
-     *  @param array $data
+     *  @param $data
      *
-     *  @return mixed
+     *  @return array
+     *  @throws \Exception
      */
-    public function diff(array $data)
+    public function diff($data)
     {
+        if (is_array($data) === false && $data instanceof Readable === false)
+            throw new \Exception("Should be array or Readable object");
+
         return array_diff_assoc(
             $this->data(), $data
         );
     }
 
     /**
-     *  @param array $data
+     *  @param $data
      *
-     *  @return mixed
+     *  @return array
+     *  @throws \Exception
      */
-    public function intersect(array $data)
+    public function intersect($data)
     {
+        if (is_array($data) === false && $data instanceof Readable === false)
+            throw new \Exception("Should be array or Readable object");
+
         return array_intersect_assoc(
             $this->data(), $data
         );
     }
 
     /**
-     *  @param scalar $key
-     *  @param mixed  $val
+     *  @param $key
+     *  @param $val
      *
-     *  @return \Frame\Data\Write
+     *  @return $this
      */
     public function set($key, $val)
     {
@@ -198,12 +208,16 @@ class Form extends Writable implements FormInterface
     }
 
     /**
-     *  @param array $data
+     *  @param $data
      *
-     *  @return mixed
+     *  @return $this
+     *  @throws \Exception
      */
-    public function replace(array $data)
+    public function replace($data)
     {
+        if (is_array($data) === false && $data instanceof Readable === false)
+            throw new \Exception("Should be array or Readable object");
+
         $data = array_replace(
             $this->data(), $data
         );
@@ -218,10 +232,14 @@ class Form extends Writable implements FormInterface
     /**
      *  @param array $data
      *
-     *  @return mixed
+     *  @return $this
+     *  @throws \Exception
      */
-    public function merge(array $data)
+    public function merge($data)
     {
+        if (is_array($data) === false && $data instanceof Readable === false)
+            throw new \Exception("Should be array or Readable object");
+
         $data = array_merge(
             $this->data(), $data
         );
@@ -234,11 +252,12 @@ class Form extends Writable implements FormInterface
     }
 
     /**
-     *  @param scalar $key
+     *  @param null $data
      *
-     *  @return mixed
+     *  @return array|mixed|null
+     *  @throws \Exception
      */
-    public function data(array $data = null)
+    public function data($data = null)
     {
         /**
          *  @var array
@@ -249,6 +268,9 @@ class Form extends Writable implements FormInterface
              */
             return $this->replace($data);
         }
+
+        if (is_array($data) === false && $data instanceof Readable === false)
+            throw new \Exception("Should be array or Readable object");
 
         /**
          *  @var array
@@ -268,9 +290,8 @@ class Form extends Writable implements FormInterface
     }
 
     /**
-     *  @param  Readable $data
-     *
-     *  @return void
+     * @param Readable $data
+     * @return bool
      */
     public function apply(Readable $data)
     {
@@ -288,9 +309,8 @@ class Form extends Writable implements FormInterface
     }
 
     /**
-     *  @param scalar $key
-     *
-     *  @return mixed
+     * @param $type
+     * @return array|mixed|null|string
      */
     public function to($type)
     {
