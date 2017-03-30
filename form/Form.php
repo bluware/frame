@@ -173,6 +173,9 @@ class Form extends Writable implements FormInterface
         if (is_array($data) === false && $data instanceof Readable === false)
             throw new \Exception("Should be array or Readable object");
 
+        if ($data instanceof Readable)
+            $data = $data->to('array');
+
         return array_diff_assoc(
             $this->data(), $data
         );
@@ -188,6 +191,9 @@ class Form extends Writable implements FormInterface
     {
         if (is_array($data) === false && $data instanceof Readable === false)
             throw new \Exception("Should be array or Readable object");
+
+        if ($data instanceof Readable)
+            $data = $data->to('array');
 
         return array_intersect_assoc(
             $this->data(), $data
@@ -218,6 +224,9 @@ class Form extends Writable implements FormInterface
         if (is_array($data) === false && $data instanceof Readable === false)
             throw new \Exception("Should be array or Readable object");
 
+        if ($data instanceof Readable)
+            $data = $data->to('array');
+
         $data = array_replace(
             $this->data(), $data
         );
@@ -239,6 +248,9 @@ class Form extends Writable implements FormInterface
     {
         if (is_array($data) === false && $data instanceof Readable === false)
             throw new \Exception("Should be array or Readable object");
+
+        if ($data instanceof Readable)
+            $data = $data->to('array');
 
         $data = array_merge(
             $this->data(), $data
@@ -265,7 +277,7 @@ class Form extends Writable implements FormInterface
         if ($data !== null) {
             if (is_array($data) === false && $data instanceof Readable === false)
                 throw new \Exception("Should be array or Readable object");
-            
+
             /**
              *  @var $this
              */

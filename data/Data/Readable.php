@@ -56,6 +56,9 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
         if (is_array($data) === false && $data instanceof Readable === false)
             throw new Exception("Should be array or Readable object");
 
+        if ($data instanceof Readable)
+            $data = $data->to('array');
+
         return array_diff_assoc(
             $this->data, $data
         );
@@ -71,6 +74,9 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     {
         if (is_array($data) === false && $data instanceof Readable === false)
             throw new Exception("Should be array or Readable object");
+
+        if ($data instanceof Readable)
+            $data = $data->to('array');
 
         return array_intersect_assoc(
             $this->data, $data
