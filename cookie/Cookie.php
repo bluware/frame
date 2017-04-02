@@ -6,14 +6,12 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http;
-
-use Frame\Secure;
+namespace Frame;
 
 /**
  * @subpackage Cookie
  */
-class Cookie implements CookieInterface
+class Cookie implements ICookie
 {
     /**
      *  @var string

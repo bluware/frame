@@ -76,10 +76,10 @@ return [
     /**------------------------------------------------------------------------
      *  @package `cookie` module
      */
-    'Frame\\Http\\CookieInterface'
-        => __DIR__ . "/http-cookie/CookieInterface.php",
-    'Frame\\Http\\Cookie'
-        => __DIR__ . "/http-cookie/Cookie.php",
+    'Frame\\ICookie'
+        => __DIR__ . "/cookie/ICookie.php",
+    'Frame\\Cookie'
+        => __DIR__ . "/cookie/Cookie.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------

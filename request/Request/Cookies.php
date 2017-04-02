@@ -9,7 +9,7 @@
 namespace Frame\Request;
 
 use Frame\Data\Readable;
-use Frame\Http\Cookie;
+use Frame\Cookie;
 
 /**
  * @subpackage Request

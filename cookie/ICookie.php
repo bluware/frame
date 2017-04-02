@@ -6,12 +6,12 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http;
+namespace Frame;
 
 /**
  * @subpackage Cookie
  */
-interface CookieInterface
+interface ICookie
 {
     /**
      *
