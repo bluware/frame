@@ -51,13 +51,13 @@ class View implements ViewInterface
                     $dir => $ext
                 ]
         );
+
+        return $this;
     }
 
     /**
-     *  @param mixed $dir
-     *  @param mixed $ext
-     *
-     *  @return void
+     *  @param $dir
+     *  @param null $ext
      */
     public function register($dir, $ext = null)
     {
@@ -84,9 +84,10 @@ class View implements ViewInterface
     }
 
     /**
-     *  @param  string $file
-     *
-     *  @return mixed
+     * @param $file
+     * @param null $ext
+     * @return string
+     * @throws \Exception
      */
     public function find($file, $ext = null)
     {

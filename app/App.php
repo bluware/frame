@@ -35,6 +35,18 @@ class App
         $locator = new Locator();
 
         /**
+         *  @var \Frame\App
+         */
+        $locator->add($this, 'app');
+
+        /**
+         *  @var \Frame\Locator
+         */
+        $locator->add(
+            $locator, 'locator'
+        );
+
+        /**
          *
          */
         $config = new Config(
@@ -45,11 +57,6 @@ class App
          *  @var \Frame\Locator
          */
         $locator->add($config, 'config');
-
-        /**
-         *  @var \Frame\Locator
-         */
-        $locator->add($this, 'app');
 
         /**
          *  @var \Frame\Locator

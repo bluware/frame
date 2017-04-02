@@ -1,0 +1,78 @@
+<?php
+
+/**
+ *  Bluware PHP Lite & Scaleable Web Frame
+ *
+ *  @package  <?= $this->namespace ?>
+ *  @author   Frame Dynamic Instance
+ */
+namespace <?= $this->namespace ?>;
+
+use Frame\Locator;
+use Frame\Autoload;
+use Frame\Routing;
+use Frame\Hook;
+use Frame\I18n;
+use Frame\View;
+
+/**
+ *  @subpackage
+ */
+class Package extends \Frame\Package
+{
+    public function autoload(Autoload $service)
+    {
+        $service->add(
+            __NAMESPACE__, __DIR__ . '/src'
+        );
+    }
+
+    public function bootstrap(Locator $service)
+    {
+        //
+    }
+
+    public function routing(Routing $service)
+    {
+        $service->group([
+            'namespace'
+                => __NAMESPACE__,
+        ], function(Routing $service) {
+            $service->get([
+                //
+            ])->post([
+                //
+            ])->put([
+                //
+            ])->delete([
+                //
+            ])->deny([
+                //
+            ]);
+        });
+    }
+
+    public function hook(Hook $service)
+    {
+        //
+    }
+
+    public function view(View $service)
+    {
+        $service->add(
+            __DIR__ . '/view', 'phtml'
+        );
+    }
+
+    public function translator(I18n $service)
+    {
+        return [
+            __DIR__ . '/lang'
+        ];
+    }
+
+    public function hook(Hook $service)
+    {
+        //
+    }
+}

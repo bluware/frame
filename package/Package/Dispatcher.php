@@ -25,7 +25,7 @@ class Dispatcher
      *  @var \Frame\Data\Readable
      */
     protected $packages;
-    
+
     /**
      * Dispatcher constructor.
      *
@@ -46,7 +46,7 @@ class Dispatcher
          */
         $this->directories  = new Data($directories);
     }
-    
+
     /**
      * @param array|null $packages
      * @param array|null $directories
@@ -65,7 +65,14 @@ class Dispatcher
          */
         $this->directories->replace($directories);
     }
-    
+
+    public function exists($name)
+    {
+        return in_array(
+            $name, array_values($this->packages), true
+        );
+    }
+
     /**
      * @param App $app
      */
@@ -74,20 +81,22 @@ class Dispatcher
         $packages = [];
 
         foreach ($this->packages as $path => $namespace) {
+            $directory = null;
+
             if (is_numeric($path) === true)
                 $path = str_replace('\\', '/', $namespace);
 
             $package = sprintf('%s\\Package', $namespace);
 
             class_exists($package) === false ?
-                $this->browse($path) : null;
+                $this->browse($path, $directory) : null;
 
-            $package = new $package($app);
+            $instance = new $package($app);
 
             /**
              *  @var bool
              */
-            if (method_exists($package, 'translator') === true) {
+            if (method_exists($instance, 'translator') === true) {
                 /**
                  *  @var Frame\I18n
                  */
@@ -96,7 +105,7 @@ class Dispatcher
                 /**
                  *  @var array
                  */
-                $directories = $package->translator($i18n);
+                $directories = $instance->translator($i18n);
 
                 /**
                  *  @var array
@@ -112,15 +121,19 @@ class Dispatcher
                         $i18n->scan($directory);
             }
 
+            $app->locator('autoload')->add(
+                $namespace, $directory
+            );
+
             /**
              *  @var mixed
              */
-            method_exists($package, 'autoload') ?
-                $package->autoload(
+            method_exists($instance, 'autoload') ?
+                $instance->autoload(
                     $app->locator('autoload')
                 ) : null;
 
-            $packages[] = $package;
+            $packages[] = $instance;
         }
 
         /**
@@ -178,20 +191,38 @@ class Dispatcher
         }
     }
 
+    protected function __namespace($class)
+    {
+        $path = explode(
+            '\\', $class
+        );
+
+        return array_pop(
+            $class
+        );
+    }
+
     /**
      *  @return void
      */
-    public function browse($path)
+    public function browse($path, &$_directory)
     {
         foreach ($this->directories as $directory) {
-            $file = sprintf(
-                '%s/%s/Package.php',
-                $directory,
-                $path
+            $directory = sprintf(
+                '%s/%s', $directory, $path
             );
 
-            is_file($file) ?
-                include($file) : null;
+            $file = sprintf(
+                '%s/Package.php', $directory
+            );
+
+            if (is_file($file) === true) {
+                include_once($file);
+
+                $_directory = $directory;
+
+                return;
+            }
         }
     }
 }
