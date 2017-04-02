@@ -32,7 +32,14 @@ interface IResponse
      *
      *  @return mixed
      */
-    public function headers($header = null, $val = null);
+    public function headers(array $data = null);
+
+    /**
+     * @param $key
+     * @param null $val
+     * @return $this|mixed|null
+     */
+    public function header($key, $val = null);
 
     /**
      *  Get code or set current body content.

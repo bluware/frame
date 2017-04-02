@@ -31,8 +31,8 @@ class Response implements IResponse
     protected $body;
 
     /**
-     * @param scalar  $body
-     * @param integer $status
+     * @param mixed  $body
+     * @param integer $code
      * @param array   $headers
      */
     public function __construct($body, $code = 200, array $headers = [])
@@ -40,7 +40,7 @@ class Response implements IResponse
         /**
          *  @var integer
          */
-        $this->status   = $code;
+        $this->code   = $code;
 
         /**
          *  @var \Frame\Response\Headers
@@ -105,7 +105,7 @@ class Response implements IResponse
     }
 
     /**
-     * @param  scalar   $body
+     * @param  mixed    $body
      * @param  integer  $code
      * @param  array    $headers
      *
@@ -121,7 +121,7 @@ class Response implements IResponse
     }
 
     /**
-     * @param  scalar   $url
+     * @param  mixed    $url
      * @param  integer  $code
      * @param  array    $headers
      *
@@ -137,7 +137,7 @@ class Response implements IResponse
     }
 
     /**
-     * @param  scalar   $url
+     * @param  mixed   $url
      * @param  integer  $code
      * @param  array    $headers
      *
@@ -156,23 +156,31 @@ class Response implements IResponse
      *      string headers($header)
      *      void   headers($header, $val)
      *
-     *  @param mixed $code
+     *  @param array|null $data
      *
      *  @return mixed
      */
-    public function headers($header = null, $val = null)
+    public function headers(array $data = null)
     {
-        if ($header === null)
+        if ($data === null)
             return $this->headers;
 
-        if ($val === null)
-            return $this->headers
-                ->get($val);
+        $this->headers->replace($data);
 
-        $this->headers
-            ->set(
-                $header, $val
-            );
+        return $this;
+    }
+
+    /**
+     * @param $key
+     * @param null $val
+     * @return $this|mixed|null
+     */
+    public function header($key, $val = null)
+    {
+        if ($val === null)
+            return $this->headers->get($key, null);
+
+        $this->headers->set($key, $val);
 
         return $this;
     }

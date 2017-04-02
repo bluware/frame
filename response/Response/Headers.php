@@ -34,15 +34,6 @@ class Headers extends Writable
     }
 
     /**
-     *  @return void
-     */
-//    public function __invoke(array $data = null)
-//    {
-//        foreach ($this->to('array') as $header)
-//            header($header);
-//    }
-
-    /**
      *  Convert to type
      *
      *  Usage:
