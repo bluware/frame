@@ -6,15 +6,21 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http;
+namespace Frame;
 
 /**
  * @subpackage Request
  */
-interface RequestInterface
+interface IRequest
 {
     /**
-     * @return void
+     * IRequest constructor.
+     *
+     * @param array|null $query
+     * @param array|null $body
+     * @param array|null $files
+     * @param array|null $cookies
+     * @param array|null $server
      */
     public function __construct(
         array $query    = null,

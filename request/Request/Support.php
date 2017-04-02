@@ -6,10 +6,10 @@
  *  @package  Frame\Http
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http\Request;
+namespace Frame\Request;
 
 use Frame\Http\Exception;
-use Frame\Http\Request;
+use Frame\Request;
 
 /**
  * @subpackage Request
@@ -17,7 +17,7 @@ use Frame\Http\Request;
 trait Support
 {
     /**
-     *  @var \Frame\Http\Request
+     *  @var \Frame\Request
      */
     protected $request;
 

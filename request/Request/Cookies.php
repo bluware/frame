@@ -6,7 +6,7 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http\Request;
+namespace Frame\Request;
 
 use Frame\Data\Readable;
 use Frame\Http\Cookie;
@@ -22,7 +22,9 @@ class Cookies extends Readable
     protected $secure   = false;
 
     /**
-     *  @param mixed $data
+     * Cookies constructor.
+     * @param array|null $data
+     * @param bool $secure
      */
     public function __construct(array $data = null, $secure = false)
     {
@@ -39,10 +41,9 @@ class Cookies extends Readable
     }
 
     /**
-     *  @param  string $key
-     *  @param  mixed  $alt
-     *
-     *  @return \Blu\Http\Cookie
+     * @param $key
+     * @param null $alt
+     * @return Cookie
      */
     public function get($key, $alt = null)
     {

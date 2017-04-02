@@ -8,7 +8,6 @@
  */
 namespace Frame;
 
-use Frame\Http\Request;
 use Frame\Http\Response;
 
 /**

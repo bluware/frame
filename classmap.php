@@ -98,22 +98,22 @@ return [
     /**------------------------------------------------------------------------
      *  @package `request` module
      */
-    'Frame\\Http\\Request\\Body'
-        => __DIR__ . "/http-request/Request/Body.php",
-    'Frame\\Http\\Request\\Cookies'
-        => __DIR__ . "/http-request/Request/Cookies.php",
-    'Frame\\Http\\Request\\Files'
-        => __DIR__ . "/http-request/Request/Files.php",
-    'Frame\\Http\\Request\\Query'
-        => __DIR__ . "/http-request/Request/Query.php",
-    'Frame\\Http\\Request\\Server'
-        => __DIR__ . "/http-request/Request/Server.php",
-    'Frame\\Http\\RequestInterface'
-        => __DIR__ . "/http-request/RequestInterface.php",
-    'Frame\\Http\\Request\\Support'
-        => __DIR__ . "/http-request/Request/Support.php",
-    'Frame\\Http\\Request'
-        => __DIR__ . "/http-request/Request.php",
+    'Frame\\Request\\Body'
+        => __DIR__ . "/request/Request/Body.php",
+    'Frame\\Request\\Cookies'
+        => __DIR__ . "/request/Request/Cookies.php",
+    'Frame\\Request\\Files'
+        => __DIR__ . "/request/Request/Files.php",
+    'Frame\\Request\\Query'
+        => __DIR__ . "/request/Request/Query.php",
+    'Frame\\Request\\Server'
+        => __DIR__ . "/request/Request/Server.php",
+    'Frame\\IRequest'
+        => __DIR__ . "/request/IRequest.php",
+    'Frame\\Request\\Support'
+        => __DIR__ . "/request/Request/Support.php",
+    'Frame\\Request'
+        => __DIR__ . "/request/Request.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------

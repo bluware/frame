@@ -6,20 +6,19 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http;
+namespace Frame;
 
-use Frame\Http\Request\Body;
-use Frame\Http\Request\Cookies;
-use Frame\Http\Request\Files;
-use Frame\Http\Request\Query;
-use Frame\Http\Request\Server;
+use Frame\Request\Body;
+use Frame\Request\Cookies;
+use Frame\Request\Files;
+use Frame\Request\Query;
+use Frame\Request\Server;
 use Frame\Data\Readable;
-use Frame\Json;
 
 /**
  * @subpackage Request
  */
-class Request extends Readable implements RequestInterface
+class Request extends Readable implements IRequest
 {
     /**
      *  @var \Frame\Request\Query
@@ -47,7 +46,12 @@ class Request extends Readable implements RequestInterface
     protected $server;
 
     /**
-     * @return void
+     * Request constructor.
+     * @param array|null $query
+     * @param array|null $body
+     * @param array|null $files
+     * @param array|null $cookies
+     * @param array|null $server
      */
     public function __construct(
         array $query    = null,
@@ -125,9 +129,9 @@ class Request extends Readable implements RequestInterface
     }
 
     /**
-     *  @param scalar $key
-     *
-     *  @return boolean
+     * @param $instance
+     * @param null $key
+     * @return bool
      */
     public function has($instance, $key = null)
     {
@@ -153,7 +157,7 @@ class Request extends Readable implements RequestInterface
      *      mixed query($input)
      *      array query([$input])
      *
-     *  @param  scalar $input
+     *  @param  mixed $input
      *  @param  mixed  $alt
      *
      *  @return mixed
@@ -162,7 +166,7 @@ class Request extends Readable implements RequestInterface
     {
         if ($input === null)
             /**
-             *  @var Frame\Request\Query
+             *  @var \Frame\Request\Query
              */
             return $this->query;
 
@@ -183,7 +187,7 @@ class Request extends Readable implements RequestInterface
      *      mixed body($input)
      *      array body([$input])
      *
-     *  @param  scalar $input
+     *  @param  mixed $input
      *  @param  mixed  $alt
      *
      *  @return mixed
@@ -192,7 +196,7 @@ class Request extends Readable implements RequestInterface
     {
         if ($input === null)
             /**
-             *  @var Frame\Request\Body
+             *  @var \Frame\Request\Body
              */
             return $this->body;
 
@@ -213,7 +217,7 @@ class Request extends Readable implements RequestInterface
      *      mixed post($input)
      *      array post([$input])
      *
-     *  @param  scalar $input
+     *  @param  mixed $input
      *  @param  mixed  $alt
      *
      *  @return mixed
@@ -235,7 +239,7 @@ class Request extends Readable implements RequestInterface
      *      mixed put($input)
      *      array put([$input])
      *
-     *  @param  scalar $input
+     *  @param  mixed $input
      *  @param  mixed  $alt
      *
      *  @return mixed
@@ -257,7 +261,7 @@ class Request extends Readable implements RequestInterface
      *      mixed delete($input)
      *      array delete([$input])
      *
-     *  @param  scalar $input
+     *  @param  mixed $input
      *  @param  mixed  $alt
      *
      *  @return mixed
@@ -279,7 +283,7 @@ class Request extends Readable implements RequestInterface
      *      mixed del($input)
      *      array del([$input])
      *
-     *  @param  scalar $input
+     *  @param  mixed $input
      *  @param  mixed  $alt
      *
      *  @return mixed
@@ -289,9 +293,8 @@ class Request extends Readable implements RequestInterface
         /**
          *  @var mixed
          */
-        return $this->delete(
-            $input, $alt
-        );
+        return $this->method('is', 'delete') ?
+            $this->body($input, $alt) : null;
     }
 
     /**
@@ -302,7 +305,7 @@ class Request extends Readable implements RequestInterface
      *      mixed files($input)
      *      array files([$input])
      *
-     *  @param  scalar $input
+     *  @param  mixed $input
      *  @param  mixed  $alt
      *
      *  @return mixed
@@ -311,7 +314,7 @@ class Request extends Readable implements RequestInterface
     {
         if ($input === null)
             /**
-             *  @var Frame\Request\Files
+             *  @var \Frame\Request\Files
              */
             return $this->files;
 
@@ -332,7 +335,7 @@ class Request extends Readable implements RequestInterface
      *      mixed cookie($input)
      *      array cookie([$input])
      *
-     *  @param  scalar $input
+     *  @param  mixed $input
      *  @param  mixed  $alt
      *
      *  @return mixed
@@ -341,12 +344,12 @@ class Request extends Readable implements RequestInterface
     {
         if ($input === null)
             /**
-             *  @var Frame\Request\Cookies
+             *  @var \Frame\Request\Cookies
              */
             return $this->cookies;
 
         /**
-         *  @var Frame\Cookie
+         *  @var \Frame\Cookie
          */
         return $this->cookies
             ->get(
@@ -362,7 +365,7 @@ class Request extends Readable implements RequestInterface
      *      mixed server($input)
      *      array server([$input])
      *
-     *  @param  scalar $input
+     *  @param  mixed $input
      *  @param  mixed  $alt
      *
      *  @return mixed
@@ -371,7 +374,7 @@ class Request extends Readable implements RequestInterface
     {
         if ($input === null)
             /**
-             *  @var Frame\Request\Server
+             *  @var \Frame\Request\Server
              */
             return $this->server;
 
@@ -392,7 +395,7 @@ class Request extends Readable implements RequestInterface
      *      mixed server($input)
      *      array server([$input])
      *
-     *  @param  scalar $input
+     *  @param  mixed $input
      *  @param  mixed  $alt
      *
      *  @return mixed
@@ -415,8 +418,8 @@ class Request extends Readable implements RequestInterface
      *      bool   schema('is', $schema)
      *      bool   schema('in', [$schema_a, $schema_b])
      *
-     *  @param  scalar $prop
-     *  @param  scalar $compare
+     *  @param  mixed $prop
+     *  @param  mixed $compare
      *
      *  @return mixed
      */
@@ -476,9 +479,11 @@ class Request extends Readable implements RequestInterface
     }
 
     /**
-     *  Get server hostname.
+     * Get server hostname.
      *
-     *  @return string
+     * @param null $prop
+     * @param null $compare
+     * @return mixed
      */
     public function host($prop = null, $compare = null)
     {
@@ -493,9 +498,10 @@ class Request extends Readable implements RequestInterface
     }
 
     /**
-     *  Get server hostname.
+     * Get server hostname.
      *
-     *  @return string
+     * @param $compare
+     * @return bool
      */
     public function host_is($compare)
     {
@@ -503,9 +509,10 @@ class Request extends Readable implements RequestInterface
     }
 
     /**
-     *  Get server hostname.
+     * Get server hostname.
      *
-     *  @return string
+     * @param array $compare
+     * @return bool
      */
     public function host_in(array $compare)
     {

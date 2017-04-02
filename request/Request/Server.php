@@ -6,7 +6,7 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http\Request;
+namespace Frame\Request;
 
 use Frame\Data\Readable;
 
@@ -28,10 +28,9 @@ class Server extends Readable
     }
 
     /**
-     *  @param  scalar $input
-     *  @param  mixed $alt
-     *
-     *  @return mixed
+     * @param $input
+     * @param null $alt
+     * @return mixed|null
      */
     public function get($input, $alt = null)
     {

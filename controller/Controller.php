@@ -16,7 +16,7 @@ abstract class Controller extends Node
 {
     use Hook\Support;
     use Http\Response\Support;
-    use Http\Request\Support;
+    use Request\Support;
     use View\Support;
 
     /**

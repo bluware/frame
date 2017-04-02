@@ -21,6 +21,12 @@ class Routing
     const CAPTURE           = '[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\@]+';
 
     /**
+     *  @var \Frame\Request
+     */
+    protected $request      = '@';
+
+
+    /**
      *  @var string
      */
     protected $separator    = '@';
@@ -46,10 +52,17 @@ class Routing
     protected $aspects      = null;
 
     /**
+     *  Routing constructor.
      *
+     *  @param Request $request
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
+        /**
+         *  @var \Frame\Request
+         */
+        $this->request = $request;
+
         /**
          *  @var string
          */

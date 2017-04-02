@@ -8,7 +8,6 @@
  */
 namespace Frame;
 
-use Frame\Http\Request;
 use Frame\App\Exception;
 
 /**
@@ -78,7 +77,7 @@ class App
         /**
          *
          */
-        $routing = new Routing();
+        $routing = new Routing($request);
 
         /**
          *
