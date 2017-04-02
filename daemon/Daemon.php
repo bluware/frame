@@ -11,7 +11,7 @@ namespace Frame;
 /**
  * @subpackage Daemon
  */
-class Daemon extends Node
+class Daemon extends Entry
 {
     protected $name;
 

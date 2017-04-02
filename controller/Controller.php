@@ -12,7 +12,7 @@ namespace Frame;
 /**
  * @subpackage Controller
  */
-abstract class Controller extends Node
+abstract class Controller extends Entry
 {
     use Hook\Support;
     use Daemon\Support;

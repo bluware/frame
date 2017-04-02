@@ -11,7 +11,7 @@ namespace Frame;
 /**
  * @subpackage Package
  */
-abstract class Package extends Node
+abstract class Package extends Entry
 {
     /**
      *  @trait Frame\App\Support

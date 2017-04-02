@@ -37,9 +37,8 @@ class App
         /**
          *
          */
-        $config = new Data(
-            gettype($config) === 'string' && is_file($config) ?
-                include($config) : $config
+        $config = new Config(
+            $config
         );
 
         /**
@@ -183,7 +182,7 @@ class App
      *
      *  @return $this
      */
-    protected function extract(Data $config, $key, callable $call)
+    protected function extract(Config $config, $key, callable $call)
     {
         /**
          *  @var boolean
@@ -354,9 +353,9 @@ class App
      */
     public static function factory($classname)
     {
-        if (is_subclass_of($classname, Node::class) === false)
+        if (is_subclass_of($classname, Entry::class) === false)
             throw new Exception(
-                "App factory cannot create instance from non-child of Frame\\Node"
+                "App factory cannot create instance from non-child of Frame\\Entry"
             );
 
         return new $classname(

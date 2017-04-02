@@ -11,7 +11,7 @@ namespace Frame;
 /**
  * @subpackage App
  */
-abstract class Node
+abstract class Entry
 {
     use Locator\Support;
 

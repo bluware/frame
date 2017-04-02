@@ -5,7 +5,7 @@ return [
      *  @package `json` module
      */
     'Frame\\Json\\Exception'
-        => __DIR__ . "/data/Json/Exception.php",
+        => __DIR__ . "/json/Json/Exception.php",
     'Frame\\Json'
         => __DIR__ . "/json/Json.php",
     //-------------------------------------------------------------------------
@@ -24,7 +24,7 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `data` module
+     *  @package `bit` module
      */
     'Frame\\IBit'
         => __DIR__ . "/bit/IBit.php",
@@ -114,6 +114,15 @@ return [
         => __DIR__ . "/request/Request/Support.php",
     'Frame\\Request'
         => __DIR__ . "/request/Request.php",
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
+     *  @package `config` module
+     */
+    'Frame\\Config'
+    => __DIR__ . "/config/Config.php",
+    'Frame\\Config\\Exception'
+    => __DIR__ . "/config/Config/Exception.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -367,8 +376,8 @@ return [
         => __DIR__ . "/app/App/Exception.php",
     'Frame\\App'
         => __DIR__ . "/app/App.php",
-    'Frame\\Node'
-        => __DIR__ . "/app/Node.php",
+    'Frame\\Entry'
+        => __DIR__ . "/app/Entry.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
