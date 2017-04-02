@@ -505,7 +505,7 @@ class Routing
             if (
                 preg_match(
                     $this->pattern(
-                        $data['route']
+                        $data['route'], $data, $this->method('is', 'cli')
                     ),
                     $compare,
                     $params
@@ -515,6 +515,10 @@ class Routing
                  *  @var array
                  */
                 $params = $this->filter($params);
+
+                $injection->locator()->add(
+                    new Data(array_combine($data['params'], $params)), 'params'
+                );
 
                 /**
                  *  @var null
@@ -667,16 +671,33 @@ class Routing
      *
      *  @return mixed
      */
-    public function pattern($value)
+    public function pattern($value, &$route, $cli = false)
     {
-        $xor = str_replace([
-            '/',  '[',  ']', ':?', '*'
+        $route['params'] = [];
+
+        if ($cli === false && substr($value, 0, 1) !== '/')
+            $value = sprintf("/%s", $value);
+
+        $xor = preg_replace([
+            '/\//', '/\[/', '/\]/', '/\*/', '/\{\?[a-zA-Z0-9\_\-]+\}/', '/\:\?(?:|[a-zA-Z0-9\-\_])+/',
         ], [
-            '\/', '(|', ')', static::CAPTURE, '.*?'
+            '\/', '(?:|', ')', '.*?', static::CAPTURE, static::CAPTURE
         ], $value);
 
+        if (preg_match_all('/\{([a-zA-Z0-9\_\-]+)\}/', $xor, $sa) || preg_match_all('/\:([a-zA-Z0-9\_\-])+/', $xor, $sb)) {
+            foreach([$sa, $sb] as &$s) {
+               if ($s !== null) {
+                   array_shift($s);
+
+                   $route['params'] = current($s);
+               }
+            }
+        }
+
         $all = preg_replace(
-            '/\:[a-zA-Z0-9\_\-]+/',
+            [
+                '/\{[a-zA-Z0-9\_\-]+\}/', '/\:[a-zA-Z0-9\_\-]+/',
+            ],
             sprintf(
                 '(%s)', static::CAPTURE
             ),
