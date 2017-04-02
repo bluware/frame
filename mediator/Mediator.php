@@ -54,7 +54,7 @@ class Mediator
             }
         }
 
-        return call_user_func(
+        return call_user_func_array(
             $calle, $params
         );
     }
