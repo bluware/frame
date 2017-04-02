@@ -17,6 +17,11 @@ function request()
     return locator('request');
 }
 
+function daemon($name = null, $time = 0)
+{
+    return app()->daemon($name, $time);
+}
+
 function view($path, array $data = [], $prevent = false, $code = 200, $headers = [])
 {
     /**
@@ -68,6 +73,16 @@ function route($class, $event, $separator = '@')
 {
     return sprintf(
         '%s%s%s', $class, $event, $separator
+    );
+}
+
+function router(array $group = null, callable $calle = null)
+{
+    if ($group === null)
+        return locator('router');
+
+    return locator('router')->group(
+        $group, $calle
     );
 }
 
