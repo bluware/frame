@@ -8,7 +8,7 @@
  */
 namespace Frame\View;
 
-use Frame\Http\Response;
+use Frame\Response;
 
 /**
  * @subpackage View
