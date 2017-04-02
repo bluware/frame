@@ -88,7 +88,7 @@ function routes($method, array $data)
     ], $data);
 }
 
-function router(array $group = null, callable $calle = null)
+function routing(array $group = null, callable $calle = null)
 {
     if ($group === null)
         return locator('router');
