@@ -8,63 +8,198 @@
  */
 namespace Frame;
 
-use ReflectionFunction;
-use ReflectionMethod;
+use Frame\Mediator\Exception;
+
+use ReflectionFunctionAbstract  as RA;
+use ReflectionFunction          as RF;
+use ReflectionMethod            as RM;
+use ReflectionParameter         as RP;
+use ReflectionType              as RT;
 
 /**
  * @subpackage Mediator
  */
 class Mediator
 {
+    /**
+     *  @var Locator
+     */
     protected $locator;
 
+    /**
+     *  Mediator constructor.
+     *
+     *  @param Locator $locator
+     */
     public function __construct(Locator $locator)
     {
         $this->locator = $locator;
     }
 
-    public function dispatch(callable $calle, array $params)
+    /**
+     *  @param callable $calle
+     *
+     *  @return RA
+     */
+    protected function reflector(callable $calle)
     {
-        $report = is_array($calle) === true ? new ReflectionMethod(
+        return is_array(
+            $calle
+        ) ? new RM(
             $calle[0], $calle[1]
-        ) : new ReflectionFunction(
+        ) : new RF(
             $calle
         );
+    }
 
-        $__params = $report->getParameters();
+    /**
+     *  @param RA $calle
+     *
+     *  @return RP[]
+     */
+    protected function params(RA $calle)
+    {
+        return $calle->getParameters();
+    }
 
-        foreach ($__params as $param) {
-            if ($param->hasType() === true) {
-                $type = $param->getType();
+    /**
+     *  @param RP $param
+     *
+     *  @return RT|bool
+     */
+    protected function type(RP $param)
+    {
+        if ($param->hasType() === false)
+            return false;
 
-                if ($type->isBuiltin() === false) {
-                    $interface = $type->__toString();
-                    $position  = $param->getPosition();
-                    $instance  = null;
+        $type = $param->getType();
 
-                    if ($this->locator->has($interface) === true) {
-                        $instance = $this->locator->get($interface);
+        if ($type->isBuiltin() === true)
+            return false;
 
-                        array_splice(
-                            $params, $position, 0, [$instance]
-                        );
-                    } elseif (is_subclass_of($interface, ActiveRecord::class)) {
-                        $record = forward_static_call([
-                            $interface, 'find'
-                        ],  $params[$position]);
+        return $type;
+    }
 
-                        if ($record === null)
-                            return;
+    /**
+     *  @param string $interface
+     *
+     *  @return bool
+     */
+    protected function active($interface)
+    {
+        return is_subclass_of(
+            $interface, ActiveRecord::class
+        );
+    }
 
-                         $params[$position] = $record;
-                    } else {
-                        throw new \Exception("Instance '{$interface}' missed.", 1);
-                    }
-                } else {
-//                    internal type
-                }
-            }
+    /**
+     *  @param string $interface
+     *
+     *  @return bool
+     */
+    protected function locate($interface)
+    {
+        return $this->locator->has(
+            $interface
+        );
+    }
+
+    /**
+     *  @param array    $params
+     *  @param RP       $param
+     *  @param string   $interface
+     */
+    protected function insert(array &$params, $param, $interface)
+    {
+        $instance = $this->locator->get($interface);
+
+        array_splice(
+            $params, $param->getPosition(), 0, [$instance]
+        );
+    }
+
+    /**
+     *  @param array    $params
+     *  @param RP       $param
+     *  @param string   $interface
+     *
+     *  @return bool
+     */
+    protected function select(array &$params, $param, $interface)
+    {
+        /**
+         *  @var int
+         */
+        $place = $param->getPosition();
+
+        /**
+         *  @var ActiveRecord|null
+         */
+        $entry = forward_static_call(
+            [$interface, 'find'],  $params[$place]
+        );
+
+        if ($entry === null)
+            return false;
+
+        /**
+         *  @var ActiveRecord
+         */
+        $params[$place] = $entry;
+
+        return true;
+    }
+
+    /**
+     *  @param array $params
+     *  @param RP    $param
+     *
+     *  @throws \Exception
+     *
+     *  @return bool
+     */
+    protected function phase(array &$params, $param)
+    {
+        $type = $this->type($param);
+
+        if ($type === false)
+            return true;
+
+        $interface = $type->__toString();
+
+        if ($this->active($interface) === true) {
+            $success = $this->select(
+                $params, $param, $interface
+            );
+
+            if ($success === false)
+                return false;
+        } elseif ($this->locate($interface) === true) {
+            $this->insert(
+                $params, $param, $interface
+            );
+        } else {
+            throw new Exception(
+                "Instance '{$interface}' missed."
+            );
         }
+
+        return true;
+    }
+
+    /**
+     *  @param callable $calle
+     *  @param array $params
+     *
+     *  @return mixed
+     */
+    public function dispatch(callable $calle, array $params)
+    {
+        $reflect = $this->reflector($calle);
+
+        foreach ($this->params($reflect) as $param)
+            if ($this->phase($params, $param) === false)
+                return null;
 
         return call_user_func_array(
             $calle, $params

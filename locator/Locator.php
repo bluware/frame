@@ -27,6 +27,10 @@ class Locator extends Readable
     public function __construct()
     {
         $this->invokable = new Data();
+
+        $this->add(
+            $this, 'locator'
+        );
     }
 
     /**

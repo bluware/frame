@@ -121,6 +121,8 @@ return [
      */
     'Frame\\Mediator'
         => __DIR__ . "/mediator/Mediator.php",
+    'Frame\\Mediator\\Exception'
+        => __DIR__ . "/mediator/Mediator/Exception.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
