@@ -42,12 +42,24 @@ class Mediator
                     $position  = $param->getPosition();
                     $instance  = null;
 
-                    if ($this->locator->has($interface) === true)
+                    if ($this->locator->has($interface) === true) {
                         $instance = $this->locator->get($interface);
 
-                    array_splice(
-                        $params, $position, 0, [$instance]
-                    );
+                        array_splice(
+                            $params, $position, 0, [$instance]
+                        );
+                    } elseif (is_subclass_of($interface, ActiveRecord::class)) {
+                        $record = forward_static_call([
+                            $interface, 'find'
+                        ],  $params[$position]);
+
+                        if ($record === null)
+                            return;
+
+                         $params[$position] = $record;
+                    } else {
+                        throw new \Exception("Instance '{$interface}' missed.", 1);
+                    }
                 } else {
 //                    internal type
                 }

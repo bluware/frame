@@ -12,6 +12,11 @@ function locator($invokable = null)
     return app()->locator($invokable);
 }
 
+function autoload($namespace, $path)
+{
+    return locator('autoload')->add($namespace, $path);
+}
+
 function request()
 {
     return locator('request');
@@ -69,11 +74,11 @@ function __($word, $locale = null)
     );
 }
 
-function route($method, $handler, $separator = '@')
+function route($method, $route, $handler, $separator = '@')
 {
     return call_user_func([
         locator('router'), $method
-    ], $handler);
+    ], $route, $handler);
 }
 
 function routes($method, array $data)
