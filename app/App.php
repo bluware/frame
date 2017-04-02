@@ -67,6 +67,16 @@ class App
         /**
          *
          */
+        $mediator = new Mediator($locator);
+
+        /**
+         *
+         */
+        $locator->add($mediator, 'mediator');
+
+        /**
+         *
+         */
         $request = new Request();
 
         /**
@@ -248,7 +258,7 @@ class App
 
         echo $this->locator->get(
             'router'
-        )->compile(
+        )->dispatch(
             $this
         );
 

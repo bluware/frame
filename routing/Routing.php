@@ -466,7 +466,7 @@ class Routing
     /**
      *  @return mixed
      */
-    public function compile($injection = null)
+    public function dispatch($injection = null)
     {
         /**
          *  @var boolean
@@ -567,9 +567,11 @@ class Routing
                     foreach ($aspects as $key => $aspect) {
                         $aspect = $this->aspects->get($aspect);
 
-                        $maked = call_user_func_array([
-                            new $aspect($injection), 'before'
-                        ], $params);
+                        $maked = $injection->locator('mediator')->dispatch(
+                            [
+                                new $aspect($injection), 'before'
+                            ], $params
+                        );
 
                         if ($maked !== null)
                             return $maked;
@@ -607,7 +609,7 @@ class Routing
                     ];
                 }
 
-                $maked = call_user_func_array(
+                $maked = $injection->locator('mediator')->dispatch(
                     $data['maker'], $params
                 );
 
@@ -620,16 +622,6 @@ class Routing
         }
 
         return null;
-    }
-
-    public function make($injection = null)
-    {
-        return $this->compile($injection);
-    }
-
-    public function run($injection = null)
-    {
-        return $this->compile($injection);
     }
 
     /**
