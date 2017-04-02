@@ -122,6 +122,9 @@ class File extends \Frame\File\Data
     {
         switch ($type) {
             case 'array':
+                if (array_key_exists('tmp_name', $data) === true)
+                    $data['file'] = $data['tmp_name'];
+
                 return new static(
                     $data, $hash
                 );
