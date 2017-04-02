@@ -15,6 +15,7 @@ namespace Frame;
 abstract class Controller extends Node
 {
     use Hook\Support;
+    use Daemon\Support;
     use Response\Support;
     use Request\Support;
     use View\Support;

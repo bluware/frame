@@ -11,7 +11,7 @@ namespace Frame;
 /**
  * @subpackage Bit
  */
-interface BitInterface
+interface IBit
 {
     /**
      *  @return mixed

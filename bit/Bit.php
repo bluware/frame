@@ -13,7 +13,7 @@ use Frame\Data;
 /**
  * @subpackage Bit
  */
-class Bit implements BitInterface
+class Bit implements IBit
 {
     /**
      *  @var array

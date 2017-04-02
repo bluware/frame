@@ -26,8 +26,8 @@ return [
     /**------------------------------------------------------------------------
      *  @package `data` module
      */
-    'Frame\\BitInterface'
-        => __DIR__ . "/bit/BitInterface.php",
+    'Frame\\IBit'
+        => __DIR__ . "/bit/IBit.php",
     'Frame\\Bit'
         => __DIR__ . "/bit/Bit.php",
     //-------------------------------------------------------------------------
@@ -126,10 +126,14 @@ return [
     /**------------------------------------------------------------------------
      *  @package `daemon` module
      */
+    'Frame\\Daemon\\Exception'
+        => __DIR__ . "/daemon/Daemon/Exception.php",
     'Frame\\Daemon'
         => __DIR__ . "/daemon/Daemon.php",
     'Frame\\Daemon\\Worker'
         => __DIR__ . "/daemon/Daemon/Worker.php",
+    'Frame\\Daemon\\Support'
+        => __DIR__ . "/daemon/Daemon/Support.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------

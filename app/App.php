@@ -50,6 +50,11 @@ class App
         /**
          *  @var \Frame\Locator
          */
+        $locator->add($this, 'app');
+
+        /**
+         *  @var \Frame\Locator
+         */
         $autoload = new Autoload();
 
         /**
