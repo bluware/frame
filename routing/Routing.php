@@ -689,7 +689,7 @@ class Routing
             '\/', '(?:|', ')', '.*?', static::CAPTURE, static::CAPTURE
         ], $value);
 
-        if (preg_match_all('/\{([a-zA-Z0-9\_\-]+)\}/', $xor, $sa) || preg_match_all('/\:([a-zA-Z0-9\_\-])+/', $xor, $sb)) {
+        if (preg_match_all('/\{([a-zA-Z0-9\_\-]+)\}/', $xor, $sa) | preg_match_all('/\:([a-zA-Z0-9\_\-])+/', $xor, $sb)) {
             foreach([$sa, $sb] as &$s) {
                if ($s !== null) {
                    array_shift($s);
