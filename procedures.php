@@ -69,11 +69,18 @@ function __($word, $locale = null)
     );
 }
 
-function route($class, $event, $separator = '@')
+function route($method, $handler, $separator = '@')
 {
-    return sprintf(
-        '%s%s%s', $class, $event, $separator
-    );
+    return call_user_func([
+        locator('router'), $method
+    ], $handler);
+}
+
+function routes($method, array $data)
+{
+    return call_user_func([
+        locator('router'), $method
+    ], $data);
 }
 
 function router(array $group = null, callable $calle = null)

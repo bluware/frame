@@ -379,7 +379,8 @@ class Routing
                 'post'
             ],
             $pattern,
-            $maker
+            $maker,
+            $priority
         );
     }
 
@@ -396,7 +397,8 @@ class Routing
                 'put'
             ],
             $pattern,
-            $maker
+            $maker,
+            $priority
         );
     }
 
@@ -411,8 +413,10 @@ class Routing
         return $this->match(
             [
                 'delete'
-            ], $pattern,
-            $maker
+            ],
+            $pattern,
+            $maker,
+            $priority
         );
     }
 
@@ -424,9 +428,13 @@ class Routing
      */
     public function del($pattern, $maker = null, $priority = 50)
     {
-        return $this->delete(
+        return $this->match(
+            [
+                'delete'
+            ],
             $pattern,
-            $maker
+            $maker,
+            $priority
         );
     }
 
@@ -694,7 +702,10 @@ class Routing
                if ($s !== null) {
                    array_shift($s);
 
-                   $route['params'] = current($s);
+                   $params = current($s);
+
+                   if (sizeof($params) > 0)
+                    $route['params'] = $params;
                }
             }
         }
