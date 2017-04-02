@@ -34,7 +34,7 @@ function view($path, array $data = [], $prevent = false, $code = 200, $headers =
     /**
      *  @var \Frame\Response
      */
-    return Frame\Http\Response::html(
+    return Frame\Response::html(
         $page, $code, $headers
     );
 }
