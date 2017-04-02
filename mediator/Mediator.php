@@ -12,7 +12,7 @@ use ReflectionFunction;
 use ReflectionMethod;
 
 /**
- * @subpackage Active
+ * @subpackage Mediator
  */
 class Mediator
 {

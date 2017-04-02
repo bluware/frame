@@ -324,6 +324,23 @@ class App
         return $app;
     }
 
+    public function daemon($name = null, $time = 1)
+    {
+
+
+        $daemon = new Daemon(
+            $this
+        );
+
+        $daemon->name(
+            $name
+        )->time(
+            $time
+        );
+
+        return $daemon;
+    }
+
     /**
      *  @param $classname
      *
