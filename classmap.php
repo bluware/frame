@@ -85,14 +85,14 @@ return [
     /**------------------------------------------------------------------------
      *  @package `response` module
      */
-    'Frame\\Http\\Response\\Headers'
-        => __DIR__ . "/http-response/Response/Headers.php",
-    'Frame\\Http\\ResponseInterface'
-        => __DIR__ . "/http-response/ResponseInterface.php",
-    'Frame\\Http\\Response\\Support'
-        => __DIR__ . "/http-response/Response/Support.php",
-    'Frame\\Http\\Response'
-        => __DIR__ . "/http-response/Response.php",
+    'Frame\\Response\\Headers'
+        => __DIR__ . "/response/Response/Headers.php",
+    'Frame\\IResponse'
+        => __DIR__ . "/response/IResponse.php",
+    'Frame\\Response\\Support'
+        => __DIR__ . "/response/Response/Support.php",
+    'Frame\\Response'
+        => __DIR__ . "/response/Response.php",
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -151,7 +151,7 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `http` module
+     *  @package `session` module
      */
     'Frame\\Session\\Exception'
         => __DIR__ . "/session/Session/Exception.php",

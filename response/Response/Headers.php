@@ -6,7 +6,7 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http\Response;
+namespace Frame\Response;
 
 use Frame\Data\Writable;
 
@@ -27,14 +27,20 @@ class Headers extends Writable
             $this->data = $data;
     }
 
-    /**
-     *  @return void
-     */
-    public function __invoke(array $data = null)
+    public function apply()
     {
         foreach ($this->to('array') as $header)
             header($header);
     }
+
+    /**
+     *  @return void
+     */
+//    public function __invoke(array $data = null)
+//    {
+//        foreach ($this->to('array') as $header)
+//            header($header);
+//    }
 
     /**
      *  Convert to type

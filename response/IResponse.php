@@ -6,15 +6,15 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http;
+namespace Frame;
 
 /**
  * @subpackage Response
  */
-interface ResponseInterface
+interface IResponse
 {
     /**
-     * @param scalar  $body
+     * @param mixed  $body
      * @param integer $status
      * @param array   $headers
      */

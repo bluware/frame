@@ -6,14 +6,14 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http;
+namespace Frame;
 
-use Frame\Http\Response\Headers;
+use Frame\Response\Headers;
 
 /**
  * @subpackage Response
  */
-class Response implements ResponseInterface
+class Response implements IResponse
 {
     /**
      *  @var integer
@@ -59,7 +59,7 @@ class Response implements ResponseInterface
      * @param  integer  $code
      * @param  array    $headers
      *
-     * @return \Blu\Response
+     * @return Response
      */
     public static function text($body, $code = 200, array $headers = [])
     {
@@ -75,7 +75,7 @@ class Response implements ResponseInterface
      * @param  integer  $code
      * @param  array    $headers
      *
-     * @return \Blu\Response
+     * @return Response
      */
     public static function html($body, $code = 200, array $headers = [])
     {
@@ -91,7 +91,7 @@ class Response implements ResponseInterface
      * @param  integer  $code
      * @param  array    $headers
      *
-     * @return \Blu\Response
+     * @return Response
      */
     public static function json($body, $code = 200, array $headers = [])
     {
@@ -109,7 +109,7 @@ class Response implements ResponseInterface
      * @param  integer  $code
      * @param  array    $headers
      *
-     * @return \Blu\Response
+     * @return Response
      */
     public static function xml($body, $code = 200, array $headers = [])
     {
@@ -125,7 +125,7 @@ class Response implements ResponseInterface
      * @param  integer  $code
      * @param  array    $headers
      *
-     * @return \Blu\Response
+     * @return Response
      */
     public static function redirect($url, $code = 303, array $headers = [])
     {
@@ -141,7 +141,7 @@ class Response implements ResponseInterface
      * @param  integer  $code
      * @param  array    $headers
      *
-     * @return \Blu\Response
+     * @return Response
      */
     public static function goto($url, $code = 303, array $headers = [])
     {
@@ -199,6 +199,27 @@ class Response implements ResponseInterface
     }
 
     /**
+     *  Get code or set current body content.
+     *
+     *  Usage:
+     *      string  code()
+     *      void    code($code)
+     *
+     *  @param mixed $code
+     *
+     *  @return mixed
+     */
+    public function status($code = null)
+    {
+        if ($code === null)
+            return $this->code;
+
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
      *  Get body or set current body content.
      *
      *  Usage:
@@ -219,12 +240,76 @@ class Response implements ResponseInterface
         return $this;
     }
 
-    public function __toString()
+    /**
+     *  Get body or set current body content.
+     *
+     *  Usage:
+     *      string  body()
+     *      void    body($body)
+     *
+     *  @param mixed $body
+     *
+     *  @return mixed
+     */
+    public function content($body = null)
     {
-        http_response_code($this->status);
+        if ($body === null)
+            return $this->body;
 
-        ($this->headers)();
+        $this->body = $body;
+
+        return $this;
+    }
+
+    /**
+     *  Get body or set current body content.
+     *
+     *  Usage:
+     *      string  body()
+     *      void    body($body)
+     *
+     *  @param bool $apply
+     *
+     *  @return mixed
+     */
+    public function render($apply = true)
+    {
+        if ($apply === true) {
+            http_response_code($this->code);
+
+            $this->headers->apply();
+        }
 
         return $this->body;
+    }
+
+    /**
+     *  Get body or set current body content.
+     *
+     *  Usage:
+     *      string  body()
+     *      void    body($body)
+     *
+     *  @param bool $apply
+     *
+     *  @return boolean
+     */
+    public function write($apply = true)
+    {
+        ob_start();
+
+        echo $this->render($apply);
+
+        ob_end_flush();
+
+        return true;
+    }
+
+    /**
+     *  @return string
+     */
+    public function __toString()
+    {
+        return $this->render(true);
     }
 }

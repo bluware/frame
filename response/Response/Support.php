@@ -6,7 +6,7 @@
  *  @package  Frame\Http
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Http\Response;
+namespace Frame\Response;
 
 use Frame\Http;
 

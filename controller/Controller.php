@@ -15,7 +15,7 @@ namespace Frame;
 abstract class Controller extends Node
 {
     use Hook\Support;
-    use Http\Response\Support;
+    use Response\Support;
     use Request\Support;
     use View\Support;
 
@@ -32,12 +32,12 @@ abstract class Controller extends Node
         parent::__construct($app);
 
         /**
-         *  @var \Frame\Hook
+         *  @var Hook
          */
         $this->hook     = $this->locator('hook');
 
         /**
-         *  @var \Frame\Http\Request
+         *  @var Request
          */
         $this->request  = $this->locator('request');
     }

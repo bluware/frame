@@ -8,17 +8,14 @@
  */
 namespace Frame;
 
-use Frame\Http\Response;
-
 /**
  * @subpackage Http
  */
 class Http implements HttpInterface
 {
     /**
-     *  @param  string $input
-     *
-     *  @return mixed
+     * @param null $method
+     * @return Request|mixed|null
      */
     public static function request($method = null)
     {
@@ -89,9 +86,10 @@ class Http implements HttpInterface
     }
 
     /**
-     *  @param  mixed $data
-     *
-     *  @return Frame\Essence\Response
+     * @param $body
+     * @param int $code
+     * @param array $headers
+     * @return Response|mixed
      */
     public static function response(
         $body, $code = 200, $headers = []
@@ -124,7 +122,7 @@ class Http implements HttpInterface
         }
 
         /**
-         *  @var Blu\Essence\Response
+         *  @var Response
          */
         return new Response(
             $body, $code, $headers
