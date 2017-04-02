@@ -69,7 +69,9 @@ class Dispatcher
     public function exists($name)
     {
         return in_array(
-            $name, array_values($this->packages), true
+            $name, array_values(
+                $this->packages
+            ), true
         );
     }
 
@@ -92,6 +94,10 @@ class Dispatcher
                 $this->browse($path, $directory) : null;
 
             $instance = new $package($app);
+
+            $app->locator('autoload')->add(
+                $namespace, $directory
+            );
 
             /**
              *  @var bool
@@ -120,10 +126,6 @@ class Dispatcher
                          */
                         $i18n->scan($directory);
             }
-
-            $app->locator('autoload')->add(
-                $namespace, $directory
-            );
 
             /**
              *  @var mixed
