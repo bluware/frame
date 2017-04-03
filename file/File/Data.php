@@ -25,7 +25,10 @@ class Data extends \Frame\Data
                 "Bad constructor data type. Need 'array'"
             );
 
-        $diff = array_diff(
+        if (array_key_exists('tmp_name', $data) === true)
+            $data['file'] = $data['tmp_name'];
+
+        $diff = array_intersect(
             array_keys($data), [
                 'file',
                 'type',
@@ -34,7 +37,7 @@ class Data extends \Frame\Data
             ]
         );
 
-        if (sizeof($diff) > 0)
+        if (sizeof($diff) !== 4)
             throw new \Exception(
                 "Missed key in 'file', 'type', 'name' or 'size'"
             );

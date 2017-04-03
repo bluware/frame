@@ -297,6 +297,36 @@ class Request extends Readable implements IRequest
             $this->body($input, $alt) : null;
     }
 
+    // /**
+    //  *  Mixed method with read instance or properties.
+    //  *
+    //  *  Usage:
+    //  *      \Frame\Request\Files files()
+    //  *      mixed files($input)
+    //  *      array files([$input])
+    //  *
+    //  *  @param  mixed $input
+    //  *  @param  mixed  $alt
+    //  *
+    //  *  @return mixed
+    //  */
+    // public function file($name, $hash = 'md5')
+    // {
+    //     if ($input === null)
+    //         /**
+    //          *  @var \Frame\Request\Files
+    //          */
+    //         return $this->files;
+    //
+    //     /**
+    //      *  @var array|null
+    //      */
+    //     return $this->files
+    //         ->get(
+    //             $input, $alt
+    //         );
+    // }
+
     /**
      *  Mixed method with read instance or properties.
      *

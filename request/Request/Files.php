@@ -35,8 +35,9 @@ class Files extends Readable
      */
     public function get($key, $alt = null)
     {
-        return new File(
-            $key, parent::get($key, $alt)
-        );
+        return parent::get($key, $alt);
+        // return new File(
+        //     $key, parent::get($key, $alt)
+        // );
     }
 }
