@@ -11,7 +11,7 @@ namespace Frame\Data;
 /**
  * @subpackage Data
  */
-abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
+abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \Countable
 {
     /**
      *  @var array
@@ -31,6 +31,27 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
+     *  @param $keys
+     *
+     *  @return bool
+     */
+    public function exists($keys)
+    {
+        if (gettype($keys) !== 'array')
+            $keys = func_get_args();
+
+        $matches = array_intersect(
+            array_keys($this->data), $keys
+        );
+
+        return count(
+            $matches
+        ) === count(
+            $keys
+        );
+    }
+
+    /**
      *  @param $key
      *  @param null $alt
      *
@@ -43,6 +64,50 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
         ) ? $this->data[
             $key
         ] : $alt;
+    }
+
+    /**
+     *  @param $keys
+     *
+     *  @return array
+     */
+    public function only($keys)
+    {
+        if (gettype($keys) !== 'array')
+            $keys = func_get_args();
+
+        return array_intersect_key(
+            $this->data, array_flip($keys)
+        );
+    }
+
+    /**
+     *  @param $key
+     *  @param $val
+     *
+     *  @return bool
+     */
+    public function equal($key, $val)
+    {
+        if (array_key_exists($key, $this->data) === false)
+            return false;
+
+        return $this->data[$key] === $val;
+    }
+
+    /**
+     *  @param $keys
+     *
+     *  @return array
+     */
+    public function except($keys)
+    {
+        if (gettype($keys) !== 'array')
+            $keys = func_get_args();
+
+        return array_diff_key(
+            $this->data, array_flip($keys)
+        );
     }
 
     /**
@@ -139,6 +204,13 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable
     function valid()
     {
         return key($this->data) !== null;
+    }
+
+    /**
+     *  @return int
+     */
+    public function count() {
+        return count($this->data);
     }
 
     /**
