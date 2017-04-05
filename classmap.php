@@ -363,8 +363,8 @@ return [
      */
     'Frame\\Redis\\Exception'
         => __DIR__ . "/redis/Redis/Exception.php",
-    'Frame\\RedisInterface'
-        => __DIR__ . "/redis/RedisInterface.php",
+    'Frame\\Redis\\Manager'
+        => __DIR__ . "/redis/Redis/Manager.php",
     'Frame\\Redis'
         => __DIR__ . "/redis/Redis.php",
     //-------------------------------------------------------------------------

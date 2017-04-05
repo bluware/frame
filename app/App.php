@@ -141,6 +141,23 @@ class App
         /**
          *  @var \Frame\Database\Union
          */
+        $redis = Redis\Manager::singleton();
+
+        /**
+         *  @var \Frame\Database\Union
+         */
+        $locator->add($redis, 'redis');
+
+        /**
+         *  @var void
+         */
+        $this->extract($config, 'redis', [
+            $redis, 'add'
+        ]);
+
+        /**
+         *  @var \Frame\Database\Union
+         */
         $database = Database::union();
 
         /**

@@ -8,35 +8,25 @@
  */
 namespace Frame;
 
+use Frame\Redis\Manager;
+
 /**
  * @subpackage Redis
  */
-class Redis implements RedisInterface
+abstract class Redis
 {
     /**
      *  @var string
      */
-    protected $adapter;
-
-    public function bit($key, $value = null)
-    {
-        if ($value === null)
-            return $this->adapter('get', 'bit', $key);
-    }
+    protected static $adapter = 'default';
 
     /**
-     *  @return [type] [description]
+     *  @return mixed|null
      */
-    public function adapter($event = null)
+    protected static function adapter()
     {
-        $adapter = $this->adapter;
-
-        if ($event === null)
-            return $adapter;
-    }
-
-    public static function command($command, $argv)
-    {
-        $this->adapter()->{$command};
+        return Manager::singleton()->get(
+            static::$adapter
+        );
     }
 }
