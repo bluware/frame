@@ -67,6 +67,20 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     }
 
     /**
+     *  @param $key
+     *  @param $val
+     *
+     *  @return bool
+     */
+    public function equal($key, $val)
+    {
+        if (array_key_exists($key, $this->data) === false)
+            return false;
+
+        return $this->data[$key] === $val;
+    }
+
+    /**
      *  @param $keys
      *
      *  @return array
@@ -79,20 +93,6 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
         return array_intersect_key(
             $this->data, array_flip($keys)
         );
-    }
-
-    /**
-     *  @param $key
-     *  @param $val
-     *
-     *  @return bool
-     */
-    public function equal($key, $val)
-    {
-        if (array_key_exists($key, $this->data) === false)
-            return false;
-
-        return $this->data[$key] === $val;
     }
 
     /**

@@ -148,6 +148,116 @@ abstract class ActiveRecord extends Query
     }
 
     /**
+     *  @param int $limit
+     *  @param int $offset
+     *
+     *  @return mixed
+     */
+    public static function first($limit = 1, $offset = 0)
+    {
+        return (new static)->select($limit <= 1 ? 'one' : 'all', function(
+            $q, $self
+        ) use (
+            $limit, $offset
+        ) {
+            /**
+             *  @var boolean
+             */
+            $primary = is_scalar($self->primary);
+
+            /**
+             *  @var boolean
+             */
+            if ($primary === false)
+                throw new \Exception(
+                    "Bad primary implementation"
+                );
+
+            /**
+             *  @var boolean
+             */
+            $q->order(
+                $self->primary, 'asc'
+            )->limit(
+                $limit, $offset
+            );
+        });
+    }
+
+    /**
+     *  @param int $limit
+     *  @param int $offset
+     *
+     *  @return mixed
+     */
+    public static function last($limit = 1, $offset = 0)
+    {
+        return (new static)->select($limit <= 1 ? 'one' : 'all', function(
+            $q, $self
+        ) use (
+            $limit, $offset
+        ) {
+            /**
+             *  @var boolean
+             */
+            $primary = is_scalar($self->primary);
+
+            /**
+             *  @var boolean
+             */
+            if ($primary === false)
+                throw new \Exception(
+                    "Bad primary implementation"
+                );
+
+            /**
+             *  @var boolean
+             */
+            $q->order(
+                $self->primary, 'desc'
+            )->limit(
+                $limit, $offset
+            );
+        });
+    }
+
+    /**
+     *  @param $keys
+     *  @return mixed
+     */
+    public static function in($keys)
+    {
+        if (gettype($keys) !== 'array')
+            $keys = func_get_args();
+
+        return (new static)->select('all', function(
+            $q, $self
+        ) use (
+            $keys
+        ) {
+            /**
+             *  @var boolean
+             */
+            $primary = is_scalar($self->primary);
+
+            /**
+             *  @var boolean
+             */
+            if ($primary === false)
+                throw new \Exception(
+                    "Bad primary implementation"
+                );
+
+            /**
+             *  @var boolean
+             */
+            $q->where(
+                $self->primary, 'in', $keys
+            );
+        });
+    }
+
+    /**
      *  @return mixed
      */
     public static function all()
