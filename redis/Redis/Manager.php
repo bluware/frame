@@ -60,6 +60,18 @@ class Manager
                 )
             );
 
+        $prefix = $data->get('prefix', null);
+
+        if ($prefix !== null) {
+            $redis->setOption(
+                Redis::OPT_PREFIX,
+                substr($prefix, -1) !== ':' ?
+                    sprintf('%s:', $prefix) : $prefix
+            );
+        }
+
+        $data->get('prefix', null);
+
         return $redis;
     }
 
