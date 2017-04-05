@@ -59,6 +59,17 @@ class App
         $locator->add($config, 'config');
 
         /**
+         *  @var boolean
+         */
+        if ($config->get('procedures', true) === true)
+            /**
+             *  @var void
+             */
+            include_once(
+                __DIR__ . '/../procedures.php'
+            );
+
+        /**
          *  @var \Frame\Locator
          */
         $autoload = new Autoload();

@@ -9,7 +9,7 @@
         }
     ],
     "autoload"  : {
-        "files" : ["autoload.php", "procedures.php"]
+        "files" : ["autoload.php"]
     },
     "require"   : {
         "php"   : ">=5.5.0"
