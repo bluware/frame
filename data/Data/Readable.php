@@ -111,44 +111,6 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     }
 
     /**
-     *  @param $data
-     *
-     *  @return array
-     *  @throws Exception
-     */
-    public function diff($data)
-    {
-        if (is_array($data) === false && $data instanceof Readable === false)
-            throw new Exception("Should be array or Readable object");
-
-        if ($data instanceof Readable)
-            $data = $data->to('array');
-
-        return array_diff_assoc(
-            $this->data, $data
-        );
-    }
-
-    /**
-     *  @param $data
-     *
-     *  @return array
-     *  @throws Exception
-     */
-    public function intersect($data)
-    {
-        if (is_array($data) === false && $data instanceof Readable === false)
-            throw new Exception("Should be array or Readable object");
-
-        if ($data instanceof Readable)
-            $data = $data->to('array');
-
-        return array_intersect_assoc(
-            $this->data, $data
-        );
-    }
-
-    /**
      *  @return $this
      */
     public function sort()
