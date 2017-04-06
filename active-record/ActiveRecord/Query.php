@@ -243,8 +243,8 @@ abstract class Query extends Writable
         /**
          *  @var void
          */
-        $data = $this->diff(
-            $this->origin
+        $data = array_diff_assoc(
+            $this->data, $this->origin
         );
 
         /**
