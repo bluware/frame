@@ -310,10 +310,7 @@ class Route
                         '/(\{\?%s\|%s\?\})/',
                         $name,
                         $name
-                    ), sprintf(
-                    '/[^\?]\:\?%s/',
-                    $name
-                )
+                    )
                 ], sprintf(
                 '%s', $regexp
             ),
@@ -322,11 +319,12 @@ class Route
 
             $src = preg_replace(
                 sprintf(
-                    '/([^\?])\:\?%s/',
+                    '/([^\?])\:(\?%s|%s\?)/',
+                    $name,
                     $name
                 ), sprintf(
-                '$1%s', $regexp
-            ),
+                    '$1%s', $regexp
+                ),
                 $src
             );
         }
@@ -334,8 +332,8 @@ class Route
 
         $src = $xor = preg_replace(
             [
-                '/\{\?(?:|[a-zA-Z0-9\_\-]+)\}/',
-                '/\:\?(?:|[a-zA-Z0-9\-\_])+/',
+                '/\{(?:\?|\?[a-zA-Z0-9\_\-]+|[a-zA-Z0-9\_\-]+\?)\}/',
+                '/\:(?:\?|\?[a-zA-Z0-9\-\_]+|[a-zA-Z0-9\-\_]+\?)/',
             ],
             Routing::CAPTURE,
             $src
