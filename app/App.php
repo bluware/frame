@@ -158,7 +158,7 @@ class App
         /**
          *  @var \Frame\Database\Union
          */
-        $database = Database::union();
+        $database = Database\Manager::singleton();
 
         /**
          *  @var \Frame\Database\Union

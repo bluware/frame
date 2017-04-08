@@ -25,8 +25,6 @@ abstract class Redis
      */
     protected static function adapter()
     {
-        return Manager::singleton()->get(
-            static::$adapter
-        );
+        return Manager::singleton()->get(static::$adapter);
     }
 }

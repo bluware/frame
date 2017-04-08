@@ -6,15 +6,15 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Database\Drive;
+namespace Frame\Database\Adapter;
 
-use Frame\Database\Drive;
+use Frame\Database\Adapter;
 use PDO;
 
 /**
  * @subpackage Database
  */
-class SQLite extends Drive
+class SQLite extends Adapter
 {
     /**
      *  @param array $data

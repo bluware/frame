@@ -15,7 +15,7 @@ use PDOException;
 /**
  * @subpackage Database
  */
-abstract class Drive extends Writable
+abstract class Adapter extends Writable
 {
     /**
      *  @var \PDO
@@ -56,13 +56,13 @@ abstract class Drive extends Writable
      *  @param  mixed $input
      *  @param  array $bind
      *
-     *  @return \Frame\Database\State
+     *  @return \Frame\Database\Statement
      */
     public function query($input, array $bind = null)
     {
         if (is_callable($input) === true) {
             /**
-             *  @var Frame\Database\Query
+             *  @var \Frame\Database\Query
              */
             $query = new Query();
 
@@ -88,19 +88,19 @@ abstract class Drive extends Writable
         $pdo = $this->pdo;
 
         /**
-         *  @var \Frame\Database\State
+         *  @var \Frame\Database\Statement
          */
-        $state = new State(
+        $state = new Statement(
             $pdo->prepare($input)
         );
 
         /**
-         *  @var bind
+         *  @var void
          */
         $state->exec($bind);
 
         /**
-         *  @var \Frame\Database\State
+         *  @var \Frame\Database\Statement
          */
         return $state;
     }

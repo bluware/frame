@@ -8,25 +8,18 @@
  */
 namespace Frame\Redis;
 
+use Frame\Data\Readable;
 use Frame\Data;
 use Redis;
 
 /**
  * @subpackage Redis
  */
-class Manager
+class Manager extends Readable
 {
-    /**
-     *  @var string
-     */
-    protected $adapters;
-
-    /**
-     * Manager constructor.
-     */
     protected function __construct()
     {
-        $this->adapters = new Data();
+        //
     }
 
     protected function configure(array $config)
@@ -77,7 +70,7 @@ class Manager
 
     public function add($name = 'default', $instance)
     {
-        if ($this->adapters->has($name) === true)
+        if ($this->has($name) === true)
             throw new Exception(
                 sprintf("Connection '%s' exists", $name)
             );
@@ -110,18 +103,9 @@ class Manager
                 break;
         }
 
-        $this->adapters->set(
-            $name, $instance
-        );
+        $this->data[$name] = $instance;
 
         return $this;
-    }
-
-    public function get($name = 'default')
-    {
-        return $this->adapters->get(
-            $name, null
-        );
     }
 
     public static function singleton()

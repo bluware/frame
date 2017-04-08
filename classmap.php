@@ -221,22 +221,24 @@ return [
     /**------------------------------------------------------------------------
      *  @package `database` module
      */
-    'Frame\\Database\\Drive'
-        => __DIR__ . "/database/Database/Drive.php",
-    'Frame\\Database\\Drive\\MySQL'
-        => __DIR__ . "/database/Database/Drive/MySQL.php",
-    'Frame\\Database\\Drive\\PgSQL'
-        => __DIR__ . "/database/Database/Drive/PgSQL.php",
-    'Frame\\Database\\Drive\\SQLite'
-        => __DIR__ . "/database/Database/Drive/SQLite.php",
+    'Frame\\Database\\Exception'
+        => __DIR__ . "/database/Database/Exception.php",
+    'Frame\\Database\\Manager'
+        => __DIR__ . "/database/Database/Manager.php",
+    'Frame\\Database\\Adapter'
+        => __DIR__ . "/database/Database/Adapter.php",
+    'Frame\\Database\\Adapter\\MySQL'
+        => __DIR__ . "/database/Database/Adapter/MySQL.php",
+    'Frame\\Database\\Adapter\\PgSQL'
+        => __DIR__ . "/database/Database/Adapter/PgSQL.php",
+    'Frame\\Database\\Adapter\\SQLite'
+        => __DIR__ . "/database/Database/Adapter/SQLite.php",
     'Frame\\Database\\Query\\Where'
         => __DIR__ . "/database/Database/Query/Where.php",
     'Frame\\Database\\Query'
         => __DIR__ . "/database/Database/Query.php",
-    'Frame\\Database\\State'
-        => __DIR__ . "/database/Database/State.php",
-    'Frame\\Database\\Union'
-        => __DIR__ . "/database/Database/Union.php",
+    'Frame\\Database\\Statement'
+        => __DIR__ . "/database/Database/Statement.php",
     'Frame\\Database'
         => __DIR__ . "/database/Database.php",
     //-------------------------------------------------------------------------

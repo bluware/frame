@@ -14,7 +14,7 @@ use PDOStatement;
 /**
  * @subpackage Database
  */
-class State
+class Statement
 {
     /**
      *  @var \PDOStatement
@@ -27,8 +27,10 @@ class State
     protected $exec;
 
     /**
-     * @param \PDOStatement $statement
-     * @param boolean      $executed
+     *  State constructor.
+     *
+     *  @param PDOStatement $statement
+     *  @param bool $exec
      */
     public function __construct(PDOStatement $statement, $exec = false)
     {

@@ -8,7 +8,7 @@
  */
 namespace Frame\ActiveRecord;
 
-use Frame\Database;
+use Frame\Database\Manager;
 use Frame\Data\Writable;
 
 /**
@@ -407,7 +407,7 @@ abstract class Query extends Writable
     {
         if ($query === null)
             /**
-             *  @var \Frame\Database\State
+             *  @var \Frame\Database\Statement
              */
             return static::adapter(
                 'query', $pull
@@ -445,9 +445,7 @@ abstract class Query extends Writable
         /**
          *  @var \Frame\Database\Drive
          */
-        $adapter = Database::adapter(
-            static::$adapter
-        );
+        $adapter = Manager::singleton()->get(static::$adapter);
 
         /**
          * @var boolean
@@ -481,13 +479,5 @@ abstract class Query extends Writable
             $adapter,
             array_shift($params)
         ], $params);
-    }
-
-    /**
-     *  @return void
-     */
-    public function __destruct()
-    {
-        //
     }
 }

@@ -6,15 +6,15 @@
  *  @package  Frame
  *  @author   Eugen Melnychenko
  */
-namespace Frame\Database\Drive;
+namespace Frame\Database\Adapter;
 
-use Frame\Database\Drive;
+use Frame\Database\Adapter;
 use PDO;
 
 /**
  * @subpackage Database
  */
-class PgSQL extends Drive
+class MySQL extends Adapter
 {
     /**
      *  @param array $data
@@ -32,11 +32,14 @@ class PgSQL extends Drive
         $connect = $this->has('unix_socket') ?
             sprintf(
                 'unix_socket=%s',
-                $this->get('unix_socket')
+                $this->get(
+                    'unix_socket',
+                    '/var/lib/mysql/mysql.sock'
+                )
             ) : sprintf(
                 'host=%s;port=%s',
                 $this->get('host', '127.0.0.1'),
-                $this->get('port', 5432)
+                $this->get('port', 3306)
             );
 
         /**
@@ -44,7 +47,7 @@ class PgSQL extends Drive
          */
         $this->pdo = new PDO(
             sprintf(
-                'pgsql:%s;dbname=%s',
+                'mysql:%s;dbname=%s',
                 $connect,
                 $this->get('dbname')
             ),
@@ -68,11 +71,9 @@ class PgSQL extends Drive
          *  @var void
          */
         $this->pdo(
-            'exec', strtoupper(
-                sprintf(
-                    "SET NAMES '%s'",
-                    $this->get('charset', 'utf8')
-                )
+            'query', sprintf(
+                "set names %s;",
+                $this->get('charset', 'utf8')
             )
         );
     }
