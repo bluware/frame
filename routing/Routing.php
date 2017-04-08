@@ -118,10 +118,10 @@ class Routing
      * @param $methods
      * @param $paths
      * @param null $call
-     * @param null $options
+     * @param array $options
      * @return $this
      */
-    public function match($methods, $paths, $call = null, $options = null)
+    public function match($methods, $paths, $call = null, $options = [])
     {
         /**
          *  @var boolean
@@ -174,11 +174,11 @@ class Routing
     /**
      *  @param $path
      *  @param null $call
-     *  @param null $options
+     *  @param array $options
      *
      *  @return Routing
      */
-    public function any($path, $call = null, $options = null)
+    public function any($path, $call = null, $options = [])
     {
         return $this->match(
             ['get', 'post', 'put', 'delete', 'patch', 'options'], $path, $call, $options
@@ -188,11 +188,11 @@ class Routing
     /**
      *  @param $path
      *  @param null $call
-     *  @param int $options
+     *  @param array $options
      *
      *  @return Routing
      */
-    public function get($path, $call = null, $options = null)
+    public function get($path, $call = null, $options = [])
     {
         return $this->match(
             ['get'], $path, $call, $options
@@ -202,11 +202,11 @@ class Routing
     /**
      *  @param $path
      *  @param null $call
-     *  @param int $options
+     *  @param array $options
      *
      *  @return Routing
      */
-    public function post($path, $call = null, $options = null)
+    public function post($path, $call = null, $options = [])
     {
         return $this->match(
             ['post'], $path, $call, $options
@@ -216,11 +216,11 @@ class Routing
     /**
      *  @param $path
      *  @param null $call
-     *  @param int $options
+     *  @param array $options
      *
      *  @return Routing
      */
-    public function delete($path, $call = null, $options = null)
+    public function delete($path, $call = null, $options = [])
     {
         return $this->match(
             ['delete'], $path, $call, $options
@@ -234,7 +234,7 @@ class Routing
      *
      *  @return Routing
      */
-    public function del($path, $call = null, $options = null)
+    public function del($path, $call = null, $options = [])
     {
         return $this->match(
             ['delete'], $path, $call, $options
@@ -248,7 +248,7 @@ class Routing
      *
      *  @return Routing
      */
-    public function patch($path, $call = null, $options = null)
+    public function patch($path, $call = null, $options = [])
     {
         return $this->match(
             ['patch'], $path, $call, $options
@@ -262,7 +262,7 @@ class Routing
      *
      *  @return Routing
      */
-    public function options($path, $call = null, $options = null)
+    public function options($path, $call = null, $options = [])
     {
         return $this->match(
             ['options'], $path, $call, $options
@@ -276,7 +276,7 @@ class Routing
      *
      *  @return Routing
      */
-    public function cli($path, $call = null, $options = null)
+    public function cli($path, $call = null, $options = [])
     {
         return $this->match(
             ['cli'], $path, $call, $options
@@ -290,7 +290,7 @@ class Routing
      *
      *  @return Routing
      */
-    public function deny($path, $call = null, $options = null)
+    public function deny($path, $call = null, $options = [])
     {
         if (array_key_exists('priority', $options) === true)
             $options['priority'] = $options['priority'] + ($path === '*' ? 99 : 49);
