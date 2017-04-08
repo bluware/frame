@@ -1,18 +1,15 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Form;
 
 use DateTime;
 
-/**
- * @subpackage Form
- */
 class Filter
 {
     /**
@@ -36,8 +33,9 @@ class Filter
             $value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE
         );
 
-        if ($equal !== null)
+        if ($equal !== null) {
             $value = $equal;
+        }
 
         return $equal !== null;
     }
@@ -65,14 +63,15 @@ class Filter
             )
         ) === 'integer';
 
-        if ($equal === true)
+        if ($equal === true) {
             $value = intval($value);
+        }
 
         return $equal;
     }
 
     /**
-     *  Alias for `integer`
+     *  Alias for `integer`.
      *
      *  @param  mixed $value
      *
@@ -96,8 +95,9 @@ class Filter
             )
         ) === 'double';
 
-        if ($equal === true)
+        if ($equal === true) {
             $value = floatval($value);
+        }
 
         return $equal;
     }
@@ -111,8 +111,9 @@ class Filter
     {
         $equal = is_numeric($value);
 
-        if ($equal === true)
+        if ($equal === true) {
             $value = $value + 0;
+        }
 
         return $equal;
     }
@@ -355,13 +356,15 @@ class Filter
                 'Y-m-d\TH:i:sO', $value
             );
 
-            if ($date === false)
+            if ($date === false) {
                 $date = DateTime::createFromFormat(
                     'Y-m-d\TH:i:s.uO', $value
                 );
+            }
 
-            if ($date !== false)
+            if ($date !== false) {
                 $value = $date;
+            }
 
             return $date !== false;
         }
@@ -370,8 +373,9 @@ class Filter
             $format, $value
         );
 
-        if ($date !== false)
+        if ($date !== false) {
             $value = $date;
+        }
 
         return $date !== false;
     }
@@ -464,22 +468,22 @@ class Filter
      */
     public static function enum($value, $data)
     {
-        /**
+        /*
          *  @var boolean
          */
         if (gettype($data) !== 'array') {
             /**
-             *  @var boolean
+             *  @var bool
              */
             $data = func_get_args();
 
-            /**
+            /*
              *  @var boolean
              */
             array_shift($data);
         }
 
-        /**
+        /*
          *  @var boolean
          */
         return in_array(

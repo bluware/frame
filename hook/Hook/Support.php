@@ -1,18 +1,15 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Hook;
 
 use Frame\Hook;
 
-/**
- * @subpackage Hook
- */
 trait Support
 {
     /**
@@ -22,41 +19,43 @@ trait Support
 
     /**
      *  @param null $input
-     *  @return \Frame\Hook|mixed
      *
      *  @throws Exception
+     *
+     *  @return \Frame\Hook|mixed
      */
     public function hook($input = null)
     {
-        /**
+        /*
          *  @var boolean
          */
         if ($this->hook === null) {
-            /**
+            /*
              *  @var boolean
              */
-            if (property_exists($this, 'locator') === false)
-                /**
+            if (property_exists($this, 'locator') === false) {
+                /*
                  *  @var Exception
                  */
                 throw new Exception(
                     'Hook is null and cannot executed.'
                 );
+            }
 
             $this->hook = $this->locator(
                 Hook::class
             );
         }
 
-
-        /**
+        /*
          *  @var bool
          */
-        if ($input === null)
-            /**
+        if ($input === null) {
+            /*
              *  @var bool
              */
             return $this->hook;
+        }
 
         /**
          *  @var array
@@ -70,11 +69,11 @@ trait Support
             $params
         );
 
-        /**
+        /*
          *  @var mixed
          */
         return call_user_func_array([
-            $this->hook, $method
+            $this->hook, $method,
         ], $params);
     }
 }

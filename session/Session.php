@@ -1,25 +1,21 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-use Frame\Session\Exception;
 use Frame\Data\Writable;
 
-/**
- * @subpackage Session
- */
 class Session extends Writable implements SessionInterface
 {
     /**
      *  @var string
      */
-    protected $name             = 'frame.session';
+    protected $name = 'frame.session';
 
     /**
      *  @var string
@@ -32,25 +28,26 @@ class Session extends Writable implements SessionInterface
      *
      *  @return void
      */
-    public function __construct($name, array $data = null, $id = null) {
-        /**
+    public function __construct($name, array $data = null, $id = null)
+    {
+        /*
          *  @var string
          */
-        $this->name  = $name;
+        $this->name = $name;
 
-        /**
+        /*
          *  @var array
          */
-        $this->data  = $data;
+        $this->data = $data;
 
-        /**
+        /*
          *  @var boolean
          */
-        if ($data === null)
-            /**
+        if ($data === null) {
+            /*
              *  @var array
              */
-            $this->enter(function() use ($data) {
+            $this->enter(function () use ($data) {
                 /**
                  *  @var bool
                  */
@@ -58,32 +55,36 @@ class Session extends Writable implements SessionInterface
                     $this->name, $_SESSION
                 );
 
-                /**
+                /*
                  *  @var bool
                  */
-                if ($exist === true)
+                if ($exist === true) {
                     /**
                      *  @var mixed
                      */
                     $data = $_SESSION[$this->name];
+                }
 
-                /**
+                /*
                  *  @var bool
                  */
-                if (gettype($data) !== 'array')
+                if (gettype($data) !== 'array') {
                     /**
                      *  @var array
                      */
                     $data = [];
+                }
 
-                /**
+                /*
                  *  @var mixed
                  */
                 $this->data = $data;
             });
+        }
 
-        if ($id !== null)
+        if ($id !== null) {
             session_id($sid);
+        }
     }
 
     /**
@@ -105,10 +106,11 @@ class Session extends Writable implements SessionInterface
      */
     public function update(array $data = null)
     {
-        if ($data !== null)
+        if ($data !== null) {
             $this->data($data);
+        }
 
-        $this->enter(function() {
+        $this->enter(function () {
             $_SESSION[$this->name] = $this->data;
         });
 
@@ -136,9 +138,10 @@ class Session extends Writable implements SessionInterface
      */
     public function delete()
     {
-        $this->enter(function() {
-            if (array_key_exists($this->name, $_SESSION) === true)
+        $this->enter(function () {
+            if (array_key_exists($this->name, $_SESSION) === true) {
                 unset($_SESSION[$this->name]);
+            }
         });
 
         return $this;
@@ -165,22 +168,22 @@ class Session extends Writable implements SessionInterface
      */
     public function enter(callable $call)
     {
-        /**
+        /*
          *  @var void
          */
         session_start();
 
-        /**
+        /*
          *  @var void
          */
         call_user_func($call);
 
-        /**
+        /*
          *  @var void
          */
         session_commit();
 
-        /**
+        /*
          *  @var $this
          */
         return $this;

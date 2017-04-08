@@ -1,18 +1,15 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
 use Frame\Redis\Manager;
 
-/**
- * @subpackage Redis
- */
 abstract class Redis
 {
     /**

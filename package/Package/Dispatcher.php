@@ -1,19 +1,16 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Package;
 
-use Frame\Data;
 use Frame\App;
+use Frame\Data;
 
-/**
- * @subpackage Package
- */
 class Dispatcher
 {
     /**
@@ -33,18 +30,18 @@ class Dispatcher
      * @param array|null $directories
      */
     public function __construct(
-        array $packages     = null,
-        array $directories  = null
+        array $packages = null,
+        array $directories = null
     ) {
-        /**
+        /*
          *  @var array
          */
-        $this->packages     = new Data($packages);
+        $this->packages = new Data($packages);
 
-        /**
+        /*
          *  @var array
          */
-        $this->directories  = new Data($directories);
+        $this->directories = new Data($directories);
     }
 
     /**
@@ -52,15 +49,15 @@ class Dispatcher
      * @param array|null $directories
      */
     public function add(
-        array $packages     = null,
-        array $directories  = null
+        array $packages = null,
+        array $directories = null
     ) {
-        /**
+        /*
          *  @var array
          */
         $this->packages->replace($packages);
 
-        /**
+        /*
          *  @var array
          */
         $this->directories->replace($directories);
@@ -85,8 +82,9 @@ class Dispatcher
         foreach ($this->packages as $path => $namespace) {
             $directory = null;
 
-            if (is_numeric($path) === true)
+            if (is_numeric($path) === true) {
                 $path = str_replace('\\', '/', $namespace);
+            }
 
             $package = sprintf('%s\\Package', $namespace);
 
@@ -99,7 +97,7 @@ class Dispatcher
                 $namespace, $directory
             );
 
-            /**
+            /*
              *  @var bool
              */
             if (method_exists($instance, 'translator') === true) {
@@ -113,21 +111,23 @@ class Dispatcher
                  */
                 $directories = $instance->translator($i18n);
 
-                /**
+                /*
                  *  @var array
                  */
-                if (gettype($directories) === 'array')
-                    /**
+                if (gettype($directories) === 'array') {
+                    /*
                      *  @var iterable
                      */
-                    foreach ($directories as $directory)
-                        /**
+                    foreach ($directories as $directory) {
+                        /*
                          *  @var Frame\Hook\Controller
                          */
                         $i18n->scan($directory);
+                    }
+                }
             }
 
-            /**
+            /*
              *  @var mixed
              */
             method_exists($instance, 'autoload') ?
@@ -138,11 +138,11 @@ class Dispatcher
             $packages[] = $instance;
         }
 
-        /**
+        /*
          *  Second phase of booting
          */
         foreach ($packages as $package) {
-            /**
+            /*
              *  @var Frame\App
              */
             method_exists($package, 'bootstrap') ?
@@ -150,7 +150,7 @@ class Dispatcher
                     $app->locator()
                 ) : null;
 
-            /**
+            /*
              *  @var bool
              */
             if (method_exists($package, 'hook') === true) {
@@ -161,21 +161,23 @@ class Dispatcher
                     $app->locator('hook')
                 );
 
-                /**
+                /*
                  *  @var array
                  */
-                if (gettype($controllers) === 'array')
-                    /**
+                if (gettype($controllers) === 'array') {
+                    /*
                      *  @var iterable
                      */
-                    foreach ($controllers as $controller)
-                        /**
+                    foreach ($controllers as $controller) {
+                        /*
                          *  @var Frame\Hook\Controller
                          */
                         new $controller($app);
+                    }
+                }
             }
 
-            /**
+            /*
              *  @var mixed
              */
             method_exists($package, 'routing') ?
@@ -183,7 +185,7 @@ class Dispatcher
                     $app->locator('router')
                 ) : null;
 
-            /**
+            /*
              *  @var mixed
              */
             method_exists($package, 'view') ?
@@ -219,7 +221,7 @@ class Dispatcher
             );
 
             if (is_file($file) === true) {
-                include_once($file);
+                include_once $file;
 
                 $_directory = $directory;
 

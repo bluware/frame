@@ -1,24 +1,19 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-use Frame\Data;
-
-/**
- * @subpackage Package
- */
 class Hook extends Data
 {
     /**
      *  @param  string   $name
      *  @param  callable $call
-     *  @param  integer  $priority
+     *  @param  int  $priority
      *
      *  @return $this
      */
@@ -61,7 +56,7 @@ class Hook extends Data
          */
         $data = func_get_args();
 
-        /**
+        /*
          *  @var mixed
          */
         array_shift($data);
@@ -73,12 +68,13 @@ class Hook extends Data
 
         ksort($group);
 
-        foreach ($group as $call)
+        foreach ($group as $call) {
             call_user_func_array(
                 $call, $data
             );
+        }
 
-        /**
+        /*
          *  @var $this
          */
         return $this;

@@ -1,20 +1,17 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Database;
 
 use Frame\Data\Writable;
 use PDO;
 use PDOException;
 
-/**
- * @subpackage Database
- */
 abstract class Adapter extends Writable
 {
     /**
@@ -29,26 +26,27 @@ abstract class Adapter extends Writable
      */
     public function pdo($method = null)
     {
-        /**
+        /*
          *  @var boolean
          */
-        if ($method === null)
-            /**
+        if ($method === null) {
+            /*
              *  @var \PDOStatement
              */
             return $this->pdo;
+        }
 
         /**
          *  @var array
          */
         $params = func_get_args();
 
-        /**
+        /*
          *  @var mixed
          */
         return call_user_func_array([
             $this->pdo,
-            array_shift($params)
+            array_shift($params),
         ], $params);
     }
 
@@ -66,7 +64,7 @@ abstract class Adapter extends Writable
              */
             $query = new Query();
 
-            /**
+            /*
              *  @var void
              */
             call_user_func($input, $query);
@@ -79,7 +77,7 @@ abstract class Adapter extends Writable
             /**
              *  @var array
              */
-            $bind  = $query->get('bind');
+            $bind = $query->get('bind');
         }
 
         /**
@@ -94,12 +92,12 @@ abstract class Adapter extends Writable
             $pdo->prepare($input)
         );
 
-        /**
+        /*
          *  @var void
          */
         $state->exec($bind);
 
-        /**
+        /*
          *  @var \Frame\Database\Statement
          */
         return $state;
@@ -109,12 +107,12 @@ abstract class Adapter extends Writable
      *  @param  callable $call
      *  @param  mixed    $error
      *
-     *  @return boolean
+     *  @return bool
      */
     public function transaction(callable $call, &$error = null)
     {
         try {
-            /**
+            /*
              *  @var void
              */
             $this->pdo('beginTransaction');
@@ -124,49 +122,49 @@ abstract class Adapter extends Writable
              */
             $exec = call_user_func($call, $this);
 
-            /**
+            /*
              *  @var boolean
              */
             if ($exec === false) {
-                /**
+                /*
                  *  @var void
                  */
                 $this->pdo('rollBack');
 
-                /**
+                /*
                  *  @var boolean
                  */
                 return false;
             }
         } catch (PDOException $error) {
-            /**
+            /*
              *  @var void
              */
             $this->pdo('rollBack');
 
-            /**
+            /*
              *  @var boolean
              */
             return false;
         }
 
-        /**
+        /*
          *  @var void
          */
         $this->pdo('commit');
 
-        /**
+        /*
          *  @var boolean
          */
         return true;
     }
 
     /**
-     *  @return integer
+     *  @return int
      */
     public function id()
     {
-        /**
+        /*
          *  @var integer
          */
         return $this->pdo('lastInsertId');

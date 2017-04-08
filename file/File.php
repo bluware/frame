@@ -1,41 +1,37 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
 use Frame\File\Exception;
-
 use Frame\File\Util;
 
-/**
- * @subpackage File
- */
 class File extends \Frame\File\Data
 {
     /**
      *  @var string
      */
-    const PATTERN64         = '#^data:([\w\.\/\+\-]+);base64,([a-zA-Z0-9\/\r\n+]*={0,2})#i';
+    const PATTERN64 = '#^data:([\w\.\/\+\-]+);base64,([a-zA-Z0-9\/\r\n+]*={0,2})#i';
 
     /**
      *  @var array
      */
-    protected $types        = [];
+    protected $types = [];
 
     /**
      *  @var array
      */
-    protected $limit        = 0;
+    protected $limit = 0;
 
     /**
-     *  @var boolean
+     *  @var bool
      */
-    protected $valid        = true;
+    protected $valid = true;
 
     /**
      *  @param  string $data
@@ -46,11 +42,12 @@ class File extends \Frame\File\Data
     {
         parent::__construct($data);
 
-        if (sizeof($this->types) > 0) {
+        if (count($this->types) > 0) {
             $type = in_array($this->get('type'), $this->types, true);
 
-            if ($type === false)
+            if ($type === false) {
                 return $this->valid = false;
+            }
         }
 
         switch ($hash) {
@@ -94,29 +91,32 @@ class File extends \Frame\File\Data
             $this->get('name')
         );
 
-        /**
+        /*
          *  @var string
          */
         $this->set('name', $info[
             'filename'
         ]);
 
-        /**
+        /*
          *  @var boolean
          */
-        if (array_key_exists('extension', $info) === true)
-            /**
+        if (array_key_exists('extension', $info) === true) {
+            /*
              *  @var string
              */
             $this->set(
                 'extension', $info['extension']
             );
+        }
     }
 
     /**
-     * [from description]
-     * @param  [type] $type [description]
-     * @return [type]       [description]
+     * [from description].
+     *
+     * @param [type] $type [description]
+     *
+     * @return [type] [description]
      */
     public static function read($type, $data, $hash = 'md5')
     {
@@ -128,32 +128,34 @@ class File extends \Frame\File\Data
                 break;
 
             case 'base64':
-                if (gettype($data) !== 'array')
+                if (gettype($data) !== 'array') {
                     throw new Exception(
-                        "base64 file should be array [base64, name]"
+                        'base64 file should be array [base64, name]'
                     );
+                }
 
                 list($base, $name) = $data;
 
                 /**
-                 *  @var boolean
+                 *  @var bool
                  */
                 $correct = boolval(
                     preg_match(static::PATTERN64, $base, $matches)
                 );
 
-                /**
+                /*
                  *  @var boolean
                  */
-                if ($correct === false)
+                if ($correct === false) {
                     return;
+                }
 
-                /**
+                /*
                  *  @var void
                  */
                 array_shift($matches);
 
-                /**
+                /*
                  *  @var void
                  */
                 list(
@@ -200,7 +202,7 @@ class File extends \Frame\File\Data
                     'file' => file_get_contents(
                         $data
                     ),
-                    'name' => basename($data)
+                    'name' => basename($data),
                 ]);
 
                 return new static(
@@ -213,7 +215,7 @@ class File extends \Frame\File\Data
     public static function base64($data, $name, $hash = 'md5')
     {
         return static::read('base64', [
-            $data, $name
+            $data, $name,
         ], $hash);
     }
 

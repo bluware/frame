@@ -1,19 +1,16 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Database\Adapter;
 
 use Frame\Database\Adapter;
 use PDO;
 
-/**
- * @subpackage Database
- */
 class SQLite extends Adapter
 {
     /**
@@ -21,13 +18,13 @@ class SQLite extends Adapter
      */
     public function __construct(array $data)
     {
-        /**
+        /*
          *  @var array
          */
         $this->data = $data;
 
         $dsn = $this->dsn([
-            'path' => ':memory:'
+            'path' => ':memory:',
         ], $data);
 
         /**
@@ -35,7 +32,7 @@ class SQLite extends Adapter
          */
         $path = $this->get('path', ':memory:');
 
-        /**
+        /*
          *  @var PDO
          */
         $this->pdo = new PDO(
@@ -47,7 +44,7 @@ class SQLite extends Adapter
             )
         );
 
-        /**
+        /*
          *  @var void
          */
         $this->pdo(

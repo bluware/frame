@@ -1,19 +1,16 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-use Frame\Locator\Exception;
 use Frame\Data\Readable;
+use Frame\Locator\Exception;
 
-/**
- * @subpackage Locator
- */
 class Locator extends Readable
 {
     /**
@@ -33,35 +30,38 @@ class Locator extends Readable
      *  @param $service
      *  @param null $alias
      *
-     *  @return $this
      *  @throws Exception
+     *
+     *  @return $this
      */
     public function add($service, $alias = null)
     {
-        /**
+        /*
          *  @var string
          */
-        if (gettype($service) !== 'object' && $alias === null)
+        if (gettype($service) !== 'object' && $alias === null) {
             throw new Exception(
-                "Non-object service should have alias name"
+                'Non-object service should have alias name'
             );
+        }
 
         $interface = gettype($service) === 'object' ?
             get_class($service) : $alias;
 
-        /**
+        /*
          *  @var mixed
          */
         $this->data[$interface] = $service;
 
-        /**
+        /*
          *  @var boolean
          */
-        if ($alias !== null)
-            /**
+        if ($alias !== null) {
+            /*
              *  @var string
              */
             $this->invokable->set($alias, $interface);
+        }
 
         return $this;
     }
@@ -73,8 +73,9 @@ class Locator extends Readable
      */
     public function has($key)
     {
-        if (parent::has($key) === true)
+        if (parent::has($key) === true) {
             return true;
+        }
 
         return $this->invokable->has($key);
     }
@@ -94,7 +95,6 @@ class Locator extends Readable
 
             $instance = parent::get($key, $alt);
         }
-
 
         if (is_callable($instance) === true) {
             $instance = call_user_func($instance, $this);

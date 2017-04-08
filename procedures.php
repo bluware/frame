@@ -36,7 +36,7 @@ function view($path, array $data = [], $prevent = false, $code = 200, $headers =
         $path, $data, $prevent
     );
 
-    /**
+    /*
      *  @var \Frame\Response
      */
     return Frame\Response::html(
@@ -46,20 +46,20 @@ function view($path, array $data = [], $prevent = false, $code = 200, $headers =
 
 function response($body, $code = 200, $headers = [])
 {
-    /**
+    /*
      *  @var mixed
      */
     return forward_static_call_array(
         [
             Frame\Http::class,
-            'response'
+            'response',
         ], func_get_args()
     );
 }
 
 function redirect($url, $code = 200, array $headers = [])
 {
-    /**
+    /*
      *  @var \Frame\Response
      */
     return response(
@@ -77,21 +77,22 @@ function __($word, $locale = null)
 function route($method, $route, $handler, $separator = '@')
 {
     return call_user_func([
-        locator('router'), $method
+        locator('router'), $method,
     ], $route, $handler);
 }
 
 function routes($method, array $data)
 {
     return call_user_func([
-        locator('router'), $method
+        locator('router'), $method,
     ], $data);
 }
 
 function routing(array $group = null, callable $calle = null)
 {
-    if ($group === null)
+    if ($group === null) {
         return locator('router');
+    }
 
     return locator('router')->group(
         $group, $calle

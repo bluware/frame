@@ -1,16 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Bit
- */
 interface IBit
 {
     /**
@@ -23,8 +20,8 @@ interface IBit
     public function mask($mask = null);
 
     /**
-     *  @param integer $bit
-     *  @param integer $value
+     *  @param int $bit
+     *  @param int $value
      */
     public function set($bit, $value);
 

@@ -1,20 +1,17 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-use Frame\Data;
 use Frame\View\Page;
 
 /**
- *  Swift View
- *
- *  @subpackage Swift
+ *  Swift View.
  */
 class View implements ViewInterface
 {
@@ -28,7 +25,7 @@ class View implements ViewInterface
      */
     public function __construct()
     {
-        /**
+        /*
          *  @var \Frame\Data
          */
         $this->data = new Data();
@@ -42,13 +39,13 @@ class View implements ViewInterface
      */
     public function add($dir, $ext = null)
     {
-        /**
+        /*
          *  @var void
          */
         $this->data->replace(
             gettype($dir) === 'array' ?
                 $dir : [
-                    $dir => $ext
+                    $dir => $ext,
                 ]
         );
 
@@ -61,7 +58,7 @@ class View implements ViewInterface
      */
     public function register($dir, $ext = null)
     {
-        /**
+        /*
          *  @var void
          */
         return $this->add($dir, $ext);
@@ -70,12 +67,13 @@ class View implements ViewInterface
     /**
      *  @param  string  $file
      *  @param  array   $data
-     *  @param  boolean $prevent
+     *  @param  bool $prevent
      *
      *  @return \Frame\View\Page
      */
-    public function make($file, array $data = [], $prevent = false) {
-        /**
+    public function make($file, array $data = [], $prevent = false)
+    {
+        /*
          *  @var \Frame\View\Page
          */
         return new Page(
@@ -86,12 +84,14 @@ class View implements ViewInterface
     /**
      * @param $file
      * @param null $ext
-     * @return string
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     public function find($file, $ext = null)
     {
-        /**
+        /*
          *  @var iterable
          */
         foreach ($this->data as $dir => $_ext) {
@@ -102,21 +102,22 @@ class View implements ViewInterface
                 '%s/%s.%s', $dir, $file, $ext === null ? $_ext : $ext
             );
 
-            /**
+            /*
              *  @var boolean
              */
-            if (is_file($path) === true)
-                /**
+            if (is_file($path) === true) {
+                /*
                  *  @var string
                  */
                 return $path;
+            }
         }
 
-        /**
+        /*
          *  @var \Exception
          */
         throw new \Exception(
-            'File "' . $file . '" not found.'
+            'File "'.$file.'" not found.'
         );
     }
 }

@@ -1,16 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Dir
- */
 class Dir
 {
     /**
@@ -45,7 +42,7 @@ class Dir
 
     /**
      *  @param  string  $path
-     *  @param  integer $mode
+     *  @param  int $mode
      *  @param  bool    $recursive
      *
      *  @return bool
@@ -53,17 +50,18 @@ class Dir
     public static function make(
         $path, $mode = 0755, $recursive = true
     ) {
-        if (is_dir($path) === false)
+        if (is_dir($path) === false) {
             return mkdir(
                 $path, $mode, $recursive
             );
+        }
 
         return true;
     }
 
     /**
      *  @param  string  $path
-     *  @param  integer $mode
+     *  @param  int $mode
      *  @param  bool    $recursive
      *
      *  @return bool
@@ -71,10 +69,11 @@ class Dir
     public static function mk(
         $path, $mode = 0755, $recursive = true
     ) {
-        if (is_dir($path) === false)
+        if (is_dir($path) === false) {
             return mkdir(
                 $path, $mode, $recursive
             );
+        }
 
         return true;
     }

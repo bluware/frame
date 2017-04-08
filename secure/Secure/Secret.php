@@ -1,25 +1,19 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Secure;
 
-use Frame\Secure;
-use Frame\Secure\Except;
-
-/**
- *  @subpackage Secure
- */
 class Secret
 {
     /**
      *  @const CHIPER
      */
-    const CHIPER    = 'AES-256-CBC';
+    const CHIPER = 'AES-256-CBC';
 
     /**
      *  @var string
@@ -31,36 +25,38 @@ class Secret
      */
     public function __construct($secret)
     {
-        /**
+        /*
          *  @var bool
          */
-        if (gettype($secret) !== 'string')
-            /**
+        if (gettype($secret) !== 'string') {
+            /*
              *  @var Except
              */
             throw new Except(
                 'Secret should be a string'
             );
+        }
 
-        /**
+        /*
          *  @var bool
          */
-        if (strlen($secret) < 16)
-            /**
+        if (strlen($secret) < 16) {
+            /*
              *  @var Except
              */
             throw new Except(
                 'Secret cannot be less than 16 char'
             );
+        }
 
-        /**
+        /*
          *  @var string
          */
         $this->secret = $secret;
     }
 
     /**
-     *  Alias for dectypt()
+     *  Alias for dectypt().
      *
      *  @param  string $data
      *
@@ -82,7 +78,7 @@ class Secret
     }
 
     /**
-     *  Alias for dectypt()
+     *  Alias for dectypt().
      *
      *  @param  string $data
      *

@@ -1,18 +1,15 @@
 <?php
 
 /**
- *  Bluware PHP Lite Web & API Framework
+ *  Bluware PHP Lite Web & API Framework.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Response;
 
 use Frame\Data\Writable;
 
-/**
- * @subpackage Response
- */
 class Headers extends Writable
 {
     /**
@@ -20,21 +17,23 @@ class Headers extends Writable
      */
     public function __construct(array $data = null)
     {
-        if ($data !== null)
-            /**
+        if ($data !== null) {
+            /*
              *  @var array
              */
             $this->data = $data;
+        }
     }
 
     public function apply()
     {
-        foreach ($this->to('array') as $header)
+        foreach ($this->to('array') as $header) {
             header($header);
+        }
     }
 
     /**
-     *  Convert to type
+     *  Convert to type.
      *
      *  Usage:
      *      array   to('array');
@@ -64,11 +63,10 @@ class Headers extends Writable
             return $data;
         }
 
-        if ($type === 'string')
-            return join(
+        if ($type === 'string') {
+            return implode(
                 "\n\r", $this->to('array')
             );
-
-        return null;
+        }
     }
 }

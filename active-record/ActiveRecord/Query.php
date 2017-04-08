@@ -1,102 +1,102 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\ActiveRecord;
 
+use Frame\Data\Writable;
 use Frame\Database\Adapter;
 use Frame\Database\Manager;
-use Frame\Data\Writable;
 use Frame\Database\Query as Q;
-use Frame\Database\Statement;
 
-/**
- * @subpackage Active
- */
 abstract class Query extends Writable
 {
     /**
      *  @const ONE
      */
-    const ONE                   = 'one';
+    const ONE = 'one';
 
     /**
      *  @const ALL
      */
-    const ALL                   = 'all';
+    const ALL = 'all';
 
     /**
      *  @var string
      */
-    protected static $adapter   = 'default';
+    protected static $adapter = 'default';
 
     /**
      *  @var string
      */
-    protected $table ;
+    protected $table;
 
     /**
      *  @var string|array
      */
-    protected $primary          = 'id';
+    protected $primary = 'id';
 
     /**
      *  @var string
      */
-    protected $increment        = true;
+    protected $increment = true;
 
     /**
      *  @var array
      */
-    protected $columns          = [];
+    protected $columns = [];
 
     /**
      *  @var array
      */
-    protected $origin           = [];
+    protected $origin = [];
 
     /**
-     *  @var boolean
+     *  @var bool
      */
-    protected $isset            = false;
+    protected $isset = false;
 
     /**
      *  @param array|null $data
      */
     public function __construct(array $data = null)
     {
-        if ($data !== null)
+        if ($data !== null) {
             $this->data = $data;
+        }
     }
 
     /**
      *  @param  array  $data
+     *
      *  @return mixed
      */
     public function insert(array $data)
     {
-        /**
+        /*
          *  @var boolean
          */
-        if ($this->isset === true)
+        if ($this->isset === true) {
             return $this;
+        }
 
         /**
          *  @var void
          */
-        static::query(function(Q $q) use ($data) {
-            /**
+        static::query(function (Q $q) use ($data) {
+            /*
              *  @var boolean
              */
-            if ($this->increment === true)
-                /**
+            if ($this->increment === true) {
+                /*
                  *  @var void
                  */
                 $this->primary('filter', $data);
+            }
 
             $q->insert(
                 $this->table
@@ -105,31 +105,32 @@ abstract class Query extends Writable
             );
         });
 
-        /**
+        /*
          *  @var boolean
          */
-        if ($this->increment === true)
-            /**
+        if ($this->increment === true) {
+            /*
              *  @var integer
              */
             $data[$this->primary] = static::adapter('id');
+        }
 
-        /**
+        /*
          *  @var boolean
          */
         $this->isset = true;
 
-        /**
+        /*
          *  @var void
          */
         $this->data($data);
 
-        /**
+        /*
          *  @var array
          */
         $this->origin = $data;
 
-        /**
+        /*
          *  @var static
          */
         return $this;
@@ -137,6 +138,7 @@ abstract class Query extends Writable
 
     /**
      *  @param  array  $data
+     *
      *  @return mixed
      */
     public function select($fetch, callable $call = null)
@@ -144,18 +146,18 @@ abstract class Query extends Writable
         /**
          *  @var void
          */
-        $data = static::query($fetch, function(Q $q) use ($fetch, $call) {
+        $data = static::query($fetch, function (Q $q) use ($fetch, $call) {
             $q->select(
                 $this->columns
             )->from(
                 $this->table
             );
 
-            /**
+            /*
              *  @var boolean
              */
-            if ($call !== null)
-                /**
+            if ($call !== null) {
+                /*
                  *  @var boolean
                  */
                 call_user_func(
@@ -163,76 +165,79 @@ abstract class Query extends Writable
                     $q,
                     $this
                 );
+            }
 
-            /**
+            /*
              *  @var boolean
              */
-            if ($fetch === static::ONE)
-                /**
+            if ($fetch === static::ONE) {
+                /*
                  *  @var void
                  */
                 $q->limit(1, 0);
+            }
         });
 
-        /**
+        /*
          *  @var boolean
          */
-        if (sizeof($data) === 0)
-            return null;
+        if (count($data) === 0) {
+            return;
+        }
 
-        /**
+        /*
          * @var boolean
          */
         $this->isset = true;
 
-        /**
+        /*
          *  @var boolean
          */
         if ($fetch === static::ONE) {
-            /**
+            /*
              *  @var array
              */
-            $this->data     = $data;
+            $this->data = $data;
 
-            /**
+            /*
              *  @var array
              */
-            $this->origin   = $data;
+            $this->origin = $data;
 
-            /**
+            /*
              *  @var static
              */
             return $this;
         }
 
         foreach ($data as $key => $item) {
-            /**
+            /*
              *  @var array
              */
-            $this->data     = $item;
+            $this->data = $item;
 
-            /**
+            /*
              *  @var array
              */
-            $this->origin   = $item;
+            $this->origin = $item;
 
-            /**
+            /*
              *  @var static
              */
             $data[$key] = clone $this;
         }
 
-        /**
+        /*
          *  @var array
          */
-        $this->data     = $this->origin = [];
+        $this->data = $this->origin = [];
 
-        /**
+        /*
          *  @var boolean
          */
-        $this->isset    = false;
+        $this->isset = false;
 
-        /**
+        /*
          *  @var array
          */
         return $data;
@@ -240,13 +245,14 @@ abstract class Query extends Writable
 
     public function update(array $data = null)
     {
-        /**
+        /*
          *  @var boolean
          */
-        if ($this->isset === false)
+        if ($this->isset === false) {
             return $this;
+        }
 
-        /**
+        /*
          *  @var void
          */
         $this->data($data);
@@ -258,16 +264,17 @@ abstract class Query extends Writable
             $this->data, $this->origin
         );
 
-        /**
+        /*
          *  @var static
          */
-        if (sizeof($data) === 0)
+        if (count($data) === 0) {
             return $this;
+        }
 
         /**
          *  @var void
          */
-        static::query(function(Q $q) use ($data) {
+        static::query(function (Q $q) use ($data) {
             $q->update(
                 $this->table
             )->set(
@@ -281,17 +288,17 @@ abstract class Query extends Writable
             );
         });
 
-        /**
+        /*
          *  @var array
          */
         $this->data($data);
 
-        /**
+        /*
          *  @var array
          */
         $this->origin = $this->data();
 
-        /**
+        /*
          *  @var static
          */
         return $this;
@@ -299,16 +306,17 @@ abstract class Query extends Writable
 
     public function delete()
     {
-        /**
+        /*
          *  @var boolean
          */
-        if ($this->isset === false)
-            return null;
+        if ($this->isset === false) {
+            return;
+        }
 
         /**
          *  @var void
          */
-        static::query(function(Q $q) {
+        static::query(function (Q $q) {
             $q->delete(
                 //
             )->from(
@@ -320,20 +328,19 @@ abstract class Query extends Writable
             );
         });
 
-        /**
+        /*
          *  @var array
          */
         $this->data = $this->origin = [];
 
-        /**
+        /*
          *  @var boolean
          */
         $this->isset = false;
 
-        /**
+        /*
          *  @var null
          */
-        return null;
     }
 
     public function primary($method, array &$data)
@@ -343,16 +350,17 @@ abstract class Query extends Writable
          */
         $primaries = $this->primary;
 
-        /**
+        /*
          *  @var boolean
          */
-        if (gettype($primaries) !== 'array')
+        if (gettype($primaries) !== 'array') {
             /**
              *  @var array
              */
             $primaries = [$primaries];
+        }
 
-        /**
+        /*
          *  @var mixed
          */
         switch ($method) {
@@ -360,25 +368,25 @@ abstract class Query extends Writable
                 /**
                  *  @var array
                  */
-                $values     = [];
+                $values = [];
 
-                /**
+                /*
                  *  @var mixed
                  */
                 foreach ($primaries as $key) {
-                    /**
+                    /*
                      *  @var boolean
                      */
-                    if (array_key_exists($key, $data) === false)
-                        throw new \Exception("Primary key missed");
-
-                    /**
+                    if (array_key_exists($key, $data) === false) {
+                        throw new \Exception('Primary key missed');
+                    }
+                    /*
                      *  @var mixed
                      */
                     $values[$key] = $data[$key];
                 }
 
-                /**
+                /*
                  *  @var array
                  */
                 return $values;
@@ -386,20 +394,22 @@ abstract class Query extends Writable
                 break;
 
             case 'filter':
-                /**
+                /*
                  *  @var mixed
                  */
-                foreach ($primaries as $key)
-                    /**
+                foreach ($primaries as $key) {
+                    /*
                      *  @var boolean
                      */
-                    if (array_key_exists($key, $data) === true)
-                        /**
+                    if (array_key_exists($key, $data) === true) {
+                        /*
                          *  @var void
                          */
                         unset($data[$key]);
+                    }
+                }
 
-                /**
+                /*
                  *  @var array
                  */
                 return $data;
@@ -411,6 +421,7 @@ abstract class Query extends Writable
     /**
      * @param $fetch
      * @param null $query
+     *
      * @return mixed
      */
     protected static function query($fetch, $query = null)
@@ -420,32 +431,33 @@ abstract class Query extends Writable
          */
         $adapter = static::adapter();
 
-        if ($query === null)
-            /**
+        if ($query === null) {
+            /*
              *  @var \Frame\Database\Statement
              */
             return $adapter->query($fetch);
+        }
 
         /**
          *  @var \Frame\Database\Statement
          */
         $state = $adapter->query($query);
 
-        /**
+        /*
          *  @var boolean
          */
-        if (strpos($fetch, ':') !== false)
-            /**
+        if (strpos($fetch, ':') !== false) {
+            /*
              *  @var mixed
              */
             return call_user_func(
                 [
-                    $state, strtok($fetch, ':')
+                    $state, strtok($fetch, ':'),
                 ], strtok(':'), strtok(':')
             );
+        }
 
-
-        /**
+        /*
          *  @var mixed
          */
         return call_user_func([$state, $fetch]);
@@ -459,7 +471,7 @@ abstract class Query extends Writable
      */
     protected static function transaction(callable $calle, &$error = null)
     {
-        /**
+        /*
          *  @var mixed
          */
         return static::adapter()->transaction(
@@ -470,8 +482,9 @@ abstract class Query extends Writable
     /**
      *  @param null $method
      *
-     *  @return mixed|null
      *  @throws \Exception
+     *
+     *  @return mixed|null
      */
     protected static function adapter($method = null)
     {
@@ -480,37 +493,39 @@ abstract class Query extends Writable
          */
         $adapter = Manager::singleton()->get(static::$adapter);
 
-        /**
+        /*
          * @var boolean
          */
-        if ($adapter === null)
-            /**
+        if ($adapter === null) {
+            /*
              * @var \Exception
              */
             throw new \Exception(
-                "Driver does not exist " . static::$adapter
+                'Driver does not exist '.static::$adapter
             );
+        }
 
-        /**
+        /*
          *  @var boolean
          */
-        if ($method === null)
-            /**
+        if ($method === null) {
+            /*
              *  @var \Frame\Database\Adapter
              */
             return $adapter;
+        }
 
         /**
          *  @var array
          */
         $params = func_get_args();
 
-        /**
+        /*
          *  @var mixed
          */
         return call_user_func_array([
             $adapter,
-            array_shift($params)
+            array_shift($params),
         ], $params);
     }
 }

@@ -1,18 +1,15 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Http\Client;
 
 use Frame\Data\Writable;
 
-/**
- * @subpackage Http\Client
- */
 class Headers extends Writable
 {
     /**
@@ -20,11 +17,12 @@ class Headers extends Writable
      */
     public function __construct(array $data = null)
     {
-        if ($data !== null)
-            /**
+        if ($data !== null) {
+            /*
              *  @var array
              */
             $this->data = $data;
+        }
     }
 
     /**
@@ -50,6 +48,6 @@ class Headers extends Writable
     {
         $headers = $this->__toArray();
 
-        return join("\n", $headers);
+        return implode("\n", $headers);
     }
 }

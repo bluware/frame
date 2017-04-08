@@ -1,16 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite Web & API Framework
+ *  Bluware PHP Lite Web & API Framework.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Http;
 
-/**
- * @subpackage Client
- */
 interface ClientInterface
 {
     /**
@@ -50,7 +47,7 @@ interface ClientInterface
     public static function delete($url, $body = '');
 
     /**
-     *  Alias of delete
+     *  Alias of delete.
      *
      *  @param string   $url
      *  @param string   $body

@@ -1,19 +1,15 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Routing;
 
-use Frame\Data\Writable;
 use Frame\Routing;
 
-/**
- * @subpackage Routing
- */
 class Route
 {
     /**
@@ -34,12 +30,12 @@ class Route
     /**
      *  @var array
      */
-    protected $params   = [];
+    protected $params = [];
 
     /**
      *  @var array
      */
-    protected $aspects  = [];
+    protected $aspects = [];
 
     /**
      * @var int
@@ -53,29 +49,30 @@ class Route
      */
     public function __construct($type, $path, $call, Group $group = null)
     {
-        /**
+        /*
          *
          */
         $this->type = $type;
 
-        /**
+        /*
          *
          */
         $this->path = $path;
 
-        /**
+        /*
          *
          */
         $this->call = $call;
 
-        if ($group === null)
+        if ($group === null) {
             return;
+        }
 
         $namespace = $group->get(
             'namespace', null
         );
 
-        if ($namespace !== null && gettype($call) === 'string')
+        if ($namespace !== null && gettype($call) === 'string') {
             $this->call = substr(
                 $namespace,
                 -1
@@ -87,13 +84,14 @@ class Route
                 '%s\\%s',
                 $namespace,
                 $call
-            ) : $namespace . $call;
+            ) : $namespace.$call;
+        }
 
         $prefix = $group->get(
             'prefix', null
         );
 
-        if ($type === 'http' && $prefix !== null)
+        if ($type === 'http' && $prefix !== null) {
             $this->path = substr(
                 $prefix,
                 -1
@@ -105,56 +103,65 @@ class Route
                 '%s/%s',
                 $prefix,
                 $path
-            ) : $prefix . $path;
+            ) : $prefix.$path;
+        }
 
         $params = $group->get(
             'params', null
         );
 
-        if ($params !== null)
+        if ($params !== null) {
             $this->params($params);
+        }
 
         $priority = $group->get(
             'priority', null
         );
 
-        if ($priority !== null)
+        if ($priority !== null) {
             $this->priority($priority);
+        }
 
         $aspects = $group->get(
             'aspects', null
         );
 
-        if ($aspects !== null)
+        if ($aspects !== null) {
             $this->aspects($aspects);
+        }
     }
 
     public function aspect($aspect)
     {
-        if (in_array($aspect, $this->aspects, true) === false)
+        if (in_array($aspect, $this->aspects, true) === false) {
             $this->aspects[] = $aspect;
+        }
 
         return $this;
     }
 
     public function aspects(array $aspects = null)
     {
-        if ($aspects === null)
+        if ($aspects === null) {
             return $this->aspects;
+        }
 
-        foreach ($aspects as $aspect)
-            if (in_array($aspect, $this->aspects, true) === false)
+        foreach ($aspects as $aspect) {
+            if (in_array($aspect, $this->aspects, true) === false) {
                 $this->aspects[] = $aspect;
+            }
+        }
 
         return $this;
     }
 
     public function param($key, $val = null)
     {
-        if ($val === null)
+        if ($val === null) {
             return array_key_exists(
                 $key, $this->params
             ) ? $this->params[$key] : null;
+        }
 
         $this->params[$key] = $val;
 
@@ -163,8 +170,9 @@ class Route
 
     public function params(array $keys = null)
     {
-        if ($keys === null)
+        if ($keys === null) {
             return $this->params;
+        }
 
         $this->params = array_replace(
             $this->params, $keys
@@ -175,8 +183,9 @@ class Route
 
     public function path($path = null)
     {
-        if ($path === null)
+        if ($path === null) {
             return $this->path;
+        }
 
         $this->path = $path;
 
@@ -185,8 +194,9 @@ class Route
 
     public function call($call = null)
     {
-        if ($call === null)
+        if ($call === null) {
             return $this->call;
+        }
 
         $this->call = $call;
 
@@ -195,8 +205,9 @@ class Route
 
     public function priority($priority = null)
     {
-        if ($priority === null)
+        if ($priority === null) {
             return $this->priority;
+        }
 
         $this->priority = $priority;
 
@@ -214,7 +225,7 @@ class Route
 
     public function matchConsole($command, &$params = [])
     {
-//        $src = preg_replace([
+        //        $src = preg_replace([
 ////
 //        ], [
 ////
@@ -239,8 +250,9 @@ class Route
             sprintf('/^%s$/', $xor), $command, $matches
         );
 
-        if ($success === false)
+        if ($success === false) {
             return false;
+        }
 
         $keys = [];
 
@@ -253,26 +265,29 @@ class Route
                 '/\s\:([a-zA-Z0-9\_\-])+/', $src, $match_b
             )
         ) {
-            foreach([$match_a, $match_b] as &$match) {
+            foreach ([$match_a, $match_b] as &$match) {
                 if ($match !== null) {
                     array_shift($match);
 
                     $match = current($match);
 
-                    if (sizeof($match) > 0)
+                    if (count($match) > 0) {
                         $keys = $match;
+                    }
                 }
             }
         }
 
-        /**
+        /*
          *  @var void
          */
         array_shift($matches);
 
-        foreach ($matches as &$match)
-            if (is_numeric($match) === true)
+        foreach ($matches as &$match) {
+            if (is_numeric($match) === true) {
                 $match = $match + 0;
+            }
+        }
 
         $params = array_combine(
             $keys, $matches
@@ -300,7 +315,7 @@ class Route
             '(?:',
             '(?:|',
             ')',
-            '.*?'
+            '.*?',
         ], $path);
 
         foreach ($this->params as $name => $regexp) {
@@ -310,7 +325,7 @@ class Route
                         '/(\{\?%s\|%s\?\})/',
                         $name,
                         $name
-                    )
+                    ),
                 ], sprintf(
                 '%s', $regexp
             ),
@@ -329,7 +344,6 @@ class Route
             );
         }
 
-
         $src = $xor = preg_replace(
             [
                 '/\{(?:\?|\?[a-zA-Z0-9\_\-]+|[a-zA-Z0-9\_\-]+\?)\}/',
@@ -345,8 +359,7 @@ class Route
                     sprintf(
                         '/\{%s\}/',
                         $name
-                    )
-                , sprintf(
+                    ), sprintf(
                 '(%s)', $regexp
             ),
                 $xor
@@ -362,7 +375,6 @@ class Route
                 $xor
             );
         }
-
 
         $xor = preg_replace(
             '/\{[a-zA-Z0-9\_\-]+\}/',
@@ -384,8 +396,9 @@ class Route
             sprintf('/^%s(?:|\/)$/', $xor), $url, $matches
         );
 
-        if ($success === false)
+        if ($success === false) {
             return false;
+        }
 
         $keys = [];
 
@@ -398,26 +411,29 @@ class Route
                 '/[^\?]\:([a-zA-Z0-9\_\-])+/', $src, $match_b
             )
         ) {
-            foreach([$match_a, $match_b] as &$match) {
+            foreach ([$match_a, $match_b] as &$match) {
                 if ($match !== null) {
                     array_shift($match);
 
                     $match = current($match);
 
-                    if (sizeof($match) > 0)
+                    if (count($match) > 0) {
                         $keys = $match;
+                    }
                 }
             }
         }
 
-        /**
+        /*
          *  @var void
          */
         array_shift($matches);
 
-        foreach ($matches as &$match)
-            if (is_numeric($match) === true)
+        foreach ($matches as &$match) {
+            if (is_numeric($match) === true) {
                 $match = $match + 0;
+            }
+        }
 
         $params = array_combine(
             $keys, $matches

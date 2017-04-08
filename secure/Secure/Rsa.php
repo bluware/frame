@@ -1,25 +1,16 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Secure;
 
-use Frame\Secure;
-use Frame\Secure\Except;
-
-use Frame\Json;
 use Frame\Data;
-use Frame\Data\Writable;
-use Frame\Data\Readable;
+use Frame\Json;
 
-
-/**
- *  @subpackage Secure
- */
 class Rsa
 {
     /**
@@ -37,21 +28,23 @@ class Rsa
      */
     public function __construct($private, $public)
     {
-        if ($private !== null && is_file($private) === true)
-            /**
+        if ($private !== null && is_file($private) === true) {
+            /*
              *  @var Except
              */
             $this->private = file_get_contents($private);
+        }
 
-        if ($public !== null && is_file($public) === true)
-            /**
+        if ($public !== null && is_file($public) === true) {
+            /*
              *  @var Except
              */
             $this->public = file_get_contents($public);
+        }
     }
 
     /**
-     *  Alias for dectypt()
+     *  Alias for dectypt().
      *
      *  @param  string $data
      *
@@ -63,7 +56,7 @@ class Rsa
     }
 
     /**
-     *  Alias for dectypt()
+     *  Alias for dectypt().
      *
      *  @param  string $data
      *
@@ -82,8 +75,9 @@ class Rsa
             $hash
         );
 
-        if ($hash === false)
-            return null;
+        if ($hash === false) {
+            return;
+        }
 
         switch ($type) {
             case 'public':
@@ -99,26 +93,28 @@ class Rsa
                 break;
         }
 
-        if ($data === false)
-            return null;
+        if ($data === false) {
+            return;
+        }
 
         /**
-         *  @var boolean
+         *  @var bool
          */
         $data = Json::decode(
             $data, $error
         );
 
-        /**
+        /*
          *  @var boolean
          */
-        if ($data !== null && gettype($data) === 'array')
-            /**
+        if ($data !== null && gettype($data) === 'array') {
+            /*
              *  @var \Frame\Data
              */
             return new Data($data);
+        }
 
-        /**
+        /*
          *  @var mixed
          */
         return $data;
@@ -126,8 +122,9 @@ class Rsa
 
     public function encrypt($type, $hash)
     {
-        if (gettype($hash) === 'object')
+        if (gettype($hash) === 'object') {
             $hash = $hash->to('json');
+        }
 
         switch ($type) {
             case 'public':

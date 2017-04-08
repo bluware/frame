@@ -1,19 +1,16 @@
 <?php
 
 /**
- *  Blu PHP Lite & Scaleable Web Frame
+ *  Blu PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Http;
 
-use Frame\Http\Uri\Query;
 use Frame\Data\Writable;
+use Frame\Http\Uri\Query;
 
-/**
- * @subpackage Uri
- */
 class Uri extends Writable
 {
     /**
@@ -21,17 +18,18 @@ class Uri extends Writable
      */
     public function __construct($url)
     {
-        if ($this->validate($url) === false)
+        if ($this->validate($url) === false) {
             throw new \Exception(
-                "Bad url format: " . $url
+                'Bad url format: '.$url
             );
+        }
 
-        /**
+        /*
          *  @var array
          */
         $this->data = parse_url($url);
 
-        /**
+        /*
          *  @var \Frame\Uri\Query
          */
         $this->data([
@@ -39,14 +37,14 @@ class Uri extends Writable
                 parse_str(
                     $this->get('query')
                 )
-            )
+            ),
         ]);
     }
 
     /**
      *  @param  string $uri
      *
-     *  @return boolean
+     *  @return bool
      */
     public function validate($uri)
     {
@@ -63,13 +61,15 @@ class Uri extends Writable
      */
     public function query($key = null, $val = null)
     {
-        if ($key === null)
+        if ($key === null) {
             return $this->get('query');
+        }
 
-        if ($val === null)
+        if ($val === null) {
             return $this->get('query')->get(
                 $key
             );
+        }
 
         $this->get('query')->set(
             $key, $val
@@ -90,49 +90,56 @@ class Uri extends Writable
     {
         $components = [];
 
-        if ($this->has('scheme') === true)
+        if ($this->has('scheme') === true) {
             array_push(
                 $components, $this->get('scheme'), '://'
             );
+        }
 
         if ($this->has('user') === true) {
             array_push(
                 $components, $this->get('user')
             );
 
-            if ($this->has('pass') === true)
+            if ($this->has('pass') === true) {
                 array_push(
                     $components, ':', $this->get('pass')
                 );
+            }
 
             array_push($components, '@');
         }
 
-        if ($this->has('host') === true)
+        if ($this->has('host') === true) {
             array_push(
                 $components, $this->get('host')
             );
+        }
 
-        if ($this->has('port') === true)
+        if ($this->has('port') === true) {
             array_push(
                 $components, ':', $this->get('port')
             );
+        }
 
-        if ($this->has('path') === true)
+        if ($this->has('path') === true) {
             array_push(
                 $components, $this->get('path')
             );
+        }
 
-        if (empty($this->get('query')->data()) === false)
+        if (empty($this->get('query')->data()) === false) {
             array_push(
                 $components, '?', $this->get('query')->to('string')
             );
+        }
 
-        if ($this->has('fragment') === true)
+        if ($this->has('fragment') === true) {
             array_push(
                 $components, '#', $this->get('fragment')
             );
+        }
 
-        return join('', $components);
+        return implode('', $components);
     }
 }

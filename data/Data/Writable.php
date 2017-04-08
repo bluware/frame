@@ -1,16 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Data;
 
-/**
- * @subpackage Data
- */
 abstract class Writable extends Readable
 {
     /**
@@ -42,16 +39,18 @@ abstract class Writable extends Readable
     /**
      *  @param $data
      *
-     *  @return $this
      *  @throws Exception
+     *
+     *  @return $this
      */
     public function replace($data)
     {
-        if (is_array($data) === false && $data instanceof Readable === false)
-            throw new Exception("Should be array or Readable object");
-
-        if ($data instanceof Readable)
+        if (is_array($data) === false && $data instanceof Readable === false) {
+            throw new Exception('Should be array or Readable object');
+        }
+        if ($data instanceof Readable) {
             $data = $data->to('array');
+        }
 
         $this->data = array_replace(
             $this->data, $data
@@ -63,16 +62,18 @@ abstract class Writable extends Readable
     /**
      *  @param array $data
      *
-     *  @return $this
      *  @throws Exception
+     *
+     *  @return $this
      */
     public function merge($data)
     {
-        if (is_array($data) === false && $data instanceof Readable === false)
-            throw new Exception("Should be array or Readable object");
-
-        if ($data instanceof Readable)
+        if (is_array($data) === false && $data instanceof Readable === false) {
+            throw new Exception('Should be array or Readable object');
+        }
+        if ($data instanceof Readable) {
             $data = $data->to('array');
+        }
 
         $this->data = array_merge(
             $this->data, $data
@@ -84,28 +85,30 @@ abstract class Writable extends Readable
     /**
      *  @param null $data
      *
-     *  @return $this|array
      *  @throws Exception
+     *
+     *  @return $this|array
      */
     public function data($data = null)
     {
-        /**
+        /*
          *  @var array
          */
-        if ($data === null)
+        if ($data === null) {
             return parent::data();
+        }
 
-        if (is_array($data) === false && $data instanceof Readable === false)
-            throw new Exception("Should be array or Readable object");
-
-        /**
+        if (is_array($data) === false && $data instanceof Readable === false) {
+            throw new Exception('Should be array or Readable object');
+        }
+        /*
          *  @var void
          */
         $this->data = array_replace(
             $this->data, $data
         );
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -141,10 +144,11 @@ abstract class Writable extends Readable
      *
      *  @return mixed
      */
-    public function __push(array $keys, $value, $index, $limit = 0, $data)
+    public function __push(array $keys, $value, $index, $limit, $data)
     {
-        if ($index >= $limit)
+        if ($index >= $limit) {
             return $value;
+        }
 
         $data[$keys[$index]] = call_user_func(
             __METHOD__,
@@ -164,19 +168,20 @@ abstract class Writable extends Readable
      *  @param mixed $key
      *  @param mixed $value
      */
-    public function offsetSet($key, $value) {
-        /**
+    public function offsetSet($key, $value)
+    {
+        /*
          *  @var bool
          */
         if (
             array_key_exists($key, $this->data)
         ) {
-            /**
+            /*
              *  @var mixed
              */
             $this->data[] = $value;
         } else {
-            /**
+            /*
              *  @var mixed
              */
             $this->data[$key] = $value;
@@ -186,8 +191,9 @@ abstract class Writable extends Readable
     /**
      *      @param mixed $key
      */
-    public function offsetUnset($key) {
-        /**
+    public function offsetUnset($key)
+    {
+        /*
          *  @var void
          */
         unset(

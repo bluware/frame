@@ -1,39 +1,36 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Database;
 
 use Frame\Database\Query\Where;
 
-/**
- * @subpackage Database
- */
 class Query
 {
     /**
      *  @const SELECT
      */
-    const SELECT    = 0x1;
+    const SELECT = 0x1;
 
     /**
      *  @const INSERT
      */
-    const INSERT    = 0x2;
+    const INSERT = 0x2;
 
     /**
      *  @const UPDATE
      */
-    const UPDATE    = 0x3;
+    const UPDATE = 0x3;
 
     /**
      *  @const DELETE
      */
-    const DELETE    = 0x4;
+    const DELETE = 0x4;
 
     /**
      *  @var string
@@ -48,17 +45,17 @@ class Query
     /**
      *  @var array
      */
-    protected $values   = [];
+    protected $values = [];
 
     /**
      *  @var array
      */
-    protected $columns  = [];
+    protected $columns = [];
 
     /**
      *  @var array
      */
-    protected $join     = [];
+    protected $join = [];
 
     /**
      *  @var \Frame\Database\Query\Where
@@ -68,7 +65,7 @@ class Query
     /**
      *  @var array
      */
-    protected $group    = [];
+    protected $group = [];
 
     /**
      *  @var \Frame\Database\Query\Where
@@ -78,7 +75,7 @@ class Query
     /**
      *  @var array
      */
-    protected $order    = [];
+    protected $order = [];
 
     /**
      *  @var string
@@ -93,7 +90,7 @@ class Query
     /**
      *  @var array
      */
-    protected $bind     = [];
+    protected $bind = [];
 
     /**
      *  @param null $column
@@ -102,29 +99,29 @@ class Query
      */
     public function select($column = null)
     {
-        /**
+        /*
          *  @var string
          */
         $this->state = static::SELECT;
 
-        /**
+        /*
          *  @var array
          */
         $this->columns = [];
 
-        /**
+        /*
          *  @var boolean
          */
         if (
                $column === null
             || empty($column)
         ) {
-            /**
+            /*
              *  @var array
              */
             $this->columns = ['*'];
 
-            /**
+            /*
              *  @var static
              */
             return $this;
@@ -136,7 +133,7 @@ class Query
         $columns = is_array($column) === true ?
             $column : func_get_args();
 
-        /**
+        /*
          *  @var void
          */
         return $this->column($columns);
@@ -145,16 +142,17 @@ class Query
     /**
      * @param $table
      * @param null $alias
+     *
      * @return Query
      */
     public function insert($table, $alias = null)
     {
-        /**
+        /*
          *  @var string
          */
         $this->state = static::INSERT;
 
-        /**
+        /*
          *  @var void
          */
         return $this->table(
@@ -165,16 +163,17 @@ class Query
     /**
      * @param $table
      * @param null $alias
+     *
      * @return Query
      */
     public function update($table, $alias = null)
     {
-        /**
+        /*
          *  @var string
          */
         $this->state = static::UPDATE;
 
-        /**
+        /*
          *  @var void
          */
         return $this->table(
@@ -187,12 +186,12 @@ class Query
      */
     public function delete()
     {
-        /**
+        /*
          *  @var string
          */
         $this->state = static::DELETE;
 
-        /**
+        /*
          *  @var void
          */
         return $this;
@@ -200,6 +199,7 @@ class Query
 
     /**
      * @param $column
+     *
      * @return $this
      */
     public function column($column)
@@ -211,11 +211,11 @@ class Query
             $column : func_get_args();
 
         foreach ($columns as $column => $alias) {
-            /**
+            /*
              *  @var void
              */
             array_push(
-                /**
+                /*
                  *  @var string
                  */
                 $this->columns, is_numeric(
@@ -228,7 +228,7 @@ class Query
             );
         }
 
-        /**
+        /*
          *  @var void
          */
         return $this;
@@ -236,6 +236,7 @@ class Query
 
     /**
      *  @param $column
+     *
      *  @return string
      */
     public function columns($column)
@@ -246,7 +247,7 @@ class Query
         $columns = is_array($column) === true ?
             $column : func_get_args();
 
-        /**
+        /*
          *  @var void
          */
         return $this->column($columns);
@@ -255,6 +256,7 @@ class Query
     /**
      *  @param $column
      *  @param null $value
+     *
      *  @return $this
      */
     public function values($column, $value = null)
@@ -265,15 +267,16 @@ class Query
         $values = is_array($column) ?
              $column : [$column => $value];
 
-        foreach ($values as $column => $value)
-            /**
+        foreach ($values as $column => $value) {
+            /*
              *  @var void
              */
             $this->values[
                 $this->separate($column)
             ] = $this->bind($value);
+        }
 
-        /**
+        /*
          *  @var static
          */
         return $this;
@@ -287,7 +290,7 @@ class Query
      */
     public function set($column, $value = null)
     {
-        /**
+        /*
          *  @var static
          */
         return $this->values(
@@ -303,7 +306,7 @@ class Query
      */
     public function table($table, $alias = null)
     {
-        /**
+        /*
          *  @var string
          */
         $this->table = $alias === null ?
@@ -343,7 +346,7 @@ class Query
                 $table, $alias
             );
 
-        foreach ($expression as $column => &$value)
+        foreach ($expression as $column => &$value) {
             /**
              *  @var string
              */
@@ -352,8 +355,9 @@ class Query
                 $this->separate($column),
                 $this->separate($value)
             );
+        }
 
-        /**
+        /*
          *  @var void
          */
         array_push(
@@ -361,7 +365,7 @@ class Query
                 '%s JOIN %s ON %s',
                 strtoupper($paste),
                 $table,
-                join(' AND ', $expression)
+                implode(' AND ', $expression)
             )
         );
 
@@ -378,7 +382,7 @@ class Query
      */
     public function inner($clause, $table, $alias, array $expression)
     {
-        /**
+        /*
          *  @var static
          */
         return $this->{$clause}($table, $alias, $expression, 'inner');
@@ -394,7 +398,7 @@ class Query
      */
     public function left($clause, $table, $alias, array $expression)
     {
-        /**
+        /*
          *  @var static
          */
         return $this->{$clause}($table, $alias, $expression, 'left');
@@ -405,11 +409,12 @@ class Query
      *  @param $table
      *  @param $alias
      *  @param array $expression
+     *
      *  @return mixed
      */
     public function right($clause, $table, $alias, array $expression)
     {
-        /**
+        /*
          *  @var static
          */
         return $this->{$clause}($table, $alias, $expression, 'right');
@@ -425,48 +430,50 @@ class Query
      */
     public function where(
         $column,
-        $value      = null,
-        $operator   = '=',
-        $paste      = 'and'
+        $value = null,
+        $operator = '=',
+        $paste = 'and'
     ) {
-        /**
+        /*
          *  @var boolean
          */
-        if (empty($column) === true)
-            /**
+        if (empty($column) === true) {
+            /*
              *  @var static
              */
             return $this;
+        }
 
-        /**
+        /*
          *  @var boolean
          */
-        if ($this->where === null)
-            /**
+        if ($this->where === null) {
+            /*
              *  @var Frame\Database\Query\Where
              */
             $this->where = new Where();
+        }
 
         /**
          *  @var array
          */
         $params = func_get_args();
 
-        /**
+        /*
          *  @var void
          */
         array_unshift($params, 'where');
 
-        /**
+        /*
          *  @var static
          */
         call_user_func_array(
             [
-                $this, '__where'
+                $this, '__where',
             ], $params
         );
 
-        /**
+        /*
          *  @var static
          */
         return $this;
@@ -482,48 +489,50 @@ class Query
      */
     public function having(
         $column,
-        $value      = null,
-        $operator   = '=',
-        $paste      = 'and'
+        $value = null,
+        $operator = '=',
+        $paste = 'and'
     ) {
-        /**
+        /*
          *  @var boolean
          */
-        if (empty($column) === true)
-            /**
+        if (empty($column) === true) {
+            /*
              *  @var static
              */
             return $this;
+        }
 
-        /**
+        /*
          *  @var boolean
          */
-        if ($this->having === null)
-            /**
+        if ($this->having === null) {
+            /*
              *  @var Frame\Database\Query\Where
              */
             $this->having = new Where();
+        }
 
         /**
          *  @var array
          */
         $params = func_get_args();
 
-        /**
+        /*
          *  @var void
          */
         array_unshift($params, 'having');
 
-        /**
+        /*
          *  @var static
          */
         call_user_func_array(
             [
-                $this, '__where'
+                $this, '__where',
             ], $params
         );
 
-        /**
+        /*
          *  @var static
          */
         return $this;
@@ -541,9 +550,9 @@ class Query
     protected function __where(
         $clause,
         $column,
-        $value      = null,
-        $operator   = '=',
-        $paste      = 'and'
+        $value = null,
+        $operator = '=',
+        $paste = 'and'
     ) {
         /**
          *  @var array
@@ -557,22 +566,22 @@ class Query
             $params
         );
 
-        /**
+        /*
          *  @var boolean
          */
-        if (sizeof($params) === 1) {
-            /**
+        if (count($params) === 1) {
+            /*
              *  @var boolean
              */
             if (gettype($column) === 'string') {
-                /**
+                /*
                  *  @var \Frame\Database\Query\Where
                  */
                 $this->{$clause}->push($column);
             }
 
             if (is_callable($column) === true) {
-                /**
+                /*
                  *  @var \Frame\Database\Query\Where
                  */
                 $this->{$clause}->separate(
@@ -581,10 +590,10 @@ class Query
             }
 
             if (gettype($column) === 'array') {
-                /**
+                /*
                  *  @var \Frame\Database\Query\Where
                  */
-                foreach ($column as $_column => $_value)
+                foreach ($column as $_column => $_value) {
                     is_numeric(
                         $_column
                     ) ? $this->{$clause}->push(
@@ -598,31 +607,33 @@ class Query
                                 $_value
                             )
                         );
+                }
             }
 
-            /**
+            /*
              *  @var static
              */
             return $this;
         }
 
-        /**
+        /*
          *  @var boolean
          */
-        if (sizeof($params) === 2)
-            /**
+        if (count($params) === 2) {
+            /*
              *  @var array
              */
             list(
                 $column,
                 $value
             ) = $params;
+        }
 
-        /**
+        /*
          *  @var boolean
          */
-        if (sizeof($params) === 3)
-            /**
+        if (count($params) === 3) {
+            /*
              *  @var array
              */
             list(
@@ -630,12 +641,13 @@ class Query
                 $operator,
                 $value
             ) = $params;
+        }
 
-        /**
+        /*
          *  @var boolean
          */
-        if (sizeof($params) === 4)
-            /**
+        if (count($params) === 4) {
+            /*
              *  @var array
              */
             list(
@@ -644,8 +656,9 @@ class Query
                 $value,
                 $paste
             ) = $params;
+        }
 
-        /**
+        /*
          *  @var \Frame\Database\Query\Where
          */
         $this->{$clause}->set(
@@ -659,7 +672,7 @@ class Query
             $paste
         );
 
-        /**
+        /*
          *  @var static
          */
         return $this;
@@ -678,15 +691,16 @@ class Query
         $columns = gettype($column) === 'array' ?
             $column : func_get_args();
 
-        foreach ($columns as $column)
-            /**
+        foreach ($columns as $column) {
+            /*
              *  @var void
              */
             array_push(
                 $this->group, $this->separate($column)
             );
+        }
 
-        /**
+        /*
          *  @var void
          */
         return $this;
@@ -700,14 +714,15 @@ class Query
      */
     public function order($column, $sort = 'ASC')
     {
-        /**
+        /*
          *  @var boolean
          */
-        if ($column === null)
-            /**
+        if ($column === null) {
+            /*
              *  @var static
              */
             return $this;
+        }
 
         /**
          *  @var array
@@ -715,8 +730,8 @@ class Query
         $columns = gettype($column) === 'array' ?
             $column : [$column => $sort];
 
-        foreach ($columns as $column => $sort)
-            /**
+        foreach ($columns as $column => $sort) {
+            /*
              *  @var void
              */
             array_push(
@@ -730,8 +745,9 @@ class Query
                     strtoupper($sort)
                 )
             );
+        }
 
-        /**
+        /*
          *  @var void
          */
         return $this;
@@ -745,13 +761,14 @@ class Query
      */
     public function limit($number, $offset = null)
     {
-        if (is_numeric($number) === true)
-            /**
+        if (is_numeric($number) === true) {
+            /*
              *  @var integer
              */
             $this->limit = $number;
+        }
 
-        /**
+        /*
          *  @var void
          */
         return $this->offset(
@@ -766,13 +783,14 @@ class Query
      */
     public function offset($number)
     {
-        if (is_numeric($number) === true)
-            /**
+        if (is_numeric($number) === true) {
+            /*
              *  @var integer
              */
             $this->offset = $number;
+        }
 
-        /**
+        /*
          *  @var void
          */
         return $this;
@@ -785,7 +803,7 @@ class Query
      */
     public function and($clause)
     {
-        /**
+        /*
          *  @var void
          */
         $this->{$clause}->and();
@@ -795,20 +813,21 @@ class Query
          */
         $params = func_get_args();
 
-        /**
+        /*
          *  @var boolean
          */
-        if (sizeof($params) === 1)
-            /**
+        if (count($params) === 1) {
+            /*
              *  @var static
              */
             return $this;
+        }
 
-        /**
+        /*
          *  @var static
          */
         return call_user_func_array([
-            $this, array_shift($params)
+            $this, array_shift($params),
         ], $params);
     }
 
@@ -819,7 +838,7 @@ class Query
      */
     public function or($clause)
     {
-        /**
+        /*
          *  @var void
          */
         $this->{$clause}->or();
@@ -829,23 +848,23 @@ class Query
          */
         $params = func_get_args();
 
-        /**
+        /*
          *  @var boolean
          */
-        if (sizeof($params) === 1)
-            /**
+        if (count($params) === 1) {
+            /*
              *  @var static
              */
             return $this;
+        }
 
-        /**
+        /*
          *  @var static
          */
         return call_user_func_array([
-            $this, array_shift($params)
+            $this, array_shift($params),
         ], $params);
     }
-
 
     /**
      *  @param $column
@@ -855,7 +874,7 @@ class Query
      */
     public function as($column, $alias)
     {
-        /**
+        /*
          *  @var string
          */
         return sprintf(
@@ -872,7 +891,7 @@ class Query
      */
     public function bit($value)
     {
-        /**
+        /*
          *  @var string
          */
         return sprintf(
@@ -889,44 +908,48 @@ class Query
     {
         static $increment = null;
 
-        if ($increment === null)
+        if ($increment === null) {
             $increment = -1;
+        }
 
-        /**
+        /*
          *  @var boolean
          */
         if (gettype($value) === 'array') {
-            foreach ($value as &$subvalue)
+            foreach ($value as &$subvalue) {
                 /**
                  *  @var string
                  */
                 $subvalue = $this->bind(
                     $subvalue
                 );
+            }
 
-            /**
+            /*
              *  @var array
              */
             return $value;
         }
 
-        /**
+        /*
          *  @var boolean
          */
-        if ($value === 'b\'1\'' || $value === 'b\'0\'')
-          /**
+        if ($value === 'b\'1\'' || $value === 'b\'0\'') {
+            /*
            *  @var string
            */
           return $value;
+        }
 
-        /**
+        /*
          *  @var boolean
          */
-        if ($value === null)
-            /**
+        if ($value === null) {
+            /*
              *  @var string
              */
             return 'NULL';
+        }
 
         /**
          *  @var string
@@ -935,12 +958,12 @@ class Query
             ':%d', ++$increment
         );
 
-        /**
+        /*
          *  @var void
          */
         $this->bind[$key] = $value;
 
-        /**
+        /*
          *  @var string
          */
         return $key;
@@ -953,7 +976,7 @@ class Query
      */
     public function date($column)
     {
-        /**
+        /*
          *  @return string
          */
         return sprintf(
@@ -968,7 +991,7 @@ class Query
      */
     public function sum($column)
     {
-        /**
+        /*
          *  @return string
          */
         return sprintf(
@@ -983,7 +1006,7 @@ class Query
      */
     public function count($column)
     {
-        /**
+        /*
          *  @return string
          */
         return sprintf(
@@ -998,7 +1021,7 @@ class Query
      */
     public function max($column)
     {
-        /**
+        /*
          *  @return string
          */
         return sprintf(
@@ -1013,7 +1036,7 @@ class Query
      */
     public function year($column)
     {
-        /**
+        /*
          *  @return string
          */
         return sprintf(
@@ -1028,7 +1051,7 @@ class Query
      */
     public function week($column)
     {
-        /**
+        /*
          *  @return string
          */
         return sprintf(
@@ -1043,10 +1066,11 @@ class Query
      */
     public function separate($column)
     {
-        if (strpos($column, '`') !== false || strpos($column, '*') !== false || strpos($column, '(') !== false || strpos($column, '\'') !== false)
+        if (strpos($column, '`') !== false || strpos($column, '*') !== false || strpos($column, '(') !== false || strpos($column, '\'') !== false) {
             return $column;
+        }
 
-        /**
+        /*
          *  @var string
          */
         return sprintf(
@@ -1061,19 +1085,17 @@ class Query
      */
     public function get($prop)
     {
-        /**
+        /*
          *  @var array
          */
         switch ($prop) {
             case 'bind':
-                /**
+                /*
                  *  @var array
                  */
                 return $this->bind;
                 break;
         }
-
-        return null;
     }
 
     /**
@@ -1083,7 +1105,7 @@ class Query
      */
     public function to($type)
     {
-        /**
+        /*
          *  @var array
          */
         switch ($type) {
@@ -1091,7 +1113,7 @@ class Query
                 /**
                  *  @var string
                  */
-                $column = join(', ', $this->columns);
+                $column = implode(', ', $this->columns);
 
                 /**
                  *  @var array
@@ -1101,12 +1123,12 @@ class Query
                 /**
                  *  @var string
                  */
-                $join   = join(' ',  $this->join);
+                $join = implode(' ', $this->join);
 
                 /**
                  *  @var string
                  */
-                $where  = $this->where !== null ?
+                $where = $this->where !== null ?
                     sprintf(
                         'WHERE %s',
                         $this->where->to('string')
@@ -1124,25 +1146,25 @@ class Query
                 /**
                  *  @var string
                  */
-                $group  = sizeof($this->group) > 0 ?
+                $group = count($this->group) > 0 ?
                     sprintf(
                         'GROUP BY %s',
-                        join(', ', $this->group)
+                        implode(', ', $this->group)
                     ) : null;
 
                 /**
                  *  @var string
                  */
-                $order  = sizeof($this->order) > 0 ?
+                $order = count($this->order) > 0 ?
                     sprintf(
                         'ORDER BY %s',
-                        join(', ', $this->order)
+                        implode(', ', $this->order)
                     ) : null;
 
                 /**
                  *  @var string
                  */
-                $limit  = $this->limit !== null ?
+                $limit = $this->limit !== null ?
                     sprintf(
                         'LIMIT %s',
                         $this->limit
@@ -1178,7 +1200,7 @@ class Query
                      *  @var string
                      */
                     $column = sprintf(
-                        '(%s)', join(
+                        '(%s)', implode(
                             ', ', array_keys($values)
                         )
                     );
@@ -1187,7 +1209,7 @@ class Query
                      *  @var string
                      */
                     $values = sprintf(
-                        '(%s)', join(
+                        '(%s)', implode(
                             ', ', array_values($values)
                         )
                     );
@@ -1202,19 +1224,20 @@ class Query
                 }
 
                 if ($this->state === static::UPDATE) {
-                    foreach ($values as $column => &$value)
+                    foreach ($values as $column => &$value) {
                         $value = sprintf(
                             '%s = %s',
                             $column,
                             $value
                         );
+                    }
 
                     $builder = [
                         'UPDATE',
                         $this->table,
                         $join,
                         'SET',
-                        join(', ', $values),
+                        implode(', ', $values),
                         $where,
                         $group,
                         $having,
@@ -1239,16 +1262,14 @@ class Query
                     ];
                 }
 
-                /**
+                /*
                  * @var string
                  */
-                return join(
-                    " ", array_filter($builder)
+                return implode(
+                    ' ', array_filter($builder)
                 );
 
                 break;
         }
-
-        return null;
     }
 }

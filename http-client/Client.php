@@ -1,21 +1,16 @@
 <?php
 
 /**
- *  PHP Lite & Scaleable Web Frame
+ *  PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Http;
 
 use Frame\Http\Client\Headers;
 use Frame\Http\Client\Response;
-use Frame\Http\Uri;
-use Frame\Http\UriAbstract;
 
-/**
- * @subpackage Http\Client
- */
 class Client
 {
     /**
@@ -53,12 +48,12 @@ class Client
      */
     public function __construct($url)
     {
-        /**
+        /*
          *  @var \Frame\Client\Headers
          */
         $this->headers = new Headers([]);
 
-        /**
+        /*
          *  @var \Frame\Client\Headers
          */
         $this->uri = is_object(
@@ -73,7 +68,7 @@ class Client
                 )
             ) ? $url : new Uri($url);
 
-        /**
+        /*
          *  @var array
          */
         $this->curlopt = [
@@ -149,7 +144,7 @@ class Client
     }
 
     /**
-     *  Alias of delete
+     *  Alias of delete.
      *
      *  @param string   $url
      *  @param string   $body
@@ -170,8 +165,9 @@ class Client
      */
     public function method($method = null)
     {
-        if ($method === null)
+        if ($method === null) {
             return $this->method;
+        }
 
         $this->method = strtoupper($method);
 
@@ -185,8 +181,9 @@ class Client
      */
     public function timeout($timeout = null)
     {
-        if ($timeout === null)
+        if ($timeout === null) {
             return $this->timeout;
+        }
 
         $this->timeout = $timeout;
 
@@ -200,8 +197,9 @@ class Client
      */
     public function query(array $query = null)
     {
-        if ($query === null)
+        if ($query === null) {
             return $this->uri->query;
+        }
 
         $this->uri->query
             ->replace($query);
@@ -216,9 +214,10 @@ class Client
      */
     public function header($header, $val = null)
     {
-        if ($val === null)
+        if ($val === null) {
             return $this->headers
                 ->get($header);
+        }
 
         $this->headers
             ->set($header, $val);
@@ -233,8 +232,9 @@ class Client
      */
     public function headers(array $headers = null)
     {
-        if ($headers === null)
+        if ($headers === null) {
             return $this->headers;
+        }
 
         $this->headers
             ->replace($headers);
@@ -249,8 +249,9 @@ class Client
      */
     public function body($body = null)
     {
-        if ($body === null)
+        if ($body === null) {
             return $this->body;
+        }
 
         $this->body = $body;
 
@@ -262,8 +263,9 @@ class Client
      */
     public function curlopt(array $curlopt = null)
     {
-        if ($curlopt === null)
+        if ($curlopt === null) {
             return $this->curlopt;
+        }
 
         $this->curlopt = array_replace(
             $this->curlopt, $curlopt
@@ -289,28 +291,30 @@ class Client
             ])
         );
 
-        if ($this->method !== 'GET')
+        if ($this->method !== 'GET') {
             curl_setopt_array($request, [
                 CURLOPT_CUSTOMREQUEST   => $this->method,
-                CURLOPT_POSTFIELDS      => $this->body
+                CURLOPT_POSTFIELDS      => $this->body,
             ]);
+        }
 
-        $body       = curl_exec($request);
-        $code       = curl_getinfo($request, CURLINFO_HTTP_CODE);
+        $body = curl_exec($request);
+        $code = curl_getinfo($request, CURLINFO_HTTP_CODE);
         // $headers    = curl_getinfo($request, CURLINFO_HEADER_OUT);
-        $errno      = curl_errno($request);
-        $error      = curl_error($request);
+        $errno = curl_errno($request);
+        $error = curl_error($request);
 
-        $hsize      = curl_getinfo($request, CURLINFO_HEADER_SIZE);
-        $headers    = substr($body, 0, $hsize);
-        $body       = substr($body, $hsize);
+        $hsize = curl_getinfo($request, CURLINFO_HEADER_SIZE);
+        $headers = substr($body, 0, $hsize);
+        $body = substr($body, $hsize);
 
         curl_close($request);
 
-        if ($errno > 0)
+        if ($errno > 0) {
             throw new \Exception(
-                "Request failed: " . $error, $errno
+                'Request failed: '.$error, $errno
             );
+        }
 
         return new Response(
             $body, $code, $headers

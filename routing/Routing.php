@@ -1,40 +1,36 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
 use Frame\App\Exception;
 use Frame\Routing\Aspects;
-use Frame\Routing\Group;
 use Frame\Routing\Cache;
-use Frame\Routing\Route;
+use Frame\Routing\Group;
 use Frame\Routing\Params;
 use Frame\Routing\Routes;
 
-/**
- * @subpackage Routing
- */
 class Routing
 {
     /**
      *  @const CAPTURE
      */
-    const CAPTURE           = '[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\@]+';
+    const CAPTURE = '[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\@]+';
 
     /**
      *  @var string
      */
-    protected $separator    = '@';
+    protected $separator = '@';
 
     /**
      *  @var array
      */
-    protected $method       = 'get';
+    protected $method = 'get';
 
     /**
      *  @var \Frame\Request
@@ -78,37 +74,37 @@ class Routing
      */
     public function __construct(Request $request)
     {
-        /**
+        /*
          *  @var \Frame\Request
          */
-        $this->request  = $request;
+        $this->request = $request;
 
-        /**
+        /*
          *  @var \Frame\Routing\Aspects
          */
-        $this->aspects  = new Aspects;
+        $this->aspects = new Aspects();
 
-        /**
+        /*
          *  @var \Frame\Routing\Group
          */
-        $this->group    = new Group;
+        $this->group = new Group();
 
-        /**
+        /*
          *  @var \Frame\Routing\Routes
          */
-        $this->routes   = new Routes;
+        $this->routes = new Routes();
 
-        /**
+        /*
          *  @var \Frame\Routing\Routes
          */
-        $this->cache    = new Cache;
+        $this->cache = new Cache();
 
-        /**
+        /*
          *  @var \Frame\Routing\Routes
          */
-        $this->params   = new Params;
+        $this->params = new Params();
 
-        $this->method   = $request->is('cli') ?
+        $this->method = $request->is('cli') ?
             'cli' : strtolower(
                 $request->method()
             );
@@ -117,26 +113,28 @@ class Routing
     /**
      * @param $methods
      * @param $paths
-     * @param null $call
+     * @param null  $call
      * @param array $options
+     *
      * @return $this
      */
     public function match($methods, $paths, $call = null, $options = [])
     {
-        /**
+        /*
          *  @var boolean
          */
-        if (gettype($methods) !== 'array')
+        if (gettype($methods) !== 'array') {
             /**
              *  @var array
              */
-            $methods = array($methods);
+            $methods = [$methods];
+        }
 
-        /**
+        /*
          *  @var boolean
          */
         if (in_array($this->method, $methods, true) === false) {
-            /**
+            /*
             *  @var $this
             */
             return $this;
@@ -146,19 +144,20 @@ class Routing
             $options = $call;
         }
 
-        /**
+        /*
          *  @var boolean
          */
-        if (gettype($paths) !== 'array')
+        if (gettype($paths) !== 'array') {
             /**
              *  @var array
              */
             $paths = [$paths => $call];
+        }
 
-        /**
+        /*
          *  @var void
          */
-        foreach ($paths as $path => $call)
+        foreach ($paths as $path => $call) {
             $this->routes->add(
                 $this->method === 'cli' ? 'console' : 'http',
                 $path,
@@ -166,8 +165,9 @@ class Routing
                 $options,
                 $this->group
             );
+        }
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -294,11 +294,11 @@ class Routing
      */
     public function deny($paths, $call = null, $options = [])
     {
-        if (gettype($paths) === 'array')
+        if (gettype($paths) === 'array') {
             $options = gettype($call) === 'array' ? $call : [];
+        }
 
         if (gettype($paths) !== 'array') {
-
             $paths = [$paths => $call];
         }
 
@@ -319,9 +319,9 @@ class Routing
      *  @param $key
      *  @param null $val
      *
-     *  @return $this
-     *
      *  @throws Exception
+     *
+     *  @return $this
      */
     public function param($key, $val = null)
     {
@@ -333,9 +333,9 @@ class Routing
     /**
      *  @param array|null $keys
      *
-     *  @return $this
-     *
      *  @throws Exception
+     *
+     *  @return $this
      */
     public function params(array $keys = null)
     {
@@ -346,9 +346,10 @@ class Routing
 
     /**
      *  @param null $prefix
-     *  @return $this
      *
      *  @throws Exception
+     *
+     *  @return $this
      */
     public function prefix($prefix = null)
     {
@@ -359,9 +360,10 @@ class Routing
 
     /**
      *  @param null $namespace
-     *  @return $this
      *
      *  @throws Exception
+     *
+     *  @return $this
      */
     public function namespace($namespace = null)
     {
@@ -372,8 +374,9 @@ class Routing
 
     public function aspect($name, $call = null)
     {
-        if ($call === null)
+        if ($call === null) {
             $this->aspects->get($name);
+        }
 
         $this->aspects->set($name, $call);
 
@@ -382,8 +385,9 @@ class Routing
 
     public function aspects(array $aspects = null)
     {
-        if ($aspects === null)
+        if ($aspects === null) {
             $this->aspects->get($aspects);
+        }
 
         $this->aspects->replace(
             $aspects
@@ -408,7 +412,7 @@ class Routing
             $this->group->set(
                 'namespace', $namespace === null ? $group['namespace'] : (
                     substr($namespace, -1) !== '\\' && substr($group['namespace'], 0, 1) !== '\\' ?
-                        sprintf('%s\\%s', $namespace, $group['namespace']) : $namespace . $group['namespace']
+                        sprintf('%s\\%s', $namespace, $group['namespace']) : $namespace.$group['namespace']
                 )
             );
         }
@@ -419,7 +423,7 @@ class Routing
             $this->group->set(
                 'prefix', $prefix === null ? $group['prefix'] : (
                     substr($prefix, -1) !== '\\' && substr($group['prefix'], 0, 1) !== '\\' ?
-                        sprintf('%s\\%s', $prefix, $group['prefix']) : $prefix . $group['prefix']
+                        sprintf('%s\\%s', $prefix, $group['prefix']) : $prefix.$group['prefix']
                 )
             );
         }
@@ -448,7 +452,7 @@ class Routing
     {
         $injection->locator()->add($this->params, 'params');
 
-        /**
+        /*
          *  @var boolean
          */
         if ($this->method === 'cli') {
@@ -457,7 +461,7 @@ class Routing
              */
             $argv = $_SERVER['argv'];
 
-            /**
+            /*
              *  @var void
              */
             array_shift($argv);
@@ -465,7 +469,7 @@ class Routing
             /**
              *  @var string
              */
-            $compare = join(' ', $argv);
+            $compare = implode(' ', $argv);
         } else {
             /**
              *  @var string
@@ -486,21 +490,24 @@ class Routing
                 $aspects = $route->aspects();
 
                 foreach ($aspects as $aspect) {
-                    if ($this->aspects->has($aspect) === true)
+                    if ($this->aspects->has($aspect) === true) {
                         $aspect = $this->aspects->get($aspect);
+                    }
 
-                    if (gettype($aspect) === 'string' && class_exists($aspect) === false)
+                    if (gettype($aspect) === 'string' && class_exists($aspect) === false) {
                         throw new Exception(
                             sprintf('Aspect \'%s\' missed.', $aspect)
                         );
+                    }
 
                     if (is_callable($aspect) === false) {
-                        if (strpos($aspect, $this->separator) === false)
+                        if (strpos($aspect, $this->separator) === false) {
                             $aspect = sprintf('%s@handle', $aspect);
+                        }
 
-                        $class  = $this->cache->instance(strtok($aspect, $this->separator), $injection);
+                        $class = $this->cache->instance(strtok($aspect, $this->separator), $injection);
 
-                        $aspect   = [$class, strtok($this->separator)];
+                        $aspect = [$class, strtok($this->separator)];
                     }
 
                     $success = $injection->locator(
@@ -509,17 +516,17 @@ class Routing
                         $aspect, $params
                     );
 
-                    if ($success !== null)
+                    if ($success !== null) {
                         return $success;
-
+                    }
                 }
 
                 $call = $route->call();
 
                 if (is_callable($call) === false) {
-                    $class  = $this->cache->instance(strtok($call, $this->separator), $injection);
+                    $class = $this->cache->instance(strtok($call, $this->separator), $injection);
 
-                    $call   = [$class, strtok($this->separator)];
+                    $call = [$class, strtok($this->separator)];
 
                     $route->call($call);
                 }
@@ -530,11 +537,10 @@ class Routing
                     $call, $params
                 );
 
-                if ($success !== null)
+                if ($success !== null) {
                     return $success;
+                }
             }
         }
-
-        return null;
     }
 }

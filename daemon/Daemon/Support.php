@@ -1,40 +1,39 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame\Http
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Daemon;
 
-use Frame\Daemon;
 use Frame\App;
+use Frame\Daemon;
 
-/**
- *  @subpackage Daemon
- */
 trait Support
 {
     /**
      *  @param null $name
      *  @param int $time
-     *  @return Daemon
      *
      *  @throws Exception
+     *
+     *  @return Daemon
      */
     public function daemon($name = null, $time = 1)
     {
-        /**
+        /*
          *  @var boolean
          */
-        if (property_exists($this, 'locator') === false)
-            /**
+        if (property_exists($this, 'locator') === false) {
+            /*
              *  @thrown Exception
              */
             throw new Exception(
                 'Locator instance is missed.'
             );
+        }
 
         return $this->locator(
             App::class

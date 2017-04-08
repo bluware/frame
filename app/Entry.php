@@ -1,16 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage App
- */
 abstract class Entry
 {
     use Locator\Support;
@@ -27,15 +24,15 @@ abstract class Entry
      */
     public function __construct(App $app)
     {
-        /**
+        /*
          *  @var \Frame\App
          */
-        $this->app      = $app;
+        $this->app = $app;
 
-        /**
+        /*
          *  @var \Frame\Locator
          */
-        $this->locator  = $app->locator();
+        $this->locator = $app->locator();
     }
 
     /**
