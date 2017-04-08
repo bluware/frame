@@ -16,9 +16,29 @@ use Frame\Database\Query\Where;
 class Query
 {
     /**
+     *  @const SELECT
+     */
+    const SELECT    = 0x1;
+
+    /**
+     *  @const INSERT
+     */
+    const INSERT    = 0x2;
+
+    /**
+     *  @const UPDATE
+     */
+    const UPDATE    = 0x3;
+
+    /**
+     *  @const DELETE
+     */
+    const DELETE    = 0x4;
+
+    /**
      *  @var string
      */
-    protected $state;
+    protected $state = 0x1;
 
     /**
      *  @var string
@@ -76,16 +96,16 @@ class Query
     protected $bind     = [];
 
     /**
-     *  @param  array $column
+     *  @param null $column
      *
-     *  @return void
+     *  @return $this|string
      */
     public function select($column = null)
     {
         /**
          *  @var string
          */
-        $this->state = 'SELECT';
+        $this->state = static::SELECT;
 
         /**
          *  @var array
@@ -123,16 +143,16 @@ class Query
     }
 
     /**
-     *  @param  array $column
-     *
-     *  @return void
+     * @param $table
+     * @param null $alias
+     * @return Query
      */
     public function insert($table, $alias = null)
     {
         /**
          *  @var string
          */
-        $this->state = 'INSERT';
+        $this->state = static::INSERT;
 
         /**
          *  @var void
@@ -143,16 +163,16 @@ class Query
     }
 
     /**
-     *  @param  array $column
-     *
-     *  @return void
+     * @param $table
+     * @param null $alias
+     * @return Query
      */
     public function update($table, $alias = null)
     {
         /**
          *  @var string
          */
-        $this->state = 'UPDATE';
+        $this->state = static::UPDATE;
 
         /**
          *  @var void
@@ -163,16 +183,14 @@ class Query
     }
 
     /**
-     *  @param  array $column
-     *
-     *  @return void
+     * @return $this
      */
     public function delete()
     {
         /**
          *  @var string
          */
-        $this->state = 'DELETE';
+        $this->state = static::DELETE;
 
         /**
          *  @var void
@@ -181,10 +199,8 @@ class Query
     }
 
     /**
-     *  @param  string $column
-     *  @param  string $alias
-     *
-     *  @return string
+     * @param $column
+     * @return $this
      */
     public function column($column)
     {
@@ -219,9 +235,7 @@ class Query
     }
 
     /**
-     *  @param  string $column
-     *  @param  string $alias
-     *
+     *  @param $column
      *  @return string
      */
     public function columns($column)
@@ -235,16 +249,13 @@ class Query
         /**
          *  @var void
          */
-        return $this->column(
-            $columns
-        );
+        return $this->column($columns);
     }
 
     /**
-     *  @param  mixed $column
-     *  @param  string $value
-     *
-     *  @return void
+     *  @param $column
+     *  @param null $value
+     *  @return $this
      */
     public function values($column, $value = null)
     {
@@ -269,10 +280,10 @@ class Query
     }
 
     /**
-     *  @param  mixed $column
-     *  @param  string $value
+     *  @param $column
+     *  @param null $value
      *
-     *  @return void
+     *  @return Query
      */
     public function set($column, $value = null)
     {
@@ -285,10 +296,10 @@ class Query
     }
 
     /**
-     *  @param  string $table
-     *  @param  string $alias
+     *  @param $table
+     *  @param null $alias
      *
-     *  @return void
+     *  @return $this
      */
     public function table($table, $alias = null)
     {
@@ -304,10 +315,10 @@ class Query
     }
 
     /**
-     *  @param  string $table
-     *  @param  string $alias
+     *  @param $table
+     *  @param null $alias
      *
-     *  @return void
+     *  @return Query
      */
     public function from($table, $alias = null)
     {
@@ -315,10 +326,12 @@ class Query
     }
 
     /**
-     *  @param  string $table
-     *  @param  string $alias
+     *  @param $table
+     *  @param $alias
+     *  @param array $expression
+     *  @param string $paste
      *
-     *  @return void
+     *  @return $this
      */
     public function join($table, $alias, array $expression, $paste = 'inner')
     {
@@ -356,10 +369,12 @@ class Query
     }
 
     /**
-     *  @param  string $table
-     *  @param  string $alias
+     *  @param $clause
+     *  @param $table
+     *  @param $alias
+     *  @param array $expression
      *
-     *  @return void
+     *  @return mixed
      */
     public function inner($clause, $table, $alias, array $expression)
     {
@@ -370,10 +385,12 @@ class Query
     }
 
     /**
-     *  @param  string $table
-     *  @param  string $alias
+     *  @param $clause
+     *  @param $table
+     *  @param $alias
+     *  @param array $expression
      *
-     *  @return void
+     *  @return mixed
      */
     public function left($clause, $table, $alias, array $expression)
     {
@@ -384,10 +401,11 @@ class Query
     }
 
     /**
-     *  @param  string $table
-     *  @param  string $alias
-     *
-     *  @return void
+     *  @param $clause
+     *  @param $table
+     *  @param $alias
+     *  @param array $expression
+     *  @return mixed
      */
     public function right($clause, $table, $alias, array $expression)
     {
@@ -398,9 +416,12 @@ class Query
     }
 
     /**
-     *  @param  [type] $column [description]
+     *  @param $column
+     *  @param null $value
+     *  @param string $operator
+     *  @param string $paste
      *
-     *  @return static
+     *  @return $this
      */
     public function where(
         $column,
@@ -452,9 +473,12 @@ class Query
     }
 
     /**
-     *  @param  [type] $column [description]
+     *  @param $column
+     *  @param null $value
+     *  @param string $operator
+     *  @param string $paste
      *
-     *  @return static
+     *  @return $this
      */
     public function having(
         $column,
@@ -642,10 +666,9 @@ class Query
     }
 
     /**
-     *  @param  mixed  $column
-     *  @param  string $sort
+     *  @param $column
      *
-     *  @return void
+     *  @return $this
      */
     public function group($column)
     {
@@ -670,10 +693,10 @@ class Query
     }
 
     /**
-     *  @param  mixed  $column
-     *  @param  string $sort
+     *  @param $column
+     *  @param string $sort
      *
-     *  @return void
+     *  @return $this
      */
     public function order($column, $sort = 'ASC')
     {
@@ -715,10 +738,10 @@ class Query
     }
 
     /**
-     *  @param  string $table
-     *  @param  string $alias
+     *  @param $number
+     *  @param null $offset
      *
-     *  @return void
+     *  @return Query
      */
     public function limit($number, $offset = null)
     {
@@ -737,7 +760,9 @@ class Query
     }
 
     /**
-     *  @param ingeger $number
+     *  @param $number
+     *
+     *  @return $this
      */
     public function offset($number)
     {
@@ -754,9 +779,9 @@ class Query
     }
 
     /**
-     *  @param  string $clause
+     *  @param $clause
      *
-     *  @return static
+     *  @return $this|mixed
      */
     public function and($clause)
     {
@@ -788,9 +813,9 @@ class Query
     }
 
     /**
-     *  @param  string $clause
+     *  @param $clause
      *
-     *  @return static
+     *  @return $this|mixed
      */
     public function or($clause)
     {
@@ -823,8 +848,8 @@ class Query
 
 
     /**
-     *  @param  string $column
-     *  @param  string $alias
+     *  @param $column
+     *  @param $alias
      *
      *  @return string
      */
@@ -841,8 +866,7 @@ class Query
     }
 
     /**
-     *  @param  string $column
-     *  @param  string $alias
+     *  @param $value
      *
      *  @return string
      */
@@ -857,8 +881,7 @@ class Query
     }
 
     /**
-     *  @param  string $column
-     *  @param  string $alias
+     *  @param $value
      *
      *  @return string
      */
@@ -901,27 +924,19 @@ class Query
             return 'NULL';
 
         /**
-         *  @var string
-         */
-        $rand = sprintf(
-            ':%s',
-            uniqid(
-                rand(10000,99999)
-            )
-        );
-
-        /**
          *  @var void
          */
-        $this->bind[$rand] = $value;
+        $this->bind[] = $value;
 
         /**
          *  @var string
          */
-        return $rand;
+        return '?';
     }
 
     /**
+     *  @param $column
+     *
      *  @return string
      */
     public function date($column)
@@ -935,6 +950,8 @@ class Query
     }
 
     /**
+     *  @param $column
+     *
      *  @return string
      */
     public function sum($column)
@@ -948,6 +965,8 @@ class Query
     }
 
     /**
+     *  @param $column
+     *
      *  @return string
      */
     public function count($column)
@@ -961,6 +980,8 @@ class Query
     }
 
     /**
+     *  @param $column
+     *
      *  @return string
      */
     public function max($column)
@@ -974,6 +995,8 @@ class Query
     }
 
     /**
+     *  @param $column
+     *
      *  @return string
      */
     public function year($column)
@@ -987,6 +1010,8 @@ class Query
     }
 
     /**
+     *  @param $column
+     *
      *  @return string
      */
     public function week($column)
@@ -1000,8 +1025,7 @@ class Query
     }
 
     /**
-     *  @param  string $column
-     *  @param  string $alias
+     *  @param $column
      *
      *  @return string
      */
@@ -1041,9 +1065,9 @@ class Query
     }
 
     /**
-     *  @param  string $prop
+     *  @param $type
      *
-     *  @return mixed
+     *  @return null|string
      */
     public function to($type)
     {
@@ -1052,6 +1076,7 @@ class Query
          */
         switch ($type) {
             case 'string': case 'str':
+//                var_dump($this); die;
                 /**
                  *  @var string
                  */
@@ -1121,7 +1146,7 @@ class Query
                         $this->offset
                     ) : null;
 
-                if ($this->state === 'SELECT') {
+                if ($this->state === static::SELECT) {
                     $builder = [
                         'SELECT',
                         $column,
@@ -1137,7 +1162,7 @@ class Query
                     ];
                 }
 
-                if ($this->state === 'INSERT') {
+                if ($this->state === static::INSERT) {
                     /**
                      *  @var string
                      */
@@ -1165,7 +1190,7 @@ class Query
                     ];
                 }
 
-                if ($this->state === 'UPDATE') {
+                if ($this->state === static::UPDATE) {
                     foreach ($values as $column => &$value)
                         $value = sprintf(
                             '%s = %s',
@@ -1188,7 +1213,7 @@ class Query
                     ];
                 }
 
-                if ($this->state === 'DELETE') {
+                if ($this->state === static::DELETE) {
                     $builder = [
                         'DELETE',
                         'FROM',

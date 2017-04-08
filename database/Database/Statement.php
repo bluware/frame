@@ -167,24 +167,28 @@ class Statement
                  *  @var void
                  */
                 foreach ($bind as $input => $value) {
-                    /**
-                     *  @var integer
-                     */
-                    $hold = is_numeric(
-                        $value
-                    ) && is_integer(
-                        $value + 0
-                    ) ? \PDO::PARAM_INT : \PDO::PARAM_STR;
-
-                    /**
-                     *  @var void
-                     */
-                    $this->state(
-                        'bindValue',
-                        $input,
-                        $value,
-                        $hold
+                    $this->state->bindParam(
+                        $input + 1, $value
                     );
+                    
+//                    /**
+//                     *  @var integer
+//                     */
+//                    $hold = is_numeric(
+//                        $value
+//                    ) && is_integer(
+//                        $value + 0
+//                    ) ? \PDO::PARAM_INT : \PDO::PARAM_STR;
+//
+//                    /**
+//                     *  @var void
+//                     */
+//                    $this->state(
+//                        'bindValue',
+//                        $input,
+//                        $value,
+//                        $hold
+//                    );
                 }
             }
 

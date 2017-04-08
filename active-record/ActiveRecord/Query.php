@@ -8,8 +8,11 @@
  */
 namespace Frame\ActiveRecord;
 
+use Frame\Database\Adapter;
 use Frame\Database\Manager;
 use Frame\Data\Writable;
+use Frame\Database\Query as Q;
+use Frame\Database\Statement;
 
 /**
  * @subpackage Active
@@ -17,40 +20,53 @@ use Frame\Data\Writable;
 abstract class Query extends Writable
 {
     /**
-     *  @var string
+     *  @const ONE
      */
-    protected static $adapter       = 'default';
+    const ONE                   = 'one';
+
+    /**
+     *  @const ALL
+     */
+    const ALL                   = 'all';
 
     /**
      *  @var string
      */
-    protected $table;
+    protected static $adapter   = 'default';
+
+    /**
+     *  @var string
+     */
+    protected $table ;
 
     /**
      *  @var string|array
      */
-    protected $primary      = 'id';
+    protected $primary          = 'id';
 
     /**
      *  @var string
      */
-    protected $increment    = true;
+    protected $increment        = true;
 
     /**
      *  @var array
      */
-    protected $columns      = [];
+    protected $columns          = [];
 
     /**
      *  @var array
      */
-    protected $origin       = [];
+    protected $origin           = [];
 
     /**
      *  @var boolean
      */
-    protected $isset        = false;
+    protected $isset            = false;
 
+    /**
+     *  @param array|null $data
+     */
     public function __construct(array $data = null)
     {
         if ($data !== null)
@@ -72,7 +88,7 @@ abstract class Query extends Writable
         /**
          *  @var void
          */
-        static::query(function($q) use ($data) {
+        static::query(function(Q $q) use ($data) {
             /**
              *  @var boolean
              */
@@ -123,17 +139,12 @@ abstract class Query extends Writable
      *  @param  array  $data
      *  @return mixed
      */
-    public function select($state, callable $call = null)
+    public function select($fetch, callable $call = null)
     {
         /**
          *  @var void
          */
-        $data = static::query(function(
-            $q
-        ) use (
-            $state,
-            $call
-        ) {
+        $data = static::query($fetch, function(Q $q) use ($fetch, $call) {
             $q->select(
                 $this->columns
             )->from(
@@ -156,12 +167,12 @@ abstract class Query extends Writable
             /**
              *  @var boolean
              */
-            if ($state === 'one')
+            if ($fetch === static::ONE)
                 /**
                  *  @var void
                  */
-                $q->limit(1);
-        })->{$state}();
+                $q->limit(1, 0);
+        });
 
         /**
          *  @var boolean
@@ -177,7 +188,7 @@ abstract class Query extends Writable
         /**
          *  @var boolean
          */
-        if ($state === 'one') {
+        if ($fetch === static::ONE) {
             /**
              *  @var array
              */
@@ -256,7 +267,7 @@ abstract class Query extends Writable
         /**
          *  @var void
          */
-        static::query(function($q) use ($data) {
+        static::query(function(Q $q) use ($data) {
             $q->update(
                 $this->table
             )->set(
@@ -297,7 +308,7 @@ abstract class Query extends Writable
         /**
          *  @var void
          */
-        static::query(function($q) {
+        static::query(function(Q $q) {
             $q->delete(
                 //
             )->from(
@@ -398,52 +409,74 @@ abstract class Query extends Writable
     }
 
     /**
-     *  @param  mixed $state
-     *  @param  mixed $query
-     *
-     *  @return mixed
+     * @param $fetch
+     * @param null $query
+     * @return mixed
      */
-    protected static function query($pull, $query = null)
+    protected static function query($fetch, $query = null)
     {
+        /**
+         *  @var \Frame\Database\Adapter
+         */
+        $adapter = static::adapter();
+
         if ($query === null)
             /**
              *  @var \Frame\Database\Statement
              */
-            return static::adapter(
-                'query', $pull
+            return $adapter->query($fetch);
+
+        /**
+         *  @var \Frame\Database\Statement
+         */
+        $state = $adapter->query($query);
+
+        /**
+         *  @var boolean
+         */
+        if (strpos($fetch, ':') !== false)
+            /**
+             *  @var mixed
+             */
+            return call_user_func(
+                [
+                    $state, strtok($fetch, ':')
+                ], strtok(':'), strtok(':')
             );
+
 
         /**
          *  @var mixed
          */
-        return static::adapter(
-            'query', $query
-        )->{$pull}();
+        return call_user_func([$state, $fetch]);
     }
 
     /**
-     *  @param  mixed $state
-     *  @param  mixed $query
+     *  @param callable $calle
+     *  @param null $error
      *
      *  @return mixed
      */
-    protected static function transaction($call, &$error = null)
+    protected static function transaction(callable $calle, &$error = null)
     {
         /**
          *  @var mixed
          */
         return static::adapter()->transaction(
-            $call, $error
+            $calle, $error
         );
     }
 
     /**
-     *  @return mixed
+     *  @param null $method
+     *
+     *  @return mixed|null
+     *  @throws \Exception
      */
     protected static function adapter($method = null)
     {
         /**
-         *  @var \Frame\Database\Drive
+         *  @var \Frame\Database\Adapter
          */
         $adapter = Manager::singleton()->get(static::$adapter);
 
@@ -463,7 +496,7 @@ abstract class Query extends Writable
          */
         if ($method === null)
             /**
-             *  @var \Frame\Database\Drive
+             *  @var \Frame\Database\Adapter
              */
             return $adapter;
 
