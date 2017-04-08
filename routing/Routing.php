@@ -298,15 +298,18 @@ class Routing
             $options = gettype($call) === 'array' ? $call : [];
 
         if (gettype($paths) !== 'array') {
-            foreach ($paths as $path => $call) {
-                if ($path === '*') {
-                    $options['priority'] = array_key_exists('priority', $options) === true ? $options['priority'] + 99 : 149;
-                } else {
-                    $options['priority'] = array_key_exists('priority', $options) === true ? $options['priority'] + 49 : 99;
-                }
 
-                $this->any($path, $call, $options);
+            $paths = [$paths => $call];
+        }
+
+        foreach ($paths as $path => $call) {
+            if ($path === '*') {
+                $options['priority'] = array_key_exists('priority', $options) === true ? $options['priority'] + 99 : 149;
+            } else {
+                $options['priority'] = array_key_exists('priority', $options) === true ? $options['priority'] + 49 : 99;
             }
+
+            $this->any($path, $call, $options);
         }
 
         return $this;
