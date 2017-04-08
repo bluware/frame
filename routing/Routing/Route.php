@@ -303,11 +303,12 @@ class Route
             '.*?'
         ], $path);
 
-        foreach ($this->params as $name => $regexp)
+        foreach ($this->params as $name => $regexp) {
             $src = preg_replace(
                 [
                     sprintf(
-                        '/(\{\?%s\|%s\?})/',
+                        '/(\{\?%s\|%s\?\})/',
+                        $name,
                         $name
                     ), sprintf(
                     '/[^\?]\:\?%s/',
@@ -319,6 +320,18 @@ class Route
                 $src
             );
 
+            $src = preg_replace(
+                sprintf(
+                    '/([^\?])\:\?%s/',
+                    $name
+                ), sprintf(
+                '$1%s', $regexp
+            ),
+                $src
+            );
+        }
+
+
         $src = $xor = preg_replace(
             [
                 '/\{\?(?:|[a-zA-Z0-9\_\-]+)\}/',
@@ -328,21 +341,30 @@ class Route
             $src
         );
 
-        foreach ($this->params as $name => $regexp)
+        foreach ($this->params as $name => $regexp) {
             $xor = preg_replace(
-                [
+
                     sprintf(
                         '/\{%s\}/',
                         $name
-                    ), sprintf(
-                    '/[^\?]\:%s/',
-                    $name
-                )
-                ], sprintf(
+                    )
+                , sprintf(
                 '(%s)', $regexp
             ),
                 $xor
             );
+
+            $xor = preg_replace(
+                 sprintf(
+                    '/([^\?])\:%s/',
+                    $name
+                ), sprintf(
+                '$1(%s)', $regexp
+            ),
+                $xor
+            );
+        }
+
 
         $xor = preg_replace(
             '/\{[a-zA-Z0-9\_\-]+\}/',
@@ -359,6 +381,8 @@ class Route
             ),
             $xor
         );
+
+        var_dump(sprintf('/^%s$/', $xor));
 
         $success = (bool) preg_match(
             sprintf('/^%s$/', $xor), $url, $matches
