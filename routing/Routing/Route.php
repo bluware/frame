@@ -382,8 +382,6 @@ class Route
             $xor
         );
 
-        var_dump(sprintf('/^%s$/', $xor));
-
         $success = (bool) preg_match(
             sprintf('/^%s$/', $xor), $url, $matches
         );
