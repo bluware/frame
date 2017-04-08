@@ -179,8 +179,20 @@ return [
     /**------------------------------------------------------------------------
      *  @package `router` module
      */
+    'Frame\\Routing\\Exception'
+        => __DIR__ . "/routing/Routing/Exception.php",
+    'Frame\\Routing\\Routes'
+        => __DIR__ . "/routing/Routing/Routes.php",
+    'Frame\\Routing\\Route'
+        => __DIR__ . "/routing/Routing/Route.php",
+    'Frame\\Routing\\Params'
+        => __DIR__ . "/routing/Routing/Params.php",
     'Frame\\Routing\\Aspects'
         => __DIR__ . "/routing/Routing/Aspects.php",
+    'Frame\\Routing\\Group'
+        => __DIR__ . "/routing/Routing/Group.php",
+    'Frame\\Routing\\Cache'
+        => __DIR__ . "/routing/Routing/Cache.php",
     'Frame\\Routing'
         => __DIR__ . "/routing/Routing.php",
     //-------------------------------------------------------------------------

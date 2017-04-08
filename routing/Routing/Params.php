@@ -15,5 +15,8 @@ use Frame\Data\Writable;
  */
 class Params extends Writable
 {
-    //
+    public function reset(array $params)
+    {
+        $this->data = $params;
+    }
 }

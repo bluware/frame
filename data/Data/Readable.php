@@ -111,16 +111,6 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     }
 
     /**
-     *  @return $this
-     */
-    public function sort()
-    {
-        ksort($this->data);
-
-        return $this;
-    }
-
-    /**
      *  @return array
      */
     public function data()
