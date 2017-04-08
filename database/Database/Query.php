@@ -887,6 +887,11 @@ class Query
      */
     public function bind($value)
     {
+        static $increment = null;
+
+        if ($increment === null)
+            $increment = -1;
+
         /**
          *  @var boolean
          */
@@ -924,14 +929,21 @@ class Query
             return 'NULL';
 
         /**
+         *  @var string
+         */
+        $key = sprintf(
+            ':%d', ++$increment
+        );
+
+        /**
          *  @var void
          */
-        $this->bind[] = $value;
+        $this->bind[$key] = $value;
 
         /**
          *  @var string
          */
-        return '?';
+        return $key;
     }
 
     /**
@@ -1076,7 +1088,6 @@ class Query
          */
         switch ($type) {
             case 'string': case 'str':
-//                var_dump($this); die;
                 /**
                  *  @var string
                  */

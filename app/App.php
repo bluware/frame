@@ -23,12 +23,24 @@ class App
     protected static $singleton;
 
     /**
+     * @var bool
+     */
+    protected $report = true;
+
+    /**
      *  App constructor.
      *
      *  @param array $config
      */
     public function __construct($config = [])
     {
+        /**
+         *
+         */
+        $config = new Config(
+            $config
+        );
+
         /**
          *  @var \Frame\Locator
          */
@@ -44,13 +56,6 @@ class App
          */
         $locator->add(
             $locator, 'locator'
-        );
-
-        /**
-         *
-         */
-        $config = new Config(
-            $config
         );
 
         /**
@@ -295,11 +300,13 @@ class App
         ob_start();
         // ob_start("ob_gzhandler");
 
-        echo $this->locator->get(
+        $response = $this->locator->get(
             'router'
         )->dispatch(
             $this
         );
+
+        echo $response;
 
         ob_end_flush();
     }

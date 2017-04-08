@@ -159,44 +159,44 @@ class Statement
     public function exec(array $bind = null)
     {
         if ($this->exec === false) {
-            /**
-             *  @var boolean
-             */
-            if ($bind !== null) {
-                /**
-                 *  @var void
-                 */
-                foreach ($bind as $input => $value) {
-                    $this->state->bindParam(
-                        $input + 1, $value
-                    );
-                    
-//                    /**
-//                     *  @var integer
-//                     */
-//                    $hold = is_numeric(
-//                        $value
-//                    ) && is_integer(
-//                        $value + 0
-//                    ) ? \PDO::PARAM_INT : \PDO::PARAM_STR;
-//
-//                    /**
-//                     *  @var void
-//                     */
-//                    $this->state(
-//                        'bindValue',
-//                        $input,
-//                        $value,
-//                        $hold
+//            /**
+//             *  @var boolean
+//             */
+//            if ($bind !== null) {
+//                /**
+//                 *  @var void
+//                 */
+//                foreach ($bind as $input => $value) {
+//                    $this->state->bindParam(
+//                        $input + 1, $value
 //                    );
-                }
-            }
+//
+////                    /**
+////                     *  @var integer
+////                     */
+////                    $hold = is_numeric(
+////                        $value
+////                    ) && is_integer(
+////                        $value + 0
+////                    ) ? \PDO::PARAM_INT : \PDO::PARAM_STR;
+////
+////                    /**
+////                     *  @var void
+////                     */
+////                    $this->state(
+////                        'bindValue',
+////                        $input,
+////                        $value,
+////                        $hold
+////                    );
+//                }
+//            }
 
 
             /**
              *  @var void
              */
-            $this->state('execute');
+            $this->state('execute', $bind);
 
             /**
              *  @var boolean
