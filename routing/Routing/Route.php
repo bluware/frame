@@ -76,7 +76,7 @@ class Route
         );
 
         if ($namespace !== null && gettype($call) === 'string')
-            $this->path = substr(
+            $this->call = substr(
                 $namespace,
                 -1
             ) !== '\\' && substr(
@@ -307,7 +307,7 @@ class Route
             $src = preg_replace(
                 [
                     sprintf(
-                        '/\{\?%s\}/',
+                        '/(\{\?%s\|%s\?})/',
                         $name
                     ), sprintf(
                     '/[^\?]\:\?%s/',
@@ -345,11 +345,17 @@ class Route
             );
 
         $xor = preg_replace(
-            [
-                '/\{[a-zA-Z0-9\_\-]+\}/', '/[^\?]\:[a-zA-Z0-9\_\-]+/',
-            ],
+            '/\{[a-zA-Z0-9\_\-]+\}/',
             sprintf(
                 '(%s)', Routing::CAPTURE
+            ),
+            $xor
+        );
+
+        $xor = preg_replace(
+            '/([^\?])\:[a-zA-Z0-9\_\-]+/',
+            sprintf(
+                '$1(%s)', Routing::CAPTURE
             ),
             $xor
         );

@@ -135,14 +135,16 @@ class Routing
         /**
          *  @var boolean
          */
-        if (in_array($this->method, $methods, true) === false)
+        if (in_array($this->method, $methods, true) === false) {
             /**
-             *  @var $this
-             */
+            *  @var $this
+            */
             return $this;
+        }
 
-        if (gettype($paths) === 'array')
+        if (gettype($paths) === 'array') {
             $options = $call;
+        }
 
         /**
          *  @var boolean
@@ -290,14 +292,24 @@ class Routing
      *
      *  @return Routing
      */
-    public function deny($path, $call = null, $options = [])
+    public function deny($paths, $call = null, $options = [])
     {
-        if (array_key_exists('priority', $options) === true)
-            $options['priority'] = $options['priority'] + ($path === '*' ? 99 : 49);
+        if (gettype($paths) === 'array')
+            $options = gettype($call) === 'array' ? $call : [];
 
-        return $this->any(
-            $path, $call, $options
-        );
+        if (gettype($paths) !== 'array') {
+            foreach ($paths as $path => $call) {
+                if ($path === '*') {
+                    $options['priority'] = array_key_exists('priority', $options) === true ? $options['priority'] + 99 : 149;
+                } else {
+                    $options['priority'] = array_key_exists('priority', $options) === true ? $options['priority'] + 49 : 99;
+                }
+
+                $this->any($path, $call, $options);
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -483,7 +495,7 @@ class Routing
                         if (strpos($aspect, $this->separator) === false)
                             $aspect = sprintf('%s@handle', $aspect);
 
-                        $class  = $this->cache(strtok($aspect, $this->separator), $injection);
+                        $class  = $this->cache->instance(strtok($aspect, $this->separator), $injection);
 
                         $aspect   = [$class, strtok($this->separator)];
                     }
@@ -502,7 +514,7 @@ class Routing
                 $call = $route->call();
 
                 if (is_callable($call) === false) {
-                    $class  = $this->cache(strtok($call, $this->separator), $injection);
+                    $class  = $this->cache->instance(strtok($call, $this->separator), $injection);
 
                     $call   = [$class, strtok($this->separator)];
 
@@ -517,136 +529,6 @@ class Routing
 
                 if ($success !== null)
                     return $success;
-            }
-        }
-
-        return null;
-
-        var_dump(1); die;
-
-        ksort($this->routes);
-
-        /**
-         *  @var mixed
-         */
-        foreach ($this->routes as $data) {
-            /**
-             *  @var boolean
-             */
-            $prefix = isset($data['group']['prefix']);
-
-            /**
-             *  @var boolean
-             */
-            if ($prefix === true)
-                $data['route'] = $data['group']['prefix'] . $data['route'];
-
-            /**
-             *  @var boolean
-             */
-            if (
-                preg_match(
-                    $this->pattern(
-                        $data['route'], $data, $this->method('is', 'cli')
-                    ),
-                    $compare,
-                    $params
-                )
-            ) {
-                /**
-                 *  @var array
-                 */
-                $params = $this->filter($params);
-
-                $injection->locator()->add(
-                    new Data(array_combine($data['params'], $params)), 'params'
-                );
-
-                /**
-                 *  @var null
-                 */
-                $class  = null;
-
-                /**
-                 *  @var boolean
-                 */
-                $aspects = isset($data['group']['aspect']);
-
-                /**
-                 *  @var boolean
-                 */
-                if ($aspects === true) {
-                    /**
-                     *  @var mixed
-                     */
-                    $aspects = $data['group']['aspect'];
-
-                    /**
-                     *  @var boolean
-                     */
-                    if (gettype($aspects) !== 'array')
-                        /**
-                         *  @var array
-                         */
-                        $aspects = [$aspects];
-
-                    /**
-                     *  @var array
-                     */
-                    foreach ($aspects as $key => $aspect) {
-                        $aspect = $this->aspects->get($aspect);
-
-                        $maked = $injection->locator('mediator')->dispatch(
-                            [
-                                new $aspect($injection), 'before'
-                            ], $params
-                        );
-
-                        if ($maked !== null)
-                            return $maked;
-                    }
-                }
-
-                /**
-                 *  @var array
-                 */
-                if (gettype($data['maker']) === 'string') {
-                    list($class, $method) = explode(
-                        $this->separator, $data['maker']
-                    );
-
-                    /**
-                     *  @var
-                     */
-                    $nspace = isset($data['group']['namespace']);
-
-                    /**
-                     *  @var boolean
-                     */
-                    if ($nspace === true)
-                        $class = sprintf(
-                            '%s\\%s',
-                            $data['group']['namespace'],
-                            $class
-                        );
-
-                    /**
-                     *  @var array
-                     */
-                    $data['maker'] = [
-                        new $class($injection), $method
-                    ];
-                }
-
-                $maked = $injection->locator('mediator')->dispatch(
-                    $data['maker'], $params
-                );
-
-                /**
-                 *  @var boolean
-                 */
-                if ($maked !== null)
-                    return $maked;
             }
         }
 

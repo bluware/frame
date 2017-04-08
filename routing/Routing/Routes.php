@@ -25,11 +25,12 @@ class Routes extends Writable
 
         if (sizeof($this->params) > 0)
             $route->params($this->params);
-
+            
         switch (gettype($options)) {
             case 'array':
                 if (array_key_exists('params', $options) === true)
                     $route->params($options['params']);
+
 
                 if (array_key_exists('priority', $options) === true)
                     $route->priority($options['priority']);
