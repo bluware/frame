@@ -225,36 +225,61 @@ abstract class ActiveRecord extends Query
      *  @param $keys
      *  @return mixed
      */
-    public static function in($keys)
-    {
-        if (gettype($keys) !== 'array')
+    public static function in(
+        $keys,
+        $order  = null,
+        $limit  = null,
+        $offset = null
+    ) {
+        if (gettype($keys) === 'string' && $keys === 'query')
+            return (new static)->select('all', $order);
+
+        if (gettype($keys) !== 'array' && is_callable($keys) === false)
             $keys = func_get_args();
 
-        return (new static)->select('all', function(
-            $q, $self
-        ) use (
-            $keys
-        ) {
-            /**
-             *  @var boolean
-             */
-            $primary = is_scalar($self->primary);
+        return (new static)->select(
+            'all', function(
+                $q, $self
+            ) use (
+                $keys,
+                $order,
+                $limit,
+                $offset
+            ) {
+                if (is_callable($keys) === true) {
+                    /**
+                     *  @var boolean
+                     */
+                    call_user_func(
+                        $where, $q
+                    );
+                } else {
+                    /**
+                     *  @var boolean
+                     */
+                    $primary = is_scalar($self->primary);
 
-            /**
-             *  @var boolean
-             */
-            if ($primary === false)
-                throw new \Exception(
-                    "Bad primary implementation"
+                    /**
+                     *  @var boolean
+                     */
+                    if ($primary === false)
+                        throw new \Exception(
+                            "Bad primary implementation"
+                        );
+
+                    $q->where(
+                        $self->primary, 'in', $keys
+                    );
+                }
+
+                $q->order(
+                    $order
+                )->limit(
+                    $limit,
+                    $offset
                 );
-
-            /**
-             *  @var boolean
-             */
-            $q->where(
-                $self->primary, 'in', $keys
-            );
-        });
+            }
+        );
     }
 
     /**
