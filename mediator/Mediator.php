@@ -1,24 +1,20 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
 use Frame\Mediator\Exception;
-
-use ReflectionFunctionAbstract  as RA;
 use ReflectionFunction          as RF;
+use ReflectionFunctionAbstract  as RA;
 use ReflectionMethod            as RM;
 use ReflectionParameter         as RP;
 use ReflectionType              as RT;
 
-/**
- * @subpackage Mediator
- */
 class Mediator
 {
     /**
@@ -69,13 +65,15 @@ class Mediator
      */
     protected function type(RP $param)
     {
-        if ($param->hasType() === false)
+        if ($param->hasType() === false) {
             return false;
+        }
 
         $type = $param->getType();
 
-        if ($type->isBuiltin() === true)
+        if ($type->isBuiltin() === true) {
             return false;
+        }
 
         return $type;
     }
@@ -136,13 +134,14 @@ class Mediator
          *  @var ActiveRecord|null
          */
         $entry = forward_static_call(
-            [$interface, 'find'],  $params[$place]
+            [$interface, 'find'], $params[$place]
         );
 
-        if ($entry === null)
+        if ($entry === null) {
             return false;
+        }
 
-        /**
+        /*
          *  @var ActiveRecord
          */
         $params[$place] = $entry;
@@ -162,8 +161,9 @@ class Mediator
     {
         $type = $this->type($param);
 
-        if ($type === false)
+        if ($type === false) {
             return true;
+        }
 
         $interface = $type->__toString();
 
@@ -172,8 +172,9 @@ class Mediator
                 $params, $param, $interface
             );
 
-            if ($success === false)
+            if ($success === false) {
                 return false;
+            }
         } elseif ($this->locate($interface) === true) {
             $this->insert(
                 $params, $param, $interface
@@ -197,9 +198,11 @@ class Mediator
     {
         $reflect = $this->reflector($calle);
 
-        foreach ($this->params($reflect) as $param)
-            if ($this->phase($params, $param) === false)
-                return null;
+        foreach ($this->params($reflect) as $param) {
+            if ($this->phase($params, $param) === false) {
+                return;
+            }
+        }
 
         return call_user_func_array(
             $calle, $params

@@ -1,18 +1,15 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Database\Query;
 
 use Frame\Database\Query;
 
-/**
- * @subpackage Database
- */
 class Where
 {
     /**
@@ -28,7 +25,7 @@ class Where
      *
      *  @return void
      */
-    public function set($column, $operator = '=', $value, $paste = 'and')
+    public function set($column, $operator, $value, $paste = 'and')
     {
         /**
          *  @var string
@@ -47,25 +44,26 @@ class Where
                  *  @var string
                  */
                 $value = sprintf(
-                    '(%s)', join(', ', $values)
+                    '(%s)', implode(', ', $values)
                 );
                 break;
 
             case 'BETWEEN': case 'NOT BETWEEN':
-                /**
+                /*
                  *  @var string
                  */
-                if (gettype($value) !== 'array')
+                if (gettype($value) !== 'array') {
                     return $this;
+                }
 
-                /**
-                 *  @var array
-                 */
-                 $value = join(' AND ', $value);
+                 /**
+                  *  @var array
+                  */
+                 $value = implode(' AND ', $value);
                 break;
         }
 
-        /**
+        /*
          *  @var static
          */
         return $this->push(
@@ -83,7 +81,7 @@ class Where
      */
     public function and()
     {
-        /**
+        /*
          *  @var void
          */
         return $this->paste('and');
@@ -94,7 +92,7 @@ class Where
      */
     public function or()
     {
-        /**
+        /*
          *  @var void
          */
         return $this->paste('or');
@@ -108,17 +106,17 @@ class Where
      */
     public function push($partial, $paste = 'and')
     {
-        /**
+        /*
          *  @var void
          */
         $this->paste($paste);
 
-        /**
+        /*
          * @var void
          */
         array_push($this->data, $partial);
 
-        /**
+        /*
          *  @var static
          */
         return $this;
@@ -132,27 +130,27 @@ class Where
      */
     public function separate(Query $q, callable $call, $paste = 'and')
     {
-        /**
+        /*
          *  @var void
          */
         $this->paste($paste);
-        
-        /**
+
+        /*
          *  @var void
          */
-        array_push($this->data, "(");
+        array_push($this->data, '(');
 
-        /**
+        /*
          *  @var void
          */
         call_user_func($call, $q);
 
-        /**
+        /*
          *  @var void
          */
-        array_push($this->data, ")");
+        array_push($this->data, ')');
 
-        /**
+        /*
          *  @var static
          */
         return $q;
@@ -165,32 +163,34 @@ class Where
      */
     public function paste($type)
     {
-        if (sizeof($this->data) === 0)
+        if (count($this->data) === 0) {
             return $this;
+        }
 
         /**
-         *  @var boolean
+         *  @var bool
          */
         $cant = in_array(
             end($this->data), [
-                '(', 'OR', 'AND'
+                '(', 'OR', 'AND',
             ], true
         );
 
-        if ($cant === true)
-            /**
+        if ($cant === true) {
+            /*
              *  @var static
              */
             return $this;
+        }
 
-        /**
+        /*
          *  @var void
          */
         array_push(
             $this->data, strtoupper($type)
         );
 
-        /**
+        /*
          *  @var static
          */
         return $this;
@@ -205,10 +205,10 @@ class Where
     {
         switch ($type) {
             case 'string': case 'str':
-                /**
+                /*
                  *  @var string
                  */
-                return join(' ', $this->data);
+                return implode(' ', $this->data);
                 break;
         }
     }

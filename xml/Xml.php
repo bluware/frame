@@ -1,16 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Xml
- */
 class Xml
 {
     protected $properties;
@@ -21,21 +18,22 @@ class Xml
 
     public function __construct(
         array $data,
-        $properties   = [],
-        $version      = '1.0',
-        $encoding     = 'UTF-8'
+        $properties = [],
+        $version = '1.0',
+        $encoding = 'UTF-8'
     ) {
-        $this->properties   = $properties;
+        $this->properties = $properties;
 
         $content = [
             sprintf('<?xml version="%s" encoding="%s"?>', $version, $encoding),
-            $this->gather($data)
+            $this->gather($data),
         ];
 
         $this->content = implode(
             "\n", $content
         );
     }
+
     private function properties($key)
     {
         $result = '';
@@ -50,6 +48,7 @@ class Xml
         } else {
             return $key;
         }
+
         return $result;
     }
 
@@ -106,6 +105,7 @@ class Xml
                 }
             }
         }
+
         return implode("\n", $result);
     }
 

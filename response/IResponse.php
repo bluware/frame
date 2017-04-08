@@ -1,22 +1,19 @@
 <?php
 
 /**
- *  Bluware PHP Lite Web & API Framework
+ *  Bluware PHP Lite Web & API Framework.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Response
- */
 interface IResponse
 {
     /**
-     * @param mixed  $body
-     * @param integer $status
-     * @param array   $headers
+     * @param mixed $body
+     * @param int   $status
+     * @param array $headers
      */
     public function __construct($body, $code = 200, array $headers = []);
 
@@ -37,6 +34,7 @@ interface IResponse
     /**
      * @param $key
      * @param null $val
+     *
      * @return $this|mixed|null
      */
     public function header($key, $val = null);

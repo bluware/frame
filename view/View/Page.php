@@ -1,60 +1,57 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\View;
 
-use Frame\ViewInterface;
 use Frame\Data\Readable;
+use Frame\ViewInterface;
 
-/**
- * @subpackage View
- */
 class Page implements PageInterface
 {
     /**
      *  @var \Frame\IView
      */
-    protected $view         = null;
+    protected $view = null;
 
     /**
      *  @var bool
      */
-    protected $prevent      = null;
+    protected $prevent = null;
 
     /**
      *  @var array
      */
-    protected $fill         = [];
+    protected $fill = [];
 
     /**
      *  @var \Frame\IView
      */
-    protected $content      = null;
+    protected $content = null;
 
     /**
      *  @var string
      */
-    protected $render       = null;
+    protected $render = null;
 
     /**
      *  @var string
      */
-    protected $layout       = null;
+    protected $layout = null;
 
     /**
      *  @var array
      */
-    protected $prop         = [];
+    protected $prop = [];
 
     /**
      *  @var array
      */
-    protected $call         = [];
+    protected $call = [];
 
     public function __construct(
         ViewInterface $view,
@@ -62,25 +59,25 @@ class Page implements PageInterface
         array $data = [],
         $prevent = false
     ) {
-        /**
+        /*
          *  @var \Frame\IView
          */
-        $this->view     = $view;
+        $this->view = $view;
 
-        /**
+        /*
          *  @var string
          */
-        $this->page     = $page;
+        $this->page = $page;
 
-        /**
+        /*
          *  @var boolean
          */
-        $this->prevent  = $prevent;
+        $this->prevent = $prevent;
 
-        /**
+        /*
          *  @var boolean
          */
-        foreach ($data as $k => $v)
+        foreach ($data as $k => $v) {
             $this->{
                 is_object($v) && is_subclass_of(
                     $v, Readable::class
@@ -90,6 +87,7 @@ class Page implements PageInterface
                     ) ? 'call' : 'prop'
                 )
             }[$k] = $v;
+        }
     }
 
     /**
@@ -99,16 +97,17 @@ class Page implements PageInterface
      */
     public function layout($page)
     {
-        /**
+        /*
          *  @var boolean
          */
-        if ($this->prevent === false)
-            /**
+        if ($this->prevent === false) {
+            /*
              *  @var string
              */
             $this->layout = $page;
+        }
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -121,7 +120,7 @@ class Page implements PageInterface
      */
     public function template($page)
     {
-        /**
+        /*
          *  @var $this
          */
         return $this->layout($page);
@@ -135,7 +134,7 @@ class Page implements PageInterface
      */
     public function placeholder($key, $def = '')
     {
-        /**
+        /*
          *  @var mixed
          */
         return array_key_exists($key, $this->fill) === true ?
@@ -150,7 +149,7 @@ class Page implements PageInterface
      */
     public function holder($key, $def = '')
     {
-        /**
+        /*
          *  @var mixed
          */
         return $this->placeholder($key, $def);
@@ -164,7 +163,7 @@ class Page implements PageInterface
      */
     public function hold($key, $def = '')
     {
-        /**
+        /*
          *  @var mixed
          */
         return $this->placeholder($key, $def);
@@ -178,23 +177,24 @@ class Page implements PageInterface
      */
     public function filler($key, $val = null)
     {
-        /**
+        /*
          *  @var boolean
          */
-        if (gettype($key) !== 'array')
+        if (gettype($key) !== 'array') {
             /**
              *  @var array
              */
             $key = [$key => $val];
+        }
 
-        /**
+        /*
          *  @var array
          */
         $this->fill = array_replace(
             $this->fill, $key
         );
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -214,19 +214,19 @@ class Page implements PageInterface
         $keys = gettype($key) === 'array' ? $key : [$key];
 
         foreach ($keys as $key) {
-            /**
+            /*
              *  @var void
              */
             ob_start();
 
             /**
-            *  @var string
-            */
+             *  @var string
+             */
             include $this->view->find(
                 $key, $ext
             );
 
-            /**
+            /*
              *  @var string
              */
             ob_get_clean();
@@ -243,7 +243,7 @@ class Page implements PageInterface
      */
     public function fill($key, $val = null)
     {
-        /**
+        /*
          *  @var $this
          */
         return $this->filler($key, $val);
@@ -256,7 +256,7 @@ class Page implements PageInterface
      */
     public function partial($page)
     {
-        /**
+        /*
          *  @var string
          */
         return $this->extract($page);
@@ -269,7 +269,7 @@ class Page implements PageInterface
      */
     public function part($page)
     {
-        /**
+        /*
          *  @var string
          */
         return $this->partial($page);
@@ -280,7 +280,7 @@ class Page implements PageInterface
      */
     public function content()
     {
-        /**
+        /*
          *  @var mixed
          */
         return $this->layout !== null ?
@@ -292,7 +292,7 @@ class Page implements PageInterface
      */
     public function inner()
     {
-        /**
+        /*
          *  @var mixed
          */
         return $this->content();
@@ -303,54 +303,56 @@ class Page implements PageInterface
      */
     public function render()
     {
-        /**
+        /*
          *  @var boolean
          */
-        if ($this->render !== null)
-            /**
+        if ($this->render !== null) {
+            /*
              *  @var string
              */
             return $this->render;
+        }
 
-        /**
+        /*
          *  @var string
          */
         $this->content = $this->extract(
             $this->page
         );
 
-        /**
+        /*
          *  @var boolean
          */
-        if ($this->prevent === true)
-            /**
-             *  @var string
-             */
-            return $this->render = $this->content;
-
-        /**
-         *  @var boolean
-         */
-        if ($this->layout !== null) {
-            /**
-             *  @var boolean
-             */
-            $this->prevent  = true;
-
-            /**
-             *  @var string
-             */
-            $this->content  = $this->extract(
-                $this->layout
-            );
-
-            /**
+        if ($this->prevent === true) {
+            /*
              *  @var string
              */
             return $this->render = $this->content;
         }
 
-        /**
+        /*
+         *  @var boolean
+         */
+        if ($this->layout !== null) {
+            /*
+             *  @var boolean
+             */
+            $this->prevent = true;
+
+            /*
+             *  @var string
+             */
+            $this->content = $this->extract(
+                $this->layout
+            );
+
+            /*
+             *  @var string
+             */
+            return $this->render = $this->content;
+        }
+
+        /*
          *  @var string
          */
         return $this->render = $this->content;
@@ -363,19 +365,19 @@ class Page implements PageInterface
      */
     protected function extract($path)
     {
-        /**
+        /*
          *  @var void
          */
         ob_start();
 
         /**
-        *  @var string
-        */
+         *  @var string
+         */
         include $this->view->find(
             $path
         );
 
-        /**
+        /*
          *  @var string
          */
         return ob_get_clean();
@@ -389,7 +391,7 @@ class Page implements PageInterface
      */
     public function __call($method, $arguments)
     {
-        /**
+        /*
          *  @var mixed
          */
         return call_user_func_array(
@@ -405,18 +407,18 @@ class Page implements PageInterface
      */
     public function __get($key)
     {
-        /**
+        /*
          *  @var mixed
          */
         return $this->prop[$key];
     }
 
     /**
-     *  @var boolean
+     *  @var bool
      */
     public function __isset($key)
     {
-        /**
+        /*
          *  @var boolean
          */
         return array_key_exists($key, $this->prop);

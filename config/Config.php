@@ -1,19 +1,16 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
 use Frame\Config\Exception;
 use Frame\Data\Writable;
 
-/**
- * @subpackage Config
- */
 class Config extends Writable
 {
     /**
@@ -28,17 +25,19 @@ class Config extends Writable
         switch (gettype($source)) {
             case 'string':
 
-                if (is_file($source) === false)
+                if (is_file($source) === false) {
                     throw new Exception(
                         "Configuration file '{$source}' missed."
                     );
+                }
 
-                $source = include($source);
+                $source = include $source;
 
-                if (gettype($source) !== 'array')
+                if (gettype($source) !== 'array') {
                     throw new Exception(
-                        "Configuration file should return Array."
+                        'Configuration file should return Array.'
                     );
+                }
 
                 $this->data = $source;
                 break;
@@ -49,7 +48,7 @@ class Config extends Writable
 
             default:
                 throw new Exception(
-                    "Configuration should be File or Array."
+                    'Configuration should be File or Array.'
                 );
                 break;
         }

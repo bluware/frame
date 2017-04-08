@@ -1,16 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Daemon
- */
 class Daemon extends Entry
 {
     protected $name;
@@ -29,16 +26,16 @@ class Daemon extends Entry
 
     public function __construct(App $app)
     {
-        if ($app->locator('request')->is('cli') === false)
-            throw new \Exception("Daemon can be executed only in cli scope.");
-
+        if ($app->locator('request')->is('cli') === false) {
+            throw new \Exception('Daemon can be executed only in cli scope.');
+        }
         parent::__construct($app);
 
         $this->pid = getmypid();
 
-        pcntl_signal(SIGTERM, [$this, "sig_handler"]);
-        pcntl_signal(SIGHUP,  [$this, "sig_handler"]);
-        pcntl_signal(SIGUSR1, [$this, "sig_handler"]);
+        pcntl_signal(SIGTERM, [$this, 'sig_handler']);
+        pcntl_signal(SIGHUP, [$this, 'sig_handler']);
+        pcntl_signal(SIGUSR1, [$this, 'sig_handler']);
     }
 
     public function name($name)
@@ -46,11 +43,12 @@ class Daemon extends Entry
         $this->name = $name;
 
         $success = cli_set_process_title(
-            sprintf("Bluware.Daemon %s", $name)
+            sprintf('Bluware.Daemon %s', $name)
         );
 
-        if ($success === false)
+        if ($success === false) {
             echo "! Process name cannot be setted\n";
+        }
 
         return $this;
     }
@@ -76,10 +74,9 @@ class Daemon extends Entry
 
     public function pid_file($file = null)
     {
-
-        if ($this->live === true)
-            throw new \Exception("PID file cannot be changes when daemon is working.");
-
+        if ($this->live === true) {
+            throw new \Exception('PID file cannot be changes when daemon is working.');
+        }
         $this->pid_file = $file;
 
         return $this;
@@ -87,11 +84,12 @@ class Daemon extends Entry
 
     public function start(callable $calle = null)
     {
-        if ($calle === null && $this->calle === null)
+        if ($calle === null && $this->calle === null) {
             throw new \Exception("Daemon can't be start without handler function.");
-
-        if ($calle !== null)
+        }
+        if ($calle !== null) {
             $this->calle = $calle;
+        }
 
         if ($this->pid_file !== null) {
             $this->pid_fd = fopen($this->pid_file, 'c');
@@ -99,11 +97,11 @@ class Daemon extends Entry
 
             if ($this->pid_fd === false || (!$lock && !$block)) {
                 throw new \Exception(
-                    "Unexpected error opening or locking lock file. Perhaps you " .
-                    "don't  have permission to write to the lock file or its " .
-                    "containing directory?"
+                    'Unexpected error opening or locking lock file. Perhaps you '.
+                    "don't  have permission to write to the lock file or its ".
+                    'containing directory?'
                 );
-            } else if (!$lock && $block) {
+            } elseif (!$lock && $block) {
                 exit("Another instance is already running; terminating.\n");
             }
 
@@ -130,7 +128,6 @@ class Daemon extends Entry
 
     protected function sig_handler($signal)
     {
-
         switch ($signal) {
             case SIGTERM:
                 $this->stop();

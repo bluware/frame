@@ -1,19 +1,16 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Database;
 
 use PDO;
 use PDOStatement;
 
-/**
- * @subpackage Database
- */
 class Statement
 {
     /**
@@ -34,15 +31,15 @@ class Statement
      */
     public function __construct(PDOStatement $statement, $exec = false)
     {
-        /**
+        /*
          *  @var \PDOStatement
          */
         $this->state = $statement;
 
-        /**
+        /*
          *  @var boolean
          */
-        $this->exec  = $exec;
+        $this->exec = $exec;
     }
 
     /**
@@ -52,32 +49,33 @@ class Statement
      */
     public function state($method = null)
     {
-        /**
+        /*
          *  @var boolean
          */
-        if ($method === null)
-            /**
+        if ($method === null) {
+            /*
              *  @var \PDOStatement
              */
             return $this->state;
+        }
 
         /**
          *  @var array
          */
         $params = func_get_args();
 
-        /**
+        /*
          *  @var mixed
          */
         return call_user_func_array([
             $this->state,
-            array_shift($params)
+            array_shift($params),
         ], $params);
     }
 
-
     /**
      *  @param  string $input
+     *
      *  @return mixed
      */
     public function one($input = null)
@@ -89,20 +87,22 @@ class Statement
             'fetch', PDO::FETCH_ASSOC
         );
 
-        if ($data === false)
+        if ($data === false) {
             $data = [];
+        }
 
-        /**
+        /*
          *  @var mixed
          */
-        if ($input !== null)
-            /**
+        if ($input !== null) {
+            /*
              *  @var mixed
              */
             return array_key_exists($input, $data) ?
                 $data[$input] : null;
+        }
 
-        /**
+        /*
          *  @var array
          */
         return $data;
@@ -121,30 +121,32 @@ class Statement
          */
         $data = $this->state('fetchAll', PDO::FETCH_ASSOC);
 
-        /**
+        /*
          *  @var array
          */
-        if ($data === false)
+        if ($data === false) {
             $data = [];
+        }
 
-        /**
+        /*
          *  @var array
          */
-        if ($input !== null && sizeof($data) > 0)
-            /**
+        if ($input !== null && count($data) > 0) {
+            /*
              *  @var array
              */
             return array_key_exists($input, $data[0]) ?
                 array_column($data, $input, $index) : [];
+        }
 
-        /**
+        /*
          *  @var array
          */
         return $data;
     }
 
     /**
-     *  @return integer
+     *  @return int
      */
     public function count()
     {
@@ -159,7 +161,7 @@ class Statement
     public function exec(array $bind = null)
     {
         if ($this->exec === false) {
-//            /**
+            //            /**
 //             *  @var boolean
 //             */
 //            if ($bind !== null) {
@@ -192,19 +194,18 @@ class Statement
 //                }
 //            }
 
-
-            /**
+            /*
              *  @var void
              */
             $this->state('execute', $bind);
 
-            /**
+            /*
              *  @var boolean
              */
             $this->exec = true;
         }
 
-        /**
+        /*
          *  @var static
          */
         return $this;

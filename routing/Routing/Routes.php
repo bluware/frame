@@ -1,18 +1,15 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Routing;
 
 use Frame\Data\Writable;
 
-/**
- * @subpackage Routing
- */
 class Routes extends Writable
 {
     protected $indexing = -1;
@@ -23,29 +20,34 @@ class Routes extends Writable
             $type, $path, $call, $group
         );
 
-        if (sizeof($this->params) > 0)
+        if (count($this->params) > 0) {
             $route->params($this->params);
-            
+        }
+
         switch (gettype($options)) {
             case 'array':
-                if (array_key_exists('params', $options) === true)
+                if (array_key_exists('params', $options) === true) {
                     $route->params($options['params']);
+                }
 
-
-                if (array_key_exists('priority', $options) === true)
+                if (array_key_exists('priority', $options) === true) {
                     $route->priority($options['priority']);
+                }
 
-                if (array_key_exists('aspect', $options) === true)
+                if (array_key_exists('aspect', $options) === true) {
                     $route->aspect($options['aspect']);
+                }
 
-                if (array_key_exists('aspects', $options) === true)
+                if (array_key_exists('aspects', $options) === true) {
                     $route->aspects($options['aspects']);
+                }
 
                 break;
 
             case 'object':
-                if (is_callable($options) === true)
+                if (is_callable($options) === true) {
                     call_user_func($options, $route);
+                }
 
                 break;
         }

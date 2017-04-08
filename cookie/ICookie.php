@@ -1,38 +1,34 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Cookie
- */
 interface ICookie
 {
     /**
-     *
      *  @param string  $name
      *  @param string  $input
-     *  @param integer $expire
+     *  @param int $expire
      *  @param string  $path
      *  @param string  $domain
-     *  @param boolean $secure
-     *  @param boolean $http
+     *  @param bool $secure
+     *  @param bool $http
      *
      *  @return void
      */
     public function __construct(
         $name,
-        $input      = null,
-        $expire     = 0,
-        $path       = '',
-        $domain     = '',
-        $secure     = false,
-        $http       = true
+        $input = null,
+        $expire = 0,
+        $path = '',
+        $domain = '',
+        $secure = false,
+        $http = true
     );
 
     /**

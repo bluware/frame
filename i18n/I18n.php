@@ -1,23 +1,18 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-use Frame\Data;
-
-/**
- * @subpackage Package
- */
 class I18n
 {
-    protected $dictionary   = [];
+    protected $dictionary = [];
 
-    protected $locale       = 'en';
+    protected $locale = 'en';
 
     public function __construct($locale = 'en')
     {
@@ -26,8 +21,9 @@ class I18n
 
     public function translate($sentense, $locale = null)
     {
-        if ($locale === null)
+        if ($locale === null) {
             $locale = $this->locale;
+        }
 
         $isset = array_key_exists(
             $locale, $this->dictionary
@@ -54,8 +50,9 @@ class I18n
 
     public function scan($dir)
     {
-        if (substr($dir, -1) !== '/')
+        if (substr($dir, -1) !== '/') {
             $dir .= '/';
+        }
 
         $pattern = sprintf('%s*.mo', $dir);
 
@@ -70,15 +67,16 @@ class I18n
 
     public function locale($locale = null)
     {
-        if ($locale === null)
+        if ($locale === null) {
             return $this->locale;
+        }
 
         $this->locale = $locale;
 
         return $this;
     }
 
-    public function read($path, $locale, array $options = array())
+    public function read($path, $locale, array $options = [])
     {
         $data = [];
 
@@ -86,13 +84,13 @@ class I18n
 
         $file = @fopen($path, 'rb');
 
-        if ($file === false)
-            throw new \Exception("No file");
-
+        if ($file === false) {
+            throw new \Exception('No file');
+        }
         if (@filesize($path) < 10) {
             @fclose($file);
 
-            throw new \Exception('\'' . $path . '\' is not a gettext file');
+            throw new \Exception('\''.$path.'\' is not a gettext file');
         }
 
         $input = $this->unpack(1, $file, $ed);
@@ -106,28 +104,28 @@ class I18n
         if ($ed !== '950412de' && $ed !== 'de120495') {
             @fclose($file);
 
-            throw new \Exception('\'' . $path . '\' is not a gettext file');
+            throw new \Exception('\''.$path.'\' is not a gettext file');
         }
 
         $ed = $ed === 'de120495';
 
-        $input  = $this->unpack(
+        $input = $this->unpack(
             1, $file, $ed
         );
 
-        $input  = $this->unpack(
+        $input = $this->unpack(
             1, $file, $ed
         );
 
-        $total  = $input[1];
+        $total = $input[1];
 
-        $input  = $this->unpack(
+        $input = $this->unpack(
             1, $file, $ed
         );
 
         $OOffset = $input[1];
 
-        $input  = $this->unpack(
+        $input = $this->unpack(
             1, $file, $ed
         );
 
@@ -149,9 +147,8 @@ class I18n
             2 * $total, $file, $ed
         );
 
-        for($count = 0; $count < $total; ++$count) {
+        for ($count = 0; $count < $total; ++$count) {
             if ($origtemp[$count * 2 + 1] != 0) {
-
                 fseek(
                     $file, $origtemp[$count * 2 + 2]
                 );
@@ -182,9 +179,9 @@ class I18n
 
                     array_shift($original);
 
-                    foreach ($original as $orig)
+                    foreach ($original as $orig) {
                         $data[$locale][$orig] = '';
-
+                    }
                 } else {
                     $data[$locale][$original[0]] = $translate[0];
                 }
@@ -207,8 +204,9 @@ class I18n
 
         $isset = array_key_exists($locale, $this->dictionary);
 
-        if ($isset === false)
-            $this->dictionary[$locale] = new Data;
+        if ($isset === false) {
+            $this->dictionary[$locale] = new Data();
+        }
 
         $this->dictionary[$locale]->replace(
             $data[$locale]

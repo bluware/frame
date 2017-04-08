@@ -1,16 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Mail
- */
 class Mail
 {
     /**
@@ -26,22 +23,22 @@ class Mail
     /**
      *  @var numeric
      */
-    protected $port       = 25;
+    protected $port = 25;
 
     /**
      *  @var numeric
      */
-    protected $timeout    = 1;
+    protected $timeout = 1;
 
     /**
      *  @var bool
      */
-    protected $debug      = false;
+    protected $debug = false;
 
     /**
      *  @var string
      */
-    protected $auth       = 'login';
+    protected $auth = 'login';
 
     /**
      *  @var string
@@ -66,27 +63,27 @@ class Mail
     /**
      *  @var string
      */
-    protected $type           = 'text';
+    protected $type = 'text';
 
     /**
      *  @var array
      */
-    protected $headers        = [];
+    protected $headers = [];
 
     /**
      *  @var array
      */
-    protected $sender         = [];
+    protected $sender = [];
 
     /**
      *  @var array
      */
-    protected $reply_to       = [];
+    protected $reply_to = [];
 
     /**
      *  @var array
      */
-    protected $receivers      = [];
+    protected $receivers = [];
 
     /**
      *  @var string
@@ -164,7 +161,7 @@ class Mail
     /**
      *  Change host server.
      *
-     *  @var string $host
+     *  @var string
      */
     public function host($host)
     {
@@ -180,7 +177,7 @@ class Mail
     /**
      *  Change port.
      *
-     *  @var numeric $port
+     *  @var numeric
      */
     public function port($port)
     {
@@ -196,7 +193,7 @@ class Mail
     /**
      *  Change auth type.
      *
-     *  @var string $port
+     *  @var string
      */
     public function auth($auth)
     {
@@ -212,7 +209,7 @@ class Mail
     /**
      *  Change secure type: ssl || tls.
      *
-     *  @var string $secure
+     *  @var string
      */
     public function secure($secure)
     {
@@ -228,7 +225,7 @@ class Mail
     /**
      *  Change content type: text || html.
      *
-     *  @var string $type
+     *  @var string
      */
     public function type($type)
     {
@@ -244,7 +241,7 @@ class Mail
     /**
      *  Use debug echo?.
      *
-     *  @var bool $debug
+     *  @var bool
      */
     public function debug($debug)
     {
@@ -260,7 +257,7 @@ class Mail
     /**
      *  Set username for auth.
      *
-     *  @var string $username
+     *  @var string
      */
     public function username($username)
     {
@@ -276,7 +273,7 @@ class Mail
     /**
      *  Set password for auth.
      *
-     *  @var string $password
+     *  @var string
      */
     public function password($password)
     {
@@ -292,7 +289,7 @@ class Mail
     /**
      *  Set sender address "FROM".
      *
-     *  @var string $address
+     *  @var string
      *  @var mixed $name
      */
     public function sender($address, $name = null)
@@ -315,7 +312,7 @@ class Mail
     /**
      *  Set receivers addresses "TO".
      *
-     *  @var mixed $addresses
+     *  @var mixed
      *  @var mixed $name
      */
     public function receiver($addresses, $name = null)
@@ -327,15 +324,15 @@ class Mail
                 if (
                     is_numeric($address)
                 ) {
-                    $this->receivers[$_name]     = null;
+                    $this->receivers[$_name] = null;
                 } else {
-                    $this->receivers[$address]  = $_name;
+                    $this->receivers[$address] = $_name;
                 }
             }
         } elseif (
             is_string($addresses)
         ) {
-            $this->receivers[$addresses]  = $name;
+            $this->receivers[$addresses] = $name;
         }
 
         return $this;
@@ -344,7 +341,7 @@ class Mail
     /**
      *  Set reply to addresses "REPLY_TO".
      *
-     *  @var mixed $addresses
+     *  @var mixed
      *  @var mixed $name
      */
     public function reply_to($addresses, $name = null)
@@ -356,15 +353,15 @@ class Mail
                 if (
                     is_numeric($address)
                 ) {
-                    $this->reply_to[$_name]     = null;
+                    $this->reply_to[$_name] = null;
                 } else {
-                    $this->reply_to[$address]  = $_name;
+                    $this->reply_to[$address] = $_name;
                 }
             }
         } elseif (
             is_string($addresses)
         ) {
-            $this->reply_to[$addresses]  = $name;
+            $this->reply_to[$addresses] = $name;
         }
 
         return $this;
@@ -373,7 +370,7 @@ class Mail
     /**
      *  Accept headers.
      *
-     *  @var mixed $headers
+     *  @var mixed
      */
     public function headers($headers)
     {
@@ -395,7 +392,7 @@ class Mail
     /**
      *  Store subject.
      *
-     *  @var string $subject
+     *  @var string
      */
     public function subject($subject)
     {
@@ -411,7 +408,7 @@ class Mail
     /**
      *  Store message.
      *
-     *  @var string $message
+     *  @var string
      */
     public function message($message)
     {
@@ -427,7 +424,7 @@ class Mail
     /**
      *  Create address and name format.
      *
-     *  @var string $message
+     *  @var string
      *  @var mixed $message
      */
     private function filter_address($address, $name = null)
@@ -435,7 +432,7 @@ class Mail
         if (
             isset($name) && is_string($name) && is_string($address)
         ) {
-            return sprintf("%s <%s>", $name, $address);
+            return sprintf('%s <%s>', $name, $address);
         } elseif (is_string($address)) {
             return sprintf('<%s>', $address);
         }
@@ -444,12 +441,12 @@ class Mail
     /**
      *  Send message.
      *
-     *  @var mixed $subject
+     *  @var mixed
      *  @var mixed $message
      */
     public function send($subject = null, $message = null)
     {
-        /**
+        /*
          *  Override subject.
          */
         if (
@@ -458,7 +455,7 @@ class Mail
             $this->subject($subject);
         }
 
-        /**
+        /*
          *  Override message.
          */
         if (
@@ -467,24 +464,24 @@ class Mail
             $this->message($message);
         }
 
-        /**
+        /*
          *  Open EHLO\HELO lock.
          */
-        $this->ehlo     = false;
+        $this->ehlo = false;
 
-        /**
+        /*
          *  Use 'ssl://' prefix on secure 'ssl'.
          */
-        $this->prefix   = $this->secure === 'ssl' ? 'ssl://' : '';
+        $this->prefix = $this->secure === 'ssl' ? 'ssl://' : '';
 
-        /**
+        /*
          *  Bind socket client.
          */
         if (
             function_exists('stream_socket_client')
         ) {
             $this->socket = stream_socket_client(
-                $this->prefix . $this->host . ":" . $this->port,
+                $this->prefix.$this->host.':'.$this->port,
                 $errno,
                 $errstr,
                 $this->timeout,
@@ -492,7 +489,7 @@ class Mail
             );
         } else {
             $this->socket = fsockopen(
-                $this->prefix . $this->host,
+                $this->prefix.$this->host,
                 $this->port,
                 $errno,
                 $errstr,
@@ -500,21 +497,22 @@ class Mail
             );
         }
 
-        /**
+        /*
          *  If failed server connection.
          */
         if (
             !is_resource($this->socket)
         ) {
-            var_dump('Failed to connect to server'); die;
+            var_dump('Failed to connect to server');
+            die;
         }
 
-        /**
+        /*
          *  Send first EHLO\HELO.
          */
         $this->send_ehlo();
 
-        /**
+        /*
          *  If secure TLS that send TLSSTART and EHLO\HELO.
          */
         if (
@@ -524,7 +522,7 @@ class Mail
             $this->send_ehlo();
         }
 
-        /**
+        /*
          *  Send AUTH, FROM, TO, DATA and QUIT.
          */
         $this->send_auth();
@@ -532,7 +530,7 @@ class Mail
         $this->send_message();
         $this->send_quit();
 
-        /**
+        /*
          *  Close socket connection.
          */
         fclose($this->socket);
@@ -545,7 +543,7 @@ class Mail
      */
     private function start_tls()
     {
-        $this->send_command("TLS", "STARTTLS", 220);
+        $this->send_command('TLS', 'STARTTLS', 220);
 
         $method = STREAM_CRYPTO_METHOD_TLS_CLIENT;
 
@@ -572,7 +570,7 @@ class Mail
      */
     private function send_ehlo()
     {
-        $this->send_command('EHLO', 'EHLO ' . $this->host, '250');
+        $this->send_command('EHLO', 'EHLO '.$this->host, '250');
     }
 
     /**
@@ -590,14 +588,12 @@ class Mail
      */
     private function send_rcpt()
     {
-        $this->send_command('FROM', 'MAIL FROM: <' . $this->sender['address'] . '>', '250');
+        $this->send_command('FROM', 'MAIL FROM: <'.$this->sender['address'].'>', '250');
 
-        foreach ($this->receivers as $address => $name)
-        {
-            $this->send_command('TO', 'RCPT TO: <' . $address . '>', '250');
+        foreach ($this->receivers as $address => $name) {
+            $this->send_command('TO', 'RCPT TO: <'.$address.'>', '250');
         }
     }
-
 
     /**
      *  Send message content.
@@ -607,13 +603,13 @@ class Mail
         $this->send_command('DATA', 'DATA', '354');
 
         /**
-         *  Store sender
+         *  Store sender.
          */
-        $headers    = [
-            sprintf("From: %s", $this->filter_address($this->sender['address'], $this->sender['name']))
+        $headers = [
+            sprintf('From: %s', $this->filter_address($this->sender['address'], $this->sender['name'])),
         ];
 
-        /**
+        /*
          *  Filtrate receivers
          */
         if (
@@ -621,15 +617,14 @@ class Mail
         ) {
             $receivers = [];
 
-            foreach ($this->receivers as $address => $name)
-            {
+            foreach ($this->receivers as $address => $name) {
                 $receivers[] = $this->filter_address($address, $name);
             }
 
-            $headers[]  = sprintf("To: %s", implode(', ', $receivers));
+            $headers[] = sprintf('To: %s', implode(', ', $receivers));
         }
 
-        /**
+        /*
          *  Filtrate reply to
          */
         if (
@@ -637,23 +632,22 @@ class Mail
         ) {
             $reply_to = [];
 
-            foreach ($this->reply_to as $address => $name)
-            {
+            foreach ($this->reply_to as $address => $name) {
                 $reply_to[] = $this->filter_address($address, $name);
             }
 
-            $headers[]  = sprintf("Reply-To: %s", implode(', ', $reply_to));
+            $headers[] = sprintf('Reply-To: %s', implode(', ', $reply_to));
         }
 
-        $headers[]  = sprintf("Subject: %s", $this->subject);
+        $headers[] = sprintf('Subject: %s', $this->subject);
 
-        /**
+        /*
          *  Accept basic MIME
          */
         $headers[] = 'Mime-Version: 1.0;';
         $headers[] = 'Content-Transfer-Encoding: 7bit;';
 
-        /**
+        /*
          *  Accept Content Type
          */
         switch ($this->type) {
@@ -667,7 +661,7 @@ class Mail
                 break;
         }
 
-        /**
+        /*
          *  Accept headers
          */
         if (
@@ -679,16 +673,15 @@ class Mail
         }
 
         /**
-         *  Format mail message
+         *  Format mail message.
          */
-        $content    = sprintf(
+        $content = sprintf(
                 "%s\r\n\r\n%s",
                 implode("\r\n", $headers),
                 $this->message
             );
 
         $this->send_command('MSG', $content);
-
     }
 
     /**
@@ -696,7 +689,7 @@ class Mail
      */
     private function send_quit()
     {
-        $this->send_command('DOT',  '.',    250);
+        $this->send_command('DOT', '.', 250);
         $this->send_command('QUIT', 'QUIT', 250);
     }
 
@@ -705,26 +698,26 @@ class Mail
      */
     private function send_command($command_name, $command, $expected_response = 250)
     {
-
         $data = '';
-        /**
+        /*
          *  Write command to socket.
          */
-        fwrite($this->socket, $command . "\r\n");
+        fwrite($this->socket, $command."\r\n");
 
         /**
          *  Set timeout.
          */
-        $expire     = time() + $this->timeout;
+        $expire = time() + $this->timeout;
         stream_set_timeout($this->socket, $this->timeout);
 
-        /**
+        /*
          *  Message doesn`t return any response.
          */
-        if ($command_name === 'MSG')
+        if ($command_name === 'MSG') {
             return;
+        }
 
-        /**
+        /*
          *  Server reponse reader.
          */
         while (
@@ -733,40 +726,40 @@ class Mail
             /**
              *  Read line from IO.
              */
-            $line    = fgets($this->socket, 515);
-            $data   .= $line . "\n";
+            $line = fgets($this->socket, 515);
+            $data .= $line."\n";
 
-            /**
+            /*
              *  3 space after status mean that response is over.
              */
             if (
                 (isset($line[3]) and $line[3] == ' ')
             ) {
-                /**
+                /*
                  *  Check usage of first EHLO\HELO lock. If false that store true.
                  */
-                if ($this->ehlo)
+                if ($this->ehlo) {
                     break;
-                else
+                } else {
                     $this->ehlo = true;
+                }
             }
 
-            if (time() > $expire)
+            if (time() > $expire) {
                 break;
+            }
         }
 
-        /**
+        /*
          *  If debug equal true than print responses.
          */
         if (
             $this->debug
         ) {
-            echo "<b>" . $command_name . "</b>\n";
+            echo '<b>'.$command_name."</b>\n";
             echo "----------------------------\n";
             echo $data;
             echo "----------------------------\n";
         }
-
-        return;
     }
 }

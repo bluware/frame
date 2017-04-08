@@ -1,17 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite Web & API Framework
+ *  Bluware PHP Lite Web & API Framework.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-
-/**
- * @subpackage Controller
- */
 abstract class Controller extends Entry
 {
     use Hook\Support;
@@ -27,19 +23,19 @@ abstract class Controller extends Entry
      */
     public function __construct(App $app)
     {
-        /**
+        /*
          *
          */
         parent::__construct($app);
 
-        /**
+        /*
          *  @var Hook
          */
-        $this->hook     = $this->locator('hook');
+        $this->hook = $this->locator('hook');
 
-        /**
+        /*
          *  @var Request
          */
-        $this->request  = $this->locator('request');
+        $this->request = $this->locator('request');
     }
 }

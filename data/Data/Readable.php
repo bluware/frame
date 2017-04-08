@@ -1,22 +1,19 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Data;
 
-/**
- * @subpackage Data
- */
 abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \Countable
 {
     /**
      *  @var array
      */
-    protected $data     = [];
+    protected $data = [];
 
     /**
      *  @param $key
@@ -37,8 +34,9 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
      */
     public function exists($keys)
     {
-        if (gettype($keys) !== 'array')
+        if (gettype($keys) !== 'array') {
             $keys = func_get_args();
+        }
 
         $matches = array_intersect(
             array_keys($this->data), $keys
@@ -74,8 +72,9 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
      */
     public function equal($key, $val)
     {
-        if (array_key_exists($key, $this->data) === false)
+        if (array_key_exists($key, $this->data) === false) {
             return false;
+        }
 
         return $this->data[$key] === $val;
     }
@@ -87,8 +86,9 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
      */
     public function only($keys)
     {
-        if (gettype($keys) !== 'array')
+        if (gettype($keys) !== 'array') {
             $keys = func_get_args();
+        }
 
         return array_intersect_key(
             $this->data, array_flip($keys)
@@ -102,8 +102,9 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
      */
     public function except($keys)
     {
-        if (gettype($keys) !== 'array')
+        if (gettype($keys) !== 'array') {
             $keys = func_get_args();
+        }
 
         return array_diff_key(
             $this->data, array_flip($keys)
@@ -121,7 +122,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     /**
      *  @return mixed
      */
-    function current()
+    public function current()
     {
         return current($this->data);
     }
@@ -129,7 +130,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     /**
      *  @return mixed
      */
-    function rewind()
+    public function rewind()
     {
         return reset($this->data);
     }
@@ -137,7 +138,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     /**
      *  @return mixed
      */
-    function key()
+    public function key()
     {
         return key($this->data);
     }
@@ -145,7 +146,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     /**
      *  @return mixed
      */
-    function next()
+    public function next()
     {
         return next($this->data);
     }
@@ -153,7 +154,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     /**
      *  @return bool
      */
-    function valid()
+    public function valid()
     {
         return key($this->data) !== null;
     }
@@ -161,7 +162,8 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     /**
      *  @return int
      */
-    public function count() {
+    public function count()
+    {
         return count($this->data);
     }
 
@@ -195,12 +197,13 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
      *
      *  @return mixed|null
      */
-    protected function __pull(array $keys, $index, $limit = null, $data, $alt = null)
+    protected function __pull(array $keys, $index, $limit, $data, $alt = null)
     {
-        if ($index >= $limit)
+        if ($index >= $limit) {
             return $data;
+        }
 
-        if (array_key_exists($index, $keys) && array_key_exists($keys[$index], $data))
+        if (array_key_exists($index, $keys) && array_key_exists($keys[$index], $data)) {
             return call_user_func(
                 __METHOD__,
                 $keys,
@@ -211,6 +214,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
                 ],
                 $alt
             );
+        }
 
         return $alt;
     }
@@ -238,8 +242,9 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     /**
      *  @return array
      */
-    public function jsonSerialize() {
-        /**
+    public function jsonSerialize()
+    {
+        /*
          *  @var array
          */
         return $this->data;
@@ -252,7 +257,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
      */
     public function offsetExists($key)
     {
-        /**
+        /*
          *  @var bool
          */
         return array_key_exists(
@@ -267,7 +272,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
      */
     public function offsetGet($key)
     {
-        /**
+        /*
          *  @var mixed
          */
         return array_key_exists(
@@ -286,7 +291,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     public function offsetSet($key, $value)
     {
         throw new Exception(
-            "Readable data object cannot implement setter. Use writable instead"
+            'Readable data object cannot implement setter. Use writable instead'
         );
     }
 
@@ -298,28 +303,29 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
     public function offsetUnset($key)
     {
         throw new Exception(
-            "Readable data object cannot implement setter. Use writable instead"
+            'Readable data object cannot implement setter. Use writable instead'
         );
     }
 
     /**
      *  @param $type
      *
-     *  @return array|string
      *  @throws Exception
+     *
+     *  @return array|string
      */
     public function to($type)
     {
         switch ($type) {
             case 'array': case 'arr': case 'a':
-                /**
+                /*
                  *  @var array
                  */
                 return $this->data;
                 break;
 
             case 'json':
-                /**
+                /*
                  *  @var string
                  */
                 return \Frame\Json::encode(
@@ -328,7 +334,7 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
                 break;
 
             case 'form':
-                /**
+                /*
                  *  @var string
                  */
                 return http_build_query($this->data);

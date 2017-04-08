@@ -1,47 +1,44 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Cookie
- */
 class Cookie implements ICookie
 {
     /**
      *  @var string
      */
-    protected $name             = 'blu.cookie';
+    protected $name = 'blu.cookie';
 
     /**
-     *  @var integer
+     *  @var int
      */
-    protected $expire           = 0;
-
-    /**
-     *  @var string
-     */
-    protected $path             = '/';
+    protected $expire = 0;
 
     /**
      *  @var string
      */
-    protected $domain           = '';
+    protected $path = '/';
+
+    /**
+     *  @var string
+     */
+    protected $domain = '';
 
     /**
      *  @var bool
      */
-    protected $secure           = false;
+    protected $secure = false;
 
     /**
      *  @var bool
      */
-    protected $http             = true;
+    protected $http = true;
 
     /**
      *  @var string
@@ -51,54 +48,54 @@ class Cookie implements ICookie
     /**
      *  @param string  $name
      *  @param string  $input
-     *  @param integer $expire
+     *  @param int $expire
      *  @param string  $path
      *  @param string  $domain
-     *  @param boolean $secure
-     *  @param boolean $http
+     *  @param bool $secure
+     *  @param bool $http
      *
      *  @return void
      */
     public function __construct(
         $name,
-        $input      = null,
-        $expire     = 0,
-        $path       = '/',
-        $domain     = '',
-        $secure     = false,
-        $http       = true
+        $input = null,
+        $expire = 0,
+        $path = '/',
+        $domain = '',
+        $secure = false,
+        $http = true
     ) {
-        /**
+        /*
          *  @var string
          */
-        $this->name  = $name;
+        $this->name = $name;
 
-        /**
+        /*
          *  @var string
          */
         $this->input = $input;
 
-        /**
+        /*
          *  @var integer
          */
         $this->expire($expire);
 
-        /**
+        /*
          *  @var string
          */
         $this->path($path);
 
-        /**
+        /*
          *  @var string
          */
         $this->domain($domain);
 
-        /**
+        /*
          *  @var bool
          */
         $this->secure($secure);
 
-        /**
+        /*
          *  @var bool
          */
         $this->http($http);
@@ -137,8 +134,9 @@ class Cookie implements ICookie
      */
     public function input($input = null)
     {
-        if ($input === null)
+        if ($input === null) {
             return $this->get();
+        }
 
         return $this->set($input);
     }
@@ -162,8 +160,9 @@ class Cookie implements ICookie
      */
     public function expire($expire = null)
     {
-        if ($expire === null)
+        if ($expire === null) {
             return $this->expire;
+        }
 
         $this->expire = $expire === 0 ?
             0 : $expire;
@@ -180,8 +179,9 @@ class Cookie implements ICookie
      */
     public function path($path = null)
     {
-        if ($path === null)
+        if ($path === null) {
             return $this->path;
+        }
 
         $this->path = $path;
 
@@ -197,8 +197,9 @@ class Cookie implements ICookie
      */
     public function domain($domain = null)
     {
-        if ($domain === null)
+        if ($domain === null) {
             return $this->domain;
+        }
 
         $this->domain = $domain;
 
@@ -214,8 +215,9 @@ class Cookie implements ICookie
      */
     public function secure($secure = null)
     {
-        if ($secure === null)
+        if ($secure === null) {
             return $this->secure;
+        }
 
         $this->secure = $secure;
 
@@ -231,8 +233,9 @@ class Cookie implements ICookie
      */
     public function http($http = null)
     {
-        if ($http === null)
+        if ($http === null) {
             return $this->http;
+        }
 
         $this->http = $http;
 
@@ -249,8 +252,9 @@ class Cookie implements ICookie
      */
     public function touch($expire = null, $input = null)
     {
-        if ($expire !== null)
+        if ($expire !== null) {
             $this->expire($expire);
+        }
 
         return $this->save($input);
     }
@@ -264,8 +268,9 @@ class Cookie implements ICookie
      */
     public function save($input = null)
     {
-        if ($input !== null)
+        if ($input !== null) {
             $this->set($input);
+        }
 
         setcookie(
             $this->name,

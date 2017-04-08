@@ -1,19 +1,16 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Database\Adapter;
 
 use Frame\Database\Adapter;
 use PDO;
 
-/**
- * @subpackage Database
- */
 class MySQL extends Adapter
 {
     /**
@@ -21,7 +18,7 @@ class MySQL extends Adapter
      */
     public function __construct(array $data)
     {
-        /**
+        /*
          *  @var array
          */
         $this->data = $data;
@@ -42,7 +39,7 @@ class MySQL extends Adapter
                 $this->get('port', 3306)
             );
 
-        /**
+        /*
          *  @var PDO
          */
         $this->pdo = new PDO(
@@ -58,7 +55,7 @@ class MySQL extends Adapter
             )
         );
 
-        /**
+        /*
          *  @var void
          */
         $this->pdo(
@@ -67,12 +64,12 @@ class MySQL extends Adapter
             PDO::ERRMODE_EXCEPTION
         );
 
-        /**
+        /*
          *  @var void
          */
         $this->pdo(
             'query', sprintf(
-                "set names %s;",
+                'set names %s;',
                 $this->get('charset', 'utf8')
             )
         );

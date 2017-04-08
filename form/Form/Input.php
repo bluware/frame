@@ -1,47 +1,44 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Form;
 
-/**
- * @subpackage Form
- */
 class Input
 {
     /**
      *  @var mixed
      */
-    protected $input    = null;
+    protected $input = null;
 
     /**
      *  @var mixed
      */
-    protected $default  = null;
+    protected $default = null;
 
     /**
      *  @var mixed
      */
-    protected $filter   = [];
+    protected $filter = [];
 
     /**
      *  @var mixed
      */
-    protected $error    = [];
+    protected $error = [];
 
     /**
      *  @var mixed
      */
-    protected $message  = null;
+    protected $message = null;
 
     /**
-     *  @var boolean
+     *  @var bool
      */
-    protected $valid    = false;
+    protected $valid = false;
 
     /**
      *  @param mixed $input
@@ -50,15 +47,15 @@ class Input
      */
     public function __construct($input = null)
     {
-        /**
+        /*
          *  @var mixed
          */
-        $this->input    = $input;
+        $this->input = $input;
 
-        /**
+        /*
          *  @var mixed
          */
-        $this->default  = $input;
+        $this->default = $input;
     }
 
     /**
@@ -68,12 +65,12 @@ class Input
      */
     public function set($input)
     {
-        /**
+        /*
          *  @var mixed
          */
         $this->input = $input;
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -84,7 +81,7 @@ class Input
      */
     public function get()
     {
-        /**
+        /*
          *  @var mixed
          */
         return $this->input;
@@ -95,14 +92,14 @@ class Input
      */
     public function __get($input)
     {
-        /**
+        /*
          *  @var mixed
          */
         return $this->{$input};
     }
 
     /**
-     *  @var $this
+     *  @var
      */
     public function is($prop, $comparison = null)
     {
@@ -111,8 +108,6 @@ class Input
                 return $this->valid;
                 break;
         }
-
-        return null;
     }
 
     /**
@@ -120,31 +115,31 @@ class Input
      */
     public function filter($names, $value = null)
     {
-        /**
+        /*
          *  @var boolean
          */
         if (gettype($names) === 'array') {
-            /**
+            /*
              *  @var void
              */
             foreach ($names as $name => $value) {
-                /**
+                /*
                  *  @var boolean
                  */
                 if (is_numeric($name) === true) {
-                    /**
+                    /*
                      *  @var mixed
                      */
                     $this->filter($value, null);
                 } else {
-                    /**
+                    /*
                      *  @var mixed
                      */
                     $this->filter($name, $value);
                 }
             }
 
-            /**
+            /*
              *  @var $this
              */
             return $this;
@@ -156,15 +151,15 @@ class Input
         $value = is_scalar(
             $value
         ) ? [
-            $value
+            $value,
         ] : $value;
 
-        /**
+        /*
          *  @var mixed
          */
         $this->filter[$names] = $value;
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -175,46 +170,47 @@ class Input
      */
     public function error($names = null, $value = null)
     {
-        /**
+        /*
          *  @var
          */
-        if ($names === null)
-            /**
+        if ($names === null) {
+            /*
              *  @var mixed
              */
             return $this->message;
+        }
 
-        /**
+        /*
          *  @var boolean
          */
         if (gettype($names) === 'array') {
-            /**
+            /*
              *  @var void
              */
             foreach ($names as $name => $value) {
-                /**
+                /*
                  *  @var boolean
                  */
                 if (is_numeric($name) === true) {
-                    /**
+                    /*
                      *  @var mixed
                      */
                     $this->error($value, null);
                 } else {
-                    /**
+                    /*
                      *  @var mixed
                      */
                     $this->error($name, $value);
                 }
             }
 
-            /**
+            /*
              *  @var $this
              */
             return $this;
         }
 
-        /**
+        /*
          *  @var boolean
          */
         if ($value === null) {
@@ -229,39 +225,39 @@ class Input
             $names = 'input';
         }
 
-        /**
+        /*
          *  @var mixed
          */
         $this->error[$names] = $value;
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
     }
 
     /**
-     *  @return boolean
+     *  @return bool
      */
     public function filtrate()
     {
-        /**
+        /*
          *  @var boolean
          */
-        $this->valid    = true;
+        $this->valid = true;
 
-        /**
+        /*
          *  @var void
          */
         foreach ($this->filter as $name => $values) {
-            /**
+            /*
              *  @var boolean
              */
             if (is_callable($values) === true) {
                 $valid = ($values)($this->input);
             } else {
                 /**
-                 *  @var boolean
+                 *  @var bool
                  */
                 $values = gettype($values) === 'array' ? $values : [];
 
@@ -274,26 +270,26 @@ class Input
                     'float',
                     'numeric',
                     'num',
-                    'trim'
+                    'trim',
                 ], true);
 
                 $datetime = in_array($name, [
                     'datetime',
                     'date',
-                    'time'
+                    'time',
                 ], true);
 
                 if ($scalar === true) {
                     /**
-                     *  @var boolean
+                     *  @var bool
                      */
                     $valid = Filter::{$name}(
                         $this->input
                     );
                 } elseif ($datetime === true) {
-                    $size = sizeof($values) === 0;
+                    $size = count($values) === 0;
                     /**
-                     *  @var boolean
+                     *  @var bool
                      */
                     $valid = $size ? Filter::{$name}(
                         $this->input
@@ -302,31 +298,31 @@ class Input
                         current($values)
                     );
                 } else {
-                    /**
+                    /*
                      *  @var void
                      */
                     array_unshift($values, $this->input);
 
                     /**
-                     *  @var boolean
+                     *  @var bool
                      */
                     $valid = forward_static_call_array([
-                        Filter::class, $name
+                        Filter::class, $name,
                     ], $values);
                 }
             }
 
-            /**
+            /*
              *  @var boolean
              */
             if ($valid === false) {
-                /**
+                /*
                  *  @var boolean
                  */
                 $this->message = array_key_exists(
                     $name, $this->error
                 ) ? $this->error[$name] : (
-                        /**
+                        /*
                          *  @var boolean
                          */
                         array_key_exists(
@@ -336,14 +332,14 @@ class Input
 
                 $this->input = $this->default;
 
-                /**
+                /*
                  *  @var boolean
                  */
                 return $this->valid = false;
             }
         }
 
-        /**
+        /*
          *  @var boolean
          */
         return true;

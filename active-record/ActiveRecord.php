@@ -1,60 +1,59 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
 use Frame\ActiveRecord\Query;
 
-/**
- * @subpackage Active
- */
 abstract class ActiveRecord extends Query
 {
     /**
      *  @param  array  $data
+     *
      *  @return mixed
      */
     public static function create(array $data)
     {
-        return (new static)->insert(
+        return (new static())->insert(
             $data
         );
     }
 
     /**
      *  @param  scalar $id
+     *
      *  @return mixed
      */
     public static function find($id)
     {
-        return (new static)->select(
-            'one', function(
+        return (new static())->select(
+            'one', function (
                 $q, $self
             ) use ($id) {
                 /**
-                 *  @var boolean
+                 *  @var bool
                  */
                 $primary = is_scalar($self->primary);
 
-                /**
+                /*
                  *  @var boolean
                  */
-                if ($primary === false)
+                if ($primary === false) {
                     throw new \Exception(
-                        "Bad primary implementation"
+                        'Bad primary implementation'
                     );
+                }
 
-                /**
+                /*
                  *  @var boolean
                  */
                 $q->where([
-                    $self->primary
-                        => $id
+                    $self->primary => $id,
                 ])->limit(
                     1, 0
                 );
@@ -65,20 +64,21 @@ abstract class ActiveRecord extends Query
     /**
      *  @param  mixed   $where
      *  @param  mixed   $order
-     *  @param  integer $offset
+     *  @param  int $offset
      *
      *  @return mixed
      */
     public static function one(
-        $where  = null,
-        $order  = null,
+        $where = null,
+        $order = null,
         $offset = null
     ) {
-        if (gettype($where) === 'string' && $where === 'query')
-            return (new static)->select('one', $order);
+        if (gettype($where) === 'string' && $where === 'query') {
+            return (new static())->select('one', $order);
+        }
 
-        return (new static)->select(
-            'one', function(
+        return (new static())->select(
+            'one', function (
                 $q, $self
             ) use (
                 $where,
@@ -106,22 +106,23 @@ abstract class ActiveRecord extends Query
     /**
      *  @param  mixed   $where
      *  @param  mixed   $order
-     *  @param  integer $limit
-     *  @param  integer $offset
+     *  @param  int $limit
+     *  @param  int $offset
      *
      *  @return mixed
      */
     public static function by(
-        $where  = null,
-        $order  = null,
-        $limit  = null,
+        $where = null,
+        $order = null,
+        $limit = null,
         $offset = null
     ) {
-        if (gettype($where) === 'string' && $where === 'query')
-            return (new static)->select('all', $order);
+        if (gettype($where) === 'string' && $where === 'query') {
+            return (new static())->select('all', $order);
+        }
 
-        return (new static)->select(
-            'all', function(
+        return (new static())->select(
+            'all', function (
                 $q, $self
             ) use (
                 $where,
@@ -155,25 +156,26 @@ abstract class ActiveRecord extends Query
      */
     public static function first($limit = 1, $offset = 0)
     {
-        return (new static)->select($limit <= 1 ? 'one' : 'all', function(
+        return (new static())->select($limit <= 1 ? 'one' : 'all', function (
             $q, $self
         ) use (
             $limit, $offset
         ) {
             /**
-             *  @var boolean
+             *  @var bool
              */
             $primary = is_scalar($self->primary);
 
-            /**
+            /*
              *  @var boolean
              */
-            if ($primary === false)
+            if ($primary === false) {
                 throw new \Exception(
-                    "Bad primary implementation"
+                    'Bad primary implementation'
                 );
+            }
 
-            /**
+            /*
              *  @var boolean
              */
             $q->order(
@@ -192,25 +194,26 @@ abstract class ActiveRecord extends Query
      */
     public static function last($limit = 1, $offset = 0)
     {
-        return (new static)->select($limit <= 1 ? 'one' : 'all', function(
+        return (new static())->select($limit <= 1 ? 'one' : 'all', function (
             $q, $self
         ) use (
             $limit, $offset
         ) {
             /**
-             *  @var boolean
+             *  @var bool
              */
             $primary = is_scalar($self->primary);
 
-            /**
+            /*
              *  @var boolean
              */
-            if ($primary === false)
+            if ($primary === false) {
                 throw new \Exception(
-                    "Bad primary implementation"
+                    'Bad primary implementation'
                 );
+            }
 
-            /**
+            /*
              *  @var boolean
              */
             $q->order(
@@ -223,22 +226,25 @@ abstract class ActiveRecord extends Query
 
     /**
      *  @param $keys
+     *
      *  @return mixed
      */
     public static function in(
         $keys,
-        $order  = null,
-        $limit  = null,
+        $order = null,
+        $limit = null,
         $offset = null
     ) {
-        if (gettype($keys) === 'string' && $keys === 'query')
-            return (new static)->select('all', $order);
+        if (gettype($keys) === 'string' && $keys === 'query') {
+            return (new static())->select('all', $order);
+        }
 
-        if (gettype($keys) !== 'array' && is_callable($keys) === false)
+        if (gettype($keys) !== 'array' && is_callable($keys) === false) {
             $keys = func_get_args();
+        }
 
-        return (new static)->select(
-            'all', function(
+        return (new static())->select(
+            'all', function (
                 $q, $self
             ) use (
                 $keys,
@@ -247,7 +253,7 @@ abstract class ActiveRecord extends Query
                 $offset
             ) {
                 if (is_callable($keys) === true) {
-                    /**
+                    /*
                      *  @var boolean
                      */
                     call_user_func(
@@ -255,17 +261,18 @@ abstract class ActiveRecord extends Query
                     );
                 } else {
                     /**
-                     *  @var boolean
+                     *  @var bool
                      */
                     $primary = is_scalar($self->primary);
 
-                    /**
+                    /*
                      *  @var boolean
                      */
-                    if ($primary === false)
+                    if ($primary === false) {
                         throw new \Exception(
-                            "Bad primary implementation"
+                            'Bad primary implementation'
                         );
+                    }
 
                     $q->where(
                         $self->primary, 'in', $keys
@@ -301,7 +308,7 @@ abstract class ActiveRecord extends Query
      */
     public function save(array $data = null)
     {
-        /**
+        /*
          *  @var static
          */
         return $this->{

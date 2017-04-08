@@ -1,17 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Secure;
 
-
-/**
- *  @subpackage Secure
- */
 class Hash
 {
     /**
@@ -21,13 +17,13 @@ class Hash
     {
         return password_hash(
             $secret, PASSWORD_BCRYPT, [
-                'cost' => 12
+                'cost' => 12,
             ]
         );
     }
 
     /**
-     *  Alias for dectypt()
+     *  Alias for dectypt().
      *
      *  @param  string $data
      *

@@ -1,18 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-use Frame\Data;
-
-/**
- * @subpackage Bit
- */
 class Bit implements IBit
 {
     /**
@@ -23,14 +18,14 @@ class Bit implements IBit
     /**
      *  @var array
      */
-    protected $mask  = 0;
+    protected $mask = 0;
 
     /**
      *  @return mixed
      */
     public function __construct($mask, array $maps = null)
     {
-        /**
+        /*
          *  @var integer
          */
         $this->mask = $mask;
@@ -41,34 +36,35 @@ class Bit implements IBit
         $maps = $maps === null ?
             $this->maps : $maps;
 
-        /**
+        /*
          *  @var Data
          */
         $this->maps = new Data();
 
-        /**
+        /*
          *  @var bool
          */
-        if (sizeof($maps) === 0)
+        if (count($maps) === 0) {
             return;
+        }
 
         /**
-         *  @var integer
+         *  @var int
          */
         $index = 1;
 
-        /**
+        /*
          *  @var iterable
          */
         foreach ($maps as $name) {
-            /**
+            /*
              *  @var integer
              */
             $this->maps->set(
                 $name, $index
             );
 
-            /**
+            /*
              *  @var integer
              */
             $index += $index;
@@ -77,7 +73,7 @@ class Bit implements IBit
 
     public function get($bit)
     {
-        /**
+        /*
          *  @var bool
          */
         return boolval(
@@ -88,12 +84,12 @@ class Bit implements IBit
     }
 
     /**
-     *  @param integer $bit
-     *  @param integer $value
+     *  @param int $bit
+     *  @param int $value
      */
     public function set($bit, $value)
     {
-        $bit  = $this->maps->get(
+        $bit = $this->maps->get(
             $bit, $bit
         );
 
@@ -103,23 +99,25 @@ class Bit implements IBit
         $isset = $this->get($bit);
 
         /**
-         *  @var integer
+         *  @var int
          */
         $value = boolval($value);
 
-        /**
+        /*
          *  @var bool
          */
-        if ($isset && !$value)
+        if ($isset && !$value) {
             $this->mask -= $bit;
+        }
 
-        /**
+        /*
          *  @var bool
          */
-        if (!$isset && $value)
+        if (!$isset && $value) {
             $this->mask += $bit;
+        }
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -127,36 +125,37 @@ class Bit implements IBit
 
     public function mask($mask = null)
     {
-        /**
+        /*
          *  @var bool
          */
-        if ($mask === null)
-            /**
+        if ($mask === null) {
+            /*
              *  @var integer
              */
             return $this->mask;
+        }
 
-        /**
+        /*
          *  @var bool
          */
         if ($mask !== '*') {
-            /**
+            /*
              *  @var integer
              */
             $this->mask = $mask;
 
-            /**
+            /*
              *  @var $this
              */
             return $this;
         }
 
-        /**
+        /*
          *  @var integer
          */
         $this->mask = $this->bit('*');
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -164,43 +163,46 @@ class Bit implements IBit
 
     public function bit($bits)
     {
-        /**
+        /*
          *  @var bool
          */
-        if ($bits === '*')
+        if ($bits === '*') {
             /**
              *  @var array
              */
             $bits = array_values(
                 $this->maps->data()
             );
+        }
 
-        /**
+        /*
          *  @var bool
          */
-        if (gettype($bits) !== 'array')
+        if (gettype($bits) !== 'array') {
             /**
              *  @var array
              */
             $bits = func_get_args();
+        }
 
         /**
-         *  @var integer
+         *  @var int
          */
         $mask = 0;
 
-        /**
+        /*
          *  @var iterable
          */
-        foreach ($bits as $bit)
-            /**
+        foreach ($bits as $bit) {
+            /*
              *  @var integer
              */
             $mask += $this->maps->get(
                 $bit, $bit
             );
+        }
 
-        /**
+        /*
          *  @var integer
          */
         return $mask;

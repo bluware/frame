@@ -1,18 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-use Frame\Data;
-
-/**
- * @subpackage Autoload
- */
 class Autoload
 {
     /**
@@ -30,21 +25,21 @@ class Autoload
      */
     public function __construct()
     {
-        /**
+        /*
          *  @var \Frame\Data
          */
         $this->namespaces = new Data();
 
-        /**
+        /*
          *  @var \Frame\Data\Data
          */
-        $this->classmaps  = new Data();
+        $this->classmaps = new Data();
 
-        /**
+        /*
          *  @var \Frame\Data\Data
          */
         spl_autoload_register([
-            $this, 'loader'
+            $this, 'loader',
         ]);
     }
 
@@ -62,7 +57,7 @@ class Autoload
     }
 
     /**
-     * @param  array  $classmap
+     * @param array $classmap
      *
      * @return void
      */
@@ -84,6 +79,7 @@ class Autoload
     {
         if ($this->classmaps->has($class) === true) {
             include $this->classmap->get($class);
+
             return;
         }
 
@@ -105,7 +101,7 @@ class Autoload
      *  @param  string $namespace
      *  @param  string $dir
      *
-     *  @return boolean
+     *  @return bool
      */
     protected function prepare($class, $namespace, $dir)
     {
@@ -113,7 +109,7 @@ class Autoload
             $class, 0, strlen($namespace)
         ) === $namespace) {
             $class = str_replace([
-                $namespace, '\\'
+                $namespace, '\\',
             ], ['', '/'], $class);
 
             $file = sprintf(
@@ -121,7 +117,8 @@ class Autoload
             );
 
             if (is_file($file) === true) {
-                include($file);
+                include $file;
+
                 return true;
             }
         }

@@ -1,20 +1,17 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
 use Frame\Data\Readable;
 use Frame\Data\Writable;
 use Frame\Form\Input;
 
-/**
- * @subpackage Form
- */
 class Form extends Writable implements FormInterface
 {
     /**
@@ -23,9 +20,9 @@ class Form extends Writable implements FormInterface
     protected $error;
 
     /**
-     *  @var boolean
+     *  @var bool
      */
-    protected $valid    = true;
+    protected $valid = true;
 
     /**
      *  @param  mixed $name
@@ -35,54 +32,55 @@ class Form extends Writable implements FormInterface
      */
     public function input($name, $value = null)
     {
-        if ($this->has($name) === true)
+        if ($this->has($name) === true) {
             return $this->data[$name];
+        }
 
         /**
          *  @var Input
          */
         $input = new Input($value);
 
-        /**
+        /*
          *  @var Input
          */
         $this->data[$name] = $input;
 
-        /**
+        /*
          *  @var Input
          */
         return $input;
     }
 
     /**
-     *  @return boolean
+     *  @return bool
      */
     public function validate()
     {
-        /**
+        /*
          *  @var boolean
          */
         $this->valid = true;
 
-        /**
+        /*
          *  @var boolean
          */
         $this->error = [];
 
-        /**
+        /*
          *  @var void
          */
         foreach ($this as $name => $input) {
             /**
-             *  @var boolean
+             *  @var bool
              */
             $valid = $input->filtrate();
 
-            /**
+            /*
              *  @var boolean
              */
             if ($valid === false) {
-                /**
+                /*
                  *  @var boolean
                  */
                 $this->valid = false;
@@ -92,29 +90,30 @@ class Form extends Writable implements FormInterface
                  */
                 $error = $input->error();
 
-                /**
+                /*
                  *  @var boolean
                  */
-                if ($error !== null)
-                    /**
+                if ($error !== null) {
+                    /*
                      *  @var boolean
                      */
                     $this->error[$name] = $error;
+                }
             }
         }
 
-        /**
+        /*
          *  @var boolean
          */
         return $this->valid;
     }
 
     /**
-     *  @return boolean
+     *  @return bool
      */
     public function filtrate()
     {
-        /**
+        /*
          *  @return boolean
          */
         return $this->validate();
@@ -125,7 +124,7 @@ class Form extends Writable implements FormInterface
      */
     public function error()
     {
-        /**
+        /*
          *  @return array
          */
         return $this->error;
@@ -134,6 +133,7 @@ class Form extends Writable implements FormInterface
     /**
      * @param $prop
      * @param null $comparison
+     *
      * @return mixed
      */
     public function is($prop, $comparison = null)
@@ -165,16 +165,18 @@ class Form extends Writable implements FormInterface
     /**
      *  @param $data
      *
-     *  @return array
      *  @throws \Exception
+     *
+     *  @return array
      */
     public function diff($data)
     {
-        if (is_array($data) === false && $data instanceof Readable === false)
-            throw new \Exception("Should be array or Readable object");
-
-        if ($data instanceof Readable)
+        if (is_array($data) === false && $data instanceof Readable === false) {
+            throw new \Exception('Should be array or Readable object');
+        }
+        if ($data instanceof Readable) {
             $data = $data->to('array');
+        }
 
         return array_diff_assoc(
             $this->data(), $data
@@ -184,16 +186,18 @@ class Form extends Writable implements FormInterface
     /**
      *  @param $data
      *
-     *  @return array
      *  @throws \Exception
+     *
+     *  @return array
      */
     public function intersect($data)
     {
-        if (is_array($data) === false && $data instanceof Readable === false)
-            throw new \Exception("Should be array or Readable object");
-
-        if ($data instanceof Readable)
+        if (is_array($data) === false && $data instanceof Readable === false) {
+            throw new \Exception('Should be array or Readable object');
+        }
+        if ($data instanceof Readable) {
             $data = $data->to('array');
+        }
 
         return array_intersect_assoc(
             $this->data(), $data
@@ -216,24 +220,28 @@ class Form extends Writable implements FormInterface
     /**
      *  @param $data
      *
-     *  @return $this
      *  @throws \Exception
+     *
+     *  @return $this
      */
     public function replace($data)
     {
-        if (is_array($data) === false && $data instanceof Readable === false)
-            throw new \Exception("Should be array or Readable object");
-
-        if ($data instanceof Readable)
+        if (is_array($data) === false && $data instanceof Readable === false) {
+            throw new \Exception('Should be array or Readable object');
+        }
+        if ($data instanceof Readable) {
             $data = $data->to('array');
+        }
 
         $data = array_replace(
             $this->data(), $data
         );
 
-        foreach ($data as $key => $value)
-            if ($this->has($key) === true)
+        foreach ($data as $key => $value) {
+            if ($this->has($key) === true) {
                 $this->data[$key]->set($value);
+            }
+        }
 
         return $this;
     }
@@ -241,24 +249,28 @@ class Form extends Writable implements FormInterface
     /**
      *  @param array $data
      *
-     *  @return $this
      *  @throws \Exception
+     *
+     *  @return $this
      */
     public function merge($data)
     {
-        if (is_array($data) === false && $data instanceof Readable === false)
-            throw new \Exception("Should be array or Readable object");
-
-        if ($data instanceof Readable)
+        if (is_array($data) === false && $data instanceof Readable === false) {
+            throw new \Exception('Should be array or Readable object');
+        }
+        if ($data instanceof Readable) {
             $data = $data->to('array');
+        }
 
         $data = array_merge(
             $this->data(), $data
         );
 
-        foreach ($data as $key => $value)
-            if ($this->has($key) === true)
+        foreach ($data as $key => $value) {
+            if ($this->has($key) === true) {
                 $this->data[$key]->set($value);
+            }
+        }
 
         return $this;
     }
@@ -266,19 +278,20 @@ class Form extends Writable implements FormInterface
     /**
      *  @param null $data
      *
-     *  @return array|mixed|null
      *  @throws \Exception
+     *
+     *  @return array|mixed|null
      */
     public function data($data = null)
     {
-        /**
+        /*
          *  @var array
          */
         if ($data !== null) {
-            if (is_array($data) === false && $data instanceof Readable === false)
-                throw new \Exception("Should be array or Readable object");
-
-            /**
+            if (is_array($data) === false && $data instanceof Readable === false) {
+                throw new \Exception('Should be array or Readable object');
+            }
+            /*
              *  @var $this
              */
             return $this->replace($data);
@@ -289,13 +302,14 @@ class Form extends Writable implements FormInterface
          */
         $data = [];
 
-        /**
+        /*
          *  @var array
          */
-        foreach ($this as $key => $input)
+        foreach ($this as $key => $input) {
             $data[$key] = $input->get();
+        }
 
-        /**
+        /*
          *  @var array
          */
         return $data;
@@ -303,6 +317,7 @@ class Form extends Writable implements FormInterface
 
     /**
      * @param Readable $data
+     *
      * @return bool
      */
     public function apply(Readable $data)
@@ -312,7 +327,7 @@ class Form extends Writable implements FormInterface
          */
         $data = $data->to('array');
 
-        /**
+        /*
          *  @var array
          */
         $this->data($data);
@@ -322,20 +337,21 @@ class Form extends Writable implements FormInterface
 
     /**
      * @param $type
+     *
      * @return array|mixed|null|string
      */
     public function to($type)
     {
         switch ($type) {
             case 'array':
-                /**
+                /*
                  *  @var array
                  */
                 return $this->data();
                 break;
 
             case 'json':
-                /**
+                /*
                  *  @var string
                  */
                 return \Frame\Json::encode(

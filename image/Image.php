@@ -1,24 +1,19 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
 use Frame\Image\Exception;
 
-use Frame\File;
-
-/**
- * @subpackage Image
- */
 class Image extends File
 {
-    protected $types  = [
-        'image/jpeg', 'image/png', 'image/gif'
+    protected $types = [
+        'image/jpeg', 'image/png', 'image/gif',
     ];
 
     /**
@@ -59,25 +54,26 @@ class Image extends File
                 $file : file_get_contents($file)
         );
 
-        if (gettype($image) !== 'resource')
-            throw new Exception("Bad image to resource convertation.");
+        if (gettype($image) !== 'resource') {
+            throw new Exception('Bad image to resource convertation.');
+        }
+        imagealphablending($image, false);
+        imagesavealpha($image, true);
 
-            imagealphablending($image, false);
-            imagesavealpha($image, true);
-
-        /**
+        /*
          *  @var void
          */
         $this->data([
             'image' => $image,
             'x'     => imagesx($image),
-            'y'     => imagesy($image)
+            'y'     => imagesy($image),
         ]);
     }
 
     /**
-     *  @param  integer $w
-     *  @param  integer $h
+     *  @param  int $w
+     *  @param  int $h
+     *
      *  @return void
      */
     public function resize($w, $h)
@@ -94,7 +90,7 @@ class Image extends File
 
         // imagealphablending($this->get('image'), false);
 
-        /**
+        /*
          *  @var void
          */
         imagecopyresampled(
@@ -110,21 +106,19 @@ class Image extends File
             $this->get('y')
         );
 
-
-
-        /**
+        /*
          *  @var bool
          */
         imagedestroy(
             $this->get('image')
         );
 
-        /**
+        /*
          *  @var resource
          */
         $this->set('image', $image);
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -158,7 +152,7 @@ class Image extends File
                 break;
         }
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -168,19 +162,19 @@ class Image extends File
     {
         $image = imagerotate($this->get('image'), $degrees, 0);
 
-        /**
+        /*
          *  @var bool
          */
         imagedestroy(
             $this->get('image')
         );
 
-        /**
+        /*
          *  @var resource
          */
         $this->set('image', $image);
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -206,35 +200,35 @@ class Image extends File
             'x'         => floor(($this->get('x') - $x) / 2),
             'y'         => floor(($this->get('y') - $y) / 2),
             'width'     => $x,
-            'height'    => $y
+            'height'    => $y,
         ]);
 
         imagealphablending($image, true);
         imagesavealpha($image, false);
 
-        /**
+        /*
          *  @var bool
          */
         imagedestroy(
             $this->get('image')
         );
 
-        /**
+        /*
          *  @var resource
          */
         $this->set('image', $image);
 
-        /**
+        /*
          *  @var integer
          */
         $this->set('x', $x);
 
-        /**
+        /*
          *  @var integer
          */
         $this->set('y', $y);
 
-        /**
+        /*
          *  @var $this
          */
         return $this;
@@ -242,7 +236,7 @@ class Image extends File
 
     /**
      *  @param  string  $image
-     *  @param  integer $q
+     *  @param  int $q
      *
      *  @return void
      */
@@ -253,7 +247,7 @@ class Image extends File
 
     /**
      *  @param  string  $image
-     *  @param  integer $q
+     *  @param  int $q
      *
      *  @return void
      */
@@ -266,8 +260,8 @@ class Image extends File
 
     /**
      *  @param  string  $image
-     *  @param  integer $q
-     *  @param  integer $filter
+     *  @param  int $q
+     *  @param  int $filter
      *
      *  @return void
      */

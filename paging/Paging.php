@@ -1,30 +1,28 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
 use Frame\Data\Readable;
 
-/**
- * @subpackage Session
- */
 class Paging extends Form
 {
     /**
      * @var array
      */
     protected $limits = [
-        5, 10, 25, 50, 100
+        5, 10, 25, 50, 100,
     ];
 
     /**
      * Paging constructor.
-     * @param int $total
+     *
+     * @param int           $total
      * @param Readable|null $q
      */
     public function __construct($total = 0, Readable $q = null)
@@ -32,7 +30,7 @@ class Paging extends Form
         $this->input(
             'total', 0
         )->filter([
-            'integer'
+            'integer',
         ])->set(
             $total
         );
@@ -40,35 +38,37 @@ class Paging extends Form
         $this->input(
             'limit', 10
         )->filter([
-            'integer', 'enum' => $this->limits
+            'integer', 'enum' => $this->limits,
         ]);
 
         $this->input(
             'let', 0
         )->filter([
-            'integer'
+            'integer',
         ]);
 
         $this->input(
             'page', 1
         )->filter([
-            'integer', 'between' => function(&$value) {
-                if ($value < 0)
+            'integer', 'between' => function (&$value) {
+                if ($value < 0) {
                     $value = 1;
+                }
 
                 $pages = $this->get('pages');
 
-                if ($pages > 0 && $value > $pages)
+                if ($pages > 0 && $value > $pages) {
                     $value = $pages;
+                }
 
                 return true;
-            }
+            },
         ]);
 
         $this->input(
             'offset', 0
         )->filter([
-            'cast' => function(&$value) {
+            'cast' => function (&$value) {
                 $page = $this->get('page') - 1;
 
                 $value = $page * $this->get('limit');
@@ -76,13 +76,13 @@ class Paging extends Form
                 $value += $this->get('let');
 
                 return true;
-            }
+            },
         ]);
 
         $this->input(
             'pages', 0
         )->filter([
-            'integer', 'min' => function(&$value) {
+            'integer', 'min' => function (&$value) {
                 $value = intval(
                     ceil(
                         $this->get('total') / $this->get('limit')
@@ -90,10 +90,11 @@ class Paging extends Form
                 );
 
                 return true;
-            }
+            },
         ]);
 
-        if ($q !== null)
+        if ($q !== null) {
             $this->apply($q);
+        }
     }
 }

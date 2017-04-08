@@ -1,19 +1,16 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame\Http
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Request;
 
 use Frame\Http\Exception;
 use Frame\Request;
 
-/**
- * @subpackage Request
- */
 trait Support
 {
     /**
@@ -24,39 +21,42 @@ trait Support
     /**
      *  @param null $input
      *
-     *  @return Request|mixed
      *  @throws Exception
+     *
+     *  @return Request|mixed
      */
     public function request($input = null)
     {
-        /**
+        /*
          *  @var bool
          */
         if ($this->request === null) {
-            /**
+            /*
              *  @var boolean
              */
-            if (property_exists($this, 'locator') === false)
-                /**
+            if (property_exists($this, 'locator') === false) {
+                /*
                  *  @thrown Exception
                  */
                 throw new Exception(
                     'Request is null and cannot executed.'
                 );
+            }
 
             $this->request = $this->locator(
                 Request::class
             );
         }
 
-        /**
+        /*
          *  @var bool
          */
-        if ($input === null)
-            /**
+        if ($input === null) {
+            /*
              *  @var bool
              */
             return $this->request;
+        }
 
         /**
          *  @var array
@@ -70,11 +70,11 @@ trait Support
             $params
         );
 
-        /**
+        /*
          *  @var mixed
          */
         return call_user_func_array([
-            $this->request, $method
+            $this->request, $method,
         ], $params);
     }
 }

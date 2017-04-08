@@ -1,25 +1,22 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\View;
 
 use Frame\Response;
 
-/**
- * @subpackage View
- */
 trait Support
 {
     /**
      *  @param  string      $path
      *  @param  array       $data
-     *  @param  boolean     $prevent
-     *  @param  integer     $code
+     *  @param  bool     $prevent
+     *  @param  int     $code
      *  @param  array       $headers
      *
      *  @return mixed
@@ -34,7 +31,7 @@ trait Support
             $path, $data, $prevent
         );
 
-        /**
+        /*
          *  @var \Frame\Response
          */
         return Response::html(

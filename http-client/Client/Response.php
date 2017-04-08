@@ -1,20 +1,17 @@
 <?php
 
 /**
- *  Frame Lite & Scaleable Web Frame
+ *  Frame Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Http\Client;
 
-/**
- * @subpackage Http\Client
- */
 class Response
 {
     /**
-     *  @var integer
+     *  @var int
      */
     protected $code;
 
@@ -38,19 +35,18 @@ class Response
      */
     public function __construct($body, $code, $headers)
     {
-        /**
+        /*
          *  @var $integer
          */
         $this->code = $code;
 
-
-        /**
+        /*
          *  @var \Frame\Data
          */
 
         $this->cookies = new \Frame\Data();
 
-        /**
+        /*
          *  @var \Frame\Data
          */
         $this->headers = new \Frame\Data(
@@ -58,28 +54,30 @@ class Response
                 $headers : $this->parse_header($headers)
         );
 
-        /**
+        /*
          *  @var string
          */
         $this->body = $body;
     }
 
     /**
-     * [parse_header description]
-     * @param  [type] $response [description]
-     * @return [type]           [description]
+     * [parse_header description].
+     *
+     * @param [type] $response [description]
+     *
+     * @return [type] [description]
      */
     protected function parse_header($response)
     {
-        $headers = array();
+        $headers = [];
 
         $header_text = substr($response, 0, strpos($response, "\r\n\r\n"));
 
-        foreach (explode("\r\n", $header_text) as $i => $line)
+        foreach (explode("\r\n", $header_text) as $i => $line) {
             if ($i === 0) {
                 $headers['http_code'] = $line;
             } else {
-                list ($key, $value) = explode(': ', $line);
+                list($key, $value) = explode(': ', $line);
 
                 if ($key === 'Set-Cookie') {
                     preg_match('/^(.*?)=(.*?)(\;|$)/i', $value, $matches);
@@ -95,6 +93,7 @@ class Response
 
                 $headers[$key] = $value;
             }
+        }
 
         return $headers;
     }

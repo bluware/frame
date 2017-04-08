@@ -1,20 +1,18 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Http
- */
 class Http implements HttpInterface
 {
     /**
      * @param null $method
+     *
      * @return Request|mixed|null
      */
     public static function request($method = null)
@@ -24,35 +22,37 @@ class Http implements HttpInterface
          */
         static $request = null;
 
-        /**
+        /*
          * @var boolean
          */
-        if ($request === null)
+        if ($request === null) {
             /**
              * @var \Frame\Request
              */
             $request = new Request();
+        }
 
-        /**
+        /*
          * @var boolean
          */
-        if ($method === null)
-            /**
+        if ($method === null) {
+            /*
              * @var \Frame\Request
              */
             return $request;
+        }
 
         /**
          * @var array
          */
         $params = func_get_args();
 
-        /**
+        /*
          * @var mixed
          */
         return call_user_func_array([
             $request,
-            array_shift($params)
+            array_shift($params),
         ], $params);
     }
 
@@ -68,16 +68,17 @@ class Http implements HttpInterface
          */
         $request = static::request();
 
-        /**
+        /*
          * @var boolean
          */
-        if ($input === null)
-            /**
+        if ($input === null) {
+            /*
              * @var \Frame\Request
              */
             return $request->cookie();
+        }
 
-        /**
+        /*
          * @var mixed
          */
         return $request->cookie(
@@ -87,14 +88,15 @@ class Http implements HttpInterface
 
     /**
      * @param $body
-     * @param int $code
+     * @param int   $code
      * @param array $headers
+     *
      * @return Response|mixed
      */
     public static function response(
         $body, $code = 200, $headers = []
     ) {
-        /**
+        /*
          *  @var if
          */
         if (
@@ -104,7 +106,7 @@ class Http implements HttpInterface
                 'xml',
                 'json',
                 'redirect',
-                'goto'
+                'goto',
             ], true)
         ) {
             /**
@@ -112,16 +114,16 @@ class Http implements HttpInterface
              */
             $params = func_get_args();
 
-            /**
+            /*
              *  @var array
              */
             return forward_static_call_array([
                 Response::class,
-                array_shift($params)
+                array_shift($params),
             ], $params);
         }
 
-        /**
+        /*
          *  @var Response
          */
         return new Response(

@@ -1,16 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Secure
- */
 interface SecureInterface
 {
     /**
@@ -25,7 +22,7 @@ interface SecureInterface
     /**
      *  Alphanum random generator.
      *
-     *  @param  integer  $length
+     *  @param  int  $length
      *
      *  @return string
      */

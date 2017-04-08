@@ -1,28 +1,25 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame\Secure;
 
-use Frame\Secure;
-use Frame\Json;
 use Frame\Data;
-use Frame\Data\Writable;
 use Frame\Data\Readable;
+use Frame\Data\Writable;
+use Frame\Json;
+use Frame\Secure;
 
-/**
- * @subpackage Secure
- */
 class Chain extends Writable
 {
     /**
      *  @const CHIPER
      */
-    const CHIPER    = 'AES-256-CBC';
+    const CHIPER = 'AES-256-CBC';
 
     /**
      *  On create generate custom default.
@@ -31,28 +28,28 @@ class Chain extends Writable
      */
     public function __construct(array $data = null)
     {
-        /**
+        /*
          *  @var boolean
          */
-        if ($data === null)
+        if ($data === null) {
             /**
              *  @var array
              */
             $data = [];
+        }
 
-        /**
+        /*
          *  @var array
          */
         $this->data = array_replace(
             [
-                'default'
-                    => Secure::random(32)
+                'default' => Secure::random(32),
             ], $data
         );
     }
 
     /**
-     *  Encypt $input using secret key
+     *  Encypt $input using secret key.
      *
      *  @param  mixed  $input
      *  @param  string $key
@@ -66,20 +63,22 @@ class Chain extends Writable
          */
         $secret = $this->get($key, null);
 
-        if (gettype($secret) === 'object')
+        if (gettype($secret) === 'object') {
             return $secret->encrypt(
                 $type, $input
             );
+        }
 
-        /**
+        /*
          *  @var bool
          */
-        if ($secret === null)
+        if ($secret === null) {
             throw new \Exception(
                 'No key found in chain'
             );
+        }
 
-        /**
+        /*
          *  @var mixed
          */
         if (is_object($input) === true) {
@@ -91,7 +90,7 @@ class Chain extends Writable
             ) ? $input->to('json') : $input;
         }
 
-        /**
+        /*
          *  @var mixed
          */
         if (is_array($input) === true) {
@@ -103,7 +102,7 @@ class Chain extends Writable
             );
         }
 
-        /**
+        /*
          *  @var mixed
          */
         return @openssl_encrypt(
@@ -115,10 +114,11 @@ class Chain extends Writable
 
     public function set($name, $data)
     {
-        if (gettype($data) !== 'array')
+        if (gettype($data) !== 'array') {
             return parent::set(
                 $name, $data
             );
+        }
 
         return parent::set(
             $name, new Rsa(
@@ -129,7 +129,7 @@ class Chain extends Writable
     }
 
     /**
-     *  Dectypt $input using secret key
+     *  Dectypt $input using secret key.
      *
      *  @param  mixed  $input
      *  @param  string $key
@@ -143,18 +143,20 @@ class Chain extends Writable
          */
         $secret = $this->get($key, null);
 
-        if (gettype($secret) === 'object')
+        if (gettype($secret) === 'object') {
             return $secret->decrypt(
                 $type, $input
             );
+        }
 
-        /**
+        /*
          *  @var bool
          */
-        if ($secret === null)
+        if ($secret === null) {
             throw new \Exception(
                 'No key found in chain'
             );
+        }
 
         /**
          *  @var mixed
@@ -164,22 +166,23 @@ class Chain extends Writable
         );
 
         /**
-         *  @var boolean
+         *  @var bool
          */
         $data = Json::decode(
             $decrypt, $error
         );
 
-        /**
+        /*
          *  @var boolean
          */
-        if ($data !== null)
-            /**
+        if ($data !== null) {
+            /*
              *  @var \Frame\Data
              */
             return new Data($data);
+        }
 
-        /**
+        /*
          *  @var mixed
          */
         return $decrypt === false ?

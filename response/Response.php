@@ -1,22 +1,19 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
 use Frame\Response\Headers;
 
-/**
- * @subpackage Response
- */
 class Response implements IResponse
 {
     /**
-     *  @var integer
+     *  @var int
      */
     protected $code;
 
@@ -31,33 +28,33 @@ class Response implements IResponse
     protected $body;
 
     /**
-     * @param mixed  $body
-     * @param integer $code
-     * @param array   $headers
+     * @param mixed $body
+     * @param int   $code
+     * @param array $headers
      */
     public function __construct($body, $code = 200, array $headers = [])
     {
-        /**
+        /*
          *  @var integer
          */
-        $this->code   = $code;
+        $this->code = $code;
 
-        /**
+        /*
          *  @var \Frame\Response\Headers
          */
-        $this->headers  = new Headers($headers);
+        $this->headers = new Headers($headers);
 
-        /**
+        /*
          *  @var scalar
          */
-        $this->body     = gettype($body) === 'object' ?
+        $this->body = gettype($body) === 'object' ?
             $body->__toString() : $body;
     }
 
     /**
-     * @param  scalar   $body
-     * @param  integer  $code
-     * @param  array    $headers
+     * @param scalar $body
+     * @param int    $code
+     * @param array  $headers
      *
      * @return Response
      */
@@ -65,15 +62,15 @@ class Response implements IResponse
     {
         return new static(
             $body, $code, array_replace($headers, [
-                'Content-Type' => 'text/plain; charset=utf-8'
+                'Content-Type' => 'text/plain; charset=utf-8',
             ])
         );
     }
 
     /**
-     * @param  scalar   $body
-     * @param  integer  $code
-     * @param  array    $headers
+     * @param scalar $body
+     * @param int    $code
+     * @param array  $headers
      *
      * @return Response
      */
@@ -81,15 +78,15 @@ class Response implements IResponse
     {
         return new static(
             $body, $code, array_replace($headers, [
-                'Content-Type' => 'text/html; charset=utf-8'
+                'Content-Type' => 'text/html; charset=utf-8',
             ])
         );
     }
 
     /**
-     * @param  mixed    $body
-     * @param  integer  $code
-     * @param  array    $headers
+     * @param mixed $body
+     * @param int   $code
+     * @param array $headers
      *
      * @return Response
      */
@@ -99,15 +96,15 @@ class Response implements IResponse
             json_encode($body, JSON_PRETTY_PRINT),
             $code,
             array_replace($headers, [
-                'Content-Type' => 'application/json; charset=utf-8'
+                'Content-Type' => 'application/json; charset=utf-8',
             ])
         );
     }
 
     /**
-     * @param  mixed    $body
-     * @param  integer  $code
-     * @param  array    $headers
+     * @param mixed $body
+     * @param int   $code
+     * @param array $headers
      *
      * @return Response
      */
@@ -115,15 +112,15 @@ class Response implements IResponse
     {
         return new static(
             $body, $code, array_replace($headers, [
-                'Content-Type' => 'application/xml; charset=utf-8'
+                'Content-Type' => 'application/xml; charset=utf-8',
             ])
         );
     }
 
     /**
-     * @param  mixed    $url
-     * @param  integer  $code
-     * @param  array    $headers
+     * @param mixed $url
+     * @param int   $code
+     * @param array $headers
      *
      * @return Response
      */
@@ -131,15 +128,15 @@ class Response implements IResponse
     {
         return new static(
             null, $code, array_replace($headers, [
-                'Location' => $url
+                'Location' => $url,
             ])
         );
     }
 
     /**
-     * @param  mixed   $url
-     * @param  integer  $code
-     * @param  array    $headers
+     * @param mixed $url
+     * @param int   $code
+     * @param array $headers
      *
      * @return Response
      */
@@ -162,8 +159,9 @@ class Response implements IResponse
      */
     public function headers(array $data = null)
     {
-        if ($data === null)
+        if ($data === null) {
             return $this->headers;
+        }
 
         $this->headers->replace($data);
 
@@ -173,12 +171,14 @@ class Response implements IResponse
     /**
      * @param $key
      * @param null $val
+     *
      * @return $this|mixed|null
      */
     public function header($key, $val = null)
     {
-        if ($val === null)
+        if ($val === null) {
             return $this->headers->get($key, null);
+        }
 
         $this->headers->set($key, $val);
 
@@ -198,8 +198,9 @@ class Response implements IResponse
      */
     public function code($code = null)
     {
-        if ($code === null)
+        if ($code === null) {
             return $this->code;
+        }
 
         $this->code = $code;
 
@@ -219,8 +220,9 @@ class Response implements IResponse
      */
     public function status($code = null)
     {
-        if ($code === null)
+        if ($code === null) {
             return $this->code;
+        }
 
         $this->code = $code;
 
@@ -240,8 +242,9 @@ class Response implements IResponse
      */
     public function body($body = null)
     {
-        if ($body === null)
+        if ($body === null) {
             return $this->body;
+        }
 
         $this->body = $body;
 
@@ -261,8 +264,9 @@ class Response implements IResponse
      */
     public function content($body = null)
     {
-        if ($body === null)
+        if ($body === null) {
             return $this->body;
+        }
 
         $this->body = $body;
 
@@ -300,7 +304,7 @@ class Response implements IResponse
      *
      *  @param bool $apply
      *
-     *  @return boolean
+     *  @return bool
      */
     public function write($apply = true)
     {

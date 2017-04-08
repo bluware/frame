@@ -1,23 +1,20 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
+use Frame\Data\Readable;
 use Frame\Request\Body;
 use Frame\Request\Cookies;
 use Frame\Request\Files;
 use Frame\Request\Query;
 use Frame\Request\Server;
-use Frame\Data\Readable;
 
-/**
- * @subpackage Request
- */
 class Request extends Readable implements IRequest
 {
     /**
@@ -47,6 +44,7 @@ class Request extends Readable implements IRequest
 
     /**
      * Request constructor.
+     *
      * @param array|null $query
      * @param array|null $body
      * @param array|null $files
@@ -54,27 +52,27 @@ class Request extends Readable implements IRequest
      * @param array|null $server
      */
     public function __construct(
-        array $query    = null,
-        array $body     = null,
-        array $files    = null,
-        array $cookies  = null,
-        array $server   = null
+        array $query = null,
+        array $body = null,
+        array $files = null,
+        array $cookies = null,
+        array $server = null
     ) {
-        /**
+        /*
          *  @param \Frame\Request\Query
          */
         $this->query = new Query(
             $query !== null ? $query : $_GET
         );
 
-        /**
+        /*
          *  @param \Frame\Request\Files
          */
         $this->files = new Files(
             $files !== null ? $files : $_FILES
         );
 
-        /**
+        /*
          *  @param \Frame\Request\Cookie
          */
         $this->server = new Server(
@@ -97,29 +95,30 @@ class Request extends Readable implements IRequest
             )
         );
 
-        /**
+        /*
          *  @param \Frame\Request\Cookie
          */
         $this->cookies = new Cookies(
             $cookies !== null ? $cookies : $_COOKIE, $this->secure()
         );
 
-        /**
+        /*
          *  Prepare input stream buffer
          *
          *  If request type 'json', than inject body
          */
-        if ($this->is('json') && $body === null)
+        if ($this->is('json') && $body === null) {
             $body = Json::from('php://input');
+        }
 
-        /**
+        /*
          *  @param \Frame\Request\Body
          */
         $this->body = new Body(
             $body !== null ? $body : $_POST
         );
 
-        /**
+        /*
          *  @param \Frame\Data
          */
         $this->data = $this->{
@@ -131,17 +130,19 @@ class Request extends Readable implements IRequest
     /**
      * @param $instance
      * @param null $key
+     *
      * @return bool
      */
     public function has($instance, $key = null)
     {
-        if ($key === null)
-            /**
+        if ($key === null) {
+            /*
              *  @var boolean
              */
             return parent::has($instance);
+        }
 
-        /**
+        /*
          *  @var boolean
          */
         return $this->{$instance}->has(
@@ -164,13 +165,14 @@ class Request extends Readable implements IRequest
      */
     public function query($input = null, $alt = null)
     {
-        if ($input === null)
-            /**
+        if ($input === null) {
+            /*
              *  @var \Frame\Request\Query
              */
             return $this->query;
+        }
 
-        /**
+        /*
          *  @var mixed
          */
         return $this->query
@@ -194,13 +196,14 @@ class Request extends Readable implements IRequest
      */
     public function body($input = null, $alt = null)
     {
-        if ($input === null)
-            /**
+        if ($input === null) {
+            /*
              *  @var \Frame\Request\Body
              */
             return $this->body;
+        }
 
-        /**
+        /*
          *  @var mixed
          */
         return $this->body
@@ -224,7 +227,7 @@ class Request extends Readable implements IRequest
      */
     public function post($input = null, $alt = null)
     {
-        /**
+        /*
          *  @var mixed
          */
         return $this->method('is', 'post') ?
@@ -246,7 +249,7 @@ class Request extends Readable implements IRequest
      */
     public function put($input = null, $alt = null)
     {
-        /**
+        /*
          *  @var mixed
          */
         return $this->method('is', 'put') ?
@@ -268,7 +271,7 @@ class Request extends Readable implements IRequest
      */
     public function delete($input = null, $alt = null)
     {
-        /**
+        /*
          *  @var mixed
          */
         return $this->method('is', 'delete') ?
@@ -290,7 +293,7 @@ class Request extends Readable implements IRequest
      */
     public function del($input = null, $alt = null)
     {
-        /**
+        /*
          *  @var mixed
          */
         return $this->method('is', 'delete') ?
@@ -342,13 +345,14 @@ class Request extends Readable implements IRequest
      */
     public function files($input = null, $alt = null)
     {
-        if ($input === null)
-            /**
+        if ($input === null) {
+            /*
              *  @var \Frame\Request\Files
              */
             return $this->files;
+        }
 
-        /**
+        /*
          *  @var array|null
          */
         return $this->files
@@ -372,13 +376,14 @@ class Request extends Readable implements IRequest
      */
     public function cookie($input = null, $alt = null)
     {
-        if ($input === null)
-            /**
+        if ($input === null) {
+            /*
              *  @var \Frame\Request\Cookies
              */
             return $this->cookies;
+        }
 
-        /**
+        /*
          *  @var \Frame\Cookie
          */
         return $this->cookies
@@ -402,13 +407,14 @@ class Request extends Readable implements IRequest
      */
     public function server($input = null, $alt = null)
     {
-        if ($input === null)
-            /**
+        if ($input === null) {
+            /*
              *  @var \Frame\Request\Server
              */
             return $this->server;
+        }
 
-        /**
+        /*
          *  @var string|null
          */
         return $this->server
@@ -432,7 +438,7 @@ class Request extends Readable implements IRequest
      */
     public function header($input, $alt = null)
     {
-        /**
+        /*
          *  @var string|null
          */
         return $this->server(
@@ -441,7 +447,7 @@ class Request extends Readable implements IRequest
     }
 
     /**
-     *  Get method or use comparison methods
+     *  Get method or use comparison methods.
      *
      *  Usage:
      *      string schema()
@@ -455,10 +461,11 @@ class Request extends Readable implements IRequest
      */
     public function schema($prop = null, $compare = null)
     {
-        if ($prop !== null)
+        if ($prop !== null) {
             return $this->{
                 sprintf('schema_%s', $prop)
             }($compare);
+        }
 
         return $this->server('HTTPS', 'off') !== 'off'
             || $this->port() === 443 ? 'https' : 'http';
@@ -469,7 +476,7 @@ class Request extends Readable implements IRequest
      *
      *  @param  string $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function schema_is($compare)
     {
@@ -483,7 +490,7 @@ class Request extends Readable implements IRequest
      *
      *  @param  array $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function schema_in(array $compare)
     {
@@ -499,7 +506,7 @@ class Request extends Readable implements IRequest
     }
 
     /**
-     *  Get requested schema
+     *  Get requested schema.
      *
      *  @return bool
      */
@@ -513,14 +520,16 @@ class Request extends Readable implements IRequest
      *
      * @param null $prop
      * @param null $compare
+     *
      * @return mixed
      */
     public function host($prop = null, $compare = null)
     {
-        if ($prop !== null)
+        if ($prop !== null) {
             return $this->{
                 sprintf('host_%s', $prop)
             }($compare);
+        }
 
         return $this->header(
             'HOST', '127.0.0.1'
@@ -531,6 +540,7 @@ class Request extends Readable implements IRequest
      * Get server hostname.
      *
      * @param $compare
+     *
      * @return bool
      */
     public function host_is($compare)
@@ -542,6 +552,7 @@ class Request extends Readable implements IRequest
      * Get server hostname.
      *
      * @param array $compare
+     *
      * @return bool
      */
     public function host_in(array $compare)
@@ -558,10 +569,11 @@ class Request extends Readable implements IRequest
      */
     public function port($prop = null, $compare = null)
     {
-        if ($prop !== null)
+        if ($prop !== null) {
             return $this->{
                 sprintf('port_%s', $prop)
             }($compare);
+        }
 
         return intval(
             $this->server(
@@ -605,10 +617,11 @@ class Request extends Readable implements IRequest
      */
     public function uri($prop = null, $compare = null)
     {
-        if ($prop !== null)
+        if ($prop !== null) {
             return $this->{
                 sprintf('uri_%s', $prop)
             }($compare);
+        }
 
         return $this->server(
             'REQUEST_URI', '/'
@@ -646,10 +659,11 @@ class Request extends Readable implements IRequest
      */
     public function path($prop = null, $compare = null)
     {
-        if ($prop !== null)
+        if ($prop !== null) {
             return $this->{
                 sprintf('path_%s', $prop)
             }($compare);
+        }
 
         return strtok(
             $this->uri(), '?'
@@ -687,12 +701,13 @@ class Request extends Readable implements IRequest
      */
     public function url($path = null)
     {
-        if ($path !== null)
+        if ($path !== null) {
             $path = $path[0] !== '/' ?
                 sprintf('/%s', $path) : $path;
+        }
 
         return sprintf(
-            "%s://%s%s%s",
+            '%s://%s%s%s',
             $this->schema(),
             $this->host(),
             $this->port('in', [80, 443]) ? '' : sprintf(
@@ -704,7 +719,7 @@ class Request extends Readable implements IRequest
     }
 
     /**
-     *  Get method or use comparison methods
+     *  Get method or use comparison methods.
      *
      *  Usage:
      *      string method()
@@ -718,10 +733,11 @@ class Request extends Readable implements IRequest
      */
     public function method($prop = null, $compare = null)
     {
-        if ($prop !== null)
+        if ($prop !== null) {
             return $this->{
                 sprintf('method_%s', $prop)
             }($compare);
+        }
 
         return $this->server(
             'REQUEST_METHOD', 'GET'
@@ -733,7 +749,7 @@ class Request extends Readable implements IRequest
      *
      *  @param  string $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function method_is($compare)
     {
@@ -745,7 +761,7 @@ class Request extends Readable implements IRequest
      *
      *  @param  array $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function method_in(array $compare)
     {
@@ -759,7 +775,7 @@ class Request extends Readable implements IRequest
     }
 
     /**
-     *  Get client ip or use middleware methods
+     *  Get client ip or use middleware methods.
      *
      *  Usage:
      *      string ip()
@@ -775,10 +791,11 @@ class Request extends Readable implements IRequest
      */
     public function ip($prop = null, $compare = null)
     {
-        if ($prop !== null)
+        if ($prop !== null) {
             return $this->{
                 sprintf('ip_%s', $prop)
             }($compare);
+        }
 
         return $this->server(
             'REMOTE_ADDR', '127.0.0.1'
@@ -790,12 +807,13 @@ class Request extends Readable implements IRequest
      *
      *  @param  string $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function ip_is($compare)
     {
-        if ($compare !== 'local')
+        if ($compare !== 'local') {
             return $this->ip() === $compare;
+        }
 
         return preg_match(
             '/(127\.0\.0\.1|192\.168\.[0-9]{1,3}\.[0-9]{1,3})/',
@@ -808,13 +826,15 @@ class Request extends Readable implements IRequest
      *
      *  @param  array $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function ip_in(array $compare)
     {
-        if (in_array('local', $compare, true))
-            if ($this->ip('is', 'local') === true)
+        if (in_array('local', $compare, true)) {
+            if ($this->ip('is', 'local') === true) {
                 return true;
+            }
+        }
 
         return in_array(
             $this->ip(), $compare, true
@@ -822,22 +842,23 @@ class Request extends Readable implements IRequest
     }
 
     /**
-     *  Get client agent
+     *  Get client agent.
      *
      *  @return string
      */
     public function agent($prop = null, $compare = null)
     {
-        if ($prop !== null)
+        if ($prop !== null) {
             return $this->{
                 sprintf('agent_%s', $prop)
             }($compare);
+        }
 
         return $this->header('USER_AGENT');
     }
 
     /**
-     *  Get client agent
+     *  Get client agent.
      *
      *  @return string
      */
@@ -847,7 +868,7 @@ class Request extends Readable implements IRequest
     }
 
     /**
-     *  Get client agent
+     *  Get client agent.
      *
      *  @return string
      */
@@ -882,7 +903,7 @@ class Request extends Readable implements IRequest
      *
      *  Usage: bool is_console() || bool is('console')
      *
-     *  @return boolean
+     *  @return bool
      */
     public function is_console()
     {
@@ -894,7 +915,7 @@ class Request extends Readable implements IRequest
      *
      *  Usage: bool is_cli() || bool is('cli')
      *
-     *  @return boolean
+     *  @return bool
      */
     public function is_cli()
     {
@@ -906,7 +927,7 @@ class Request extends Readable implements IRequest
      *
      *  Usage: bool is_json() || bool is('json')
      *
-     *  @return boolean
+     *  @return bool
      */
     public function is_json()
     {
@@ -921,7 +942,7 @@ class Request extends Readable implements IRequest
      *
      *  Usage: bool is_xhr() || bool is('xhr')
      *
-     *  @return boolean
+     *  @return bool
      */
     public function is_xhr()
     {
@@ -931,11 +952,11 @@ class Request extends Readable implements IRequest
     }
 
     /**
-     *  Alias for 'is_xhr' method
+     *  Alias for 'is_xhr' method.
      *
      *  Usage: bool is_ajax() || bool is('ajax')
      *
-     *  @return boolean
+     *  @return bool
      */
     public function is_ajax()
     {
@@ -955,7 +976,7 @@ class Request extends Readable implements IRequest
 
             return $this->server(
                 'DOCUMENT_ROOT'
-            ) . $merge;
+            ).$merge;
         }
 
         return $this->server(
@@ -968,7 +989,7 @@ class Request extends Readable implements IRequest
      *
      *  Usage: string locale() || string locale('en')
      *
-     *  @var string $locale
+     *  @var string
      *
      *  @return string
      */
@@ -983,7 +1004,7 @@ class Request extends Readable implements IRequest
                 $matches
             )
         ) {
-            $language = array();
+            $language = [];
 
             foreach (array_combine($matches[1], $matches[2]) as $key => $value) {
                 $language[$key] = empty($value) ? 1 : (float) $value;
@@ -1004,7 +1025,7 @@ class Request extends Readable implements IRequest
      *
      *  Usage: string locale() || string locale('en')
      *
-     *  @var string $locale
+     *  @var string
      *
      *  @return string
      */
@@ -1022,7 +1043,7 @@ class Request extends Readable implements IRequest
             $locales
         );
 
-        /**
+        /*
          *  @var string
          */
         return strtok($suggest, '-');

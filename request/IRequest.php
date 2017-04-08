@@ -1,16 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Request
- */
 interface IRequest
 {
     /**
@@ -23,17 +20,17 @@ interface IRequest
      * @param array|null $server
      */
     public function __construct(
-        array $query    = null,
-        array $body     = null,
-        array $files    = null,
-        array $cookies  = null,
-        array $server   = null
+        array $query = null,
+        array $body = null,
+        array $files = null,
+        array $cookies = null,
+        array $server = null
     );
 
     /**
      *  @param scalar $key
      *
-     *  @return boolean
+     *  @return bool
      */
     public function has($instance, $key = null);
 
@@ -188,7 +185,7 @@ interface IRequest
     public function header($input, $alt = null);
 
     /**
-     *  Get method or use comparison methods
+     *  Get method or use comparison methods.
      *
      *  Usage:
      *      string schema()
@@ -207,7 +204,7 @@ interface IRequest
      *
      *  @param  string $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function schema_is($compare);
 
@@ -216,12 +213,12 @@ interface IRequest
      *
      *  @param  array $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function schema_in(array $compare);
 
     /**
-     *  Get requested schema
+     *  Get requested schema.
      *
      *  @return bool
      */
@@ -319,7 +316,7 @@ interface IRequest
     public function url($path = null);
 
     /**
-     *  Get method or use comparison methods
+     *  Get method or use comparison methods.
      *
      *  Usage:
      *      string method()
@@ -338,7 +335,7 @@ interface IRequest
      *
      *  @param  string $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function method_is($compare);
 
@@ -347,12 +344,12 @@ interface IRequest
      *
      *  @param  array $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function method_in(array $compare);
 
     /**
-     *  Get client ip or use middleware methods
+     *  Get client ip or use middleware methods.
      *
      *  Usage:
      *      string ip()
@@ -373,7 +370,7 @@ interface IRequest
      *
      *  @param  string $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function ip_is($compare);
 
@@ -382,26 +379,26 @@ interface IRequest
      *
      *  @param  array $compare
      *
-     *  @return boolean
+     *  @return bool
      */
     public function ip_in(array $compare);
 
     /**
-     *  Get client agent
+     *  Get client agent.
      *
      *  @return string
      */
     public function agent($prop = null, $compare = null);
 
     /**
-     *  Get client agent
+     *  Get client agent.
      *
      *  @return string
      */
     public function agent_is($compare);
 
     /**
-     *  Get client agent
+     *  Get client agent.
      *
      *  @return string
      */
@@ -424,7 +421,7 @@ interface IRequest
      *
      *  Usage: bool is_console() || bool is('console')
      *
-     *  @return boolean
+     *  @return bool
      */
     public function is_console();
 
@@ -433,7 +430,7 @@ interface IRequest
      *
      *  Usage: bool is_cli() || bool is('cli')
      *
-     *  @return boolean
+     *  @return bool
      */
     public function is_cli();
 
@@ -442,7 +439,7 @@ interface IRequest
      *
      *  Usage: bool is_json() || bool is('json')
      *
-     *  @return boolean
+     *  @return bool
      */
     public function is_json();
 
@@ -451,16 +448,16 @@ interface IRequest
      *
      *  Usage: bool is_xhr() || bool is('xhr')
      *
-     *  @return boolean
+     *  @return bool
      */
     public function is_xhr();
 
     /**
-     *  Alias for 'is_xhr' method
+     *  Alias for 'is_xhr' method.
      *
      *  Usage: bool is_ajax() || bool is('ajax')
      *
-     *  @return boolean
+     *  @return bool
      */
     public function is_ajax();
 
@@ -476,7 +473,7 @@ interface IRequest
      *
      *  Usage: string locale() || string locale('en')
      *
-     *  @var string $locale
+     *  @var string
      *
      *  @return string
      */
@@ -487,7 +484,7 @@ interface IRequest
      *
      *  Usage: string locale() || string locale('en')
      *
-     *  @var string $locale
+     *  @var string
      *
      *  @return string
      */

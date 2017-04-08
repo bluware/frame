@@ -1,16 +1,13 @@
 <?php
 
 /**
- *  Bluware PHP Lite & Scaleable Web Frame
+ *  Bluware PHP Lite & Scaleable Web Frame.
  *
- *  @package  Frame
  *  @author   Eugen Melnychenko
  */
+
 namespace Frame;
 
-/**
- * @subpackage Json
- */
 class Json
 {
     /**
@@ -27,23 +24,23 @@ class Json
         $decode = json_decode($input, true);
 
         /**
-         *  @var integer
+         *  @var int
          */
-        $error  = json_last_error();
+        $error = json_last_error();
 
-        /**
+        /*
          *  @var bool
          */
-        if ($error === JSON_ERROR_NONE)
-            /**
+        if ($error === JSON_ERROR_NONE) {
+            /*
              * @var mixed
              */
             return $decode;
+        }
 
-        /**
+        /*
          *  @var null
          */
-        return null;
     }
 
     /**
@@ -53,17 +50,18 @@ class Json
      */
     public static function encode($input)
     {
-        if (is_object($input) === true)
-            /**
+        if (is_object($input) === true) {
+            /*
              *  @var string
              */
             return $input->to('json');
+        }
 
-        /**
+        /*
          *  @var string
          */
         return json_encode(
-            $input, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT
+            $input, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
         );
     }
 
@@ -75,7 +73,7 @@ class Json
     public static function pretty($input)
     {
         return json_encode(
-            $input, JSON_PRETTY_PRINT|JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT
+            $input, JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
         );
     }
 
