@@ -381,7 +381,7 @@ class Route
         );
 
         $success = (bool) preg_match(
-            sprintf('/^%s$/', $xor), $url, $matches
+            sprintf('/^%s(?:|\/)$/', $xor), $url, $matches
         );
 
         if ($success === false)
