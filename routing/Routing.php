@@ -8,7 +8,7 @@
 
 namespace Frame;
 
-use Frame\App\Exception;
+use Frame\Routing\Exception;
 use Frame\Routing\Aspects;
 use Frame\Routing\Cache;
 use Frame\Routing\Group;
@@ -158,6 +158,11 @@ class Routing
          *  @var void
          */
         foreach ($paths as $path => $call) {
+            if (is_callable($call) === false && strpos($call, $this->separator) === false)
+                throw new Exception(
+                    sprintf('Bad routing handler for \'%s\'', $path)
+                );
+
             $this->routes->add(
                 $this->method === 'cli' ? 'console' : 'http',
                 $path,
@@ -522,6 +527,15 @@ class Routing
                         $class = $this->cache->instance(strtok($aspect, $this->separator), $injection);
 
                         $aspect = [$class, strtok($this->separator)];
+                    }
+
+                    if (is_callable($aspect) === false) {
+                        throw new Exception(
+                            gettype($aspect) === 'array' ? sprintf(
+                                'Aspect \'%s\' has no method \'%s\'.' , get_class($aspect[0]), $aspect[1]
+                            ) : 'Aspect is not callable.'
+                        );
+
                     }
 
                     $success = $injection->locator(
