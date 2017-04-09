@@ -222,6 +222,20 @@ class Routing
      *
      *  @return Routing
      */
+    public function put($path, $call = null, $options = [])
+    {
+        return $this->match(
+            ['put'], $path, $call, $options
+        );
+    }
+
+    /**
+     *  @param $path
+     *  @param null $call
+     *  @param array $options
+     *
+     *  @return Routing
+     */
     public function delete($path, $call = null, $options = [])
     {
         return $this->match(

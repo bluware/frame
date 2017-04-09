@@ -106,7 +106,7 @@ class Group extends Writable
 
         foreach ($aspects as $aspect) {
             if (in_array($aspect, $this->get('aspects'), true) === false) {
-                $aspects = &$this->get('aspects');
+                $aspects = $this->get('aspects');
 
                 $aspects[] = $aspect;
 
