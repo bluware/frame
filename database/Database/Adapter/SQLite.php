@@ -23,9 +23,6 @@ class SQLite extends Adapter
          */
         $this->data = $data;
 
-        $dsn = $this->dsn([
-            'path' => ':memory:',
-        ], $data);
 
         /**
          *  @var string
