@@ -294,7 +294,15 @@ class Cookie implements ICookie
      */
     public function forget()
     {
-        setcookie($this->name, null, -1, '/');
+        setcookie(
+            $this->name,
+            null,
+            -1,
+            '/',
+            $this->domain,
+            $this->secure,
+            $this->http
+        );
 
         return $this;
     }
