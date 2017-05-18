@@ -208,6 +208,81 @@ class Form extends Writable implements FormInterface
      *  @param $key
      *  @param $val
      *
+     *  @return bool
+     */
+    public function equal($key, $val)
+    {
+        if (is_array($data) === false && $data instanceof Readable === false) {
+            throw new \Exception('Should be array or Readable object');
+        }
+
+        if ($this->has($key) === false) {
+            return false;
+        }
+
+        return $this->data[$key]->get() === $val;
+    }
+
+    /**
+     *  @param $keys
+     *
+     *  @return array
+     */
+    public function only($keys)
+    {
+        if (gettype($keys) !== 'array') {
+            $keys = func_get_args();
+        }
+
+        /**
+         *  @var array
+         */
+        $data = [];
+
+        /*
+         *  @var array
+         */
+        foreach ($this as $key => $input) {
+            $data[$key] = $input->get();
+        }
+
+        return array_intersect_key(
+            $data, array_flip($keys)
+        );
+    }
+
+    /**
+     *  @param $keys
+     *
+     *  @return array
+     */
+    public function except($keys)
+    {
+        if (gettype($keys) !== 'array') {
+            $keys = func_get_args();
+        }
+
+        /**
+         *  @var array
+         */
+        $data = [];
+
+        /*
+         *  @var array
+         */
+        foreach ($this as $key => $input) {
+            $data[$key] = $input->get();
+        }
+
+        return array_diff_key(
+            $data, array_flip($keys)
+        );
+    }
+
+    /**
+     *  @param $key
+     *  @param $val
+     *
      *  @return $this
      */
     public function set($key, $val)
