@@ -97,4 +97,15 @@ class Paging extends Form
             $this->apply($q);
         }
     }
+
+    public function total($total)
+    {
+        $this->input('total')->set($total);
+
+        foreach (['total', 'pages', 'page'] as $input) {
+            $this->input($input)->validate();
+        }
+
+        return $this;
+    }
 }
