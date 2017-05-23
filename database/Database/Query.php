@@ -1164,7 +1164,7 @@ class Query
                 /**
                  *  @var string
                  */
-                $limit = $this->limit !== null ?
+                $limit = is_numeric($this->limit) && $this->limit > 0 ?
                     sprintf(
                         'LIMIT %s',
                         $this->limit
@@ -1173,7 +1173,7 @@ class Query
                 /**
                  *  @var string
                  */
-                $offset = $this->offset !== null ?
+                $offset = is_numeric($this->offset) && $this->offset > 0 ?
                     sprintf(
                         'OFFSET %s',
                         $this->offset
