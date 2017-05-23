@@ -103,7 +103,7 @@ class Paging extends Form
         $this->input('total')->set($total);
 
         foreach (['total', 'pages', 'page'] as $input) {
-            $this->input($input)->validate();
+            $this->input($input)->filtrate();
         }
 
         return $this;
