@@ -10,6 +10,8 @@ namespace Frame;
 
 class Hook extends Data
 {
+    protected $indexing = -1;
+
     /**
      *  @param  string   $name
      *  @param  callable $call
@@ -23,16 +25,14 @@ class Hook extends Data
             $name, []
         );
 
-        $token = sprintf(':%d.%s.%d',
+        $token = sprintf(':%d.%d',
             str_pad(
                 $priority,
                 4,
                 0,
                 STR_PAD_LEFT
-            ), uniqid(), rand(
-                10000000,
-                99999999
-            )
+            ), 
+            ++$this->indexing
         );
 
         $group[$token] = $call;
