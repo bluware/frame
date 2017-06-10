@@ -10,6 +10,12 @@ namespace Frame\Package;
 
 use Frame\App;
 use Frame\Data;
+use Frame\Package\IRouting;
+use Frame\Package\IView;
+use Frame\Package\IAutoload;
+use Frame\Package\ITranslator;
+use Frame\Package\IBootstrap;
+use Frame\Package\IHook;
 
 class Dispatcher
 {
@@ -157,6 +163,7 @@ class Dispatcher
                 $knowClass = [
                     'className' => $className,
                     'classPath' => $directory,
+                    'interfaces' => class_implements($className),
                 ];
 
                 $this->classmap->set($isNumeric ? $namespace : $path, $knowClass);
@@ -164,19 +171,16 @@ class Dispatcher
 
             $className = $knowClass['className'];
             $instance  = new $className($app);
-
-            $autoload->add(
-                $namespace, $knowClass['classPath']
-            );
+            $interfaces = $knowClass['interfaces'];
 
             /*
              *  @var bool
              */
-            if (method_exists($instance, 'translator') === true) {
+            if (array_key_exists('Frame\\Package\\ITranslator', $interfaces) === true) {
                 /**
-                 *  @var Frame\I18n
+                 *  @var \Frame\I18n
                  */
-                $i18n = $app->locator('translator');
+                $i18n = $app->locator->get('translator');
 
                 /**
                  *  @var array
@@ -199,38 +203,38 @@ class Dispatcher
                 }
             }
 
-            /*
-             *  @var mixed
-             */
-            method_exists($instance, 'autoload') ?
+            if (array_key_exists('Frame\\Package\\IAutoload', $interfaces) === true) {
                 $instance->autoload(
-                    $app->locator('autoload')
-                ) : null;
+                    $app->locator->get('autoload')
+                );
+            }
 
-            $packages[] = $instance;
+            $knowClass['instance'] = $instance;
+
+            $packages[] = $knowClass;
         }
 
         /*
          *  Second phase of booting
          */
         foreach ($packages as $package) {
+            $instance = $package['instance'];
+            $interfaces = $package['interfaces'];
             /*
              *  @var Frame\App
              */
-            method_exists($package, 'bootstrap') ?
-                $package->bootstrap(
-                    $app->locator()
-                ) : null;
+            if (array_key_exists('Frame\\Package\\IBootstrap', $interfaces) === true) {
+                $instance->bootstrap(
+                    $app->locator
+                );
+            }
 
-            /*
-             *  @var bool
-             */
-            if (method_exists($package, 'hook') === true) {
+            if (array_key_exists('Frame\\Package\\IHook', $interfaces) === true) {
                 /**
                  *  @var array
                  */
-                $controllers = $package->hook(
-                    $app->locator('hook')
+                $controllers = $instance->hook(
+                    $app->locator->get('hook')
                 );
 
                 /*
@@ -249,21 +253,17 @@ class Dispatcher
                 }
             }
 
-            /*
-             *  @var mixed
-             */
-            method_exists($package, 'routing') ?
-                $package->routing(
-                    $app->locator('router')
-                ) : null;
+            if (array_key_exists('Frame\\Package\\IRouting', $interfaces) === true) {
+                $instance->routing(
+                    $app->locator->get('router')
+                );
+            }
 
-            /*
-             *  @var mixed
-             */
-            method_exists($package, 'view') ?
-                $package->view(
-                    $app->locator('view')
-                ) : null;
+            if (array_key_exists('Frame\\Package\\IView', $interfaces) === true) {
+                $instance->view(
+                    $app->locator->get('view')
+                );
+            }
         }
     }
 

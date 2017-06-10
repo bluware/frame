@@ -107,7 +107,8 @@ return [
     /**------------------------------------------------------------------------
      *  @package `http` module
      */
-     'Frame\\I18n' => __DIR__.'/i18n/I18n.php',
+    'Frame\\I18n' => __DIR__.'/i18n/I18n.php',
+    'Frame\\Package\\ITranslator'  => __DIR__.'/i18n/Package/ITranslator.php',
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -127,7 +128,7 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `router` module
+     *  @package `routing` module
      */
     'Frame\\Routing\\Exception' => __DIR__.'/routing/Routing/Exception.php',
     'Frame\\Routing\\Routes'    => __DIR__.'/routing/Routing/Routes.php',
@@ -137,6 +138,7 @@ return [
     'Frame\\Routing\\Group'     => __DIR__.'/routing/Routing/Group.php',
     'Frame\\Routing\\Cache'     => __DIR__.'/routing/Routing/Cache.php',
     'Frame\\Routing'            => __DIR__.'/routing/Routing.php',
+    'Frame\\Package\\IRouting'  => __DIR__.'/routing/Package/IRouting.php',
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -147,6 +149,7 @@ return [
     'Frame\\ViewInterface'       => __DIR__.'/view/ViewInterface.php',
     'Frame\\View\\Support'       => __DIR__.'/view/View/Support.php',
     'Frame\\View'                => __DIR__.'/view/View.php',
+    'Frame\\Package\\IView'      => __DIR__.'/view/Package/IView.php',
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -191,6 +194,7 @@ return [
      */
     'Frame\\Autoload\\Exception' => __DIR__.'/autoload/Autoload/Exception.php',
     'Frame\\Autoload'            => __DIR__.'/autoload/Autoload.php',
+    'Frame\\Package\\IAutoload'  => __DIR__.'/autoload/Package/IAutoload.php',
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -208,6 +212,7 @@ return [
     'Frame\\Hook'             => __DIR__.'/hook/Hook.php',
     'Frame\\Hook\\Support'    => __DIR__.'/hook/Hook/Support.php',
     'Frame\\Hook\\Controller' => __DIR__.'/hook/Hook/Controller.php',
+    'Frame\\Package\\IHook'   => __DIR__.'/hook/Package/IHook.php',
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
@@ -231,7 +236,8 @@ return [
      */
     'Frame\\Package\\Exception'  => __DIR__.'/package/Package/Exception.php',
     'Frame\\Package\\Dispatcher' => __DIR__.'/package/Package/Dispatcher.php',
-    'Frame\\Package'             => __DIR__.'/package/Package.php',
+    'Frame\\PackageAbstract'     => __DIR__.'/package/PackageAbstract.php',
+    'Frame\\Package\\IBootstrap' => __DIR__.'/package/Package/IBootstrap.php',
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------

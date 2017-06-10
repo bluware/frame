@@ -469,7 +469,7 @@ class Routing
      */
     public function dispatch($injection = null)
     {
-        $injection->locator()->add($this->params, 'params');
+        $injection->locator->add($this->params, 'params');
 
         /*
          *  @var boolean
