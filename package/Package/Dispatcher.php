@@ -23,6 +23,11 @@ class Dispatcher
      */
     protected $packages;
 
+
+    protected $classmap;
+
+    protected $revision = 0;
+
     /**
      * Dispatcher constructor.
      *
@@ -42,6 +47,8 @@ class Dispatcher
          *  @var array
          */
         $this->directories = new Data($directories);
+
+        $this->classmap = new Data();
     }
 
     /**
@@ -72,29 +79,94 @@ class Dispatcher
         );
     }
 
+    public function cacheImport($filepath = null)
+    {
+        if ($filepath === null) {
+            $filepath = sprintf('%s/.cache/package.php', getcwd());
+        }
+
+        if (is_string($filepath) === false) {
+            return $this;
+        }
+
+        $classmap = is_file($filepath) ? include $filepath : [];
+
+        if (is_array($filepath) === true) {
+            $this->classmap->setData($classmap);
+        }
+
+        $this->revision = $this->classmap->count();
+
+        return $this;
+    }
+
+    public function cacheExport($filepath = null)
+    {
+        if ($this->classmap->count() === $this->revision) {
+            return $this;
+        }
+
+        if ($filepath === null) {
+            $filepath = sprintf('%s/.cache/package.php', getcwd());
+        }
+
+        if (is_string($filepath) === false) {
+            return $this;
+        }
+
+        $directory = dirname($filepath);
+
+        if (is_dir($directory) === false) {
+            mkdir($directory, 0755, true);
+        }
+
+        $export = sprintf(
+            "<?php\n\nreturn %s;", var_export($this->classmap->getData(), true)
+        );
+
+        file_put_contents($filepath, $export);
+
+        return $this;
+    }
+
     /**
      * @param App $app
      */
     public function dispatch(App $app)
     {
         $packages = [];
+        $autoload = $app->locator->get('autoload');
 
         foreach ($this->packages as $path => $namespace) {
+            $isNumeric = is_numeric($path);
+            $knowClass = $this->classmap->get($isNumeric ? $namespace : $path, null);
             $directory = null;
 
-            if (is_numeric($path) === true) {
-                $path = str_replace('\\', '/', $namespace);
+            if ($knowClass === null) {
+                $classPath = $isNumeric ? str_replace('\\', '/', $namespace) : $path;
+                $className = sprintf('%s\\Package', $namespace);
+
+                if (class_exists($className) === false) {
+                    $this->browse($className, $path, $directory, $autoload);
+                } else {
+                    $reflector = new \ReflectionClass($className);
+                    $fn = $reflector->getFileName();
+                    $directory = dirname($fn);
+                }
+
+                $knowClass = [
+                    'className' => $className,
+                    'classPath' => $directory,
+                ];
+
+                $this->classmap->set($isNumeric ? $namespace : $path, $knowClass);
             }
 
-            $package = sprintf('%s\\Package', $namespace);
+            $className = $knowClass['className'];
+            $instance  = new $className($app);
 
-            class_exists($package) === false ?
-                $this->browse($path, $directory) : null;
-
-            $instance = new $package($app);
-
-            $app->locator('autoload')->add(
-                $namespace, $directory
+            $autoload->add(
+                $namespace, $knowClass['classPath']
             );
 
             /*
@@ -209,7 +281,7 @@ class Dispatcher
     /**
      *  @return void
      */
-    public function browse($path, &$_directory)
+    public function browse($package, $path, &$_directory, \Frame\Autoload $autoload)
     {
         foreach ($this->directories as $directory) {
             $directory = sprintf(
@@ -222,6 +294,7 @@ class Dispatcher
 
             if (is_file($file) === true) {
                 include_once $file;
+                $autoload->classmap([$package => $file]);
 
                 $_directory = $directory;
 

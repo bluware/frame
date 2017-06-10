@@ -72,8 +72,8 @@ class App
          */
         $autoload = new Autoload();
 
-        $autoload->import(
-            $config->get('classmap', null)
+        $autoload->cacheImport(
+            $config->pull('cache.autoload', null)
         );
 
         /*
@@ -262,10 +262,16 @@ class App
             $packages, $directories
         );
 
+        $config = $this->locator->get('config');
+
+        $package->cacheImport(
+            $config->pull('cache.package', null)
+        );
+
         /*
          *  @var void
          */
-        $this->locator()->add($package, 'package');
+        $this->locator->add($package, 'package');
 
         /*
          *  @var void
@@ -295,8 +301,14 @@ class App
 
         ob_end_flush();
 
-        $this->locator->get('autoload')->export(
-            $this->locator->get('config')->get('classmap', null)
+        $config = $this->locator->get('config');
+
+        $this->locator->get('autoload')->cacheExport(
+            $config->pull('cache.autoload', null)
+        );
+
+        $this->locator->get('package')->cacheExport(
+            $config->pull('cache.package', null)
         );
     }
 

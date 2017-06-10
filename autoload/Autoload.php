@@ -18,7 +18,12 @@ class Autoload
     /**
      *  @var \Frame\Data
      */
-    protected $classmaps;
+    protected $classmap;
+
+    /**
+     *  @var \Frame\Data
+     */
+    protected $revision = 0;
 
     public function __construct()
     {
@@ -30,7 +35,7 @@ class Autoload
         /*
          *  @var \Frame\Data\Data
          */
-        $this->classmaps = new Data();
+        $this->classmap = new Data();
 
         /*
          *  @var \Frame\Data\Data
@@ -40,29 +45,35 @@ class Autoload
         ]);
     }
 
-    public function import($filepath = null)
+    public function cacheImport($filepath = null)
     {
         if ($filepath === null) {
-            $filepath = sprintf('%s/.cache/.autoload.php', getcwd());
+            $filepath = sprintf('%s/.cache/autoload.php', getcwd());
         }
 
         if (is_string($filepath) === false) {
             return $this;
         }
 
-        $classmaps = is_file($filepath) ? include $filepath : [];
+        $classmap = is_file($filepath) ? include $filepath : [];
 
         if (is_array($filepath) === true) {
-            $this->classmaps->setData($classmaps);
+            $this->classmap->setData($classmap);
         }
+
+        $this->revision = $this->classmap->count();
 
         return $this;
     }
 
-    public function export($filepath = null)
+    public function cacheExport($filepath = null)
     {
+        if ($this->classmap->count() === $this->revision) {
+            return $this;
+        }
+
         if ($filepath === null) {
-            $filepath = sprintf('%s/.cache/.autoload.php', getcwd());
+            $filepath = sprintf('%s/.cache/autoload.php', getcwd());
         }
 
         if (is_string($filepath) === false) {
@@ -76,7 +87,7 @@ class Autoload
         }
 
         $export = sprintf(
-            "<?php\n\nreturn %s;", var_export($this->classmaps->getData(), true)
+            "<?php\n\nreturn %s;", var_export($this->classmap->getData(), true)
         );
 
         file_put_contents($filepath, $export);
@@ -106,7 +117,7 @@ class Autoload
      */
     public function classmap(array $classmap)
     {
-        $this->classmaps->setData(
+        $this->classmap->setData(
             $classmap
         );
 
@@ -120,8 +131,8 @@ class Autoload
      */
     public function loader($class)
     {
-        if ($this->classmaps->has($class) === true) {
-            include $this->classmaps->get($class);
+        if ($this->classmap->has($class) === true) {
+            include $this->classmap->get($class);
 
             return;
         }
@@ -161,7 +172,7 @@ class Autoload
 
             if (is_file($file) === true) {
                 include $file;
-                $this->classmaps->set($class, $file);
+                $this->classmap->set($class, $file);
 
                 return true;
             }
