@@ -134,7 +134,7 @@ class Mediator
          *  @var ActiveRecord|null
          */
         $entry = forward_static_call(
-            [$interface, 'find'], $params[$place]
+            [$interface, 'find'], array_values($params)[$place]
         );
 
         if ($entry === null) {
