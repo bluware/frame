@@ -72,6 +72,10 @@ class App
          */
         $autoload = new Autoload();
 
+        $autoload->import(
+            $config->get('classmap', null)
+        );
+
         /*
          *  @var \Frame\Locator
          */
@@ -290,6 +294,10 @@ class App
         echo $response;
 
         ob_end_flush();
+
+        $this->locator->get('autoload')->export(
+            $this->locator->get('config')->get('classmap', null)
+        );
     }
 
     public function __get($key)

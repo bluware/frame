@@ -119,6 +119,11 @@ abstract class Readable implements \Iterator, \ArrayAccess, \JsonSerializable, \
         return $this->data;
     }
 
+    public function getData()
+    {
+        return $this->data;
+    }
+
     /**
      *  @return mixed
      */

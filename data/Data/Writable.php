@@ -115,6 +115,29 @@ abstract class Writable extends Readable
     }
 
     /**
+     *  @param $data
+     *
+     *  @throws Exception
+     *
+     *  @return $this
+     */
+    public function setData(array $data)
+    {
+        if (is_array($data) === false && $data instanceof Readable === false) {
+            throw new Exception('Should be array or Readable object');
+        }
+        if ($data instanceof Readable) {
+            $data = $data->to('array');
+        }
+
+        $this->data = array_replace(
+            $this->data, $data
+        );
+
+        return $this;
+    }
+
+    /**
      *  @param $key
      *  @param null $value
      *
