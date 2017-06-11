@@ -87,7 +87,7 @@ class Autoload
         }
 
         $export = sprintf(
-            "<?php\n\nreturn %s;", var_export($this->classmap->getData(), true)
+            "<?php\n\nreturn %s;\n", var_export($this->classmap->getData(), true)
         );
 
         file_put_contents($filepath, $export);
