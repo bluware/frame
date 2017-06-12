@@ -255,6 +255,13 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
+     *  @package `image` module
+     */
+    'Frame\\Environment\\Exception' => __DIR__.'/environment/Environment/Exception.php',
+    'Frame\\Environment'            => __DIR__.'/environment/Environment.php',
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
      *  @package `file` module
      */
     'Frame\\Dir\\Exception' => __DIR__.'/dir/Dir/Exception.php',

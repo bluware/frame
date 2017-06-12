@@ -29,11 +29,13 @@ class App
      *
      *  @param array $config
      */
-    public function __construct($config = [])
+    public function __construct($applicationConfigurationPath)
     {
         $config = new Config(
-            $config
+            $applicationConfigurationPath
         );
+
+        new Environment($config, $applicationConfigurationPath);
 
         /**
          *  @var \Frame\Locator
