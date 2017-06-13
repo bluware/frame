@@ -25,6 +25,11 @@ class App
     protected $report = true;
 
     /**
+     * @var bool
+     */
+    protected $appcache = false;
+
+    /**
      *  App constructor.
      *
      *  @param array $config
@@ -36,6 +41,10 @@ class App
         );
 
         new Environment($config, $applicationConfigurationPath);
+
+        $this->appcache = $config->pull(
+            'cache.application', false
+        );
 
         /**
          *  @var \Frame\Locator
@@ -74,9 +83,11 @@ class App
          */
         $autoload = new Autoload();
 
-        $autoload->cacheImport(
-            $config->pull('cache.autoload', null)
-        );
+        if ($this->appcache === true) {
+            $autoload->cacheImport(
+                $config->pull('cache.autoload', null)
+            );
+        }
 
         /*
          *  @var \Frame\Locator
@@ -266,9 +277,11 @@ class App
 
         $config = $this->locator->get('config');
 
-        $package->cacheImport(
-            $config->pull('cache.package', null)
-        );
+        if ($this->appcache === true) {
+            $package->cacheImport(
+                $config->pull('cache.package', null)
+            );
+        }
 
         /*
          *  @var void
@@ -305,13 +318,15 @@ class App
 
         $config = $this->locator->get('config');
 
-        $this->locator->get('autoload')->cacheExport(
-            $config->pull('cache.autoload', null)
-        );
+        if ($this->appcache === true) {
+            $this->locator->get('autoload')->cacheExport(
+                $config->pull('cache.autoload', null)
+            );
 
-        $this->locator->get('package')->cacheExport(
-            $config->pull('cache.package', null)
-        );
+            $this->locator->get('package')->cacheExport(
+                $config->pull('cache.package', null)
+            );
+        }
     }
 
     public function __get($key)
