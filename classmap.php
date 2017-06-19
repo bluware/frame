@@ -286,6 +286,14 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
+     *  @package `memcache` module
+     */
+    'Frame\\Memcache\\Exception' => __DIR__.'/memcache/Memcache/Exception.php',
+    'Frame\\Memcache\\Manager'   => __DIR__.'/memcache/Memcache/Manager.php',
+    'Frame\\Memcache'            => __DIR__.'/memcache/Memcache.php',
+    //-------------------------------------------------------------------------
+
+    /**------------------------------------------------------------------------
      *  @package `package` module
      */
     'Frame\\App\\Exception' => __DIR__.'/app/App/Exception.php',
