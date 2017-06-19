@@ -61,7 +61,11 @@ class Manager extends Readable
             );
         }
 
-        $data->get('prefix', null);
+        $authpass = $data->get('auth', null);
+
+        if ($authpass !== null) {
+            $redis->auth($authpass);
+        }
 
         return $redis;
     }

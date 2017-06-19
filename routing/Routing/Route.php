@@ -54,10 +54,15 @@ class Route
          */
         $this->type = $type;
 
+        if ($path[0] === '/' && strlen($path) > 1) {
+            $path = substr($path, 1);
+        }
+
         /*
          *
          */
         $this->path = $path;
+
 
         /*
          *
@@ -298,23 +303,19 @@ class Route
 
     public function matchHttp($url, &$params = [])
     {
-        $path = substr(
-            $this->path, 0, 1
-        ) !== '/' ? sprintf(
-            '/%s', $this->path
-        ) : $this->path;
+        $path = $this->path;
 
         $src = preg_replace([
             '/\//',
             '/\(/',
-            '/\[/',
-            '/\]/',
+//            '/\[/',
+//            '/\]/',
             '/\*/',
         ], [
             '\/',
             '(?:',
-            '(?:|',
-            ')',
+//            '(?:|',
+//            ')',
             '.*?',
         ], $path);
 

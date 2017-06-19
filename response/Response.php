@@ -322,6 +322,8 @@ class Response implements IResponse
      */
     public function __toString()
     {
-        return $this->render(true);
+        $content = $this->render(true);
+
+        return is_string($content) ? $content : '';
     }
 }

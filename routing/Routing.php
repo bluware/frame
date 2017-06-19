@@ -13,6 +13,7 @@ use Frame\Routing\Aspects;
 use Frame\Routing\Cache;
 use Frame\Routing\Group;
 use Frame\Routing\Params;
+use Frame\Routing\Route;
 use Frame\Routing\Routes;
 
 class Routing
@@ -464,12 +465,23 @@ class Routing
         return $this;
     }
 
+    protected function screening($path)
+    {
+        while (strpos($path, '//') !== false) {
+            $path = str_replace('//', '/', $path);
+        }
+
+        return $path;
+    }
+
     /**
      *  @return mixed
      */
-    public function dispatch($injection = null)
+    public function dispatch(App $injection = null)
     {
         $injection->locator->add($this->params, 'params');
+
+        $this->routes->sort();
 
         /*
          *  @var boolean
@@ -489,18 +501,38 @@ class Routing
              *  @var string
              */
             $compare = implode(' ', $argv);
+
+            $routes = $this->routes;
         } else {
             /**
              *  @var string
              */
             $compare = $this->request->path();
+
+            if (strpos($compare, '//') !== false) {
+                return Response::redirect(
+                    $this->screening($compare)
+                );
+            }
+
+            if (strlen($compare) > 1) {
+                $compare = substr($compare, 1);
+
+                if (substr($compare, -1) === '/') {
+                    $compare = substr(
+                        $compare, 0, strlen($compare) - 1
+                    );
+                }
+            }
+
+            $routes = $this->getOptimizedRoutes(
+                $compare
+            );
         }
 
         $params = [];
 
-        $this->routes->sort();
-
-        foreach ($this->routes as $route) {
+        foreach ($routes as $route) {
             if ($route->match($compare, $params) === true) {
                 $this->route = $route;
 
@@ -570,5 +602,66 @@ class Routing
                 }
             }
         }
+    }
+
+    protected function getOptimizedRoutes($realPath = '/')
+    {
+        $exportRoutes = [];
+        $isIndexPath  = $realPath === '/';
+        $pathSegments = $isIndexPath ? [$realPath] : explode('/', $realPath);
+
+        foreach($this->routes as $route) {
+            $routePath = $route->path();
+
+            if ($isIndexPath === true) {
+                if ($routePath === '/' || strpos($routePath, '*') !== false) {
+                    $exportRoutes[] = $route;
+                }
+            } else {
+                $routeSegments = $routePath === '/' ? [$routePath] : explode('/', $routePath);
+                
+                if (strpos($routePath, '*') !== false) {
+                    $exportRoutes[] = $route;
+                } else if (sizeof($pathSegments) === sizeof($routeSegments)) {
+                    $pushVerification = $this->routeSegmentsValidation(
+                        $pathSegments, $routeSegments
+                    );
+
+                    if ($pushVerification === true) {
+                        $exportRoutes[] = $route;
+                    }
+                }
+            }
+        }
+
+        return $exportRoutes;
+    }
+
+    protected function routeSegmentsValidation(array $pathSegments, array $routeSegments)
+    {
+        $index = -1;
+
+        while (++$index < sizeof($routeSegments)) {
+            $routeSegment = $routeSegments[$index];
+
+            if ($this->segmentIsDynamic($routeSegment) === false) {
+                $pathSegment = $pathSegments[$index];
+
+                if ($pathSegment !== $routeSegment) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    protected function segmentIsDynamic($routeSegment)
+    {
+        return strpos(
+            $routeSegment, ':'
+        ) !== false || strpos(
+            $routeSegment, '{'
+        ) !== false;
     }
 }
