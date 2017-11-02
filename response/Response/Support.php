@@ -9,6 +9,7 @@
 namespace Frame\Response;
 
 use Frame\Http;
+use Frame\Response;
 
 trait Support
 {
@@ -28,6 +29,50 @@ trait Support
                 'response',
             ], func_get_args()
         );
+    }
+
+    /**
+     * @param $body
+     * @param int $code
+     * @param array $headers
+     * @return Response
+     */
+    public function jsonResponse($body, $code = 200, $headers = [])
+    {
+        return Response::json($body, $code, $headers);
+    }
+
+    /**
+     * @param $body
+     * @param int $code
+     * @param array $headers
+     * @return Response
+     */
+    public function textResponse($body, $code = 200, $headers = [])
+    {
+        return Response::text($body, $code, $headers);
+    }
+
+    /**
+     * @param $body
+     * @param int $code
+     * @param array $headers
+     * @return Response
+     */
+    public function xmlResponse($body, $code = 200, $headers = [])
+    {
+        return Response::xml($body, $code, $headers);
+    }
+
+    /**
+     * @param $body
+     * @param int $code
+     * @param array $headers
+     * @return Response
+     */
+    public function htmlResponse($body, $code = 200, $headers = [])
+    {
+        return Response::html($body, $code, $headers);
     }
 
     /**

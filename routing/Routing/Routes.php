@@ -20,9 +20,9 @@ class Routes extends Writable
             $type, $path, $call, $group
         );
 
-        if (count($this->params) > 0) {
-            $route->params($this->params);
-        }
+//        if (count($this->params) > 0) {
+//            $route->params($this->params);
+//        }
 
         switch (gettype($options)) {
             case 'array':
