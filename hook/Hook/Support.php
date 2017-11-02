@@ -76,4 +76,69 @@ trait Support
             $this->hook, $method,
         ], $params);
     }
+
+    /**
+     * @param $event
+     * @param array ...$argv
+     * @return $this
+     * @throws Exception
+     */
+    public function hookAnchor($event, ...$argv)
+    {
+        /*
+         *  @var boolean
+         */
+        if ($this->hook === null) {
+            /*
+             *  @var boolean
+             */
+            if (property_exists($this, 'locator') === false) {
+                /*
+                 *  @var Exception
+                 */
+                throw new Exception(
+                    'Hook is null and cannot executed.'
+                );
+            }
+
+            $this->hook = $this->locator(
+                Hook::class
+            );
+        }
+
+        return $this->hook->event($name, ...$argv);
+    }
+
+    /**
+     * @param $name
+     * @param callable $call
+     * @param int $priority
+     * @return $this
+     * @throws Exception
+     */
+    public function hookEvent($name, callable $call, $priority = 50)
+    {
+        /*
+         *  @var boolean
+         */
+        if ($this->hook === null) {
+            /*
+             *  @var boolean
+             */
+            if (property_exists($this, 'locator') === false) {
+                /*
+                 *  @var Exception
+                 */
+                throw new Exception(
+                    'Hook is null and cannot executed.'
+                );
+            }
+
+            $this->hook = $this->locator(
+                Hook::class
+            );
+        }
+
+        return $this->hook->event($name, $call, $priority);
+    }
 }
