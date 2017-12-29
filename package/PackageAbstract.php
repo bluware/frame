@@ -8,7 +8,7 @@
 
 namespace Frame;
 
-use Frame\Locator\Support;
+use Frame\Frame\ServiceTrait;
 use Frame\Package\IAutoload;
 use Frame\Package\IBootstrap;
 use Frame\Package\IHook;

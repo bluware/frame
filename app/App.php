@@ -12,7 +12,7 @@ use Frame\App\Exception;
 
 class App
 {
-    use Locator\Support;
+    use TServiceProvider;
 
     /**
      *  @var array
@@ -47,26 +47,24 @@ class App
         );
 
         /**
-         *  @var \Frame\Locator
+         *  @var \Frame\ServiceLocator
          */
-        $locator = new Locator();
+        $locator = new ServiceLocator();
 
         /*
          *  @var \Frame\App
          */
-        $locator->add($this, 'app');
+        $locator->addService($this, 'app');
 
         /*
          *  @var \Frame\Locator
          */
-        $locator->add(
-            $locator, 'locator'
-        );
+        $locator->addService($locator, 'service');
 
         /*
          *  @var \Frame\Locator
          */
-        $locator->add($config, 'config');
+        $locator->addService($config, 'config');
 
         /*
          *  @var boolean
@@ -79,20 +77,20 @@ class App
         }
 
         /**
-         *  @var \Frame\Locator
+         *  @var \Frame\ServiceLocator
          */
         $autoload = new Autoload();
 
-        if ($this->appcache === true) {
-            $autoload->cacheImport(
-                $config->pull('cache.autoload', null)
-            );
-        }
+//        if ($this->appcache === true) {
+//            $autoload->cacheImport(
+//                $config->pull('cache.autoload', null)
+//            );
+//        }
 
         /*
          *  @var \Frame\Locator
          */
-        $locator->add($autoload, 'autoload');
+        $locator->addService($autoload, 'autoload');
 
         /*
          *
@@ -106,21 +104,21 @@ class App
         /*
          *
          */
-        $locator->add($mediator, 'mediator');
+        $locator->addService($mediator, 'mediator');
 
         $request = new Request();
 
         /*
          *
          */
-        $locator->add($request, 'request');
+        $locator->addService($request, 'request');
 
         $routing = new Routing($request);
 
         /*
          *
          */
-        $locator->add($routing, 'router');
+        $locator->addService($routing, 'router');
 
         $i18n = new I18n(
             $request->locale()
@@ -129,7 +127,7 @@ class App
         /*
          *
          */
-        $locator->add($i18n, 'translator');
+        $locator->addService($i18n, 'translator');
 
         /**
          *  @var \Frame\View
@@ -139,7 +137,7 @@ class App
         /*
          *  @var \Frame\View
          */
-        $locator->add($view, 'view');
+        $locator->addService($view, 'view');
 
         /**
          *  @var \Frame\Database\Union
@@ -149,7 +147,7 @@ class App
         /*
          *  @var \Frame\Database\Union
          */
-        $locator->add($redis, 'redis');
+        $locator->addService($redis, 'redis');
 
         /*
          *  @var void
@@ -166,7 +164,7 @@ class App
         /*
          *  @var \Frame\Database\Union
          */
-        $locator->add($database, 'database');
+        $locator->addService($database, 'database');
 
         /*
          *  @var void
@@ -180,12 +178,12 @@ class App
         /*
         *
         */
-        $locator->add($secure, 'secure');
+        $locator->addService($secure, 'secure');
 
         /*
          *
          */
-        $locator->add(new Hook(), 'hook');
+        $locator->addService(new Hook(), 'hook');
 
         /*
          *  @var void
@@ -197,7 +195,7 @@ class App
         /*
          *
          */
-        $this->locator = $locator;
+        $this->setServiceLocator($locator);
 
         /**
          *  @var
@@ -275,7 +273,7 @@ class App
             $packages, $directories
         );
 
-        $config = $this->locator->get('config');
+        $config = $this->getService('config');
 
         if ($this->appcache === true) {
             $package->cacheImport(
@@ -286,7 +284,7 @@ class App
         /*
          *  @var void
          */
-        $this->locator->add($package, 'package');
+        $this->getServiceLocator()->addService($package, 'package');
 
         /*
          *  @var void
@@ -306,7 +304,7 @@ class App
         ob_start();
         // ob_start("ob_gzhandler");
 
-        $response = $this->locator->get(
+        $response = $this->getServiceLocator()->getService(
             'router'
         )->dispatch(
             $this
@@ -316,14 +314,14 @@ class App
 
         ob_end_flush();
 
-        $config = $this->locator->get('config');
+        $config = $this->getService('config');
 
         if ($this->appcache === true) {
-            $this->locator->get('autoload')->cacheExport(
+            $this->getService('autoload')->cacheExport(
                 $config->pull('cache.autoload', null)
             );
 
-            $this->locator->get('package')->cacheExport(
+            $this->getService('package')->cacheExport(
                 $config->pull('cache.package', null)
             );
         }
@@ -350,13 +348,11 @@ class App
     }
 
     /**
-     *  @param \Frame\App|null $instance
-     *
-     *  @throws Exception
-     *
-     *  @return \Frame\App|null
+     * @param App|null $instance
+     * @return App
+     * @throws Exception
      */
-    public static function instance(App $instance = null)
+    public static function instance(App $instance = null): App
     {
         /**
          *  @var App|null

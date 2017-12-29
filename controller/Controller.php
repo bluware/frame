@@ -31,11 +31,11 @@ abstract class Controller extends Entry
         /*
          *  @var Hook
          */
-        $this->hook = $this->locator('hook');
+        $this->hook = $this->getService('hook');
 
         /*
          *  @var Request
          */
-        $this->request = $this->locator('request');
+        $this->request = $this->getService('request');
     }
 }

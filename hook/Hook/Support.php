@@ -33,7 +33,7 @@ trait Support
             /*
              *  @var boolean
              */
-            if (property_exists($this, 'locator') === false) {
+            if (property_exists($this, 'service') === false) {
                 /*
                  *  @var Exception
                  */
@@ -42,7 +42,7 @@ trait Support
                 );
             }
 
-            $this->hook = $this->locator(
+            $this->hook = $this->getService(
                 Hook::class
             );
         }
@@ -92,7 +92,7 @@ trait Support
             /*
              *  @var boolean
              */
-            if (property_exists($this, 'locator') === false) {
+            if (property_exists($this, 'service') === false) {
                 /*
                  *  @var Exception
                  */
@@ -101,7 +101,7 @@ trait Support
                 );
             }
 
-            $this->hook = $this->locator(
+            $this->hook = $this->getService(
                 Hook::class
             );
         }
@@ -125,7 +125,7 @@ trait Support
             /*
              *  @var boolean
              */
-            if (property_exists($this, 'locator') === false) {
+            if (property_exists($this, 'service') === false) {
                 /*
                  *  @var Exception
                  */
@@ -134,7 +134,7 @@ trait Support
                 );
             }
 
-            $this->hook = $this->locator(
+            $this->hook = $this->getService(
                 Hook::class
             );
         }

@@ -141,7 +141,7 @@ class Dispatcher
     public function dispatch(App $app)
     {
         $packages = [];
-        $autoload = $app->locator->get('autoload');
+        $autoload = $app->_serviceLocator->getService('autoload');
 
         foreach ($this->packages as $path => $namespace) {
             $isNumeric = is_numeric($path);
@@ -180,7 +180,7 @@ class Dispatcher
                 /**
                  *  @var \Frame\I18n
                  */
-                $i18n = $app->locator->get('translator');
+                $i18n = $app->_serviceLocator->getService('translator');
 
                 /**
                  *  @var array
@@ -205,7 +205,7 @@ class Dispatcher
 
             if (array_key_exists('Frame\\Package\\IAutoload', $interfaces) === true) {
                 $instance->autoload(
-                    $app->locator->get('autoload')
+                    $app->_serviceLocator->getService('autoload')
                 );
             }
 
@@ -225,7 +225,7 @@ class Dispatcher
              */
             if (array_key_exists('Frame\\Package\\IBootstrap', $interfaces) === true) {
                 $instance->bootstrap(
-                    $app->locator
+                    $app->_serviceLocator
                 );
             }
 
@@ -234,7 +234,7 @@ class Dispatcher
                  *  @var array
                  */
                 $controllers = $instance->hook(
-                    $app->locator->get('hook')
+                    $app->_serviceLocator->getService('hook')
                 );
 
                 /*
@@ -255,13 +255,13 @@ class Dispatcher
 
             if (array_key_exists('Frame\\Package\\IRouting', $interfaces) === true) {
                 $instance->routing(
-                    $app->locator->get('router')
+                    $app->_serviceLocator->getService('router')
                 );
             }
 
             if (array_key_exists('Frame\\Package\\IView', $interfaces) === true) {
                 $instance->view(
-                    $app->locator->get('view')
+                    $app->_serviceLocator->getService('view')
                 );
             }
         }

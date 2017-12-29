@@ -198,11 +198,14 @@ return [
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------
-     *  @package `locator` module
+     *  @package `service` module
      */
-    'Frame\\Locator\\Exception' => __DIR__.'/locator/Locator/Exception.php',
-    'Frame\\Locator'            => __DIR__.'/locator/Locator.php',
-    'Frame\\Locator\\Support'   => __DIR__.'/locator/Locator/Support.php',
+    'Frame\\ServiceLocator' => __DIR__ . '/service/ServiceLocator.php',
+    'Frame\\ServiceMediator' => __DIR__ . '/service/ServiceMediator.php',
+    'Frame\\IServiceLocator' => __DIR__ . '/service/IServiceLocator.php',
+    'Frame\\TServiceProvider' => __DIR__ . '/service/TServiceProvider.php',
+    'Frame\\IServiceProvider' => __DIR__ . '/service/IServiceProvider.php',
+    'Frame\\IServiceMediator' => __DIR__ . '/service/IServiceMediator.php',
     //-------------------------------------------------------------------------
 
     /**------------------------------------------------------------------------

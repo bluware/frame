@@ -18,18 +18,18 @@ use ReflectionType              as RT;
 class Mediator
 {
     /**
-     *  @var Locator
+     *  @var ServiceLocator
      */
-    protected $locator;
+    protected $serviceLocator;
 
     /**
      *  Mediator constructor.
      *
-     *  @param Locator $locator
+     *  @param ServiceLocator $locator
      */
-    public function __construct(Locator $locator)
+    public function __construct(ServiceLocator $locator)
     {
-        $this->locator = $locator;
+        $this->serviceLocator = $locator;
     }
 
     /**
@@ -97,7 +97,7 @@ class Mediator
      */
     protected function locate($interface)
     {
-        return $this->locator->has(
+        return $this->getServiceLocator()->has(
             $interface
         );
     }
@@ -109,7 +109,7 @@ class Mediator
      */
     protected function insert(array &$params, $param, $interface)
     {
-        $instance = $this->locator->get($interface);
+        $instance = $this->getServiceLocator()->get($interface);
 
         array_splice(
             $params, $param->getPosition(), 0, [$instance]

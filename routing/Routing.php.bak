@@ -598,7 +598,7 @@ class Routing
                     foreach ($aspects as $key => $aspect) {
                         $aspect = $this->aspects->get($aspect);
 
-                        $maked = $injection->locator('mediator')->dispatch(
+                        $maked = $injection->getService('mediator')->dispatch(
                             [
                                 new $aspect($injection), 'before'
                             ], $params
@@ -640,7 +640,7 @@ class Routing
                     ];
                 }
 
-                $maked = $injection->locator('mediator')->dispatch(
+                $maked = $injection->getService('mediator')->dispatch(
                     $data['maker'], $params
                 );
 

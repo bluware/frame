@@ -34,7 +34,7 @@ trait Support
             /*
              *  @var boolean
              */
-            if (property_exists($this, 'locator') === false) {
+            if (property_exists($this, 'service') === false) {
                 /*
                  *  @thrown Exception
                  */
@@ -43,7 +43,7 @@ trait Support
                 );
             }
 
-            $this->request = $this->locator(
+            $this->request = $this->getService(
                 Request::class
             );
         }

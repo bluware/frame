@@ -475,11 +475,12 @@ class Routing
     }
 
     /**
-     *  @return mixed
+     * @return mixed
+     * @throws \Exception
      */
     public function dispatch(App $injection = null)
     {
-        $injection->locator->add($this->params, 'params');
+        $injection->getServiceLocator()->addService($this->params, 'params');
 
         $this->routes->sort();
 
@@ -570,7 +571,7 @@ class Routing
 
                     }
 
-                    $success = $injection->locator(
+                    $success = $injection->getService(
                         'mediator'
                     )->dispatch(
                         $aspect, $params
@@ -591,7 +592,7 @@ class Routing
                     $route->call($call);
                 }
 
-                $success = $injection->locator(
+                $success = $injection->getService(
                     'mediator'
                 )->dispatch(
                     $call, $params

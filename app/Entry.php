@@ -10,7 +10,7 @@ namespace Frame;
 
 abstract class Entry
 {
-    use Locator\Support;
+    use TServiceProvider;
 
     /**
      * @var App
@@ -32,7 +32,9 @@ abstract class Entry
         /*
          *  @var \Frame\Locator
          */
-        $this->locator = $app->locator();
+        $this->setServiceLocator(
+            $app->getServiceLocator()
+        );
     }
 
     /**

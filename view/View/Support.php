@@ -27,7 +27,7 @@ trait Support
         /**
          *  @var mixed
          */
-        $page = $this->locator('view')->make(
+        $page = $this->getService('view')->make(
             $path, $data, $prevent
         );
 

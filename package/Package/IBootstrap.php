@@ -2,9 +2,9 @@
 
 namespace Frame\Package;
 
-use Frame\Locator;
+use Frame\ServiceLocator;
 
 interface IBootstrap
 {
-    public function bootstrap(Locator $locator);
+    public function bootstrap(ServiceLocator $locator);
 }

@@ -2,24 +2,42 @@
 
 use Frame\App;
 
+/**
+ * @return App|null
+ * @throws App\Exception
+ */
 function app()
 {
     return App::instance();
 }
 
-function locator($invokable = null)
+function locator(string $serviceName = null)
 {
-    return app()->locator($invokable);
+    if (!is_null($serviceName)) {
+        return App::instance()->getService($serviceName);
+    }
+
+    return App::instance()->getServiceLocator();
+}
+
+function service(string $serviceName)
+{
+    return App::instance()->getService($serviceName);
+}
+
+function serviceLocator()
+{
+    return App::instance()->getServiceLocator();
 }
 
 function autoload($namespace, $path)
 {
-    return locator('autoload')->add($namespace, $path);
+    return service('autoload')->add($namespace, $path);
 }
 
 function request()
 {
-    return locator('request');
+    return service('request');
 }
 
 function daemon($name = null, $time = 0)
@@ -32,7 +50,7 @@ function view($path, array $data = [], $prevent = false, $code = 200, $headers =
     /**
      *  @var mixed
      */
-    $page = app()->locator('view')->make(
+    $page = app()->getService('view')->make(
         $path, $data, $prevent
     );
 
@@ -69,7 +87,7 @@ function redirect($url, $code = 200, array $headers = [])
 
 function __($word, $locale = null)
 {
-    return locator('translator')->translate(
+    return service('translator')->translate(
         $word, $locale
     );
 }
@@ -77,24 +95,24 @@ function __($word, $locale = null)
 function route($method, $route, $handler, $separator = '@')
 {
     return call_user_func([
-        locator('router'), $method,
+        service('router'), $method,
     ], $route, $handler);
 }
 
 function routes($method, array $data)
 {
     return call_user_func([
-        locator('router'), $method,
+        service('router'), $method,
     ], $data);
 }
 
 function routing(array $group = null, callable $calle = null)
 {
     if ($group === null) {
-        return locator('router');
+        return service('router');
     }
 
-    return locator('router')->group(
+    return service('router')->group(
         $group, $calle
     );
 }

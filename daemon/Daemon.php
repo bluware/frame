@@ -26,7 +26,7 @@ class Daemon extends Entry
 
     public function __construct(App $app)
     {
-        if ($app->locator('request')->is('cli') === false) {
+        if ($app->getService('request')->is('cli') === false) {
             throw new \Exception('Daemon can be executed only in cli scope.');
         }
         parent::__construct($app);

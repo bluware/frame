@@ -109,7 +109,7 @@ abstract class ActiveRecord extends Query
      *  @param  int $limit
      *  @param  int $offset
      *
-     *  @return mixed
+     *  @return static[]
      */
     public static function by(
         $where = null,

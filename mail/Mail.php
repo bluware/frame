@@ -83,6 +83,16 @@ class Mail
     /**
      *  @var array
      */
+    protected $bccList = [];
+
+    /**
+     *  @var array
+     */
+    protected $ccList = [];
+
+    /**
+     *  @var array
+     */
     protected $receivers = [];
 
     /**
@@ -144,7 +154,7 @@ class Mail
                             if (
                                 isset($value['address'], $value['name'])
                             ) {
-                                $this->reply_to($value['address'], 'noreply');
+                                $this->reply_to($value['address'], $value['name']);
                                 $this->sender($value['address'], $value['name']);
                             }
                         } else {
@@ -152,6 +162,26 @@ class Mail
                             $this->sender($value);
                         }
 
+                        break;
+
+                    case 'bcc':
+                        if (is_array($value)) {
+                            if (isset($value['address'], $value['name'])) {
+                                $this->addBcc($value['address'], $value['name']);
+                            }
+                        } else {
+                            $this->addBcc($value);
+                        }
+                        break;
+
+                    case 'cc':
+                        if (is_array($value)) {
+                            if (isset($value['address'], $value['name'])) {
+                                $this->addCc($value['address'], $value['name']);
+                            }
+                        } else {
+                            $this->addCc($value);
+                        }
                         break;
                 }
             }
@@ -333,6 +363,52 @@ class Mail
             is_string($addresses)
         ) {
             $this->receivers[$addresses] = $name;
+        }
+
+        return $this;
+    }
+
+    /**
+     *  Set receivers addresses "TO".
+     *
+     *  @var mixed
+     *  @var mixed $name
+     */
+    public function addBcc($addresses, $name = null)
+    {
+        if (is_array($addresses)) {
+            foreach ($addresses as $address => $_name) {
+                if (is_numeric($address)) {
+                    $this->bccList[$_name] = null;
+                } else {
+                    $this->bccList[$address] = $_name;
+                }
+            }
+        } elseif (is_string($addresses)) {
+            $this->bccList[$addresses] = $name;
+        }
+
+        return $this;
+    }
+
+    /**
+     *  Set receivers addresses "TO".
+     *
+     *  @var mixed
+     *  @var mixed $name
+     */
+    public function addCc($addresses, $name = null)
+    {
+        if (is_array($addresses)) {
+            foreach ($addresses as $address => $_name) {
+                if (is_numeric($address)) {
+                    $this->ccList[$_name] = null;
+                } else {
+                    $this->ccList[$address] = $_name;
+                }
+            }
+        } elseif (is_string($addresses)) {
+            $this->ccList[$addresses] = $name;
         }
 
         return $this;
@@ -627,9 +703,7 @@ class Mail
         /*
          *  Filtrate reply to
          */
-        if (
-            !empty($this->reply_to)
-        ) {
+        if (!empty($this->reply_to)) {
             $reply_to = [];
 
             foreach ($this->reply_to as $address => $name) {
@@ -637,6 +711,32 @@ class Mail
             }
 
             $headers[] = sprintf('Reply-To: %s', implode(', ', $reply_to));
+        }
+
+        /*
+         *  Filtrate reply to
+         */
+        if (!empty($this->bccList)) {
+            $bccList = [];
+
+            foreach ($this->bccList as $address => $name) {
+                $bccList[] = $this->filter_address($address, $name);
+            }
+
+            $headers[] = sprintf('BCC: %s', implode(', ', $bccList));
+        }
+
+        /*
+         *  Filtrate reply to
+         */
+        if (!empty($this->ccList)) {
+            $ccList = [];
+
+            foreach ($this->ccList as $address => $name) {
+                $ccList[] = $this->filter_address($address, $name);
+            }
+
+            $headers[] = sprintf('CC: %s', implode(', ', $ccList));
         }
 
         $headers[] = sprintf('Subject: %s', $this->subject);

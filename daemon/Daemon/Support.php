@@ -26,7 +26,7 @@ trait Support
         /*
          *  @var boolean
          */
-        if (property_exists($this, 'locator') === false) {
+        if (property_exists($this, 'service') === false) {
             /*
              *  @thrown Exception
              */
@@ -35,7 +35,7 @@ trait Support
             );
         }
 
-        return $this->locator(
+        return $this->getService(
             App::class
         )->daemon(
             $name, $time
