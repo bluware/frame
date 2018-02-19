@@ -665,4 +665,9 @@ class Routing
             $routeSegment, '{'
         ) !== false;
     }
+
+    public function getRoutes()
+    {
+        return $this->routes;
+    }
 }
