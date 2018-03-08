@@ -46,6 +46,11 @@ class Routing
     /**
      *  @var array
      */
+    protected $routePaths = [];
+
+    /**
+     *  @var array
+     */
     protected $group;
 
     /**
@@ -131,16 +136,6 @@ class Routing
             $methods = [$methods];
         }
 
-//        /*
-//         *  @var boolean
-//         */
-//        if (in_array($this->method, $methods, true) === false) {
-//            /*
-//            *  @var $this
-//            */
-//            return $this;
-//        }
-
         if (gettype($paths) === 'array') {
             $options = $call;
         }
@@ -153,6 +148,20 @@ class Routing
              *  @var array
              */
             $paths = [$paths => $call];
+        }
+
+        foreach ($paths as $path => $call) {
+            $this->routePaths[] = $path;
+        }
+
+        /*
+        *  @var boolean
+        */
+        if (in_array($this->method, $methods, true) === false) {
+            /*
+            *  @var $this
+            */
+            return $this;
         }
 
         /*
@@ -669,5 +678,10 @@ class Routing
     public function getRoutes()
     {
         return $this->routes;
+    }
+
+    public function getRoutePaths()
+    {
+        return $this->routePaths;
     }
 }
