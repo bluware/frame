@@ -131,15 +131,15 @@ class Routing
             $methods = [$methods];
         }
 
-        /*
-         *  @var boolean
-         */
-        if (in_array($this->method, $methods, true) === false) {
-            /*
-            *  @var $this
-            */
-            return $this;
-        }
+//        /*
+//         *  @var boolean
+//         */
+//        if (in_array($this->method, $methods, true) === false) {
+//            /*
+//            *  @var $this
+//            */
+//            return $this;
+//        }
 
         if (gettype($paths) === 'array') {
             $options = $call;
