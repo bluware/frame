@@ -106,7 +106,7 @@ class File extends \Frame\File\Data
              *  @var string
              */
             $this->set(
-                'extension', $info['extension']
+                'extension', strtok($info['extension'], '?')
             );
         }
     }
