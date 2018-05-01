@@ -102,12 +102,13 @@ class File extends \Frame\File\Data
          *  @var boolean
          */
         if (array_key_exists('extension', $info) === true) {
+            $extension = strtok($info['extension'], '?');
+            $extension = strtok($extension, '&');
+
             /*
              *  @var string
              */
-            $this->set(
-                'extension', strtok($info['extension'], '?')
-            );
+            $this->set('extension', $extension);
         }
     }
 
